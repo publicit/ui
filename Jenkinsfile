@@ -7,11 +7,14 @@ pipeline {
     }
     environment {
         AWS_DEFAULT_REGION = "us-east-2"
+        AWS_CREDENTIALS = credentials('publicit-aws-jenkins')
+        AWS_ACCESS_KEY_ID = "${AWS_CREDENTIALS_USR}"
+        AWS_SECRET_ACCESS_KEY = "${AWS_CREDENTIALS_PSW}"
         REACT_APP_TAG_NAME = "${env.TAG_NAME}"
         REACT_APP_GIT_COMMIT = "${env.GIT_COMMIT}"
         REACT_APP_KEYCLOAK_REALM = "bp"
-        REACT_APP_KEYCLOAK_URL = "https://sso.dev.buro-profesional.com/"
-        REACT_APP_KEYCLOAK_CLIENT_ID = "react-auth"
+        REACT_APP_KEYCLOAK_URL = "https://dev.sso.publicitux.com/"
+        REACT_APP_KEYCLOAK_CLIENT_ID = "publicit-react-auth"
         REACT_APP_BASE_API_URL = "/api"
         REACT_APP_FAKE_DATA = "true"
     }
@@ -54,15 +57,9 @@ pipeline {
                 buildingTag()
             }
             steps {
-                withCredentials([
-                    usernamePassword(credentialsId: 'bp-aws-jenkins', 
-                        passwordVariable: 'AWS_SECRET_ACCESS_KEY', 
-                        usernameVariable: 'AWS_ACCESS_KEY_ID')
-                        ]) {
-                    sh '''
-                        aws s3 sync ./build/ s3://bp-app-dev --delete
-                    '''
-                }                
+                sh '''
+                    aws s3 sync ./build/ s3://dev.ui.publicit.com --delete
+                '''
             }
         }        
     }
