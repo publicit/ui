@@ -1,0 +1,15 @@
+# mac os files
+.DS_Store
+
+# dependencies
+node_modules
+
+# build files
+build
+coverage
+
+# environment files
+.env
+
+# ide files
+.idea
