@@ -21,21 +21,14 @@ jobs:
       REACT_APP_KEYCLOAK_CLIENT_ID: "publicit-react-auth"
       REACT_APP_BASE_API_URL: "/api"
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Build and deploy to S3
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 18.x
       - run: |
         npm i
         npm run build
-
-      - name: Build app and push to S3 bucket
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          ./aws/install
-          aws s3 sync ./build/ s3://dev.ui.publicit.com --delete
-          # SERVICE_VERSION=${GITHUB_REF_NAME} docker build --build-arg SERVICE_VERSION=${SERVICE_VERSION} --build-arg GITHUB_ACCESS_TOKEN=${GITHUB_ACCESS_TOKEN} -t service:latest .
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        ./aws/install
+        aws s3 sync ./build/ s3://dev.ui.publicit.com --delete
