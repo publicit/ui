@@ -2,12 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import SSOService from "./sso/SSOService";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const renderApp = () => root.render(<App />);
+const renderApp = () => root.render(<App/>);
 
-SSOService.initKeycloak(renderApp);
+renderApp()
+// uncomment next line when keycloak is enabled
+// SSOService.initKeycloak(renderApp);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
