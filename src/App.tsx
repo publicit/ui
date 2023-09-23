@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { HashRouter, Link } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -15,27 +16,30 @@ if (versionInfo.version) {
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
 export function App() {
-  const store = new UserStore();
+  const [store, setStore] = useState<UserStore>();
+  useEffect(() => {
+    // TODO: fix the refreshing issue after login/logout
+    setStore(new UserStore());
+  }, []);
   return (
     <ChakraProvider theme={theme}>
       <GoogleOAuthProvider clientId={googleClientId}>
         <HashRouter>
           <>
             <Link to="/">Home</Link>
-            {!store.isLoggedIn() && (
+            {!store?.isLoggedIn() && (
               <>
                 <br />
                 <Link to="/login">Login</Link>
               </>
             )}
-            {store.isLoggedIn() && (
+            {store?.isLoggedIn() && (
               <>
                 <br />
                 <Link to="/logout">Logout</Link>
               </>
             )}
             <hr />
-            <div>ui content will go here</div>
             <PrivateRoutes />
           </>
         </HashRouter>
