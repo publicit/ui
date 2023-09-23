@@ -21,7 +21,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Links = ["Dashboard", "Projects", "Team"];
+const Links = ["Encuestas", "Another1", "Beer is Good"];
 
 const NavLink = (props: Props) => {
   const { children } = props;
@@ -43,7 +43,7 @@ const NavLink = (props: Props) => {
   );
 };
 
-export default function Simple() {
+export function TopNavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -105,8 +105,6 @@ export default function Simple() {
           </Box>
         ) : null}
       </Box>
-
-      <Box p={4}>Main Content Here</Box>
     </>
   );
 }

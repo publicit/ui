@@ -1,10 +1,12 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { ChakraProvider, theme } from "@chakra-ui/react";
-import { HashRouter, Link } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import PrivateRoutes from "./pages/PrivateRoutes";
 import { UserStore } from "./models/sso_user";
+import { TopNavBar } from "./components/NavBar";
+import PublicRoutes from "./pages/PublicRoutes";
 
 const versionInfo = {
   version: process.env.REACT_APP_TAG_NAME,
@@ -26,20 +28,9 @@ export function App() {
       <GoogleOAuthProvider clientId={googleClientId}>
         <HashRouter>
           <>
-            <Link to="/">Home</Link>
-            {!store?.isLoggedIn() && (
-              <>
-                <br />
-                <Link to="/login">Login</Link>
-              </>
-            )}
-            {store?.isLoggedIn() && (
-              <>
-                <br />
-                <Link to="/logout">Logout</Link>
-              </>
-            )}
             <hr />
+            <TopNavBar />
+            <PublicRoutes />
             <PrivateRoutes />
           </>
         </HashRouter>

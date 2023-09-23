@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Logout from "./Logout";
+import Home from "./Home";
+import Login from "./Login";
 import { UserStore } from "../models/sso_user";
 
 export default () => {
@@ -9,11 +10,12 @@ export default () => {
       <Routes>
         <Route
           exact
-          path="/logout"
+          path="/login"
           element={
-            store.isLoggedIn() ? <Logout /> : <Navigate replace to="/" />
+            !store.isLoggedIn() ? <Login /> : <Navigate replace to="/" />
           }
         />
+        <Route path="*" element={<Home />} />
       </Routes>
     </>
   );
