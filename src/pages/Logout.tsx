@@ -4,18 +4,19 @@ import { UserStore } from "../models/sso_user";
 import { useEffect } from "react";
 
 export default function () {
+  console.log(`from Logout.tsx`)
   const navigate = useNavigate();
   const logout = () => {
     googleLogout();
     const timer = setTimeout(() => {
       const store = new UserStore();
       store.remove();
+      navigate("/");
     }, 100);
     return () => clearTimeout(timer);
   };
   useEffect(() => {
     logout();
-    navigate("/");
   }, []);
 
   return (
