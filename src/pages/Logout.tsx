@@ -12,7 +12,7 @@ export default function () {
       const store = new UserStore();
       store.remove();
       navigate("/");
-    }, 1000);
+    }, 100);
     return () => clearTimeout(timer);
   };
   useEffect(() => {

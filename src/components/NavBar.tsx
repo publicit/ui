@@ -10,6 +10,7 @@ export function NavBar() {
                 <Box fontSize="20px">
                     <NavLink to="/">PublicitUX</NavLink>
                 </Box>
+                <NavLink to="/questionnaires">Encuestas</NavLink>
                 <Spacer/>
                 <Button>
                     <NavLink to="/login">Login</NavLink>
