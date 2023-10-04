@@ -12,7 +12,7 @@ export default function () {
                     const user = SSOUserFromJWTToken(credentialResponse.credential);
                     const store = new UserStore();
                     store.save(user);
-                    setTimeout(() => navigate("/"), 100);
+                    setTimeout(() => window.location.href="/", 100);
                 }}
                 onError={() => console.log("login failed")}
             />
