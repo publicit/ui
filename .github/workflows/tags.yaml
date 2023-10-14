@@ -15,7 +15,6 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      REACT_APP_TAG_NAME: ${GITHUB_REF_NAME}
       REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.DEV_GOOGLE_CLIENT_ID }}
       REACT_APP_BASE_API_URL: "/api"
     steps:
@@ -25,4 +24,6 @@ jobs:
           node-version: 18.x
       - name: Experiment to expand env var from Github Actions
         run: |
+          export REACT_APP_TAG_NAME="${GITHUB_REF_NAME}"
           echo "GITHUB_REF_NAME: ${GITHUB_REF_NAME}"
+          echo "REACT_APP_TAG_NAME: ${REACT_APP_TAG_NAME}"
