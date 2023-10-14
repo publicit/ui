@@ -25,6 +25,7 @@ jobs:
       - name: Build, and push files to AWS S3
         run: |
           export REACT_APP_TAG_NAME="${GITHUB_REF_NAME}"
+          export REACT_APP_GIT_COMMIT=$(git rev-parse HEAD)
           npm i
           npm run build
           ./scripts/check-aws.sh
