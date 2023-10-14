@@ -23,9 +23,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
-      - name: Build, and push files to AWS S3
+      - name: Experiment to expand env var from Github Actions
         run: |
-          npm i
-          npm run build
-          ./scripts/check-aws.sh
-          aws s3 sync ./build/ s3://dev.ui.publicit.com --delete
+          echo "GITHUB_REF_NAME: ${GITHUB_REF_NAME}"
