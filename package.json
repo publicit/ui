@@ -1,65 +1,27 @@
 {
-  "dependencies": {
-    "@chakra-ui/icons": "^2.1.1",
-    "@chakra-ui/react": "^2.8.1",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@react-oauth/google": "^0.11.1",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3",
-    "@types/jest": "^28.1.8",
-    "@types/luxon": "^3.3.2",
-    "@types/node": "^12.20.55",
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
-    "axios": "^1.5.0",
-    "dayjs": "^1.11.9",
-    "filesize": "^10.0.12",
-    "framer-motion": "^6.5.1",
-    "i": "^0.3.7",
-    "jwt-decode": "^3.1.2",
-    "luxon": "^3.4.3",
-    "npm": "^10.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^3.11.0",
-    "react-router-dom": "^6.15.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
-    "uuid": "^9.0.0",
-    "web-vitals": "^2.1.4"
-  },
-  "name": "ui",
-  "version": "1.0.0",
-  "main": "src/index.js",
-  "author": "mris",
-  "license": "MIT",
-  "private": false,
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "format": "prettier --write .",
-    "build": "react-scripts build",
-    "test-watch": "react-scripts test",
-    "test": "react-scripts test --watchAll=false",
-    "eject": "react-scripts eject"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "14.0.1"
   },
-  "keywords": [],
-  "description": "",
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@testing-library/react": "^14.0.0"
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.1"
   }
 }

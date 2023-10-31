@@ -24,9 +24,10 @@ jobs:
           node-version: 18.x
       - name: Build, and push files to AWS S3
         run: |
-          export REACT_APP_TAG_NAME="${GITHUB_REF_NAME}"
-          export REACT_APP_GIT_COMMIT=$(git rev-parse HEAD)
-          npm i
-          npm run build
+          # export REACT_APP_TAG_NAME="${GITHUB_REF_NAME}"
+          # export REACT_APP_GIT_COMMIT=$(git rev-parse HEAD)
           ./scripts/check-aws.sh
-          aws s3 sync ./build/ s3://dev.ui.publicit.com --delete
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/g4i9j9d8
+          make docker-build
+          docker tag ui:latest public.ecr.aws/g4i9j9d8/ui:latest
+          docker push public.ecr.aws/g4i9j9d8/ui:latest

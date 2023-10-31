@@ -1,0 +1,9 @@
+export default function Home() {
+  return (
+    <main className="p-3">
+      <div>
+        Hello Mau!
+      </div>
+    </main>
+  )
+}

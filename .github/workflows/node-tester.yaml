@@ -19,5 +19,6 @@ jobs:
 
       - name: test
         run: |
-            npm i
+            npm ci
+            npm run build
             npm run test
