@@ -1,4 +1,4 @@
-name: node-builder
+name: node-tester
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 18.x
 
-      - name: build
+      - name: test
         run: |
-            npm i
+            npm ci
             npm run build
