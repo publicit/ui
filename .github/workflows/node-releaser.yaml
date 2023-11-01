@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
-      - name: Build, and push files to AWS S3
+      - name: Build, and push files to AWS ECR
         run: |
           # export REACT_APP_TAG_NAME="${GITHUB_REF_NAME}"
           # export REACT_APP_GIT_COMMIT=$(git rev-parse HEAD)
