@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 }
 
 const versionInfo = {
-  // TODO: this is not showing up, need to include in Dockerfile
   version: process.env.REACT_APP_TAG_NAME,
   hash: process.env.REACT_APP_GIT_COMMIT,
 };
 if (versionInfo.version) {
+  // TODO: make this work with nextjs
   console.table(versionInfo);
 }
 

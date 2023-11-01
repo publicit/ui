@@ -1,6 +1,8 @@
 .PHONY: docker-build
 docker-build:
-	docker build -t ui --no-cache .
+	docker build -t ui --no-cache \
+	--build-arg REACT_APP_TAG_NAME=$(REACT_APP_TAG_NAME) \
+	--build-arg REACT_APP_GIT_COMMIT=${REACT_APP_GIT_COMMIT} .
 
 .PHONY: local-build
 local-build:
