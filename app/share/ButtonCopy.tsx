@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-type Params = {
-    text: string
-}
-
-const ButtonCopy = ({ text }: Params) => {
+const ButtonCopy = () => {
+    useEffect(() => {
+        const host = `${window.location.host}/start`
+        setText(host)
+    }, []);
+    const [text, setText] = useState("")
     const [isCopied, setIsCopied] = useState(false)
     const handleCopyClick = () => {
         navigator.clipboard.writeText(text)

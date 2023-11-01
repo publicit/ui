@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react'
 import ButtonCopy from './ButtonCopy'
-import sharedLink from './SharedLink'
 
 function SharePage() {
+
     return (
         <div>
             <div className="w-full md:w-4/12 px-4 text-center">
@@ -16,7 +15,7 @@ function SharePage() {
                             Envia este link y gana premios por ello.
                         </p>
                         <form>
-                            <ButtonCopy text={sharedLink} />
+                            <ButtonCopy />
                         </form>
                     </div>
                 </div>
