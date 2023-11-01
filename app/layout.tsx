@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import NavBar from './NavBar'
+import Env from './Env'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -9,10 +10,10 @@ export const metadata: Metadata = {
   title: 'Publicit UX',
   description: '',
 }
-
+const env = process.env
 const versionInfo = {
-  version: process.env.REACT_APP_TAG_NAME,
-  hash: process.env.REACT_APP_GIT_COMMIT,
+  version: env["NEXT_PUBLIC_TAG_NAME"],
+  hash: env["NEXT_PUBLIC_GIT_COMMIT"],
 };
 if (versionInfo.version) {
   // TODO: make this work with nextjs

@@ -24,8 +24,8 @@ jobs:
           node-version: 18.x
       - name: Build, and push docker image to AWS ECR
         run: |
-          export REACT_APP_TAG_NAME="${GITHUB_REF_NAME}"
-          export REACT_APP_GIT_COMMIT=$(git rev-parse HEAD)
+          export NEXT_PUBLIC_TAG_NAME="${GITHUB_REF_NAME}"
+          export NEXT_PUBLIC_GIT_COMMIT=$(git rev-parse HEAD)
           ./scripts/check-aws.sh
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/g4i9j9d8
           make docker-build
