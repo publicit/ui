@@ -9,6 +9,8 @@ npm i
 npm run dev
 ```
 
+New react component snippet in VSC `rafce`
+
 Application runs at http://localhost:3000
 
 ## Deployment
