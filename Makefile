@@ -1,6 +1,6 @@
 .PHONY: docker-build
 docker-build:
-	docker build -t ui .
+	docker build -t ui --no-cache .
 
 .PHONY: local-build
 local-build:

@@ -4,7 +4,7 @@ ENV NODE_ENV=production
 RUN apk add --no-cache g++ make py3-pip libc6-compat
 COPY . .
 
-RUN npm ci && \
+RUN npm i && \
     npm run build
 EXPOSE 3000
 ENTRYPOINT [ "npm", "run", "start" ] 
