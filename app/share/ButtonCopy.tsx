@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react'
 
 const ButtonCopy = () => {
     useEffect(() => {
-        const host = `${window.location.host}/start`
+        const loc = window.location
+        const host = `${loc.protocol}://${loc.host}/start`
         setText(host)
     }, []);
     const [text, setText] = useState("")
