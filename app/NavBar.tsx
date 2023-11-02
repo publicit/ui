@@ -14,10 +14,10 @@ const NavBar = () => {
             {status === 'authenticated' &&
                 <div className="flex space-x-3">
                     <span>{session.user!.name}</span>
-                    <Link href="/api/auth/signout">Sign Out</Link>
+                    <Link href="/api/auth/signout">Salir</Link>
                 </div>
             }
-            {status === 'unauthenticated' && <Link href="/api/auth/signin">Login</Link>}
+            {status === 'unauthenticated' && <Link href="/api/auth/signin">Ingresar</Link>}
         </div>
     )
 }
