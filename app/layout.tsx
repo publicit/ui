@@ -29,8 +29,8 @@ export default function RootLayout({
         <html lang="en" data-theme="dark">
         <AuthProvider>
             <body className={inter.className}>
-            <NavBar/>
-            <div className="content-baseline">{children}</div>
+                <NavBar/>
+                <div className="content-baseline">{children}</div>
             </body>
         </AuthProvider>
         </html>
