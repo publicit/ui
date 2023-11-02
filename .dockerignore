@@ -1,5 +1,6 @@
 ## nodejs dependencies
 node_modules
+# .next
 
 ## environment files
 .env

@@ -1,37 +1,38 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import NavBar from './NavBar'
+import type {Metadata} from "next";
+import {Inter} from "next/font/google";
+import "./globals.css";
+import NavBar from "./NavBar";
+import AuthProvider from "./api/auth/Provider";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
-  title: 'Publicit UX',
-  description: '',
-}
-
+    title: "Publicit UX",
+    description: "",
+};
+const env = process.env;
 const versionInfo = {
-  // TODO: this is not showing up, need to include in Dockerfile
-  version: process.env.REACT_APP_TAG_NAME,
-  hash: process.env.REACT_APP_GIT_COMMIT,
+    version: env["NEXT_PUBLIC_TAG_NAME"],
+    hash: env["NEXT_PUBLIC_GIT_COMMIT"],
 };
 if (versionInfo.version) {
-  console.table(versionInfo);
+    // TODO: make this work with nextjs deployments
+    console.table(versionInfo);
 }
 
 export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
+                                       children,
+                                   }: {
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" data-theme="dark">
-      <body className={inter.className}>
-        <NavBar />
-        <div className="content-baseline">
-          {children}
-        </div>
-      </body>
-    </html>
-  )
+    return (
+        <html lang="en" data-theme="dark">
+        <AuthProvider>
+            <body className={inter.className}>
+                <NavBar/>
+                <div className="content-baseline">{children}</div>
+            </body>
+        </AuthProvider>
+        </html>
+    );
 }
