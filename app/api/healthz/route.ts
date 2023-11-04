@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-    let data;
     const baseURL = process.env.BASE_API_URL
     try {
-        await fetch(`${baseURL}/v1/healthz`).
-            then(res => res.json())
-            .then(d => data = d)
+        const res = await fetch(`${baseURL}/v1/healthz`)
+        const data = await res.json()
         return NextResponse.json(data)
     } catch (e) {
         return NextResponse.json(e)
