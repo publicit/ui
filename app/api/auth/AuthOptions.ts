@@ -15,14 +15,11 @@ export const authOptions: NextAuthOptions = {
         },
         async signIn({ user, account, profile, email, credentials }) {
             try {
-                console.log(`incoming payload: ${JSON.stringify(user, null, 2)}`)
-                // TODO: POST the user to /v1/users
+                // TODO: endpoint host should come from env vars
                 const res = await fetch(`http://localhost:8000/v1/users`, {
                     method: "POST",
                     body: JSON.stringify(user),
                 })
-                const data = await res.json()
-                console.log(`data: ${JSON.stringify(data, null, 2)}`)
                 return true
             } catch (e) {
                 console.log(e)
