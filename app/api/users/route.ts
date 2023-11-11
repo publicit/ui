@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     const baseURL = process.env.BASE_API_URL
     try {
-        const res = await fetch(`${baseURL}/v1/users/list`, {
-            method:"POST",
+        const res = await fetch(`${baseURL}/v1/users-list`, {
+            method: "POST",
             cache: "no-cache",
         })
         const data = await res.json()
