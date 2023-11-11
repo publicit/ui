@@ -5,12 +5,10 @@ import { redirect } from "next/navigation";
 export async function GET(req: NextRequest) {
     const baseURL = process.env.BASE_API_URL
     const session = await getServerSession()
-    if (!session || !session.user) {
-        return NextResponse.json({
-            error: "unauthorized",
-        })
-    }
     try {
+        if (!session || !session.user) {
+            throw new Error("unauthorized")
+        }
         const res = await fetch(`${baseURL}/v1/users-list`, {
             method: "POST",
             cache: "no-cache",
@@ -18,6 +16,8 @@ export async function GET(req: NextRequest) {
         const data = await res.json()
         return NextResponse.json(data)
     } catch (e) {
-        return NextResponse.json(e)
+        return NextResponse.json(e, {
+            status: 401,
+        })
     }
 }
