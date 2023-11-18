@@ -6,7 +6,7 @@ export default async function Home() {
     return (
         <main className="p-3">
             <div>
-                <h1>Hello {session && <span>{session.user!.name}</span>}</h1>
+                <h1>Bienvenido {session && <span>{session.user!.name}</span>}</h1>
             </div>
         </main>
     )
