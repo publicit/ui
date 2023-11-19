@@ -1,12 +1,17 @@
 import {getServerSession} from "next-auth";
 
-export async function sessionHeaders() {
+type SessionHeader = {
+    'x-user-email'?: string | undefined
+}
+
+export async function sessionHeaders():Promise<SessionHeader>{
     const session = await getServerSession()
     if (!session || !session?.user) {
-        throw new Error("unauthorized")
+        // we don't want to force any route to be authenticated at this point
+        return {}
     }
     const {user} = session
     return {
-        'x-email': user.email,
+        'x-user-email': user?.email || '',
     }
 }
