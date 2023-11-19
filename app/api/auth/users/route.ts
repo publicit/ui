@@ -1,6 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import {NextRequest, NextResponse} from "next/server";
+import {getServerSession} from "next-auth";
 
 export async function GET(req: NextRequest) {
     const baseURL = process.env.BASE_API_URL
