@@ -1,11 +1,12 @@
 import {NextRequest, NextResponse} from "next/server";
 import {sessionHeaders} from "@/app/api/helpers/session-headers";
+import ApiParams from "@/app/api/helpers/api-params";
 
 export async function GET(req: NextRequest) {
-    const baseURL = process.env.BASE_API_URL
+    const params = ApiParams()
     try {
         const headers = await sessionHeaders()
-        const uri = `${baseURL}/v1/healthz`
+        const uri = `${params.BaseURL}/v1/healthz`
         const res = await fetch(uri, {
             method: "GET",
             headers,
