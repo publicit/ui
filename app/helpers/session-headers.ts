@@ -2,6 +2,7 @@ import {getServerSession} from "next-auth";
 
 type SessionHeader = {
     'x-user-email'?: string | undefined
+    'x-user-name'?: string | undefined
 }
 
 export async function sessionHeaders(): Promise<SessionHeader> {
@@ -13,5 +14,6 @@ export async function sessionHeaders(): Promise<SessionHeader> {
     const {user} = session
     return {
         'x-user-email': user?.email || '',
+        'x-user-name': user?.name || '',
     }
 }
