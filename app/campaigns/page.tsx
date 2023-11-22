@@ -8,18 +8,27 @@ export default async function Campaigns() {
     const params = ApiParams()
     const headers = await sessionHeaders()
     const uri = `${params.BaseURL}/v1/campaigns`
-    const res = await fetch(uri, {
-        method: "GET",
-        headers,
-        cache: "no-store",
-    })
-    // TODO: make this status check better
-    if (res.status !== 200) return (
-        <div>
-            {JSON.stringify(await res.json())}
-        </div>
-    )
-    const rows = await res.json()
+    let rows: any
+    try {
+        const res = await fetch(uri, {
+            method: "GET",
+            headers,
+            cache: "no-cache",
+        })
+        // TODO: make this status check better
+        if (res.status !== 200) return (
+            <div>
+                {JSON.stringify(await res.json())}
+            </div>
+        )
+        rows = await res.json()
+    } catch (e) {
+        return (
+            <div>
+                {JSON.stringify(e)}
+            </div>
+        )
+    }
     const data = rows.map((x: any) => toCampaign(x))
     return (
         <div className="mt-4 -mb-3">
