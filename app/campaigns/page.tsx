@@ -13,6 +13,12 @@ export default async function Campaigns() {
         headers,
         cache: "no-store",
     })
+    // TODO: make this status check better
+    if (res.status !== 200) return (
+        <div>
+            {JSON.stringify(await res.json())}
+        </div>
+    )
     const rows = await res.json()
     const data = rows.map((x: any) => toCampaign(x))
     return (
