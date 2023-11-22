@@ -1,12 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
+import {NextRequest, NextResponse} from "next/server";
+import {sessionHeaders} from "@/app/helpers/session-headers";
+import ApiParams from "@/app/helpers/api-params";
 
 export async function GET(req: NextRequest) {
-    const baseURL = process.env.BASE_API_URL
+    const params = ApiParams()
     try {
-        const res = await fetch(`${baseURL}/v1/healthz`)
+        // testing db connection from node
+        // const client = await db()
+        // await client.connect()
+        // const query = "SELECT email from users"
+        // const {rows} = await client.query(query)
+        // console.log("starting query from users table")
+        // rows.map(x => console.log(`email: ${JSON.stringify(x.email)}`))
+        // console.log("")
+        // await client.end()
+        // end testing
+
+        const headers = await sessionHeaders()
+        const uri = `${params.BaseURL}/v1/healthz`
+        const res = await fetch(uri, {
+            method: "GET",
+            headers,
+        })
         const data = await res.json()
         return NextResponse.json(data)
     } catch (e) {
-        return NextResponse.json(e)
+        const res = JSON.stringify(e, Object.getOwnPropertyNames(e))
+        return NextResponse.json(JSON.parse(res))
     }
 }

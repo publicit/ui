@@ -13,11 +13,11 @@ const NavBar = () => {
             {status === 'loading' && <div>Loading...</div>}
             {status === 'authenticated' &&
                 <div className="flex space-x-3">
-                    <span>{session.user!.name}</span>
-                    <Link href="/api/auth/signout">Salir</Link>
+                    <Link href="/campaigns">Campañas</Link>
+                    <Link href="/api/auth/signout">Cerrar sesion</Link>
                 </div>
             }
-            {status === 'unauthenticated' && <Link href="/api/auth/signin">Ingresar</Link>}
+            {status === 'unauthenticated' && <Link href="/api/auth/signin">Iniciar Sesion</Link>}
         </div>
     )
 }
