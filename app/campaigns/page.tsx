@@ -49,7 +49,7 @@ export default async function Campaigns() {
                             </thead>
                             <tbody className="bg-white dark:bg-slate-800">
                             {data.map((x: Campaign) => (
-                                <tr>
+                                <tr key={x.id}>
                                     <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
                                         {x.name}
                                     </td>
