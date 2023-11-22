@@ -3,6 +3,7 @@ import {sessionHeaders} from "@/app/helpers/session-headers";
 import ApiParams from "@/app/helpers/api-params";
 import {Campaign, toCampaign} from "@/app/domain/campaign";
 import Link from "next/link";
+import {Button} from "@mantine/core";
 
 export default async function Campaigns() {
     const params = ApiParams()
@@ -39,6 +40,9 @@ export default async function Campaigns() {
                 </Link>
             </div>
             <div className="not-prose relative bg-slate-50 overflow-hidden dark:bg-slate-800/25">
+                <Button component={Link} href="/hello">
+                    Next link button
+                </Button>
                 <div
                     className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25 dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"></div>
                 <div className="relative rounded-xl overflow-auto">

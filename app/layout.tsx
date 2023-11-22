@@ -1,15 +1,12 @@
-import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import "./globals.css";
-import NavBar from "./NavBar";
-import AuthProvider from "./api/auth/Provider";
+import {ColorSchemeScript, MantineProvider} from '@mantine/core';
+import AuthProvider from "@/app/api/auth/Provider";
+import NavBar from "@/app/NavBar";
+
 
 const inter = Inter({subsets: ["latin"]});
 
-export const metadata: Metadata = {
-    title: "Publicit UX",
-    description: "",
-};
 const env = process.env;
 const versionInfo = {
     version: env["NEXT_PUBLIC_TAG_NAME"],
@@ -20,19 +17,27 @@ if (versionInfo.version) {
     console.table(versionInfo);
 }
 
-export default function RootLayout({
-                                       children,
-                                   }: {
+export const metadata = {
+    title: 'Publicit UX',
+    description: '',
+};
+
+export default function RootLayout({children}: {
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" data-theme="dark">
-        <AuthProvider>
-            <body className={inter.className}>
+        <html lang="en">
+        <head>
+            <ColorSchemeScript/>
+        </head>
+        <body>
+        <MantineProvider>
+            <AuthProvider>
                 <NavBar/>
-                <div className="content-baseline">{children}</div>
-            </body>
-        </AuthProvider>
+                {children}
+            </AuthProvider>
+        </MantineProvider>
+        </body>
         </html>
     );
 }
