@@ -1,8 +1,6 @@
 name: node-tester
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -19,5 +17,5 @@ jobs:
 
       - name: test
         run: |
-            npm ci
-            npm run build
+          npm ci
+          npm run build
