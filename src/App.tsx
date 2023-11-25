@@ -1,13 +1,14 @@
-import {useEffect, useState} from 'react'
-import './App.css';
+import React, {useEffect, useState} from 'react'
 import {TokenResponse, useGoogleLogin} from '@react-oauth/google';
 import {logout, parseToken, saveUserProfile} from "./helpers/sso_service"
+import {Text} from "@mantine/core";
 
 type UserProfile = {
     picture: string
     name: string
     email: string
 }
+
 
 function App() {
     // user contains the access token information, and expiration
@@ -39,7 +40,8 @@ function App() {
     };
     return (
         <div>
-            <h2>React Google Login</h2>
+            <h2>App</h2>
+            <Text>Just some text</Text>
             {profile ? (
                 <div>
                     <img src={profile.picture} alt={profile.name}/>
