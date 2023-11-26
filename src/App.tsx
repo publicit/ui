@@ -42,9 +42,9 @@ function App() {
     };
 
     function CollapseDesktop() {
-        const [mobileOpened, {toggle: toggleMobile}] = useDisclosure();
+        const [mobileOpened] = useDisclosure();
         const [desktopOpened, {toggle: toggleDesktop}] = useDisclosure(true);
-        const [opened, {toggle}] = useDisclosure()
+        const [opened] = useDisclosure()
 
 
         return (
