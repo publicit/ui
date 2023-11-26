@@ -16,6 +16,16 @@ if (!clientId) {
     throw new Error("missing clientId")
 }
 
+// display git info
+const gitTag = process.env.REACT_APP_TAG_NAME
+const gitCommit = process.env.REACT_APP_GIT_COMMIT
+
+if (gitTag && gitCommit){
+    console.table({
+        tag: gitTag,
+        hash: gitCommit,
+    })
+}
 
 const theme = createTheme({
     //  override as needed
