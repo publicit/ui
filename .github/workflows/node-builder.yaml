@@ -1,4 +1,4 @@
-name: node-tester
+name: node-builder
 
 on:
   pull_request:
