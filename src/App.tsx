@@ -6,7 +6,7 @@ import {AppShell, Burger, Button, Group} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import Logo from "./components/Logo";
 import Navbar from "./components/Navbar";
-import RouteDefinitions from "./RouteDefinitions"
+import RouteSwitcher from "./RouteSwitcher"
 
 type UserProfile = {
     picture: string
@@ -75,7 +75,7 @@ function App() {
                     <AppShell.Main>
                         <GoogleSection/>
                         <hr/>
-                        <RouteDefinitions />
+                        <RouteSwitcher />
                     </AppShell.Main>
                 </AppShell>
             </>

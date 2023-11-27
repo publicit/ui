@@ -4,7 +4,7 @@ import ErrorPage from "./pages/ErrorPage";
 import CampaignList from "./pages/CampaignList";
 
 
-export default function routeDefinitions() {
+export default function RouteSwitcher() {
     return (
         <Routes>
             <Route path="*" element={<ErrorPage/>}/>
