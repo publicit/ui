@@ -1,5 +1,5 @@
 import {Code, Group, NavLink, rem, ScrollArea} from '@mantine/core';
-import {IconAdjustments, IconGauge, IconNotes,} from '@tabler/icons-react';
+import {IconGauge, IconNotes,} from '@tabler/icons-react';
 import {UserButton} from './UserButton';
 import {LinksGroup} from './NavbarLinksGroup';
 import Logo from './Logo';
