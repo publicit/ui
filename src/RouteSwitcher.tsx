@@ -3,7 +3,6 @@ import {Route, Routes} from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
 import CampaignList from "./pages/CampaignList";
 
-
 export default function RouteSwitcher() {
     return (
         <Routes>

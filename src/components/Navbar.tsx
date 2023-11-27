@@ -10,7 +10,7 @@ import React from "react";
 
 const mockdata = [
     {
-        label: 'Tablero',
+        label: 'PublicitUX',
         icon: IconGauge,
         initiallyOpened: true,
         links: [
@@ -26,6 +26,7 @@ const mockdata = [
         initiallyOpened: true,
         links: [
             {label: 'Listado', link: '/campaigns'},
+            // {label: 'Nueva', link: '/campaign-new'},
         ],
     },
     // {label: 'Analytics', icon: IconPresentationAnalytics},
@@ -48,8 +49,6 @@ type NavbarParams = {
 
 // NavbarMain is the real navbar that appears on the left pane of the app.
 export default function NavbarMain({user, version, login, logout}: NavbarParams) {
-    const links = mockdata.map((item) => <LinksGroup {...item} key={item.label}/>);
-
     return (
         <nav className={classes.navbar}>
             <div className={classes.header}>
@@ -60,7 +59,9 @@ export default function NavbarMain({user, version, login, logout}: NavbarParams)
             </div>
 
             <ScrollArea className={classes.links}>
-                <div className={classes.linksInner}>{links}</div>
+                <div className={classes.linksInner}>
+                    {mockdata.map((item) => <LinksGroup {...item} key={item.label}/>)}
+                </div>
             </ScrollArea>
 
             <div className={classes.footer}>

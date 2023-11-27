@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {Box, Collapse, Group, NavLink, rem, ThemeIcon, UnstyledButton} from '@mantine/core';
 import {IconChevronRight} from '@tabler/icons-react';
 import classes from './NavbarLinksGroup.module.css';
