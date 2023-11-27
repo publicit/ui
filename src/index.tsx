@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {createTheme, MantineProvider} from "@mantine/core";
+import {BrowserRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -34,11 +35,13 @@ const theme = createTheme({
 
 root.render(
     <GoogleOAuthProvider clientId={clientId}>
-        <MantineProvider theme={theme} defaultColorScheme="dark">
-            <React.StrictMode>
-                <App/>
-            </React.StrictMode>
-        </MantineProvider>
+        <React.StrictMode>
+            <MantineProvider theme={theme} defaultColorScheme="dark">
+                <BrowserRouter>
+                    <App/>
+                </BrowserRouter>
+            </MantineProvider>
+        </React.StrictMode>
     </GoogleOAuthProvider>
 );
 

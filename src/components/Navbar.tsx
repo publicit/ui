@@ -1,4 +1,4 @@
-import {Code, Group, rem, ScrollArea} from '@mantine/core';
+import {Code, Group, NavLink, rem, ScrollArea} from '@mantine/core';
 import {
     IconAdjustments,
     IconCalendarStats,
@@ -12,6 +12,7 @@ import {UserButton} from './UserButton';
 import {LinksGroup} from './NavbarLinksGroup';
 import Logo from './Logo';
 import classes from './NavbarNested.module.css';
+import {useNavigate} from "react-router-dom";
 
 const mockdata = [
     {label: 'Tablero', icon: IconGauge},
@@ -51,7 +52,7 @@ const mockdata = [
 
 const version = process.env.REACT_APP_TAG_NAME || ""
 
-export default function NavbarNested() {
+export function NavbarNested() {
     const links = mockdata.map((item) => <LinksGroup {...item} key={item.label}/>);
 
     return (
@@ -72,4 +73,23 @@ export default function NavbarNested() {
             </div>
         </nav>
     );
+}
+
+export default function Navbar(){
+    const navigate = useNavigate();
+
+    return (
+        <>
+            <NavLink
+                label="Home"
+                onClick={() => navigate('/')}
+                style={{ margin: '5px' }}
+            />
+            <NavLink
+                label="Campaigns"
+                onClick={() => navigate('/campaigns')}
+                style={{ margin: '5px' }}
+            />
+        </>
+    )
 }

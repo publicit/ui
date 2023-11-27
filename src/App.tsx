@@ -5,9 +5,8 @@ import "@mantine/core/styles.css"
 import {AppShell, Burger, Button, Group} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import Logo from "./components/Logo";
-import RouteDefinitions from "./RouteDefinitions";
-import {RouterProvider} from "react-router-dom";
 import Navbar from "./components/Navbar";
+import RouteDefinitions from "./RouteDefinitions"
 
 type UserProfile = {
     picture: string
@@ -15,7 +14,6 @@ type UserProfile = {
     email: string
 }
 
-const router = RouteDefinitions()
 
 function App() {
     // user contains the access token information, and expiration
@@ -72,11 +70,12 @@ function App() {
                         </Group>
                     </AppShell.Header>
                     <AppShell.Navbar>
-                        <Navbar />
+                        <Navbar/>
                     </AppShell.Navbar>
                     <AppShell.Main>
                         <GoogleSection/>
-                        <RouterProvider router={router}/>
+                        <hr/>
+                        <RouteDefinitions />
                     </AppShell.Main>
                 </AppShell>
             </>
@@ -86,6 +85,7 @@ function App() {
     function GoogleSection() {
         return (
             <div>
+                <p>This section is just a placeholder for the google account and should be removed</p>
                 <br/>
                 {profile ? (
                     <div>
@@ -98,7 +98,6 @@ function App() {
                 ) : (
                     <Button variant="outline" onClick={() => login()}>Sign in with Google</Button>
                 )}
-                <p>Just a dummy text to make sure nothing overlaps the footer</p>
             </div>
         )
     }
