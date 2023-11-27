@@ -2,8 +2,12 @@ import React, {useEffect, useState} from 'react'
 import {TokenResponse, useGoogleLogin} from '@react-oauth/google';
 import {logout, parseToken, saveUserProfile} from "./helpers/sso_service"
 import "@mantine/core/styles.css"
-import {AppShell, Burger, Button} from "@mantine/core";
+import {AppShell, Burger, Button, Group} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
+import Logo from "./components/Logo";
+import RouteDefinitions from "./RouteDefinitions";
+import {RouterProvider} from "react-router-dom";
+import Navbar from "./components/Navbar";
 
 type UserProfile = {
     picture: string
@@ -11,6 +15,7 @@ type UserProfile = {
     email: string
 }
 
+const router = RouteDefinitions()
 
 function App() {
     // user contains the access token information, and expiration
@@ -48,24 +53,33 @@ function App() {
 
 
         return (
-            <AppShell
-                padding="md"
-                header={{height: 60}}
-                navbar={{
-                    width: 200,
-                    breakpoint: 'sm',
-                    collapsed: {mobile: !mobileOpened, desktop: !desktopOpened},
-                }}
-            >
-                <AppShell.Header>
-                    <Burger opened={opened} onClick={toggleDesktop} aria-label="Toggle navigation"/>
-                    <div>Logo</div>
-                </AppShell.Header>
-                <AppShell.Navbar>Navbar</AppShell.Navbar>
-                <AppShell.Main>
-                    <GoogleSection/>
-                </AppShell.Main>
-            </AppShell>
+            <>
+                <AppShell
+                    padding="md"
+                    header={{height: 60}}
+                    navbar={{
+                        width: 200,
+                        breakpoint: 'sm',
+                        collapsed: {mobile: !mobileOpened, desktop: !desktopOpened},
+                    }}
+                >
+                    <AppShell.Header>
+                        <Group>
+                            <Burger opened={opened} onClick={toggleDesktop} aria-label="Toggle navigation"/>
+                            <div>
+                                <Logo/>
+                            </div>
+                        </Group>
+                    </AppShell.Header>
+                    <AppShell.Navbar>
+                        <Navbar />
+                    </AppShell.Navbar>
+                    <AppShell.Main>
+                        <GoogleSection/>
+                        <RouterProvider router={router}/>
+                    </AppShell.Main>
+                </AppShell>
+            </>
         );
     }
 
