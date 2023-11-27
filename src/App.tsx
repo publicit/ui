@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {TokenResponse, useGoogleLogin} from '@react-oauth/google';
 import {logout, parseToken, saveUserProfile} from "./helpers/sso_service"
 import "@mantine/core/styles.css"
-import {AppShell, Burger, Button, Group} from "@mantine/core";
+import {AppShell, Burger, Group} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import Logo from "./components/Logo";
 import Navbar from "./components/Navbar";
@@ -48,6 +48,12 @@ function App() {
         const [mobileOpened] = useDisclosure();
         const [desktopOpened, {toggle: toggleDesktop}] = useDisclosure(true);
         const [opened] = useDisclosure()
+        const user = {
+            email: profile?.email,
+            name: profile?.name,
+            image: profile?.picture
+        }
+        const version = process.env.REACT_APP_TAG_NAME || ""
 
 
         return (
@@ -70,37 +76,16 @@ function App() {
                         </Group>
                     </AppShell.Header>
                     <AppShell.Navbar>
-                        <Navbar/>
+                        <Navbar user={user} version={version} login={login} logout={logOut}/>
                     </AppShell.Navbar>
                     <AppShell.Main>
-                        <GoogleSection/>
-                        <hr/>
-                        <RouteSwitcher />
+                        <RouteSwitcher/>
                     </AppShell.Main>
                 </AppShell>
             </>
         );
     }
 
-    function GoogleSection() {
-        return (
-            <div>
-                <p>This section is just a placeholder for the google account and should be removed</p>
-                <br/>
-                {profile ? (
-                    <div>
-                        <img src={profile.picture} alt={profile.name}/>
-                        <h3>User Logged in</h3>
-                        <p>Name: {profile.name}</p>
-                        <p>Email Address: {profile.email}</p>
-                        <Button variant="outline" onClick={logOut}>Log out</Button>
-                    </div>
-                ) : (
-                    <Button variant="outline" onClick={() => login()}>Sign in with Google</Button>
-                )}
-            </div>
-        )
-    }
 
     return (
         <>

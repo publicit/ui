@@ -5,6 +5,8 @@ import {LinksGroup} from './NavbarLinksGroup';
 import Logo from './Logo';
 import classes from './NavbarNested.module.css';
 import {useNavigate} from "react-router-dom";
+import {User} from "../models/user";
+import React from "react";
 
 const mockdata = [
     {
@@ -37,10 +39,15 @@ const mockdata = [
     // },
 ];
 
-const version = process.env.REACT_APP_TAG_NAME || ""
+type NavbarParams = {
+    version: string
+    user: User
+    login: any
+    logout: any
+}
 
 // NavbarMain is the real navbar that appears on the left pane of the app.
-export default function NavbarMain() {
+export default function NavbarMain({user, version, login, logout}: NavbarParams) {
     const links = mockdata.map((item) => <LinksGroup {...item} key={item.label}/>);
 
     return (
@@ -57,7 +64,13 @@ export default function NavbarMain() {
             </ScrollArea>
 
             <div className={classes.footer}>
-                <UserButton/>
+                {user?.email ?
+                    <>
+                        <UserButton email={user.email} name={user.name} image={user.image}/>
+                        <NavLink label="Cerrar Sesion" onClick={logout}/>
+                    </>
+                    : <NavLink label="Iniciar Sesion" onClick={login}/>
+                }
             </div>
         </nav>
     );

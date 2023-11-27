@@ -17,6 +17,7 @@ export function LinksGroup({icon: Icon, label, initiallyOpened, links}: LinksGro
     const [opened, setOpened] = useState(initiallyOpened || false);
     const items = (hasLinks ? links : []).map((link) => (
         <NavLink
+            key={link.link}
             label={link.label}
             onClick={() => navigate(link.link)}
             style={{margin: '5px'}}

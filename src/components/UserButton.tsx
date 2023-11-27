@@ -1,23 +1,24 @@
 import { UnstyledButton, Group, Avatar, Text, rem } from '@mantine/core';
 import { IconChevronRight } from '@tabler/icons-react';
 import classes from './UserButton.module.css';
+import {User} from "../models/user"
 
-export function UserButton() {
+export function UserButton(u:User) {
     return (
         <UnstyledButton className={classes.user}>
             <Group>
                 <Avatar
-                    src="https://lh3.googleusercontent.com/a/ACg8ocJgnTdEOykjg1gonkhF_vdyWYYp7mJpMSr6JK3Kx1N6nts6=s96-c"
+                    src={u.image}
                     radius="xl"
                 />
 
                 <div style={{ flex: 1 }}>
                     <Text size="sm" fw={500}>
-                        Mauricio Lopez
+                        {u.name}
                     </Text>
 
                     <Text c="dimmed" size="xs">
-                        mauricio.lopez@gmail.com
+                        {u.email}
                     </Text>
                 </div>
 
