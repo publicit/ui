@@ -1,13 +1,5 @@
 import {Code, Group, NavLink, rem, ScrollArea} from '@mantine/core';
-import {
-    IconAdjustments,
-    IconCalendarStats,
-    IconFileAnalytics,
-    IconGauge,
-    IconLock,
-    IconNotes,
-    IconPresentationAnalytics,
-} from '@tabler/icons-react';
+import {IconAdjustments, IconGauge, IconNotes,} from '@tabler/icons-react';
 import {UserButton} from './UserButton';
 import {LinksGroup} from './NavbarLinksGroup';
 import Logo from './Logo';
@@ -15,44 +7,40 @@ import classes from './NavbarNested.module.css';
 import {useNavigate} from "react-router-dom";
 
 const mockdata = [
-    {label: 'Tablero', icon: IconGauge},
+    {
+        label: 'Tablero',
+        icon: IconGauge,
+        initiallyOpened: true,
+        links: [
+            {
+                label: "Inicio",
+                link: "/",
+            },
+        ],
+    },
     {
         label: 'Campañas',
         icon: IconNotes,
         initiallyOpened: true,
         links: [
             {label: 'Listado', link: '/campaigns'},
-            {label: 'Forecasts', link: '/'},
-            {label: 'Outlook', link: '/'},
-            {label: 'Real time', link: '/'},
         ],
     },
-    {
-        label: 'Releases',
-        icon: IconCalendarStats,
-        links: [
-            {label: 'Upcoming releases', link: '/'},
-            {label: 'Previous releases', link: '/'},
-            {label: 'Releases schedule', link: '/'},
-        ],
-    },
-    {label: 'Analytics', icon: IconPresentationAnalytics},
-    {label: 'Contracts', icon: IconFileAnalytics},
-    {label: 'Settings', icon: IconAdjustments},
-    {
-        label: 'Security',
-        icon: IconLock,
-        links: [
-            {label: 'Enable 2FA', link: '/'},
-            {label: 'Change password', link: '/'},
-            {label: 'Recovery codes', link: '/'},
-        ],
-    },
+    // {label: 'Analytics', icon: IconPresentationAnalytics},
+    // {label: 'Contracts', icon: IconFileAnalytics},
+    // {
+    //     label: 'Configuracion',
+    //     icon: IconAdjustments,
+    //     links: [
+    //         {label: 'Registro', link: '/'},
+    //     ],
+    // },
 ];
 
 const version = process.env.REACT_APP_TAG_NAME || ""
 
-export function NavbarNested() {
+// NavbarMain is the real navbar that appears on the left pane of the app.
+export default function NavbarMain() {
     const links = mockdata.map((item) => <LinksGroup {...item} key={item.label}/>);
 
     return (
@@ -75,7 +63,8 @@ export function NavbarNested() {
     );
 }
 
-export default function Navbar(){
+// NavbarSimple is just an example I took from here: https://github.com/arslanah99/mantine_course_v7/blob/main/mantinecoursev7/src/App.tsx
+export function NavbarSimple() {
     const navigate = useNavigate();
 
     return (
@@ -83,12 +72,12 @@ export default function Navbar(){
             <NavLink
                 label="Home"
                 onClick={() => navigate('/')}
-                style={{ margin: '5px' }}
+                style={{margin: '5px'}}
             />
             <NavLink
                 label="Campaigns"
                 onClick={() => navigate('/campaigns')}
-                style={{ margin: '5px' }}
+                style={{margin: '5px'}}
             />
         </>
     )
