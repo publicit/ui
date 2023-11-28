@@ -12,7 +12,7 @@ export default function CampaignCard({c}: Params) {
                 <Image
                     src={c.image}
                     alt="logo"
-                    height={250}
+                    height={220}
                 />
             </Card.Section>
             <Group justify="space-between" mt="md" mb="xs">

@@ -21,7 +21,7 @@ export class Campaign {
     }
 }
 
-function toCampaign(v: any): Campaign {
+export function toCampaign(v: any): Campaign {
     return {
         ...v,
         start_date: new Date(),
