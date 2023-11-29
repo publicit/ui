@@ -2,14 +2,12 @@ import React, {useEffect, useState} from 'react'
 import {TokenResponse, useGoogleLogin} from '@react-oauth/google';
 import {logout, parseToken, saveUserProfile} from "./helpers/sso_service"
 import "@mantine/core/styles.css"
-import {AppShell, Burger, Button} from "@mantine/core";
+import {AppShell, Burger, Group} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
-
-type UserProfile = {
-    picture: string
-    name: string
-    email: string
-}
+import Logo from "./components/Logo";
+import Navbar from "./components/Navbar";
+import RouteSwitcher from "./RouteSwitcher"
+import {UserProfile} from "./models/user";
 
 
 function App() {
@@ -45,49 +43,44 @@ function App() {
         const [mobileOpened] = useDisclosure();
         const [desktopOpened, {toggle: toggleDesktop}] = useDisclosure(true);
         const [opened] = useDisclosure()
+        const user = {
+            email: profile?.email,
+            name: profile?.name,
+            image: profile?.picture
+        }
+        const version = process.env.REACT_APP_TAG_NAME || ""
 
 
         return (
-            <AppShell
-                padding="md"
-                header={{height: 60}}
-                navbar={{
-                    width: 200,
-                    breakpoint: 'sm',
-                    collapsed: {mobile: !mobileOpened, desktop: !desktopOpened},
-                }}
-            >
-                <AppShell.Header>
-                    <Burger opened={opened} onClick={toggleDesktop} aria-label="Toggle navigation"/>
-                    <div>Logo</div>
-                </AppShell.Header>
-                <AppShell.Navbar>Navbar</AppShell.Navbar>
-                <AppShell.Main>
-                    <GoogleSection/>
-                </AppShell.Main>
-            </AppShell>
+            <>
+                <AppShell
+                    padding="md"
+                    header={{height: 60}}
+                    navbar={{
+                        width: 200,
+                        breakpoint: 'sm',
+                        collapsed: {mobile: !mobileOpened, desktop: !desktopOpened},
+                    }}
+                >
+                    <AppShell.Header>
+                        <Group>
+                            <Burger opened={opened} onClick={toggleDesktop} aria-label="Toggle navigation"/>
+                            <div>
+                                <Logo/>
+                            </div>
+                        </Group>
+                    </AppShell.Header>
+                    <AppShell.Navbar>
+                        <Navbar user={user} version={version} login={login} logout={logOut}/>
+                    </AppShell.Navbar>
+                    <AppShell.Main>
+                        <RouteSwitcher profile={profile}/>
+                    </AppShell.Main>
+                </AppShell>
+            </>
         );
     }
 
-    function GoogleSection() {
-        return (
-            <div>
-                <br/>
-                {profile ? (
-                    <div>
-                        <img src={profile.picture} alt={profile.name}/>
-                        <h3>User Logged in</h3>
-                        <p>Name: {profile.name}</p>
-                        <p>Email Address: {profile.email}</p>
-                        <Button variant="outline" onClick={logOut}>Log out</Button>
-                    </div>
-                ) : (
-                    <Button variant="outline" onClick={() => login()}>Sign in with Google</Button>
-                )}
-                <p>Just a dummy text to make sure nothing overlaps the footer</p>
-            </div>
-        )
-    }
 
     return (
         <>

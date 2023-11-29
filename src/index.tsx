@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {createTheme, MantineProvider} from "@mantine/core";
+import {BrowserRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -20,7 +21,7 @@ if (!clientId) {
 const gitTag = process.env.REACT_APP_TAG_NAME
 const gitCommit = process.env.REACT_APP_GIT_COMMIT
 
-if (gitTag && gitCommit){
+if (gitTag && gitCommit) {
     console.table({
         tag: gitTag,
         hash: gitCommit,
@@ -31,12 +32,13 @@ const theme = createTheme({
     //  override as needed
 })
 
+
 root.render(
     <GoogleOAuthProvider clientId={clientId}>
         <MantineProvider theme={theme} defaultColorScheme="dark">
-            <React.StrictMode>
+            <BrowserRouter>
                 <App/>
-            </React.StrictMode>
+            </BrowserRouter>
         </MantineProvider>
     </GoogleOAuthProvider>
 );
