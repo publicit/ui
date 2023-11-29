@@ -2,6 +2,7 @@ import CampaignCards from "../components/CampaignCards";
 import {useEffect, useState} from "react";
 import {Campaign} from "../models/campaign";
 import {GetCampaignList} from "../helpers/api";
+import {isLoggedIn} from "../helpers/sso_service";
 
 
 export default function CampaignList() {
@@ -15,9 +16,9 @@ export default function CampaignList() {
                 console.error(e)
             }
         }
-
         loadData();
-    }, [rows]);
+    }, []);
+    if(!isLoggedIn()) return null
     return (
         <div>
             <CampaignCards rows={rows}/>

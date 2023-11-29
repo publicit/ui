@@ -8,15 +8,31 @@ import {useNavigate} from "react-router-dom";
 import {User} from "../models/user";
 import React from "react";
 
-const mockdata = [
+type MenuItem = {
+    label: string
+    link: string
+    authenticated: boolean
+}
+
+type MenuGroup = {
+    label: string
+    icon: any
+    initiallyOpened: boolean
+    authenticated: boolean
+    links: MenuItem[]
+}
+
+const menuData: MenuGroup[] = [
     {
         label: 'PublicitUX',
         icon: IconGauge,
         initiallyOpened: true,
+        authenticated:false,
         links: [
             {
                 label: "Inicio",
                 link: "/",
+                authenticated: false,
             },
         ],
     },
@@ -24,8 +40,13 @@ const mockdata = [
         label: 'Campañas',
         icon: IconNotes,
         initiallyOpened: true,
+        authenticated:true,
         links: [
-            {label: 'Listado', link: '/campaigns'},
+            {
+                label: 'Listado',
+                link: '/campaigns',
+                authenticated: true,
+            },
             // {label: 'Nueva', link: '/campaign-new'},
         ],
     },
@@ -49,6 +70,7 @@ type NavbarParams = {
 
 // NavbarMain is the real navbar that appears on the left pane of the app.
 export default function NavbarMain({user, version, login, logout}: NavbarParams) {
+    const menuItems = user?.email ? menuData : menuData.filter(x => !x.authenticated)
     return (
         <nav className={classes.navbar}>
             <div className={classes.header}>
@@ -60,7 +82,7 @@ export default function NavbarMain({user, version, login, logout}: NavbarParams)
 
             <ScrollArea className={classes.links}>
                 <div className={classes.linksInner}>
-                    {mockdata.map((item) => <LinksGroup {...item} key={item.label}/>)}
+                    {menuItems.map((item) => <LinksGroup {...item} key={item.label}/>)}
                 </div>
             </ScrollArea>
 

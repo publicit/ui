@@ -22,9 +22,10 @@ export class Campaign {
 }
 
 export function toCampaign(v: any): Campaign {
-    return {
+    return  {
         ...v,
-        start_date: new Date(),
-        ned_date: new Date(),
+        start_date: new Date(v["start_date"]),
+        end_date: new Date(v["end_date"]),
+        image: v["image_url"],
     }
 }

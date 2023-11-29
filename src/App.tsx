@@ -7,12 +7,7 @@ import {useDisclosure} from "@mantine/hooks";
 import Logo from "./components/Logo";
 import Navbar from "./components/Navbar";
 import RouteSwitcher from "./RouteSwitcher"
-
-type UserProfile = {
-    picture: string
-    name: string
-    email: string
-}
+import {UserProfile} from "./models/user";
 
 
 function App() {
@@ -79,7 +74,7 @@ function App() {
                         <Navbar user={user} version={version} login={login} logout={logOut}/>
                     </AppShell.Navbar>
                     <AppShell.Main>
-                        <RouteSwitcher/>
+                        <RouteSwitcher profile={profile}/>
                     </AppShell.Main>
                 </AppShell>
             </>

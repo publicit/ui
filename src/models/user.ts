@@ -15,3 +15,9 @@ export function toUser(v: any):User{
         ...v,
     }
 }
+
+export type UserProfile = {
+    picture: string
+    name: string
+    email: string
+}

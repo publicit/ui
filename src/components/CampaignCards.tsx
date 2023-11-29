@@ -9,8 +9,8 @@ export default function CampaignCards({rows}: { rows: Campaign[] }) {
             <Grid
             >
                 {rows.map(r =>
-                    <Grid.Col span={4}>
-                        <CampaignCard c={r}/>
+                    <Grid.Col span={4} key={r.id}>
+                        <CampaignCard c={r} />
                     </Grid.Col>
                 )}
             </Grid>

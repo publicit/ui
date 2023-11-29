@@ -35,13 +35,11 @@ const theme = createTheme({
 
 root.render(
     <GoogleOAuthProvider clientId={clientId}>
-        <React.StrictMode>
-            <MantineProvider theme={theme} defaultColorScheme="dark">
-                <BrowserRouter>
-                    <App/>
-                </BrowserRouter>
-            </MantineProvider>
-        </React.StrictMode>
+        <MantineProvider theme={theme} defaultColorScheme="dark">
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </MantineProvider>
     </GoogleOAuthProvider>
 );
 
