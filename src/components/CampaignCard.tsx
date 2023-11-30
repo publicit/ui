@@ -17,7 +17,7 @@ export default function CampaignCard({c}: Params) {
                 />
             </Card.Section>
             <Group justify="space-between" mt="md" mb="xs">
-                <Text fw={500}>{c.name}</Text>
+                <Text fw={500} size="xl">{c.name}</Text>
                 <Badge color="pink" variant="light">
                     {c.status}
                 </Badge>

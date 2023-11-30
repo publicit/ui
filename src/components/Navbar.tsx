@@ -47,7 +47,11 @@ const menuData: MenuGroup[] = [
                 link: '/campaigns',
                 authenticated: true,
             },
-            // {label: 'Nueva', link: '/campaign-new'},
+            {
+                label: 'Nueva Campaña',
+                link: '/campaigns/new',
+                authenticated: true,
+            },
         ],
     },
     // {label: 'Analytics', icon: IconPresentationAnalytics},
