@@ -1,4 +1,5 @@
 import {User} from "./user";
+import {trimAll} from "../helpers/text_utils";
 
 export class Campaign {
     id: string
@@ -22,10 +23,18 @@ export class Campaign {
 }
 
 export function toCampaign(v: any): Campaign {
-    return  {
+    return {
         ...v,
         start_date: new Date(v["start_date"]),
         end_date: new Date(v["end_date"]),
         image: v["image_url"],
+    }
+}
+
+export function campaignValidation() {
+    return {
+        name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
+        start_date: (value: Date) => !value ? "Fecha de inicio es mandatorio" : null,
+        end_date: (value: Date) => !value ? "Fecha de termino es mandatorio" : null,
     }
 }
