@@ -20,17 +20,6 @@ export class Campaign {
         this.end_date = new Date()
         this.status = ""
     }
-
-    clone(): Campaign {
-        return JSON.parse(JSON.stringify(this))
-    }
-
-    clean(): Campaign {
-        const clone: Campaign = this.clone()
-        clone.start_date = truncateTime(clone.start_date)
-        clone.end_date = truncateTime(clone.end_date)
-        return clone
-    }
 }
 
 export function toCampaign(v: any): Campaign {
@@ -48,4 +37,10 @@ export function campaignValidation() {
         start_date: (value: Date) => !value ? "Fecha de inicio es mandatorio" : null,
         end_date: (value: Date) => !value ? "Fecha de termino es mandatorio" : null,
     }
+}
+
+export function cleanCampaign(c:Campaign):Campaign{
+    c.start_date = truncateTime(c.start_date)
+    c.end_date = truncateTime(c.end_date)
+    return c
 }

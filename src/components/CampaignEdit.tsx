@@ -10,7 +10,9 @@ type params = {
 export default function CampaignEdit({onSubmit, form, legend}: params) {
     return (
         <>
-            <form onSubmit={form.onSubmit((data: any) => onSubmit(data))}>
+            <form onSubmit={form.onSubmit((data: any) => {
+                onSubmit(data)
+            })}>
                 <legend>{legend}</legend>
                 <TextInput label="Nombre"
                            placeholder="Nombre"

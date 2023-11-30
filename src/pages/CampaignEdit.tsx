@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {Campaign, campaignValidation} from "../models/campaign";
+import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
 import {useForm} from "@mantine/form";
 import {GetCampaign, PutCampaign} from "../helpers/api"
 import {Title} from "@mantine/core";
@@ -21,23 +21,22 @@ export default function Edit() {
                 const data = await GetCampaign(id)
                 setCampaign(data)
                 form.setValues(data)
-            } catch (e) {
-
+            } catch (err) {
+                console.warn(err)
             }
         }
 
         loadData(id)
     }, [])
 
-    const onSubmit = async (data: Campaign) => {
+    async function onSubmit(data: Campaign) {
         try {
-            // clean should remove the time from the dates, and have UTC back and forth
-            await PutCampaign(data.clean())
+            await PutCampaign(cleanCampaign(data))
             navigate(returnURL);
         } catch (err) {
-            // notifyErrResponse(err);
+            console.warn(err)
         }
-    };
+    }
 
 
     return (
