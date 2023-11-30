@@ -1,5 +1,5 @@
 import {User} from "./user";
-import {trimAll} from "../helpers/text_utils";
+import {trimAll, truncateTime} from "../helpers/text_utils";
 
 export class Campaign {
     id: string
@@ -19,6 +19,17 @@ export class Campaign {
         this.start_date = new Date()
         this.end_date = new Date()
         this.status = ""
+    }
+
+    clone(): Campaign {
+        return JSON.parse(JSON.stringify(this))
+    }
+
+    clean(): Campaign {
+        const clone: Campaign = this.clone()
+        clone.start_date = truncateTime(clone.start_date)
+        clone.end_date = truncateTime(clone.end_date)
+        return clone
     }
 }
 
