@@ -5,7 +5,7 @@ import {useForm} from "@mantine/form";
 import {GetCampaign, PutCampaign} from "../helpers/api"
 import {Title} from "@mantine/core";
 import CampaignEdit from "../components/CampaignEdit";
-import {trimAll} from "../helpers/text_utils";
+import {notifyErrResponse} from "../components/Errors";
 
 export default function Edit() {
     const id = useParams().id || ""
@@ -23,7 +23,7 @@ export default function Edit() {
                 setCampaign(data)
                 form.setValues(data)
             } catch (err) {
-                console.warn(err)
+                await notifyErrResponse(err)
             }
         }
 
@@ -35,7 +35,7 @@ export default function Edit() {
             await PutCampaign(cleanCampaign(data))
             navigate(returnURL);
         } catch (err) {
-            console.warn(err)
+            await notifyErrResponse(err)
         }
     }
 

@@ -1,9 +1,9 @@
-import Notifier from "./Notifier";
+import {popupError, popupWarning} from "./Notifier";
 
 export function notifyErrResponse(err) {
     const {response} = err;
     if (!response) {
-        return Notifier.popupError({
+        return popupError({
             title: "API error",
             text: "No hay respuesta del servidor",
         });
@@ -12,7 +12,7 @@ export function notifyErrResponse(err) {
     const payload = {message: data.error, status};
     switch (status) {
         default:
-            return Notifier.popupWarning({
+            return popupWarning({
                 title: "API error",
                 confirmButtonText: "Continuar",
                 text: payload.message,
@@ -26,7 +26,7 @@ export function notifyError(err) {
     if (err.response?.data?.message) {
         msg = err.response?.data?.message
     }
-    return Notifier.popupWarning({
+    return popupWarning({
         title: "Error",
         confirmButtonText: "Continuar",
         text: msg,

@@ -10,7 +10,7 @@ import {notifyErrResponse} from "../components/Errors";
 export default function CampaignNew() {
     const returnURL = "/campaigns"
     const navigate = useNavigate();
-    const [campaign, setCampaign] = useState<Campaign>(new Campaign())
+    const [campaign] = useState<Campaign>(new Campaign())
     const form = useForm<Campaign>({
         initialValues: campaign,
         validate: campaignValidation(),
