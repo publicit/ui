@@ -11,17 +11,26 @@ function trimAll(s: any): any {
     }
 }
 
-function truncateTime(date: Date): Date {
+function truncateTime(utcDate: Date): Date {
     return new Date(
-        Date.UTC(
-            date.getUTCFullYear(),
-            date.getUTCMonth(),
-            date.getUTCDate(),
-        )
+        utcDate.getUTCFullYear(),
+        utcDate.getUTCMonth(),
+        utcDate.getUTCDate(),
     )
 }
 
+function formatDate(d: Date): string {
+    return dayjs(d).format("YYYY-MM-DD")
+}
+
+function trimBigText(d: string, maxLength: number = 50): string {
+    return d.length >= maxLength ? `${d.substring(0, maxLength - 1)}...` : d
+}
+
+
 export {
+    formatDate,
     trimAll,
+    trimBigText,
     truncateTime,
 }

@@ -7,7 +7,7 @@ export class Campaign {
     start_date: Date
     end_date: Date
     user: User
-    image?: string
+    image_url: string
     description: string
     status: string
 
@@ -19,14 +19,15 @@ export class Campaign {
         this.start_date = new Date()
         this.end_date = new Date()
         this.status = ""
+        this.image_url = ""
     }
 }
 
 export function toCampaign(v: any): Campaign {
     return {
         ...v,
-        start_date: new Date(v["start_date"]),
-        end_date: new Date(v["end_date"]),
+        start_date: truncateTime(new Date(v["start_date"])),
+        end_date: truncateTime(new Date(v["end_date"])),
         image: v["image_url"],
     }
 }
@@ -39,7 +40,7 @@ export function campaignValidation() {
     }
 }
 
-export function cleanCampaign(c:Campaign):Campaign{
+export function cleanCampaign(c: Campaign): Campaign {
     c.start_date = truncateTime(c.start_date)
     c.end_date = truncateTime(c.end_date)
     return c

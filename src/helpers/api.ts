@@ -11,6 +11,11 @@ async function GetCampaign(id: string) {
     return toCampaign(res.data)
 }
 
+async function PostCampaign(c: Campaign) {
+    const res = await instance.post(`/v1/campaigns`, c)
+    return toCampaign(res.data)
+}
+
 async function PutCampaign(c: Campaign) {
     const res = await instance.put(`/v1/campaigns/${c.id}`, c)
     return toCampaign(res.data)
@@ -19,5 +24,6 @@ async function PutCampaign(c: Campaign) {
 export {
     GetCampaign,
     GetCampaignList,
+    PostCampaign,
     PutCampaign,
 }

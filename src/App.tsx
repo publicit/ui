@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import {TokenResponse, useGoogleLogin} from '@react-oauth/google';
 import {logout, parseToken, saveUserProfile} from "./helpers/sso_service"
+import '@mantine/core/styles/global.css';
 import "@mantine/core/styles.css"
+import '@mantine/dates/styles.css';
 import {AppShell, Burger, Group} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import Logo from "./components/Logo";
