@@ -3,6 +3,8 @@ import {Route, Routes} from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
 import CampaignList from "./pages/CampaignList";
 import {UserProfile} from "./models/user";
+import CampaignEdit from "./pages/CampaignEdit";
+import CampaignNew from "./pages/CampaignNew";
 
 type params = {
     profile: UserProfile | undefined
@@ -13,10 +15,9 @@ export default function RouteSwitcher({profile}: params) {
         <Routes>
             <Route path="*" element={<ErrorPage/>}/>
             <Route path="/" element={<Root/>}/>
-            {profile?.email &&
-                <>
-                    <Route path="/campaigns" element={<CampaignList/>}/>
-                </>}
+            <Route path="/campaigns" element={<CampaignList/>} />
+            <Route path="/campaigns/new" element={<CampaignNew/>} />
+            <Route path="/campaigns/:id" element={<CampaignEdit/>} />
         </Routes>
     )
 }
