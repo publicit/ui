@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
 import {useForm} from "@mantine/form";
-import {PostCampaign} from "../helpers/api"
+import {CampaignPost} from "../helpers/api"
 import {Title} from "@mantine/core";
 import CampaignEdit from "../components/CampaignEdit";
 import {notifyErrResponse} from "../components/Errors";
@@ -18,7 +18,7 @@ export default function CampaignNew() {
 
     async function onSubmit(data: Campaign) {
         try {
-            await PostCampaign(cleanCampaign(data))
+            await CampaignPost(cleanCampaign(data))
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)

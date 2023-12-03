@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
 import {useForm} from "@mantine/form";
-import {GetCampaign, PutCampaign} from "../helpers/api"
+import {CampaignLoad, CampaignPut} from "../helpers/api"
 import {Title} from "@mantine/core";
 import CampaignEdit from "../components/CampaignEdit";
 import {notifyErrResponse} from "../components/Errors";
@@ -19,7 +19,7 @@ export default function Edit() {
     useEffect(() => {
         async function loadData(id: string) {
             try {
-                const data = await GetCampaign(id)
+                const data = await CampaignLoad(id)
                 setCampaign(data)
                 form.setValues(data)
             } catch (err) {
@@ -32,7 +32,7 @@ export default function Edit() {
 
     async function onSubmit(data: Campaign) {
         try {
-            await PutCampaign(cleanCampaign(data))
+            await CampaignPut(cleanCampaign(data))
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
