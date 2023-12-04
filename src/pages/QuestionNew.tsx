@@ -1,27 +1,36 @@
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {QuestionPost} from "../helpers/api"
-import {Title} from "@mantine/core";
+import {QuestionPost, QuizLoad} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
 import {Quiz} from "../models/quiz";
 import {Question, questionValidation} from "../models/question";
 import QuestionEditForm from "../components/QuestionEditForm";
-import {Campaign} from "../models/campaign";
 
 export default function QuestionNew() {
     const [searchParams] = useSearchParams()
     const quizId = useParams().quiz_id || ""
-    const quiz = new Quiz()
-    quiz.id = quizId
-    quiz.campaign = new Campaign()
-    quiz.campaign.id = searchParams.get("id") || ""
     const navigate = useNavigate();
     const [question] = useState<Question>(new Question())
+    const [quiz,setQuiz]=useState<Quiz>(new Quiz())
     const form = useForm<Question>({
         initialValues: question,
         validate: questionValidation(),
     })
+
+    useEffect(() => {
+        async function loadData(id: string) {
+            try {
+                const data = await QuizLoad(id)
+                setQuiz(data)
+            } catch (err) {
+                await notifyErrResponse(err)
+            }
+        }
+
+        loadData(quizId)
+
+    }, []);
 
     async function onSubmit(data: Question) {
         try {
@@ -37,11 +46,7 @@ export default function QuestionNew() {
 
     return (
         <div>
-            <Title>
-                {quiz.name}
-            </Title>
-            <br/>
-            <QuestionEditForm onSubmit={onSubmit} form={form} legend="Nueva Pregunta" quizId={quizId}
+            <QuestionEditForm onSubmit={onSubmit} form={form} legend={quiz.name} quizId={quizId}
                               question={question}/>
         </div>
     )

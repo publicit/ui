@@ -64,7 +64,7 @@ export default function Edit() {
             <br/>
             <CampaignEditForm form={form} onSubmit={onSubmit}
                               legend="Datos de la Campaña" campaign={campaign}
-                              onDelete={onDelete}
+                              onDelete={onDelete} showDelete={quizs.length === 0}
             />
             <hr/>
             <Title>

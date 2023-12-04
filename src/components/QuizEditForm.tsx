@@ -9,9 +9,10 @@ type params = {
     legend: string
     quiz: Quiz
     campaignId: string
+    showDelete?: boolean
 }
 
-export default function QuizEditForm({onSubmit, form, legend, quiz, campaignId, onDelete}: params) {
+export default function QuizEditForm({onSubmit, form, legend, quiz, campaignId, onDelete, showDelete = false}: params) {
     return (
         <>
             <form onSubmit={form.onSubmit((data: any) => {
@@ -43,9 +44,11 @@ export default function QuizEditForm({onSubmit, form, legend, quiz, campaignId, 
                                     Agregar Pregunta
                                 </Link>
                             </Button>
-                            <Button type="button" variant="outline" onClick={onDelete}>
-                                Eliminar Encuesta
-                            </Button>
+                            {showDelete &&
+                                <Button type="button" variant="outline" onClick={onDelete}>
+                                    Eliminar Encuesta
+                                </Button>
+                            }
                         </Group>
                     }
                 </Group>

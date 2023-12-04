@@ -1,14 +1,16 @@
-import {Button, Group, Select, Textarea, Title} from "@mantine/core";
+import {Button, Group, Select, Text, Textarea, Title} from "@mantine/core";
 import {Link} from "react-router-dom";
 import {Question, QuestionType} from "../models/question";
+import {UseFormReturnType} from "@mantine/form";
 
 type params = {
     onSubmit: any
     onDelete?: any | undefined
-    form: any
+    form: UseFormReturnType<Question>
     legend: string
     quizId: string
-    question?: Question | undefined
+    question: Question
+    showDelete?: boolean
 }
 
 const questionTypes: string[] = [
@@ -16,10 +18,22 @@ const questionTypes: string[] = [
     QuestionType[QuestionType.multiple],
 ]
 
-export default function QuestionEditForm({onSubmit, form, legend, quizId, onDelete, question}: params) {
+export default function QuestionEditForm({
+                                             onSubmit,
+                                             form,
+                                             legend,
+                                             quizId,
+                                             onDelete,
+                                             question,
+                                             showDelete = false
+                                         }: params) {
     return (
         <>
-            <Title>{legend}</Title>
+            <Title>
+                <Link to={`/quizs/${quizId}`}>
+                    {legend}
+                </Link>
+            </Title>
             <form onSubmit={form.onSubmit((data: any) => {
                 onSubmit(data)
             })}>
@@ -34,9 +48,14 @@ export default function QuestionEditForm({onSubmit, form, legend, quizId, onDele
                 <Select
                     label="Tipo de Pregunta"
                     data={questionTypes}
-                    disabled={question?.id}
+                    disabled={!!question.id}
                     {...form.getInputProps("type")}
                 />
+                <br/>
+                {form.values.type === QuestionType[QuestionType.single]
+                    ? <Text size="xs">Solo una respuesta puede ser la correcta.</Text>
+                    : <Text size="xs">Puede haber una o mas respuestas correctas.</Text>
+                }
                 <br/>
                 <Group>
                     <Button type="submit" variant="outline">
@@ -54,9 +73,11 @@ export default function QuestionEditForm({onSubmit, form, legend, quizId, onDele
                                     Agregar Respuesta
                                 </Link>
                             </Button>
-                            <Button type="button" variant="outline" onClick={onDelete}>
-                                Eliminar Pregunta
-                            </Button>
+                            {showDelete &&
+                                <Button type="button" variant="outline" onClick={onDelete}>
+                                    Eliminar Pregunta
+                                </Button>
+                            }
                         </Group>
                     }
                 </Group>

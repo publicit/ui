@@ -9,9 +9,10 @@ type params = {
     legend: string
     campaign: Campaign
     onDelete?: any
+    showDelete?: boolean
 }
 
-export default function CampaignEditForm({onSubmit, form, legend, campaign, onDelete}: params) {
+export default function CampaignEditForm({onSubmit, form, legend, campaign, onDelete, showDelete = false}: params) {
     return (
         <>
             <form onSubmit={form.onSubmit((data: any) => {
@@ -52,9 +53,11 @@ export default function CampaignEditForm({onSubmit, form, legend, campaign, onDe
                                     Agregar Encuesta
                                 </Link>
                             </Button>
-                            <Button type="button" variant="outline" onClick={onDelete}>
-                                Eliminar Campaña
-                            </Button>
+                            {showDelete &&
+                                <Button type="button" variant="outline" onClick={onDelete}>
+                                    Eliminar Campaña
+                                </Button>
+                            }
                         </Group>
                     }
                 </Group>

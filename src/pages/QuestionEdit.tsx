@@ -1,18 +1,20 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {QuestionDelete, QuestionLoad, QuestionPut, QuizLoad} from "../helpers/api"
+import {AnswerList, QuestionDelete, QuestionLoad, QuestionPut, QuizLoad} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
 import {Quiz} from "../models/quiz";
 import {Question, questionValidation} from "../models/question";
 import QuestionEditForm from "../components/QuestionEditForm";
+import {Answer} from "../models/answer";
 
 export default function Edit() {
     const id = useParams().id || ""
     const navigate = useNavigate();
     const [question, setQuestion] = useState<Question>(new Question())
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
-    const [returnUrl, setReturnUrl]=useState<string>("")
+    const [returnUrl, setReturnUrl] = useState<string>("")
+    const [answers, setAnswers] = useState<Answer[]>([])
     const form = useForm<Question>({
         initialValues: question,
         validate: questionValidation(),
@@ -26,6 +28,8 @@ export default function Edit() {
                 const quizData = await QuizLoad(data.quiz.id)
                 setQuiz(quizData)
                 setReturnUrl(`/quizs/${quizData.id}`)
+                const answerData = await AnswerList(id)
+                setAnswers(answerData)
             } catch (err) {
                 await notifyErrResponse(err)
             }
@@ -58,7 +62,7 @@ export default function Edit() {
         <div>
             <br/>
             <QuestionEditForm onSubmit={onSubmit} form={form} legend={quiz.name} quizId={quiz.id}
-                              question={question} onDelete={onDelete}/>
+                              question={question} onDelete={onDelete} showDelete={answers.length === 0}/>
         </div>
     )
 }
