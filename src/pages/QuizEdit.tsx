@@ -15,7 +15,6 @@ export default function Edit() {
     const navigate = useNavigate();
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [questions, setQuestions] = useState<Question[]>([])
-    const [returnUrl, setReturnUrl] = useState<string>("")
     const [campaign, setCampaign] = useState<Campaign>(new Campaign())
     const form = useForm<Quiz>({
         initialValues: quiz,
@@ -30,7 +29,6 @@ export default function Edit() {
                 const res = await QuestionList(id)
                 setQuestions(res)
                 const resCampaign = await CampaignLoad(data.campaign.id)
-                setReturnUrl(`/campaigns/${resCampaign.id}`)
                 setCampaign(resCampaign)
             } catch (err) {
                 await notifyErrResponse(err)
@@ -43,6 +41,7 @@ export default function Edit() {
     async function onSubmit(data: Quiz) {
         try {
             await QuizPut(data)
+            const returnUrl = `/campaigns/${campaign.id}`
             navigate(returnUrl);
         } catch (err) {
             await notifyErrResponse(err)
@@ -54,6 +53,7 @@ export default function Edit() {
             // eslint-disable-next-line no-restricted-globals
             if (!confirm(`Seguro de eliminar la encuesta: ${quiz.name}?`)) return
             await QuizDelete(id)
+            const returnUrl = `/campaigns/${campaign.id}`
             navigate(returnUrl);
         } catch (err) {
             await notifyErrResponse(err)

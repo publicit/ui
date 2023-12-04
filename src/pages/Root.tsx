@@ -1,3 +1,3 @@
 export default function Root() {
-    return <div>Hello, this is the root page.</div>
+    return <div>Hola, esta es la pagina de inicio.</div>
 }
