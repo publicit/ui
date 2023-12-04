@@ -96,8 +96,8 @@ async function AnswerPost(answer: Answer) {
     return toAnswer(res.data)
 }
 
-async function AnswerLoad(answer:Answer) {
-    const res = await instance.get(`/v1/answers/${answer.id}`)
+async function AnswerLoad(id:string) {
+    const res = await instance.get(`/v1/answers/${id}`)
     return toAnswer(res.data)
 }
 
@@ -107,7 +107,7 @@ async function AnswerPut(answer:Answer) {
 }
 
 async function AnswerDelete(id:string) {
-    const res = await instance.delete(`/v1/questions/${id}`)
+    const res = await instance.delete(`/v1/answers/${id}`)
     return toAnswer(res.data)
 }
 

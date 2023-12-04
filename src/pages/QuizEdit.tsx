@@ -16,7 +16,7 @@ export default function Edit() {
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [questions, setQuestions] = useState<Question[]>([])
     const [returnUrl, setReturnUrl] = useState<string>("")
-    const [campaign,setCampaign]=useState<Campaign>(new Campaign())
+    const [campaign, setCampaign] = useState<Campaign>(new Campaign())
     const form = useForm<Quiz>({
         initialValues: quiz,
         validate: quizValidation(),
@@ -29,7 +29,7 @@ export default function Edit() {
                 form.setValues(data)
                 const res = await QuestionList(id)
                 setQuestions(res)
-                const resCampaign=await CampaignLoad(data.campaign.id)
+                const resCampaign = await CampaignLoad(data.campaign.id)
                 setReturnUrl(`/campaigns/${resCampaign.id}`)
                 setCampaign(resCampaign)
             } catch (err) {
@@ -69,7 +69,7 @@ export default function Edit() {
             </Title>
             <br/>
             <QuizEditForm onSubmit={onSubmit} form={form} legend="Datos de la Encuesta" quiz={quiz}
-                          campaignId={quiz.campaign.id} onDelete={onDelete} showDelete={questions.length === 0}/>
+                          onDelete={onDelete} showDelete={questions.length === 0}/>
             <QuestionTable rows={questions}/>
         </div>
     )

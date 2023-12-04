@@ -1,20 +1,22 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {AnswerList, QuestionDelete, QuestionLoad, QuestionPut, QuizLoad} from "../helpers/api"
+import {AnswerList, QuestionDelete, QuestionLoad, QuestionPut} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
-import {Quiz} from "../models/quiz";
 import {Question, questionValidation} from "../models/question";
 import QuestionEditForm from "../components/QuestionEditForm";
 import {Answer} from "../models/answer";
+import AnswerTable from "../components/AnswerTable";
+import {BreadcrumbItem} from "../models/breadcrumbItem";
+import {Breadcrumbs} from "@mantine/core";
 
 export default function Edit() {
     const id = useParams().id || ""
     const navigate = useNavigate();
     const [question, setQuestion] = useState<Question>(new Question())
-    const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [returnUrl, setReturnUrl] = useState<string>("")
     const [answers, setAnswers] = useState<Answer[]>([])
+    const [items, setItems] = useState<BreadcrumbItem[]>([])
     const form = useForm<Question>({
         initialValues: question,
         validate: questionValidation(),
@@ -25,11 +27,19 @@ export default function Edit() {
                 const data = await QuestionLoad(id)
                 setQuestion(data)
                 form.setValues(data)
-                const quizData = await QuizLoad(data.quiz.id)
-                setQuiz(quizData)
-                setReturnUrl(`/quizs/${quizData.id}`)
+                setReturnUrl(`/quizs/${data.quiz.id}`)
                 const answerData = await AnswerList(id)
                 setAnswers(answerData)
+                setItems([
+                    {
+                        text: `${data.quiz.campaign.name}`,
+                        to: `/campaigns/${data.quiz.campaign?.id}`
+                    },
+                    {
+                        text: `${data.quiz.name}`,
+                        to: `/quizs/${data.quiz.id}`
+                    },
+                ])
             } catch (err) {
                 await notifyErrResponse(err)
             }
@@ -59,10 +69,16 @@ export default function Edit() {
     }
 
     return (
-        <div>
+        <>
+            <Breadcrumbs>
+                {items.map((item: BreadcrumbItem) => (
+                    <Link to={item.to}>{item.text}</Link>
+                ))}
+            </Breadcrumbs>
             <br/>
-            <QuestionEditForm onSubmit={onSubmit} form={form} legend={quiz.name} quizId={quiz.id}
+            <QuestionEditForm onSubmit={onSubmit} form={form}
                               question={question} onDelete={onDelete} showDelete={answers.length === 0}/>
-        </div>
+            <AnswerTable rows={answers}/>
+        </>
     )
 }

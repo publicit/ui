@@ -1,4 +1,4 @@
-import {Button, Group, Select, Text, Textarea, Title} from "@mantine/core";
+import {Button, Group, Select, Text, Textarea} from "@mantine/core";
 import {Link} from "react-router-dom";
 import {Question, QuestionType} from "../models/question";
 import {UseFormReturnType} from "@mantine/form";
@@ -7,8 +7,6 @@ type params = {
     onSubmit: any
     onDelete?: any | undefined
     form: UseFormReturnType<Question>
-    legend: string
-    quizId: string
     question: Question
     showDelete?: boolean
 }
@@ -21,19 +19,12 @@ const questionTypes: string[] = [
 export default function QuestionEditForm({
                                              onSubmit,
                                              form,
-                                             legend,
-                                             quizId,
                                              onDelete,
                                              question,
                                              showDelete = false
                                          }: params) {
     return (
         <>
-            <Title>
-                <Link to={`/quizs/${quizId}`}>
-                    {legend}
-                </Link>
-            </Title>
             <form onSubmit={form.onSubmit((data: any) => {
                 onSubmit(data)
             })}>
@@ -60,11 +51,6 @@ export default function QuestionEditForm({
                 <Group>
                     <Button type="submit" variant="outline">
                         Guardar
-                    </Button>
-                    <Button type="button" variant="outline">
-                        <Link to={`/quizs/${quizId}`}>
-                            Regresar
-                        </Link>
                     </Button>
                     {question?.id &&
                         <Group>

@@ -1,5 +1,4 @@
-import {Button, Group, Textarea, Title} from "@mantine/core";
-import {Link} from "react-router-dom";
+import {Button, Checkbox, Group, Textarea, Title} from "@mantine/core";
 import {UseFormReturnType} from "@mantine/form";
 import {Answer} from "../models/answer";
 
@@ -8,19 +7,17 @@ type params = {
     onDelete?: any | undefined
     form: UseFormReturnType<Answer>
     legend: string
-    questionId: string
     answer: Answer
 }
 
 
 export default function AnswerEditForm({
-                                             onSubmit,
-                                             form,
-                                             legend,
-                                             questionId,
-                                             onDelete,
-                                             answer,
-                                         }: params) {
+                                           onSubmit,
+                                           form,
+                                           legend,
+                                           onDelete,
+                                           answer,
+                                       }: params) {
     return (
         <>
             <Title>{legend}</Title>
@@ -35,14 +32,14 @@ export default function AnswerEditForm({
                           placeholder="Texto de la Respuesta"
                           {...form.getInputProps("body")}/>
                 <br/>
+                <Checkbox
+                    label="Respuesta Valida"
+                    {...form.getInputProps('is_valid', {type: 'checkbox'})}
+                />
+                <br/>
                 <Group>
                     <Button type="submit" variant="outline">
                         Guardar
-                    </Button>
-                    <Button type="button" variant="outline">
-                        <Link to={`/questions/${questionId}`}>
-                            Regresar
-                        </Link>
                     </Button>
                     {answer?.id &&
                         <Group>

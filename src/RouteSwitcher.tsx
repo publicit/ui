@@ -9,6 +9,8 @@ import QuizNew from "./pages/QuizNew";
 import QuizEdit from "./pages/QuizEdit";
 import QuestionNew from "./pages/QuestionNew";
 import QuestionEdit from "./pages/QuestionEdit"
+import AnswerNew from "./pages/AnswerNew";
+import AnswerEdit from "./pages/AnswerEdit";
 
 type params = {
     profile: UserProfile | undefined
@@ -26,6 +28,8 @@ export default function RouteSwitcher({profile}: params) {
             <Route path="/quizs/:id" element={<QuizEdit/>}/>
             <Route path="/questions/new/:quiz_id" element={<QuestionNew/>}/>
             <Route path="/questions/:id" element={<QuestionEdit/>}/>
+            <Route path="/answers/new/:question_id" element={<AnswerNew/>}/>
+            <Route path="/answers/:id" element={<AnswerEdit/>}/>
         </Routes>
     )
 }
