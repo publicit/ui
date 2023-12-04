@@ -38,6 +38,7 @@ export function campaignValidation() {
         name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
         start_date: (value: Date) => !value ? "Fecha de inicio es mandatorio" : null,
         end_date: (value: Date) => !value ? "Fecha de termino es mandatorio" : null,
+        image_url: (value: string) => !value ? "Imagen es mandatorio" : null,
     }
 }
 
