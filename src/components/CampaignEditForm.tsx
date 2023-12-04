@@ -1,13 +1,16 @@
-import {Button, Text, Textarea, TextInput} from "@mantine/core";
+import {Button, Group, Text, Textarea, TextInput} from "@mantine/core";
 import {DatePickerInput} from "@mantine/dates";
+import {Campaign} from "../models/campaign";
+import {Link} from "react-router-dom";
 
 type params = {
     onSubmit: any
     form: any
     legend: string
+    campaign: Campaign
 }
 
-export default function CampaignEdit({onSubmit, form, legend}: params) {
+export default function CampaignEditForm({onSubmit, form, legend, campaign}: params) {
     return (
         <>
             <form onSubmit={form.onSubmit((data: any) => {
@@ -37,9 +40,19 @@ export default function CampaignEdit({onSubmit, form, legend}: params) {
                            placeholder="URL Imagen"
                            {...form.getInputProps("image_url")}/>
                 <br/>
-                <Button type="submit" variant="outline">
-                    Guardar
-                </Button>
+                <Group>
+                    <Button type="submit" variant="outline">
+                        Guardar
+                    </Button>
+                    {campaign.id &&
+                        <Button type="button" variant="outline">
+                            <Link to={`/quizs/new/${campaign.id}`}>
+                                Agregar Encuesta
+                            </Link>
+                        </Button>
+
+                    }
+                </Group>
             </form>
         </>
     )

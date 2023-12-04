@@ -5,6 +5,8 @@ import CampaignList from "./pages/CampaignList";
 import {UserProfile} from "./models/user";
 import CampaignEdit from "./pages/CampaignEdit";
 import CampaignNew from "./pages/CampaignNew";
+import QuizNew from "./pages/QuizNew";
+import QuizEdit from "./pages/QuizEdit";
 
 type params = {
     profile: UserProfile | undefined
@@ -15,9 +17,11 @@ export default function RouteSwitcher({profile}: params) {
         <Routes>
             <Route path="*" element={<ErrorPage/>}/>
             <Route path="/" element={<Root/>}/>
-            <Route path="/campaigns" element={<CampaignList/>} />
-            <Route path="/campaigns/new" element={<CampaignNew/>} />
-            <Route path="/campaigns/:id" element={<CampaignEdit/>} />
+            <Route path="/campaigns" element={<CampaignList/>}/>
+            <Route path="/campaigns/new" element={<CampaignNew/>}/>
+            <Route path="/campaigns/:id" element={<CampaignEdit/>}/>
+            <Route path="/quizs/new/:campaign_id" element={<QuizNew/>}/>
+            <Route path="/quizs/:campaign_id/:id" element={<QuizEdit/>}/>
         </Routes>
     )
 }

@@ -16,6 +16,7 @@ export class Quiz {
 }
 
 export function toQuiz(v: any): Quiz {
+    if (!v) return new Quiz()
     return {
         ...v,
         campaign: toCampaign(v.campaign),

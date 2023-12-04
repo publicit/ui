@@ -2,16 +2,19 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
 import {useForm} from "@mantine/form";
-import {CampaignLoad, CampaignPut} from "../helpers/api"
+import {CampaignLoad, CampaignPut, QuizList} from "../helpers/api"
 import {Title} from "@mantine/core";
-import CampaignEdit from "../components/CampaignEdit";
+import CampaignEditForm from "../components/CampaignEditForm";
 import {notifyErrResponse} from "../components/Errors";
+import {Quiz} from "../models/quiz";
+import QuizTable from "../components/QuizTable";
 
 export default function Edit() {
     const id = useParams().id || ""
     const returnURL = "/campaigns"
     const navigate = useNavigate();
     const [campaign, setCampaign] = useState<Campaign>(new Campaign())
+    const [quizs,setQuizs]=useState<Quiz[]>([])
     const form = useForm<Campaign>({
         initialValues: campaign,
         validate: campaignValidation(),
@@ -22,6 +25,8 @@ export default function Edit() {
                 const data = await CampaignLoad(id)
                 setCampaign(data)
                 form.setValues(data)
+                const quizData:Quiz[] = await QuizList(data)
+                setQuizs(quizData)
             } catch (err) {
                 await notifyErrResponse(err)
             }
@@ -46,9 +51,13 @@ export default function Edit() {
                 {campaign.name}
             </Title>
             <br/>
-            <CampaignEdit form={form} onSubmit={onSubmit}
-                          legend="Datos de la Campania"/>
-
+            <CampaignEditForm form={form} onSubmit={onSubmit}
+                              legend="Datos de la Campania" campaign={campaign}/>
+            <hr/>
+            <Title>
+                Encuestas
+            </Title>
+            <QuizTable rows={quizs} />
         </div>
     )
 }

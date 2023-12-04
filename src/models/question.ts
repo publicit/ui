@@ -16,6 +16,7 @@ export class Question {
 }
 
 export function toQuestion(v: any): Question {
+    if (!v) return new Question()
     return {
         ...v,
         quiz: toQuiz(v.quiz),
