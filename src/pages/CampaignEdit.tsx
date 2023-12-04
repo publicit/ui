@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
 import {useForm} from "@mantine/form";
-import {CampaignLoad, CampaignPut, QuizList} from "../helpers/api"
+import {CampaignDelete, CampaignLoad, CampaignPut, QuizList} from "../helpers/api"
 import {Title} from "@mantine/core";
 import CampaignEditForm from "../components/CampaignEditForm";
 import {notifyErrResponse} from "../components/Errors";
@@ -14,7 +14,7 @@ export default function Edit() {
     const returnURL = "/campaigns"
     const navigate = useNavigate();
     const [campaign, setCampaign] = useState<Campaign>(new Campaign())
-    const [quizs,setQuizs]=useState<Quiz[]>([])
+    const [quizs, setQuizs] = useState<Quiz[]>([])
     const form = useForm<Campaign>({
         initialValues: campaign,
         validate: campaignValidation(),
@@ -25,7 +25,7 @@ export default function Edit() {
                 const data = await CampaignLoad(id)
                 setCampaign(data)
                 form.setValues(data)
-                const quizData:Quiz[] = await QuizList(data)
+                const quizData: Quiz[] = await QuizList(id)
                 setQuizs(quizData)
             } catch (err) {
                 await notifyErrResponse(err)
@@ -45,6 +45,17 @@ export default function Edit() {
     }
 
 
+    async function onDelete() {
+        try {
+            // eslint-disable-next-line no-restricted-globals
+            if (!confirm(`Seguro de eliminar la campaña: ${campaign.name}?`)) return
+            await CampaignDelete(id)
+            navigate(returnURL);
+        } catch (err) {
+            await notifyErrResponse(err)
+        }
+    }
+
     return (
         <div>
             <Title>
@@ -52,12 +63,14 @@ export default function Edit() {
             </Title>
             <br/>
             <CampaignEditForm form={form} onSubmit={onSubmit}
-                              legend="Datos de la Campania" campaign={campaign}/>
+                              legend="Datos de la Campaña" campaign={campaign}
+                              onDelete={onDelete}
+            />
             <hr/>
             <Title>
                 Encuestas
             </Title>
-            <QuizTable rows={quizs} />
+            <QuizTable rows={quizs}/>
         </div>
     )
 }

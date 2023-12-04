@@ -12,7 +12,6 @@ import {Campaign} from "../models/campaign";
 export default function QuestionNew() {
     const [searchParams] = useSearchParams()
     const quizId = useParams().quiz_id || ""
-    console.info(`useParams(): ${JSON.stringify(useParams())}`)
     const quiz = new Quiz()
     quiz.id = quizId
     quiz.campaign = new Campaign()
@@ -27,7 +26,7 @@ export default function QuestionNew() {
     async function onSubmit(data: Question) {
         try {
             data.quiz = quiz
-            const res = await QuestionPost( data)
+            const res = await QuestionPost(data)
             const returnURL = `/questions/${res.id}`
             navigate(returnURL);
         } catch (err) {
@@ -42,7 +41,8 @@ export default function QuestionNew() {
                 {quiz.name}
             </Title>
             <br/>
-            <QuestionEditForm onSubmit={onSubmit} form={form} legend="Nueva Pregunta" quiz={quiz}/>
+            <QuestionEditForm onSubmit={onSubmit} form={form} legend="Nueva Pregunta" quizId={quizId}
+                              question={question}/>
         </div>
     )
 }

@@ -33,7 +33,7 @@ export default function CampaignNew() {
             </Title>
             <br/>
             <CampaignEditForm form={form} onSubmit={onSubmit}
-                              legend="Nueva Campania" campaign={campaign}/>
+                              legend="Nueva Campaña" campaign={campaign}/>
 
         </div>
     )

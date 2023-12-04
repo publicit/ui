@@ -8,9 +8,10 @@ type params = {
     form: any
     legend: string
     campaign: Campaign
+    onDelete?: any
 }
 
-export default function CampaignEditForm({onSubmit, form, legend, campaign}: params) {
+export default function CampaignEditForm({onSubmit, form, legend, campaign, onDelete}: params) {
     return (
         <>
             <form onSubmit={form.onSubmit((data: any) => {
@@ -45,12 +46,16 @@ export default function CampaignEditForm({onSubmit, form, legend, campaign}: par
                         Guardar
                     </Button>
                     {campaign.id &&
-                        <Button type="button" variant="outline">
-                            <Link to={`/quizs/new/${campaign.id}`}>
-                                Agregar Encuesta
-                            </Link>
-                        </Button>
-
+                        <Group>
+                            <Button type="button" variant="outline">
+                                <Link to={`/quizs/new/${campaign.id}`}>
+                                    Agregar Encuesta
+                                </Link>
+                            </Button>
+                            <Button type="button" variant="outline" onClick={onDelete}>
+                                Eliminar Campaña
+                            </Button>
+                        </Group>
                     }
                 </Group>
             </form>

@@ -8,6 +8,7 @@ import CampaignNew from "./pages/CampaignNew";
 import QuizNew from "./pages/QuizNew";
 import QuizEdit from "./pages/QuizEdit";
 import QuestionNew from "./pages/QuestionNew";
+import QuestionEdit from "./pages/QuestionEdit"
 
 type params = {
     profile: UserProfile | undefined
@@ -23,7 +24,8 @@ export default function RouteSwitcher({profile}: params) {
             <Route path="/campaigns/:id" element={<CampaignEdit/>}/>
             <Route path="/quizs/new/:campaign_id" element={<QuizNew/>}/>
             <Route path="/quizs/:id" element={<QuizEdit/>}/>
-            <Route path="/questions/new/:quiz_id" element={<QuestionNew />}/>
+            <Route path="/questions/new/:quiz_id" element={<QuestionNew/>}/>
+            <Route path="/questions/:id" element={<QuestionEdit/>}/>
         </Routes>
     )
 }

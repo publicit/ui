@@ -1,5 +1,4 @@
-import {Button, Group, Select, Textarea, TextInput, Title} from "@mantine/core";
-import {Quiz} from "../models/quiz";
+import {Button, Group, Select, Textarea, Title} from "@mantine/core";
 import {Link} from "react-router-dom";
 import {Question, QuestionType} from "../models/question";
 
@@ -9,10 +8,10 @@ type params = {
     form: any
     legend: string
     quizId: string
-    question?:Question|undefined
+    question?: Question | undefined
 }
 
-const questionTypes:string[] = [
+const questionTypes: string[] = [
     QuestionType[QuestionType.single],
     QuestionType[QuestionType.multiple],
 ]
@@ -30,11 +29,12 @@ export default function QuestionEditForm({onSubmit, form, legend, quizId, onDele
                           minRows={5}
                           maxRows={10}
                           placeholder="Texto de la Pregunta"
-                           {...form.getInputProps("body")}/>
+                          {...form.getInputProps("body")}/>
                 <br/>
                 <Select
                     label="Tipo de Pregunta"
                     data={questionTypes}
+                    disabled={question?.id}
                     {...form.getInputProps("type")}
                 />
                 <br/>

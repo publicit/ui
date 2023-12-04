@@ -1,20 +1,20 @@
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {Campaign} from "../models/campaign";
 import {useForm} from "@mantine/form";
-import {QuizDelete, QuizLoad, QuizPut} from "../helpers/api"
+import {QuestionList, QuizDelete, QuizLoad, QuizPut} from "../helpers/api"
 import {Title} from "@mantine/core";
 import {notifyErrResponse} from "../components/Errors";
 import {Quiz, quizValidation} from "../models/quiz";
 import QuizEditForm from "../components/QuizEditForm";
+import QuestionTable from "../components/QuestionTable";
+import {Question} from "../models/question";
 
 export default function Edit() {
-    const [searchParams] = useSearchParams()
-    const campaignId =useParams().campaign_id || ""
-    const returnURL = `/campaigns/${campaignId}`
     const id = useParams().id || ""
     const navigate = useNavigate();
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
+    const [questions, setQuestions] = useState<Question[]>([])
+    const [returnUrl, setReturnUrl] = useState<string>("")
     const form = useForm<Quiz>({
         initialValues: quiz,
         validate: quizValidation(),
@@ -22,11 +22,12 @@ export default function Edit() {
     useEffect(() => {
         async function loadData(id: string) {
             try {
-                const c = new Campaign()
-                c.id = campaignId
-                const data = await QuizLoad(c, id)
+                const data = await QuizLoad(id)
                 setQuiz(data)
                 form.setValues(data)
+                const res = await QuestionList(id)
+                setQuestions(res)
+                setReturnUrl(`/campaigns/${data.campaign.id}`)
             } catch (err) {
                 await notifyErrResponse(err)
             }
@@ -37,8 +38,8 @@ export default function Edit() {
 
     async function onSubmit(data: Quiz) {
         try {
-            await QuizPut(campaign, data)
-            navigate(returnURL);
+            await QuizPut(data)
+            navigate(returnUrl);
         } catch (err) {
             await notifyErrResponse(err)
         }
@@ -47,9 +48,9 @@ export default function Edit() {
     async function onDelete() {
         try {
             // eslint-disable-next-line no-restricted-globals
-            if(!confirm(`Seguro de eliminar la encuesta: ${quiz.name}?`)) return
-            await QuizDelete(campaign, id)
-            navigate(returnURL);
+            if (!confirm(`Seguro de eliminar la encuesta: ${quiz.name}?`)) return
+            await QuizDelete(id)
+            navigate(returnUrl);
         } catch (err) {
             await notifyErrResponse(err)
         }
@@ -62,7 +63,8 @@ export default function Edit() {
             </Title>
             <br/>
             <QuizEditForm onSubmit={onSubmit} form={form} legend="Datos de la Encuesta" quiz={quiz}
-                          campaign={campaign} onDelete={onDelete}/>
+                          campaignId={quiz.campaign.id} onDelete={onDelete}/>
+            <QuestionTable rows={questions}/>
         </div>
     )
 }
