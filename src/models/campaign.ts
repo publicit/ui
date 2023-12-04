@@ -24,6 +24,7 @@ export class Campaign {
 }
 
 export function toCampaign(v: any): Campaign {
+    if (!v) return new Campaign()
     return {
         ...v,
         start_date: truncateTime(new Date(v["start_date"])),

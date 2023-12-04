@@ -1,16 +1,16 @@
 import CampaignCards from "../components/CampaignCards";
 import {useEffect, useState} from "react";
 import {Campaign} from "../models/campaign";
-import {GetCampaignList} from "../helpers/api";
+import {CampaignList} from "../helpers/api";
 import {isLoggedIn} from "../helpers/sso_service";
 
 
-export default function CampaignList() {
+export default function CampaignsList() {
     const [rows, setRows] = useState<Campaign[]>([])
     useEffect(() => {
         async function loadData() {
             try {
-                const data = await GetCampaignList()
+                const data = await CampaignList()
                 setRows(data)
             } catch (e) {
                 console.error(e)

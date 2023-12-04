@@ -2,13 +2,12 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
 import {useForm} from "@mantine/form";
-import {PostCampaign} from "../helpers/api"
+import {CampaignPost} from "../helpers/api"
 import {Title} from "@mantine/core";
-import CampaignEdit from "../components/CampaignEdit";
+import CampaignEditForm from "../components/CampaignEditForm";
 import {notifyErrResponse} from "../components/Errors";
 
 export default function CampaignNew() {
-    const returnURL = "/campaigns"
     const navigate = useNavigate();
     const [campaign] = useState<Campaign>(new Campaign())
     const form = useForm<Campaign>({
@@ -18,7 +17,8 @@ export default function CampaignNew() {
 
     async function onSubmit(data: Campaign) {
         try {
-            await PostCampaign(cleanCampaign(data))
+            const res = await CampaignPost(cleanCampaign(data))
+            const returnURL = `/campaigns/${res.id}`
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
@@ -32,8 +32,8 @@ export default function CampaignNew() {
                 {campaign.name}
             </Title>
             <br/>
-            <CampaignEdit form={form} onSubmit={onSubmit}
-                          legend="Nueva Campania"/>
+            <CampaignEditForm form={form} onSubmit={onSubmit}
+                              legend="Nueva Campaña" campaign={campaign}/>
 
         </div>
     )

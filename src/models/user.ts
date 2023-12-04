@@ -10,7 +10,8 @@ export class User {
     }
 }
 
-export function toUser(v: any):User{
+export function toUser(v: any): User {
+    if (!v) return new User()
     return {
         ...v,
     }
