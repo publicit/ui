@@ -1,6 +1,11 @@
 import {trimAll} from "../helpers/text_utils";
 import {Quiz, toQuiz} from "./quiz";
 
+export enum QuestionType {
+    single,
+    multiple,
+}
+
 export class Question {
     id: string
     body: string
@@ -10,8 +15,8 @@ export class Question {
     constructor() {
         this.id = ""
         this.body = ""
-        this.type = "single"
         this.quiz = new Quiz()
+        this.type = QuestionType[QuestionType.single]
     }
 }
 

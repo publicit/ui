@@ -9,9 +9,6 @@ import {Quiz, quizValidation} from "../models/quiz";
 import QuizEditForm from "../components/QuizEditForm";
 
 export default function Edit() {
-    const campaignId = useParams().campaign_id || ""
-    const campaign = new Campaign()
-    campaign.id = campaignId
     const returnURL = `/campaigns/${campaignId}`
     const id = useParams().id || ""
     const navigate = useNavigate();

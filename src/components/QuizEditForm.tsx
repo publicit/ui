@@ -40,7 +40,7 @@ export default function QuizEditForm({onSubmit, form, legend, quiz, campaign, on
                     {quiz.id &&
                         <Group>
                             <Button type="button" variant="outline">
-                                <Link to={`/quiz/new/${quiz.id}`}>
+                                <Link to={`/questions/new/${quiz.id}`}>
                                     Agregar Pregunta
                                 </Link>
                             </Button>

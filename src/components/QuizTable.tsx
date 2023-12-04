@@ -18,7 +18,7 @@ function QuizRow({quiz}: RowParams) {
             </Table.Td>
             <Table.Td>
                 <Button type="button" variant="outline">
-                    <Link to={`/quizs/${quiz.campaign.id}/${quiz.id}`}>
+                    <Link to={`/quizs/${quiz.id}`}>
                         Editar
                     </Link>
                 </Button>
@@ -37,7 +37,7 @@ export default function QuizTable({rows}: Params) {
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.map((r: Quiz) => <QuizRow quiz={r}/>)}
+                {rows.map((r: Quiz) => <QuizRow key={r.id} quiz={r}/>)}
             </Table.Tbody>
         </Table>
     )

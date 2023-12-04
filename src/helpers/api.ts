@@ -42,8 +42,8 @@ async function QuizPost(campaign: Campaign, quiz: Quiz) {
     return toQuiz(res.data)
 }
 
-async function QuizLoad(campaign: Campaign, id: string) {
-    const res = await instance.get(`/v1/quizs/${campaign.id}/${id}`)
+async function QuizLoad(id: string) {
+    const res = await instance.get(`/v1/quizs/${id}`)
     return toQuiz(res.data)
 }
 
