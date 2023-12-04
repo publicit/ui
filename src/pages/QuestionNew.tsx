@@ -27,8 +27,8 @@ export default function QuestionNew() {
     async function onSubmit(data: Question) {
         try {
             data.quiz = quiz
-            const res = await QuestionPost(quiz, data)
-            const returnURL = `/questions/${quizId}/${res.id}`
+            const res = await QuestionPost( data)
+            const returnURL = `/questions/${res.id}`
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)

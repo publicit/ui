@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Campaign} from "../models/campaign";
 import {useForm} from "@mantine/form";
@@ -9,6 +9,8 @@ import {Quiz, quizValidation} from "../models/quiz";
 import QuizEditForm from "../components/QuizEditForm";
 
 export default function Edit() {
+    const [searchParams] = useSearchParams()
+    const campaignId =useParams().campaign_id || ""
     const returnURL = `/campaigns/${campaignId}`
     const id = useParams().id || ""
     const navigate = useNavigate();

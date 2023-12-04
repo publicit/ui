@@ -10,8 +10,6 @@ import {Campaign} from "../models/campaign";
 
 export default function QuizNew() {
     const campaignId = useParams().campaign_id || ""
-    const campaign = new Campaign()
-    campaign.id = campaignId
     const navigate = useNavigate();
     const [quiz] = useState<Quiz>(new Quiz())
     const form = useForm<Quiz>({
@@ -21,9 +19,11 @@ export default function QuizNew() {
 
     async function onSubmit(data: Quiz) {
         try {
+            const campaign = new Campaign()
+            campaign.id = campaignId
             data.campaign = campaign
-            const res: Quiz = await QuizPost(campaign, data)
-            const returnURL: string = `/quizs/${campaignId}/${res.id}`
+            const res: Quiz = await QuizPost(data)
+            const returnURL: string = `/quizs/${res.id}`
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
@@ -37,7 +37,7 @@ export default function QuizNew() {
                 {quiz.name}
             </Title>
             <br/>
-            <QuizEditForm onSubmit={onSubmit} form={form} legend="Nueva Encuesta" quiz={quiz} campaign={campaign}/>
+            <QuizEditForm onSubmit={onSubmit} form={form} legend="Nueva Encuesta" quiz={quiz} campaignId={campaignId}/>
         </div>
     )
 }

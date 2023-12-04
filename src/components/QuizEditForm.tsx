@@ -1,6 +1,5 @@
 import {Button, Group, TextInput} from "@mantine/core";
 import {Quiz} from "../models/quiz";
-import {Campaign} from "../models/campaign";
 import {Link} from "react-router-dom";
 
 type params = {
@@ -9,10 +8,10 @@ type params = {
     form: any
     legend: string
     quiz: Quiz
-    campaign: Campaign
+    campaignId: string
 }
 
-export default function QuizEditForm({onSubmit, form, legend, quiz, campaign, onDelete}: params) {
+export default function QuizEditForm({onSubmit, form, legend, quiz, campaignId, onDelete}: params) {
     return (
         <>
             <form onSubmit={form.onSubmit((data: any) => {
@@ -33,7 +32,7 @@ export default function QuizEditForm({onSubmit, form, legend, quiz, campaign, on
                         Guardar
                     </Button>
                     <Button type="button" variant="outline">
-                        <Link to={`/campaigns/${campaign.id}`}>
+                        <Link to={`/campaigns/${campaignId}`}>
                             Regresar
                         </Link>
                     </Button>

@@ -8,7 +8,7 @@ type params = {
     onDelete?: any | undefined
     form: any
     legend: string
-    quiz: Quiz
+    quizId: string
     question?:Question|undefined
 }
 
@@ -17,7 +17,7 @@ const questionTypes:string[] = [
     QuestionType[QuestionType.multiple],
 ]
 
-export default function QuestionEditForm({onSubmit, form, legend, quiz, onDelete, question}: params) {
+export default function QuestionEditForm({onSubmit, form, legend, quizId, onDelete, question}: params) {
     return (
         <>
             <Title>{legend}</Title>
@@ -43,14 +43,14 @@ export default function QuestionEditForm({onSubmit, form, legend, quiz, onDelete
                         Guardar
                     </Button>
                     <Button type="button" variant="outline">
-                        <Link to={`/quizs/${quiz.campaign.id}/${quiz.id}`}>
+                        <Link to={`/quizs/${quizId}`}>
                             Regresar
                         </Link>
                     </Button>
                     {question?.id &&
                         <Group>
                             <Button type="button" variant="outline">
-                                <Link to={`/quizs/${quiz.id}`}>
+                                <Link to={`/answers/new/${question.id}`}>
                                     Agregar Respuesta
                                 </Link>
                             </Button>
