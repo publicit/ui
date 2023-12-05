@@ -45,7 +45,7 @@ export default function Edit() {
 
     return (
         <>
-            <ProfileForm onSubmit={onSubmit} form={form}
+            <ProfileForm onSubmit={onSubmit} form={form} email={user.email}
                          legend={`${userRegistration.first_name} ${userRegistration.last_name}`}/>
         </>
     )

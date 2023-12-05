@@ -8,6 +8,7 @@ type params = {
     onSubmit: any
     form: UseFormReturnType<UserRegistration>
     legend: string
+    email?: string | undefined
 }
 
 const userSex: string[] = [
@@ -17,10 +18,11 @@ const userSex: string[] = [
 ]
 
 export default function ProfileForm({
-                                                 onSubmit,
-                                                 form,
-                                                 legend,
-                                             }: params) {
+                                        onSubmit,
+                                        form,
+                                        legend,
+                                        email,
+                                    }: params) {
     return (
         <>
             <Title>{legend}</Title>
@@ -36,6 +38,11 @@ export default function ProfileForm({
                            placeholder="Apellidos"
                            {...form.getInputProps("last_name")}/>
                 <br/>
+                <TextInput label="Email"
+                           value={email}
+                           disabled
+                />
+                <br/>
                 <TextInput label="Telefono"
                            placeholder="Telefono"
                            {...form.getInputProps("phone_number")}/>
@@ -46,7 +53,7 @@ export default function ProfileForm({
                 <Select
                     label="Sexo"
                     data={userSex}
-                    comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 } }}
+                    comboboxProps={{transitionProps: {transition: 'pop', duration: 200}}}
                     {...form.getInputProps("sex")}
                 />
                 <br/>
