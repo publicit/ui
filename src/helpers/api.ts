@@ -3,6 +3,8 @@ import {Campaign, toCampaign} from "../models/campaign";
 import {Quiz, toQuiz} from "../models/quiz";
 import {Question, toQuestion} from "../models/question";
 import {Answer, toAnswer} from "../models/answer";
+import {toUserRegistration, UserRegistration} from "../models/user_registration";
+import {toUser} from "../models/user";
 
 // Campaign
 async function CampaignList() {
@@ -111,6 +113,21 @@ async function AnswerDelete(id:string) {
     return toAnswer(res.data)
 }
 
+async function UserRegistrationPost(userRegistration:UserRegistration){
+    const res = await instance.post(`/v1/user-registration`,userRegistration)
+    return toUserRegistration(res.data)
+}
+
+async function UserRegistrationLoad(userId:string){
+    const res = await instance.get(`/v1/user-registration/${userId}`)
+    return toUserRegistration(res.data)
+}
+
+async function UserWhoAmi(){
+    const res = await instance.get(`/v1/users/whoami`)
+    return toUser(res.data)
+}
+
 export {
     AnswerLoad,
     AnswerList,
@@ -135,4 +152,8 @@ export {
     QuizLoad,
     QuizPut,
     QuizDelete,
+
+    UserRegistrationPost,
+    UserRegistrationLoad,
+    UserWhoAmi,
 }

@@ -2,11 +2,13 @@ export class User {
     email?: string
     image?: string | undefined
     name?: string
+    id?: string
 
     constructor() {
         this.email = ""
         this.image = ""
         this.name = ""
+        this.id = ""
     }
 }
 
