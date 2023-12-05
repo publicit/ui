@@ -1,6 +1,5 @@
 import {Button, Group, Select, Text, TextInput, Title} from "@mantine/core";
 import {UseFormReturnType} from "@mantine/form";
-import {Answer} from "../models/answer";
 import {DatePickerInput} from "@mantine/dates";
 import {UserRegistration, UserSex} from "../models/user_registration";
 

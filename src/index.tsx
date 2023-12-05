@@ -28,9 +28,7 @@ if (gitTag && gitCommit) {
     })
 }
 
-const theme = createTheme({
-    //  override as needed
-})
+const theme = createTheme({})
 
 
 root.render(

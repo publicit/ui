@@ -31,7 +31,7 @@ export default function Edit() {
         }
 
         loadData()
-    }, [])
+    }, [form])
 
     async function onSubmit(data: UserRegistration) {
         try {

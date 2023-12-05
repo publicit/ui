@@ -1,4 +1,4 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
 import {QuestionPost, QuizLoad} from "../helpers/api"
@@ -7,7 +7,7 @@ import {Quiz} from "../models/quiz";
 import {Question, questionValidation} from "../models/question";
 import QuestionEditForm from "../components/QuestionEditForm";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {Breadcrumbs} from "@mantine/core";
+import {BreadcrumComponent} from "../components/BreadcrumComponent";
 
 export default function QuestionNew() {
     const quizId = useParams().quiz_id || ""
@@ -42,7 +42,7 @@ export default function QuestionNew() {
 
         loadData(quizId)
 
-    }, []);
+    }, [quizId]);
 
     async function onSubmit(data: Question) {
         try {
@@ -58,11 +58,7 @@ export default function QuestionNew() {
 
     return (
         <>
-            <Breadcrumbs>
-                {items.map((item: BreadcrumbItem) => (
-                    <Link to={item.to}>{item.text}</Link>
-                ))}
-            </Breadcrumbs>
+            <BreadcrumComponent items={items}/>
             <br/>
             <QuestionEditForm onSubmit={onSubmit} form={form}
                               question={question}/>

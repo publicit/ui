@@ -1,4 +1,4 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
 import {AnswerList, QuestionDelete, QuestionLoad, QuestionPut} from "../helpers/api"
@@ -8,7 +8,7 @@ import QuestionEditForm from "../components/QuestionEditForm";
 import {Answer} from "../models/answer";
 import AnswerTable from "../components/AnswerTable";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {Breadcrumbs} from "@mantine/core";
+import {BreadcrumComponent} from "../components/BreadcrumComponent";
 
 export default function Edit() {
     const id = useParams().id || ""
@@ -46,7 +46,7 @@ export default function Edit() {
         }
 
         loadData(id)
-    }, [])
+    }, [id, form])
 
     async function onSubmit(data: Question) {
         try {
@@ -70,11 +70,7 @@ export default function Edit() {
 
     return (
         <>
-            <Breadcrumbs>
-                {items.map((item: BreadcrumbItem) => (
-                    <Link to={item.to}>{item.text}</Link>
-                ))}
-            </Breadcrumbs>
+            <BreadcrumComponent items={items}/>
             <br/>
             <QuestionEditForm onSubmit={onSubmit} form={form}
                               question={question} onDelete={onDelete} showDelete={answers.length === 0}/>
