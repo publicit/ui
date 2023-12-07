@@ -17,7 +17,7 @@ function Row({answer}: RowParams) {
                 {answer.body}
             </Table.Td>
             <Table.Td>
-                <Checkbox checked={answer.is_valid} />
+                <Checkbox checked={answer.is_valid} onChange={() => {}} />
             </Table.Td>
             <Table.Td>
                 <Button type="button" variant="outline">

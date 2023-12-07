@@ -38,7 +38,7 @@ export default function QuizNew() {
 
         loadData(campaignId)
 
-    }, [campaignId]);
+    }, []);
 
     async function onSubmit(data: Quiz) {
         try {

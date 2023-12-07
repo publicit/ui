@@ -46,7 +46,7 @@ export default function AnswerNew() {
 
         loadData(questionId)
 
-    }, [questionId]);
+    }, []);
 
     async function onSubmit(data: Answer) {
         try {

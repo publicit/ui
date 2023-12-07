@@ -10,7 +10,7 @@ export function BreadcrumComponent({items}: Params) {
     return (
         <Breadcrumbs>
             {items.map((item: BreadcrumbItem) => (
-                <Link to={item.to}>{item.text}</Link>
+                <Link key={item.to} to={item.to}>{item.text}</Link>
             ))}
         </Breadcrumbs>
     )

@@ -33,7 +33,7 @@ export default function Edit() {
         }
 
         loadData(id)
-    }, [id, form])
+    }, [])
 
     async function onSubmit(data: Campaign) {
         try {

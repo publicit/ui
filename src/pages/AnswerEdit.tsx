@@ -52,7 +52,7 @@ export default function AnswerEdit() {
 
         loadData(id)
 
-    }, [id, form]);
+    }, []);
 
     async function onSubmit(data: Answer) {
         try {

@@ -42,7 +42,7 @@ export default function QuestionNew() {
 
         loadData(quizId)
 
-    }, [quizId]);
+    }, []);
 
     async function onSubmit(data: Question) {
         try {
