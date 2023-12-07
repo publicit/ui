@@ -17,6 +17,9 @@ function QuizRow({quiz}: RowParams) {
                 {quiz.name}
             </Table.Td>
             <Table.Td>
+                {quiz.number_of_questions}
+            </Table.Td>
+            <Table.Td>
                 <Button type="button" variant="outline">
                     <Link to={`/quizs/${quiz.id}`}>
                         Editar
@@ -33,6 +36,7 @@ export default function QuizTable({rows}: Params) {
             <Table.Thead>
                 <Table.Tr>
                     <Table.Th>Nombre de Encuesta</Table.Th>
+                    <Table.Th>Numero de Preguntas</Table.Th>
                     <Table.Th></Table.Th>
                 </Table.Tr>
             </Table.Thead>
