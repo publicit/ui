@@ -28,7 +28,9 @@ if (gitTag && gitCommit) {
     })
 }
 
-const theme = createTheme({})
+const theme = createTheme({
+    cursorType: 'pointer',
+})
 
 
 root.render(

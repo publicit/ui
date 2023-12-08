@@ -1,5 +1,5 @@
 import {Code, Group, NavLink, rem, ScrollArea} from '@mantine/core';
-import {IconGauge, IconNotes, IconUser,} from '@tabler/icons-react';
+import {IconBellQuestion, IconGauge, IconNotes, IconUser,} from '@tabler/icons-react';
 import {UserButton} from './UserButton';
 import {LinksGroup} from './NavbarLinksGroup';
 import Logo from './Logo';
@@ -50,6 +50,19 @@ const menuData: MenuGroup[] = [
             {
                 label: 'Nueva Campaña',
                 link: '/campaigns/new',
+                authenticated: true,
+            },
+        ],
+    },
+    {
+        label:"Encuestas",
+        authenticated:true,
+        initiallyOpened:true,
+        icon:IconBellQuestion,
+        links:[
+            {
+                label: 'Mis Encuestas',
+                link: '/user/quizs',
                 authenticated: true,
             },
         ],
