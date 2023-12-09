@@ -1,14 +1,15 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
 import {CampaignLoad, QuestionList, QuizDelete, QuizLoad, QuizPut} from "../helpers/api"
-import {Title} from "@mantine/core";
 import {notifyErrResponse} from "../components/Errors";
 import {Quiz, quizValidation} from "../models/quiz";
 import QuizEditForm from "../components/QuizEditForm";
 import QuestionTable from "../components/QuestionTable";
 import {Question} from "../models/question";
 import {Campaign} from "../models/campaign";
+import {BreadcrumbItem} from "../models/breadcrumbItem";
+import {BreadcrumComponent} from "../components/BreadcrumComponent";
 
 export default function Edit() {
     const id = useParams().id || ""
@@ -20,6 +21,7 @@ export default function Edit() {
         initialValues: quiz,
         validate: quizValidation(),
     })
+    const [items, setItems] = useState<BreadcrumbItem[]>([])
     useEffect(() => {
         async function loadData(id: string) {
             try {
@@ -30,6 +32,12 @@ export default function Edit() {
                 setQuestions(res)
                 const resCampaign = await CampaignLoad(data.campaign.id)
                 setCampaign(resCampaign)
+                setItems([
+                    {
+                        text: resCampaign.name,
+                        to: `/campaigns/${resCampaign.id}`
+                    }
+                ])
             } catch (err) {
                 await notifyErrResponse(err)
             }
@@ -62,11 +70,7 @@ export default function Edit() {
 
     return (
         <div>
-            <Title>
-                <Link to={`/campaigns/${campaign.id}`}>
-                    {campaign.name}
-                </Link>
-            </Title>
+            <BreadcrumComponent items={items}/>
             <br/>
             <QuizEditForm onSubmit={onSubmit} form={form} legend="Datos de la Encuesta" quiz={quiz}
                           onDelete={onDelete} showDelete={questions.length === 0}/>

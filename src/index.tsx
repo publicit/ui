@@ -29,7 +29,7 @@ if (gitTag && gitCommit) {
 }
 
 const theme = createTheme({
-    //  override as needed
+    cursorType: 'pointer',
 })
 
 

@@ -1,4 +1,4 @@
-import {Button, Group, TextInput} from "@mantine/core";
+import {Button, Group, NumberInput, TextInput} from "@mantine/core";
 import {Quiz} from "../models/quiz";
 import {Link} from "react-router-dom";
 
@@ -11,7 +11,7 @@ type params = {
     showDelete?: boolean
 }
 
-export default function QuizEditForm({onSubmit, form, legend, quiz,  onDelete, showDelete = false}: params) {
+export default function QuizEditForm({onSubmit, form, legend, quiz, onDelete, showDelete = false}: params) {
     return (
         <>
             <form onSubmit={form.onSubmit((data: any) => {
@@ -26,6 +26,10 @@ export default function QuizEditForm({onSubmit, form, legend, quiz,  onDelete, s
                 <TextInput label="Video URL"
                            placeholder="URL Video"
                            {...form.getInputProps("video_url")}/>
+                <br/>
+                <NumberInput label="Numero de Preguntas"
+                             placeholder="Numero de Preguntas"
+                             {...form.getInputProps("number_of_questions")}/>
                 <br/>
                 <Group>
                     <Button type="submit" variant="outline">

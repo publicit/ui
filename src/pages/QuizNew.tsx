@@ -1,13 +1,14 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
 import {CampaignLoad, QuizPost} from "../helpers/api"
-import {Breadcrumbs, Title} from "@mantine/core";
+import {Title} from "@mantine/core";
 import {notifyErrResponse} from "../components/Errors";
 import {Quiz, quizValidation} from "../models/quiz";
 import QuizEditForm from "../components/QuizEditForm";
 import {Campaign} from "../models/campaign";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
+import {BreadcrumComponent} from "../components/BreadcrumComponent";
 
 export default function QuizNew() {
     const campaignId = useParams().campaign_id || ""
@@ -18,6 +19,7 @@ export default function QuizNew() {
         initialValues: quiz,
         validate: quizValidation(),
     })
+
 
     useEffect(() => {
         async function loadData(id: string) {
@@ -54,11 +56,7 @@ export default function QuizNew() {
 
     return (
         <>
-            <Breadcrumbs>
-                {items.map((item: BreadcrumbItem) => (
-                    <Link to={item.to}>{item.text}</Link>
-                ))}
-            </Breadcrumbs>
+            <BreadcrumComponent items={items}/>
             <br/>
             <Title>
                 {quiz.name}

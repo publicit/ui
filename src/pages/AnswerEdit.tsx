@@ -1,4 +1,4 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
 import {AnswerDelete, AnswerLoad, AnswerPut} from "../helpers/api"
@@ -7,7 +7,7 @@ import {Question} from "../models/question";
 import {Answer, answerValidation} from "../models/answer";
 import AnswerEditForm from "../components/AnswerEditForm";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {Breadcrumbs} from "@mantine/core";
+import {BreadcrumComponent} from "../components/BreadcrumComponent";
 
 export default function AnswerEdit() {
     const id = useParams().id || ""
@@ -20,7 +20,7 @@ export default function AnswerEdit() {
         validate: answerValidation(),
     })
 
-    function returnUrl(){
+    function returnUrl() {
         return `/questions/${question.id}`
     }
 
@@ -78,11 +78,7 @@ export default function AnswerEdit() {
 
     return (
         <div>
-            <Breadcrumbs>
-                {items.map((item: BreadcrumbItem) => (
-                    <Link to={item.to}>{item.text}</Link>
-                ))}
-            </Breadcrumbs>
+            <BreadcrumComponent items={items}/>
             <br/>
             <AnswerEditForm onSubmit={onSubmit} form={form} legend={answer.body}
                             answer={answer} onDelete={onDelete}/>

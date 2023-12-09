@@ -1,13 +1,13 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
 import {AnswerPost, QuestionLoad} from "../helpers/api"
-import {Breadcrumbs} from "@mantine/core";
 import {notifyErrResponse} from "../components/Errors";
 import {Question} from "../models/question";
 import {Answer, answerValidation} from "../models/answer";
 import AnswerEditForm from "../components/AnswerEditForm";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
+import {BreadcrumComponent} from "../components/BreadcrumComponent";
 
 export default function AnswerNew() {
     const questionId = useParams().question_id || ""
@@ -62,11 +62,7 @@ export default function AnswerNew() {
 
     return (
         <div>
-            <Breadcrumbs>
-                {items.map((item: BreadcrumbItem) => (
-                    <Link to={item.to}>{item.text}</Link>
-                ))}
-            </Breadcrumbs>
+            <BreadcrumComponent items={items}/>
             <br/>
             <AnswerEditForm onSubmit={onSubmit} form={form} legend="Nueva Respuesta"
                             answer={answer}/>

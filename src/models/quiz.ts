@@ -6,12 +6,14 @@ export class Quiz {
     name: string
     video_url: string
     campaign: Campaign
+    number_of_questions: number
 
     constructor() {
         this.id = ""
         this.name = ""
         this.video_url = ""
         this.campaign = new Campaign()
+        this.number_of_questions = 1
     }
 }
 
@@ -28,5 +30,6 @@ export function quizValidation() {
     return {
         name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
         video_url: (value: string) => trimAll(value).length === 0 ? "Video es mandatorio" : null,
+        number_of_questions: (value: number) => value <= 0 ? "Minimo numero de preguntas es 1" : null,
     }
 }
