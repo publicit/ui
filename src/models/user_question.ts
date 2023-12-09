@@ -36,7 +36,7 @@ export function questionValidation() {
 }
 
 export type UserNextQuestion = {
-    user_question: UserQuestion
-    user_answers: UserAnswer[]
+    user_question: UserQuestion | undefined
+    user_answers: UserAnswer[] | undefined
     user_quiz: UserQuiz
 }

@@ -1,12 +1,12 @@
 import instance from "./axios"
 import {Campaign, toCampaign} from "../models/campaign";
 import {Quiz, toQuiz} from "../models/quiz";
-import {Question, QuestionType, toQuestion} from "../models/question";
+import {Question, toQuestion} from "../models/question";
 import {Answer, toAnswer} from "../models/answer";
 import {toUserRegistration, UserRegistration} from "../models/user_registration";
 import {toUser} from "../models/user";
 import {toUserQuiz, UserQuiz} from "../models/user_quiz";
-import {toUserQuestion, UserNextQuestion} from "../models/user_question";
+import {UserNextQuestion} from "../models/user_question";
 
 // Campaign
 async function CampaignList() {
@@ -140,6 +140,17 @@ async function UserQuizNextQuestion(userQuiz: UserQuiz) {
     return res.data as UserNextQuestion
 }
 
+type UserQuestionSendAnswersParams = {
+    quizId: string
+    questionId: string
+    answers: string[]
+}
+
+async function UserQuestionSendAnswers({questionId, quizId, answers}: UserQuestionSendAnswersParams) {
+    const res = await instance.put(`/v1/users/quizs/${quizId}/questions/${questionId}/answers`, answers)
+    return res.data as UserNextQuestion
+}
+
 export {
     AnswerLoad,
     AnswerList,
@@ -167,6 +178,7 @@ export {
 
     UserQuizList,
     UserQuizNextQuestion,
+    UserQuestionSendAnswers,
 
     UserRegistrationPost,
     UserRegistrationLoad,
