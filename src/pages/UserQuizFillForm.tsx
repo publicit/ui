@@ -10,8 +10,8 @@ import {QuestionType} from "../models/question";
 
 export default function UserQuizFillForm() {
     const navigate = useNavigate()
-    const returnUrl = "/user/quizs"
     const userQuestionId = useParams().id || ""
+    const returnUrl = `/user/quizs/${userQuestionId}/summary`
     const [userQuestion, setUserQuestion] = useState<UserQuestion>(new UserQuestion())
     const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([])
     const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
@@ -82,10 +82,16 @@ export default function UserQuizFillForm() {
 
     return (
         <div>
+            <Text style={{
+                fontSize: "2.5em",
+            }}>
+                {userQuiz.quiz.name}
+            </Text>
+            <br/>
             <Progress value={userQuiz.percent_completed * 100}/>
             <br/>
             <Text style={{
-                fontSize: "2em",
+                fontSize: "1.75em",
             }}>
                 {userQuestion.question.body}
             </Text>
@@ -130,6 +136,11 @@ export default function UserQuizFillForm() {
                         disabled={!isSubmitEnabled()}
                 >
                     Siguiente
+                </Button>
+                <Button type="button" variant="outline"
+                        onClick={() => navigate(`/user/quizs/${userQuiz.id}/summary`)}
+                >
+                    Regresar
                 </Button>
             </Group>
         </div>

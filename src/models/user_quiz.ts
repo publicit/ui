@@ -1,6 +1,7 @@
 import {trimAll, truncateTime} from "../helpers/text_utils";
 import {Quiz, toQuiz} from "./quiz";
 import {toUser, User} from "./user";
+import {UserQuestion} from "./user_question";
 
 export class UserQuiz {
     id: string
@@ -39,4 +40,10 @@ export function userQuizValidation() {
     return {
         name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
     }
+}
+
+
+export type UserQuizSummary = {
+    user_questions:UserQuestion[]
+    user_quiz:UserQuiz
 }

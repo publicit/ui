@@ -12,7 +12,8 @@ type Params = {
 export default function UserQuizCard({uq}: Params) {
     function resolveLabel(status: string): string {
         switch (status) {
-            case "completed":
+            case "success":
+            case "failed":
                 return "Ver"
             case "pending":
                 return "Comenzar"
@@ -23,10 +24,12 @@ export default function UserQuizCard({uq}: Params) {
         }
     }
 
-    function resolveStatus(status:string):string{
+    function resolveStatus(status: string): string {
         switch (status) {
-            case "completed":
+            case "success":
                 return "Completado"
+            case "failed":
+                return "Incorrecto"
             case "pending":
                 return "Pendiente"
             case "started":
@@ -49,13 +52,23 @@ export default function UserQuizCard({uq}: Params) {
                     {resolveStatus(uq.status)}
                 </Badge>
             </Group>
-            <Progress value={uq.percent_completed * 100} />
-            <Button
-                variant="outline" color="blue" fullWidth mt="md" radius="md"
-                component={Link} to={`/user/quizs/${uq.id}`}
-            >
-                {resolveLabel(uq.status)}
-            </Button>
+            <Progress value={uq.percent_completed * 100}/>
+            <Group>
+                <Button
+                    variant="outline" color="blue" fullWidth mt="md" radius="md"
+                    component={Link} to={`/user/quizs/${uq.id}/summary`}
+                >
+                    Ver
+                </Button>
+                {uq.percent_completed !== 1 &&
+                    <Button
+                        variant="outline" color="blue" fullWidth mt="md" radius="md"
+                        component={Link} to={`/user/quizs/${uq.id}`}
+                    >
+                        {resolveLabel(uq.status)}
+                    </Button>
+                }
+            </Group>
         </Card>
     )
 }
