@@ -35,13 +35,6 @@ export function toUserQuiz(v: any): UserQuiz {
 }
 
 
-// TODO: check if function ever is used
-export function userQuizValidation() {
-    return {
-        name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
-    }
-}
-
 
 export type UserQuizSummary = {
     user_questions:UserQuestion[]
