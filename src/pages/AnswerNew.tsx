@@ -65,7 +65,7 @@ export default function AnswerNew() {
             <BreadcrumComponent items={items}/>
             <br/>
             <AnswerEditForm onSubmit={onSubmit} form={form} legend="Nueva Respuesta"
-                            answer={answer}/>
+                            answer={answer} canEdit={true}/>
         </div>
     )
 }

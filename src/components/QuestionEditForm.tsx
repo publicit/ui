@@ -9,6 +9,7 @@ type params = {
     form: UseFormReturnType<Question>
     question: Question
     showDelete?: boolean
+    canEdit: boolean
 }
 
 const questionTypes: string[] = [
@@ -21,7 +22,8 @@ export default function QuestionEditForm({
                                              form,
                                              onDelete,
                                              question,
-                                             showDelete = false
+                                             showDelete = false,
+                                             canEdit,
                                          }: params) {
     return (
         <>
@@ -34,12 +36,13 @@ export default function QuestionEditForm({
                           minRows={5}
                           maxRows={10}
                           placeholder="Texto de la Pregunta"
+                          disabled={!canEdit}
                           {...form.getInputProps("body")}/>
                 <br/>
                 <Select
                     label="Tipo de Pregunta"
                     data={questionTypes}
-                    disabled={!!question.id}
+                    disabled={!!question.id || !canEdit}
                     comboboxProps={{transitionProps: {transition: 'pop', duration: 200}}}
                     {...form.getInputProps("type")}
                 />
@@ -49,25 +52,27 @@ export default function QuestionEditForm({
                     : <Text size="xs">Puede haber una o mas respuestas correctas.</Text>
                 }
                 <br/>
-                <Group>
-                    <Button type="submit" variant="outline">
-                        Guardar
-                    </Button>
-                    {question?.id &&
-                        <Group>
-                            <Button type="button" variant="outline">
-                                <Link to={`/answers/new/${question.id}`}>
-                                    Agregar Respuesta
-                                </Link>
-                            </Button>
-                            {showDelete &&
-                                <Button type="button" variant="outline" onClick={onDelete}>
-                                    Eliminar Pregunta
+                {canEdit &&
+                    <Group>
+                        <Button type="submit" variant="outline">
+                            Guardar
+                        </Button>
+                        {question?.id &&
+                            <Group>
+                                <Button type="button" variant="outline">
+                                    <Link to={`/answers/new/${question.id}`}>
+                                        Agregar Respuesta
+                                    </Link>
                                 </Button>
-                            }
-                        </Group>
-                    }
-                </Group>
+                                {showDelete &&
+                                    <Button type="button" variant="outline" onClick={onDelete}>
+                                        Eliminar Pregunta
+                                    </Button>
+                                }
+                            </Group>
+                        }
+                    </Group>
+                }
             </form>
         </>
     )

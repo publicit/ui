@@ -8,6 +8,7 @@ type params = {
     form: UseFormReturnType<Answer>
     legend: string
     answer: Answer
+    canEdit: boolean
 }
 
 
@@ -17,6 +18,7 @@ export default function AnswerEditForm({
                                            legend,
                                            onDelete,
                                            answer,
+                                           canEdit,
                                        }: params) {
     return (
         <>
@@ -30,27 +32,31 @@ export default function AnswerEditForm({
                           minRows={5}
                           maxRows={10}
                           placeholder="Texto de la Respuesta"
+                          disabled={!canEdit}
                           {...form.getInputProps("body")}/>
                 <br/>
                 <Checkbox
                     label="Respuesta Valida"
+                    disabled={!canEdit}
                     {...form.getInputProps('is_valid', {type: 'checkbox'})}
                 />
                 <br/>
-                <Group>
-                    <Button type="submit" variant="outline">
-                        Guardar
-                    </Button>
-                    {answer?.id &&
-                        <Group>
-                            {answer.id &&
-                                <Button type="button" variant="outline" onClick={onDelete}>
-                                    Eliminar Respuesta
-                                </Button>
-                            }
-                        </Group>
-                    }
-                </Group>
+                {canEdit &&
+                    <Group>
+                        <Button type="submit" variant="outline">
+                            Guardar
+                        </Button>
+                        {answer?.id &&
+                            <Group>
+                                {answer.id &&
+                                    <Button type="button" variant="outline" onClick={onDelete}>
+                                        Eliminar Respuesta
+                                    </Button>
+                                }
+                            </Group>
+                        }
+                    </Group>
+                }
             </form>
         </>
     )

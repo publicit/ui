@@ -19,6 +19,7 @@ export default function Edit() {
     const [returnUrl, setReturnUrl] = useState<string>("")
     const [answers, setAnswers] = useState<Answer[]>([])
     const [items, setItems] = useState<BreadcrumbItem[]>([])
+    const [canEdit,setCanEdit]=useState<boolean>(false)
     const form = useForm<Question>({
         initialValues: question,
         validate: questionValidation(),
@@ -29,6 +30,7 @@ export default function Edit() {
                 const data = await QuestionLoad(id)
                 setQuestion(data)
                 setQuiz(data.quiz)
+                setCanEdit(quiz.status === QuizStatus[QuizStatus.draft])
                 form.setValues(data)
                 setReturnUrl(`/quizs/${data.quiz.id}`)
                 const answerData = await AnswerList(id)
@@ -76,8 +78,8 @@ export default function Edit() {
             <BreadcrumComponent items={items}/>
             <br/>
             <QuestionEditForm onSubmit={onSubmit} form={form}
-                              question={question} onDelete={onDelete} showDelete={answers.length === 0}/>
-            <AnswerTable rows={answers} canEdit={quiz.status === QuizStatus[QuizStatus.draft]}/>
+                              question={question} onDelete={onDelete} showDelete={answers.length === 0} canEdit={canEdit}/>
+            <AnswerTable rows={answers} canEdit={canEdit}/>
         </>
     )
 }

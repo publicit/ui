@@ -12,6 +12,7 @@ import {BreadcrumComponent} from "../components/BreadcrumComponent";
 export default function QuestionNew() {
     const quizId = useParams().quiz_id || ""
     const navigate = useNavigate();
+    const canEdit = true
     const [question] = useState<Question>(new Question())
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
@@ -61,7 +62,7 @@ export default function QuestionNew() {
             <BreadcrumComponent items={items}/>
             <br/>
             <QuestionEditForm onSubmit={onSubmit} form={form}
-                              question={question}/>
+                              question={question} canEdit={canEdit}/>
         </>
     )
 }
