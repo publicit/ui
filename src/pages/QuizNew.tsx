@@ -4,7 +4,7 @@ import {useForm} from "@mantine/form";
 import {CampaignLoad, QuizPost} from "../helpers/api"
 import {Title} from "@mantine/core";
 import {notifyErrResponse} from "../components/Errors";
-import {Quiz, quizValidation} from "../models/quiz";
+import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
 import QuizEditForm from "../components/QuizEditForm";
 import {Campaign} from "../models/campaign";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
@@ -13,7 +13,7 @@ import {BreadcrumComponent} from "../components/BreadcrumComponent";
 export default function QuizNew() {
     const campaignId = useParams().campaign_id || ""
     const navigate = useNavigate();
-    const [quiz] = useState<Quiz>(new Quiz())
+    const [quiz,setQuiz] = useState<Quiz>(new Quiz())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
     const canEdit=true
     const form = useForm<Quiz>({
@@ -32,6 +32,8 @@ export default function QuizNew() {
                         to: `/campaigns/${data.id}`
                     },
                 ])
+                quiz.status = QuizStatus[QuizStatus.draft]
+                setQuiz(quiz)
             } catch (err) {
                 await notifyErrResponse(err)
             }
