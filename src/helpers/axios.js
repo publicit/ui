@@ -1,6 +1,5 @@
 import axios from "axios";
-import {isLoggedIn, loadUserProfile, saveUserProfile} from "./sso_service"
-import {useGoogleLogin} from "@react-oauth/google";
+import {isLoggedIn, loadUserProfile} from "./sso_service"
 
 const baseURL = process.env.REACT_APP_BASE_API_URL;
 

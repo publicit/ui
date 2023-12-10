@@ -5,7 +5,7 @@ import {Question, toQuestion} from "../models/question";
 import {Answer, toAnswer} from "../models/answer";
 import {toUserRegistration, UserRegistration} from "../models/user_registration";
 import {toUser} from "../models/user";
-import {toUserQuiz, UserQuiz} from "../models/user_quiz";
+import {toUserQuiz, UserQuiz, UserQuizSummary} from "../models/user_quiz";
 import {UserNextQuestion} from "../models/user_question";
 
 // Campaign
@@ -151,6 +151,11 @@ async function UserQuestionSendAnswers({questionId, quizId, answers}: UserQuesti
     return res.data as UserNextQuestion
 }
 
+async function GetUserQuizSummary(userQuizId: string) {
+    const res = await instance.get(`/v1/users/quizs/${userQuizId}/summary`)
+    return res.data as UserQuizSummary
+}
+
 export {
     AnswerLoad,
     AnswerList,
@@ -179,6 +184,7 @@ export {
     UserQuizList,
     UserQuizNextQuestion,
     UserQuestionSendAnswers,
+    GetUserQuizSummary,
 
     UserRegistrationPost,
     UserRegistrationLoad,

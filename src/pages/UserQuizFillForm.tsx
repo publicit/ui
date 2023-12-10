@@ -5,13 +5,13 @@ import {UserQuestionSendAnswers, UserQuizNextQuestion} from "../helpers/api";
 import {UserQuiz} from "../models/user_quiz";
 import {UserNextQuestion, UserQuestion} from "../models/user_question";
 import {UserAnswer} from "../models/user_answer";
-import {Button, Checkbox, CheckIcon, Group, Progress, Radio, Text} from "@mantine/core";
+import {Button, Checkbox, CheckIcon, Progress, Radio, Text} from "@mantine/core";
 import {QuestionType} from "../models/question";
 
 export default function UserQuizFillForm() {
     const navigate = useNavigate()
-    const returnUrl = "/user/quizs"
     const userQuestionId = useParams().id || ""
+    const returnUrl = `/user/quizs/${userQuestionId}/summary`
     const [userQuestion, setUserQuestion] = useState<UserQuestion>(new UserQuestion())
     const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([])
     const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
@@ -23,6 +23,8 @@ export default function UserQuizFillForm() {
             navigate(returnUrl)
             return
         }
+        setSelectedAnswers([])
+        setSelectedAnswer("")
         setUserAnswers(data.user_answers)
         setUserQuestion(data.user_question)
         setUserQuiz(data.user_quiz)
@@ -82,10 +84,16 @@ export default function UserQuizFillForm() {
 
     return (
         <div>
+            <Text style={{
+                fontSize: "2.5em",
+            }}>
+                {userQuiz.quiz.name}
+            </Text>
+            <br/>
             <Progress value={userQuiz.percent_completed * 100}/>
             <br/>
             <Text style={{
-                fontSize: "2em",
+                fontSize: "1.75em",
             }}>
                 {userQuestion.question.body}
             </Text>
@@ -124,14 +132,12 @@ export default function UserQuizFillForm() {
                 </>
             }
             <br/>
-            <Group>
-                <Button type="button" variant="outline"
-                        onClick={() => onSubmit()}
-                        disabled={!isSubmitEnabled()}
-                >
-                    Siguiente
-                </Button>
-            </Group>
+            <Button type="button" variant="outline"
+                    onClick={() => onSubmit()}
+                    disabled={!isSubmitEnabled()}
+            >
+                Siguiente
+            </Button>
         </div>
     )
 }

@@ -14,6 +14,7 @@ import AnswerEdit from "./pages/AnswerEdit";
 import ProfileEdit from "./pages/ProfileEdit"
 import UserQuizList from "./pages/UserQuizList"
 import UserQuizFillForm from "./pages/UserQuizFillForm";
+import UserQuizSummaryView from "./pages/UserQuizSummaryView";
 
 type params = {
     profile: UserProfile | undefined
@@ -36,6 +37,7 @@ export default function RouteSwitcher({profile}: params) {
             <Route path="/user/profile" element={<ProfileEdit/>}/>
             <Route path="/user/quizs" element={<UserQuizList/>}/>
             <Route path="/user/quizs/:id" element={<UserQuizFillForm/>}/>
+            <Route path="/user/quizs/:user_quiz_id/summary" element={<UserQuizSummaryView/>}/>
         </Routes>
     )
 }

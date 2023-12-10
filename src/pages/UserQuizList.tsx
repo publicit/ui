@@ -16,7 +16,6 @@ export default function List() {
                 console.error(e)
             }
         }
-
         loadData();
     }, []);
     if (!isLoggedIn()) return null

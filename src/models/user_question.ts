@@ -1,5 +1,4 @@
 import {trimAll} from "../helpers/text_utils";
-import {Quiz, toQuiz} from "./quiz";
 import {toUserQuiz, UserQuiz} from "./user_quiz";
 import {Question} from "./question";
 import {UserAnswer} from "./user_answer";
@@ -7,14 +6,14 @@ import {UserAnswer} from "./user_answer";
 
 export class UserQuestion {
     id: string
-    is_completed: boolean
+    has_correct_answer: boolean
     user_quiz: UserQuiz
     question: Question
 
     constructor() {
         this.id = ""
         this.user_quiz = new UserQuiz()
-        this.is_completed = false
+        this.has_correct_answer = false
         this.question = new Question()
     }
 }
