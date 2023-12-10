@@ -10,9 +10,18 @@ type params = {
     campaign: Campaign
     onDelete?: any
     showDelete?: boolean
+    canEdit: boolean
 }
 
-export default function CampaignEditForm({onSubmit, form, legend, campaign, onDelete, showDelete = false}: params) {
+export default function CampaignEditForm({
+                                             onSubmit,
+                                             form,
+                                             legend,
+                                             campaign,
+                                             onDelete,
+                                             showDelete = false,
+                                             canEdit
+                                         }: params) {
     return (
         <>
             <form onSubmit={form.onSubmit((data: any) => {
@@ -22,30 +31,38 @@ export default function CampaignEditForm({onSubmit, form, legend, campaign, onDe
                 <br/>
                 <TextInput label="Nombre"
                            placeholder="Nombre"
+                           disabled={!canEdit}
                            {...form.getInputProps("name")}/>
                 <br/>
                 <Textarea label="Descripcion"
                           autosize
                           minRows={2}
                           maxRows={5}
+                          disabled={!canEdit}
                           placeholder="Descripcion"
                           {...form.getInputProps("description")}/>
                 <br/>
                 <Text>Fecha de Inicio</Text>
                 <DatePickerInput
+                    disabled={!canEdit}
                     {...form.getInputProps(`start_date`)} />
                 <br/>
                 <Text>Fecha de Fin</Text>
-                <DatePickerInput {...form.getInputProps(`end_date`)} />
+                <DatePickerInput
+                    disabled={!canEdit}
+                    {...form.getInputProps(`end_date`)}  />
                 <br/>
                 <TextInput label="Imagen"
                            placeholder="URL Imagen"
+                           disabled={!canEdit}
                            {...form.getInputProps("image_url")}/>
                 <br/>
                 <Group>
-                    <Button type="submit" variant="outline">
-                        Guardar
-                    </Button>
+                    {canEdit &&
+                        <Button type="submit" variant="outline">
+                            Guardar
+                        </Button>
+                    }
                     {campaign.id &&
                         <Group>
                             <Button type="button" variant="outline">

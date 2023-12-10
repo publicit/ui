@@ -15,6 +15,7 @@ export default function QuizNew() {
     const navigate = useNavigate();
     const [quiz] = useState<Quiz>(new Quiz())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
+    const canEdit=true
     const form = useForm<Quiz>({
         initialValues: quiz,
         validate: quizValidation(),
@@ -62,7 +63,7 @@ export default function QuizNew() {
                 {quiz.name}
             </Title>
             <br/>
-            <QuizEditForm onSubmit={onSubmit} form={form} legend="Nueva Encuesta" quiz={quiz}/>
+            <QuizEditForm onSubmit={onSubmit} form={form} legend="Nueva Encuesta" quiz={quiz} canEdit={canEdit}/>
         </>
     )
 }

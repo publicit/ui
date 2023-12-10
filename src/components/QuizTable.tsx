@@ -15,7 +15,7 @@ function QuizRow({index, quiz}: RowParams) {
     return (
         <Table.Tr key={quiz.id}>
             <Table.Td>
-                {`${index}. ${quiz.name}`}
+                {`${index + 1}. ${quiz.name}`}
             </Table.Td>
             <Table.Td>
                 {quiz.status}
