@@ -1,8 +1,7 @@
-import {Badge, Button, Card, Group, Text} from "@mantine/core";
+import {Badge, Button, Card, Group, Progress, Text} from "@mantine/core";
 import {Link} from "react-router-dom";
 import {LayoutBoard} from "tabler-icons-react";
 import {UserQuiz} from "../models/user_quiz";
-import {Progress} from "@mantine/core";
 
 type Params = {
     uq: UserQuiz
@@ -20,6 +19,7 @@ export default function UserQuizCard({uq}: Params) {
             case "started":
                 return "Continuar"
             default:
+                console.log(status)
                 return ""
         }
     }
@@ -54,12 +54,14 @@ export default function UserQuizCard({uq}: Params) {
             </Group>
             <Progress value={uq.percent_completed * 100}/>
             <Group>
-                <Button
-                    variant="outline" color="blue" fullWidth mt="md" radius="md"
-                    component={Link} to={`/user/quizs/${uq.id}/summary`}
-                >
-                    Ver
-                </Button>
+                {uq.status === "success" || uq.status === "failed" &&
+                    <Button
+                        variant="outline" color="blue" fullWidth mt="md" radius="md"
+                        component={Link} to={`/user/quizs/${uq.id}/summary`}
+                    >
+                        Ver
+                    </Button>
+                }
                 {uq.percent_completed !== 1 &&
                     <Button
                         variant="outline" color="blue" fullWidth mt="md" radius="md"

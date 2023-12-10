@@ -5,7 +5,7 @@ import {UserQuestionSendAnswers, UserQuizNextQuestion} from "../helpers/api";
 import {UserQuiz} from "../models/user_quiz";
 import {UserNextQuestion, UserQuestion} from "../models/user_question";
 import {UserAnswer} from "../models/user_answer";
-import {Button, Checkbox, CheckIcon, Group, Progress, Radio, Text} from "@mantine/core";
+import {Button, Checkbox, CheckIcon, Progress, Radio, Text} from "@mantine/core";
 import {QuestionType} from "../models/question";
 
 export default function UserQuizFillForm() {
@@ -23,6 +23,8 @@ export default function UserQuizFillForm() {
             navigate(returnUrl)
             return
         }
+        setSelectedAnswers([])
+        setSelectedAnswer("")
         setUserAnswers(data.user_answers)
         setUserQuestion(data.user_question)
         setUserQuiz(data.user_quiz)
@@ -130,19 +132,12 @@ export default function UserQuizFillForm() {
                 </>
             }
             <br/>
-            <Group>
-                <Button type="button" variant="outline"
-                        onClick={() => onSubmit()}
-                        disabled={!isSubmitEnabled()}
-                >
-                    Siguiente
-                </Button>
-                <Button type="button" variant="outline"
-                        onClick={() => navigate(`/user/quizs/${userQuiz.id}/summary`)}
-                >
-                    Regresar
-                </Button>
-            </Group>
+            <Button type="button" variant="outline"
+                    onClick={() => onSubmit()}
+                    disabled={!isSubmitEnabled()}
+            >
+                Siguiente
+            </Button>
         </div>
     )
 }
