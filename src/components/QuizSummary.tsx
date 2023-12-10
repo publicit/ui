@@ -3,6 +3,7 @@ import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
 import {UserQuestion} from "../models/user_question";
 import {useNavigate} from "react-router-dom";
 import {MoodHappy, MoodSick} from "tabler-icons-react";
+import {PostUserQuizRetry} from "../helpers/api";
 
 type UserQuestionSummaryViewParams = {
     questions: UserQuestion[]
@@ -46,9 +47,10 @@ function UserQuestionSummaryView({questions}: UserQuestionSummaryViewParams) {
 type params = {
     userQuiz: UserQuiz
     userQuestions: UserQuestion[]
+    onRetry: any
 }
 
-export default function QuizSummary({userQuiz, userQuestions}: params) {
+export default function QuizSummary({userQuiz, userQuestions, onRetry}: params) {
     const navigate = useNavigate()
     return (
         <div>
@@ -85,13 +87,14 @@ export default function QuizSummary({userQuiz, userQuestions}: params) {
             }
             {userQuiz.status === UserQuizStatus[UserQuizStatus.failed] &&
                 <>
+                    <hr/>
                     <Text>
                         No has respondido correctamente todas las preguntas. Haz click en INTENTAR DE NUEVO para otra
                         oportunidad.
                     </Text>
                     <br/>
                     <Button type="button" variant="outline"
-                            onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
+                            onClick={() => onRetry()}
                     >
                         Intentar de Nuevo
                     </Button>

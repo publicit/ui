@@ -1,7 +1,8 @@
 import {Badge, Button, Card, Group, Progress, Text} from "@mantine/core";
 import {Link} from "react-router-dom";
-import {LayoutBoard} from "tabler-icons-react";
+import {CircleCheck, LayoutBoard} from "tabler-icons-react";
 import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
+import {resolveUserQuizStatus, resolveUserQuizStatusIcon} from "../helpers/user_quiz_utils";
 
 type Params = {
     uq: UserQuiz
@@ -22,22 +23,6 @@ function resolveLabel(status: string): string {
     }
 }
 
-function resolveStatus(status: string): string {
-    switch (status) {
-        case UserQuizStatus[UserQuizStatus.success]:
-            return "Completado"
-        case UserQuizStatus[UserQuizStatus.failed]:
-            return "Incorrecto"
-        case UserQuizStatus[UserQuizStatus.pending]:
-            return "Pendiente"
-        case UserQuizStatus[UserQuizStatus.started]:
-            return "En Proceso"
-        default:
-            return ""
-    }
-}
-
-
 export default function UserQuizCard({uq}: Params) {
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -48,9 +33,8 @@ export default function UserQuizCard({uq}: Params) {
             </Card.Section>
             <Group justify="space-between" mt="md" mb="xs">
                 <LayoutBoard/>
-                <Badge color="pink" variant="light">
-                    {resolveStatus(uq.status)}
-                </Badge>
+                {resolveUserQuizStatus(uq.status)}
+                {resolveUserQuizStatusIcon(uq.status)}
             </Group>
             <Progress value={uq.percent_completed * 100}/>
             <Group>

@@ -165,6 +165,11 @@ async function GetUserQuizSummary(userQuizId: string) {
     return res.data as UserQuizSummary
 }
 
+async function PostUserQuizRetry(userQuizId: string) {
+    const res = await instance.post(`/v1/users/quizs/${userQuizId}/retry`)
+    return res.data
+}
+
 export {
     AnswerLoad,
     AnswerList,
@@ -195,6 +200,7 @@ export {
     UserQuizNextQuestion,
     UserQuestionSendAnswers,
     GetUserQuizSummary,
+    PostUserQuizRetry,
 
     UserRegistrationPost,
     UserRegistrationLoad,
