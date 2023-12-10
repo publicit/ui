@@ -1,9 +1,9 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {CampaignLoad, QuestionList, QuizDelete, QuizLoad, QuizPut} from "../helpers/api"
+import {CampaignLoad, QuestionList, QuizDelete, QuizLoad, QuizPublish, QuizPut} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
-import {Quiz, quizValidation} from "../models/quiz";
+import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
 import QuizEditForm from "../components/QuizEditForm";
 import QuestionTable from "../components/QuestionTable";
 import {Question} from "../models/question";
@@ -68,13 +68,25 @@ export default function Edit() {
         }
     }
 
+    async function onPublish() {
+        try {
+            // eslint-disable-next-line no-restricted-globals
+            if (!confirm(`Seguro de publicar la encuesta: ${quiz.name}?\nUna vez publicada ya no se podran editar las preguntas.`)) return
+            await QuizPublish(id)
+            const returnUrl = `/campaigns/${campaign.id}`
+            navigate(returnUrl);
+        } catch (err) {
+            await notifyErrResponse(err)
+        }
+    }
+
     return (
         <div>
             <BreadcrumComponent items={items}/>
             <br/>
             <QuizEditForm onSubmit={onSubmit} form={form} legend="Datos de la Encuesta" quiz={quiz}
-                          onDelete={onDelete} showDelete={questions.length === 0}/>
-            <QuestionTable rows={questions}/>
+                          onDelete={onDelete} showDelete={questions.length === 0} onPublish={onPublish}/>
+            <QuestionTable rows={questions} canEdit={quiz.status === QuizStatus[QuizStatus.draft]}/>
         </div>
     )
 }

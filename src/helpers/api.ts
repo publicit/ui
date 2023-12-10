@@ -61,6 +61,11 @@ async function QuizDelete(id: string) {
     return toQuiz(res.data)
 }
 
+async function QuizPublish(id:string){
+    const res = await instance.post(`/v1/quizs/${id}/publish`)
+    return toQuiz(res.data)
+}
+
 // Question
 
 async function QuestionList(quizId: string) {
@@ -115,6 +120,8 @@ async function AnswerDelete(id: string) {
     return toAnswer(res.data)
 }
 
+// User Registration
+
 async function UserRegistrationPost(userRegistration: UserRegistration) {
     const res = await instance.post(`/v1/user-registration`, userRegistration)
     return toUserRegistration(res.data)
@@ -129,6 +136,8 @@ async function UserWhoAmi() {
     const res = await instance.get(`/v1/users/whoami`)
     return toUser(res.data)
 }
+
+// User Quiz
 
 async function UserQuizList() {
     const res = await instance.get(`/v1/users/quizs`)
@@ -180,6 +189,7 @@ export {
     QuizLoad,
     QuizPut,
     QuizDelete,
+    QuizPublish,
 
     UserQuizList,
     UserQuizNextQuestion,

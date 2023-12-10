@@ -1,13 +1,14 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {AnswerDelete, AnswerLoad, AnswerPut} from "../helpers/api"
+import {AnswerDelete, AnswerLoad, AnswerPut, QuizLoad} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
 import {Question} from "../models/question";
 import {Answer, answerValidation} from "../models/answer";
 import AnswerEditForm from "../components/AnswerEditForm";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
 import {BreadcrumComponent} from "../components/BreadcrumComponent";
+import {QuizStatus} from "../models/quiz";
 
 export default function AnswerEdit() {
     const id = useParams().id || ""
@@ -15,6 +16,7 @@ export default function AnswerEdit() {
     const [answer, setAnswer] = useState<Answer>(new Answer())
     const [question, setQuestion] = useState<Question>(new Question())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
+    const [canEdit,setCanEdit]=useState<boolean>(false)
     const form = useForm<Answer>({
         initialValues: answer,
         validate: answerValidation(),
@@ -30,6 +32,7 @@ export default function AnswerEdit() {
                 const data = await AnswerLoad(id)
                 setAnswer(data)
                 setQuestion(data.question)
+                setCanEdit(data.question.quiz.status === QuizStatus[QuizStatus.draft])
                 form.setValues(data)
                 setItems([
                     {
@@ -81,7 +84,7 @@ export default function AnswerEdit() {
             <BreadcrumComponent items={items}/>
             <br/>
             <AnswerEditForm onSubmit={onSubmit} form={form} legend={answer.body}
-                            answer={answer} onDelete={onDelete}/>
+                            answer={answer} onDelete={onDelete} canEdit={canEdit}/>
         </div>
     )
 }
