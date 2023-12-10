@@ -1,12 +1,18 @@
 import {Campaign, toCampaign} from "./campaign";
 import {trimAll} from "../helpers/text_utils";
 
+export enum QuizStatus{
+    draft,
+    published
+}
+
 export class Quiz {
     id: string
     name: string
     video_url: string
     campaign: Campaign
     number_of_questions: number
+    status: string
 
     constructor() {
         this.id = ""
@@ -14,6 +20,7 @@ export class Quiz {
         this.video_url = ""
         this.campaign = new Campaign()
         this.number_of_questions = 1
+        this.status = ""
     }
 }
 

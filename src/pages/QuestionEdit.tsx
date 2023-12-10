@@ -9,11 +9,13 @@ import {Answer} from "../models/answer";
 import AnswerTable from "../components/AnswerTable";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
 import {BreadcrumComponent} from "../components/BreadcrumComponent";
+import {Quiz, QuizStatus} from "../models/quiz";
 
 export default function Edit() {
     const id = useParams().id || ""
     const navigate = useNavigate();
     const [question, setQuestion] = useState<Question>(new Question())
+    const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [returnUrl, setReturnUrl] = useState<string>("")
     const [answers, setAnswers] = useState<Answer[]>([])
     const [items, setItems] = useState<BreadcrumbItem[]>([])
@@ -26,6 +28,7 @@ export default function Edit() {
             try {
                 const data = await QuestionLoad(id)
                 setQuestion(data)
+                setQuiz(data.quiz)
                 form.setValues(data)
                 setReturnUrl(`/quizs/${data.quiz.id}`)
                 const answerData = await AnswerList(id)
@@ -74,7 +77,7 @@ export default function Edit() {
             <br/>
             <QuestionEditForm onSubmit={onSubmit} form={form}
                               question={question} onDelete={onDelete} showDelete={answers.length === 0}/>
-            <AnswerTable rows={answers}/>
+            <AnswerTable rows={answers} canEdit={quiz.status === QuizStatus[QuizStatus.draft]}/>
         </>
     )
 }

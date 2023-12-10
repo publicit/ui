@@ -4,25 +4,28 @@ import {Answer} from "../models/answer";
 
 type Params = {
     rows: Answer[]
+    canEdit: boolean
 }
 
 type RowParams = {
     answer: Answer
+    canEdit: boolean
 }
 
-function Row({answer}: RowParams) {
+function Row({answer, canEdit}: RowParams) {
     return (
         <Table.Tr key={answer.id}>
             <Table.Td>
                 {answer.body}
             </Table.Td>
             <Table.Td>
-                <Checkbox checked={answer.is_valid} onChange={() => {}} />
+                <Checkbox checked={answer.is_valid} onChange={() => {
+                }}/>
             </Table.Td>
             <Table.Td>
                 <Button type="button" variant="outline">
                     <Link to={`/answers/${answer.id}`}>
-                        Editar
+                        {canEdit ? "Editar" : "Ver"}
                     </Link>
                 </Button>
             </Table.Td>
@@ -30,7 +33,7 @@ function Row({answer}: RowParams) {
     )
 }
 
-export default function AnswerTable({rows}: Params) {
+export default function AnswerTable({rows, canEdit}: Params) {
     return (
         <Table striped={true} withRowBorders={true}>
             <Table.Thead>
@@ -41,7 +44,7 @@ export default function AnswerTable({rows}: Params) {
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.map((answer: Answer) => <Row key={answer.id} answer={answer}/>)}
+                {rows.map((answer: Answer) => <Row key={answer.id} answer={answer} canEdit={canEdit}/>)}
             </Table.Tbody>
         </Table>
     )

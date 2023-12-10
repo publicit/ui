@@ -8,13 +8,17 @@ type Params = {
 
 type RowParams = {
     quiz: Quiz
+    index: number
 }
 
-function QuizRow({quiz}: RowParams) {
+function QuizRow({index, quiz}: RowParams) {
     return (
         <Table.Tr key={quiz.id}>
             <Table.Td>
-                {quiz.name}
+                {`${index}. ${quiz.name}`}
+            </Table.Td>
+            <Table.Td>
+                {quiz.status}
             </Table.Td>
             <Table.Td>
                 {quiz.number_of_questions}
@@ -22,7 +26,7 @@ function QuizRow({quiz}: RowParams) {
             <Table.Td>
                 <Button type="button" variant="outline">
                     <Link to={`/quizs/${quiz.id}`}>
-                        Editar
+                        {quiz.status === "draft" ? "Editar" : "Ver"}
                     </Link>
                 </Button>
             </Table.Td>
@@ -36,12 +40,13 @@ export default function QuizTable({rows}: Params) {
             <Table.Thead>
                 <Table.Tr>
                     <Table.Th>Nombre de Encuesta</Table.Th>
+                    <Table.Th>Estatus</Table.Th>
                     <Table.Th>Numero de Preguntas</Table.Th>
                     <Table.Th></Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.map((r: Quiz) => <QuizRow key={r.id} quiz={r}/>)}
+                {rows.map((r: Quiz, index: number) => <QuizRow key={r.id} quiz={r} index={index}/>)}
             </Table.Tbody>
         </Table>
     )
