@@ -1,5 +1,5 @@
 import {Button, Group, Progress, Table, Text} from "@mantine/core";
-import {UserQuiz} from "../models/user_quiz";
+import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
 import {UserQuestion} from "../models/user_question";
 import {useNavigate} from "react-router-dom";
 import {MoodHappy, MoodSick} from "tabler-icons-react";
@@ -80,13 +80,22 @@ export default function QuizSummary({userQuiz, userQuestions}: params) {
                 </Group>
             }
             <br/>
-            {userQuiz.status === "success" &&
+            {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
                 <Text>Felicidades, has respondido correctamente todas las preguntas!</Text>
             }
-            {userQuiz.status === "failed" &&
-                <Text>
-                    No has respondido correctamente todas las preguntas. Que sucede a continuacion VICENTE?
-                </Text>
+            {userQuiz.status === UserQuizStatus[UserQuizStatus.failed] &&
+                <>
+                    <Text>
+                        No has respondido correctamente todas las preguntas. Haz click en INTENTAR DE NUEVO para otra
+                        oportunidad.
+                    </Text>
+                    <br/>
+                    <Button type="button" variant="outline"
+                            onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
+                    >
+                        Intentar de Nuevo
+                    </Button>
+                </>
             }
         </div>
     )

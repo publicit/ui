@@ -1,7 +1,15 @@
-import {trimAll, truncateTime} from "../helpers/text_utils";
+import {truncateTime} from "../helpers/text_utils";
 import {Quiz, toQuiz} from "./quiz";
 import {toUser, User} from "./user";
 import {UserQuestion} from "./user_question";
+
+export enum UserQuizStatus {
+    unknown,
+    pending,
+    started,
+    success,
+    failed,
+}
 
 export class UserQuiz {
     id: string
@@ -35,8 +43,7 @@ export function toUserQuiz(v: any): UserQuiz {
 }
 
 
-
 export type UserQuizSummary = {
-    user_questions:UserQuestion[]
-    user_quiz:UserQuiz
+    user_questions: UserQuestion[]
+    user_quiz: UserQuiz
 }

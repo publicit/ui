@@ -1,46 +1,84 @@
-import {Button, Group, TextInput} from "@mantine/core";
-import {Link} from "react-router-dom";
+import {Button, Checkbox, CheckIcon, Progress, Radio, Text} from "@mantine/core";
 import {UserQuiz} from "../models/user_quiz";
+import {QuestionType} from "../models/question";
+import {UserAnswer} from "../models/user_answer";
+import {UserQuestion} from "../models/user_question";
 
 type params = {
     onSubmit: any
-    form: any
-    legend: string
-    userQuiz:UserQuiz
-    onDelete?: any
-    showDelete?: boolean
+    userQuiz: UserQuiz
+    userQuestion: UserQuestion
+    userAnswers: UserAnswer[]
+    setSelectedAnswer: any
+    selectMultiAnswer: any
+    isSubmitEnabled(): boolean
 }
 
-export default function EditForm({onSubmit, form, legend, userQuiz, onDelete, showDelete = false}: params) {
+export default function EditForm({
+                                     setSelectedAnswer,
+                                     selectMultiAnswer,
+                                     onSubmit,
+                                     userAnswers,
+                                     userQuestion,
+                                     userQuiz,
+                                     isSubmitEnabled,
+                                 }: params) {
     return (
         <>
-            <form onSubmit={form.onSubmit((data: any) => {
-                onSubmit(data)
-            })}>
-                <legend>{legend}</legend>
-                <br/>
-                <TextInput label="Nombre"
-                           placeholder="Nombre"
-                           {...form.getInputProps("name")}/>
-                <br/>
-                <Group>
-                    <Button type="submit" variant="outline">
-                        Guardar
-                    </Button>
-                    <Group>
-                        <Button type="button" variant="outline">
-                            <Link to={`/quizs/new`}>
-                                Agregar Encuesta
-                            </Link>
-                        </Button>
-                        {showDelete &&
-                            <Button type="button" variant="outline" onClick={onDelete}>
-                                Eliminar Campaña
-                            </Button>
-                        }
-                    </Group>
-                </Group>
-            </form>
+            <Text style={{
+                fontSize: "2.5em",
+            }}>
+                {userQuiz.quiz.name}
+            </Text>
+            <br/>
+            <Progress value={userQuiz.percent_completed * 100}/>
+            <br/>
+            <Text style={{
+                fontSize: "1.75em",
+            }}>
+                {userQuestion.question.body}
+            </Text>
+            <br/>
+            <hr/>
+            <br/>
+            {userQuestion.question.type === QuestionType[QuestionType.single]
+                ?
+                <Radio.Group>
+                    {userAnswers.map((a: UserAnswer) => (
+                        <>
+                            <Radio key={a.answer.id}
+                                   value={a.answer.id}
+                                   variant="outline"
+                                   icon={CheckIcon}
+                                   label={a.answer.body}
+                                   onClick={e => setSelectedAnswer(e.currentTarget.value)}
+                            />
+                            <br/>
+                        </>
+                    ))}
+                </Radio.Group>
+                :
+                <>
+                    {userAnswers.map((a: UserAnswer) => (
+                        <>
+                            <Checkbox key={a.answer.id}
+                                      variant="outline"
+                                      value={a.answer.id}
+                                      label={a.answer.body}
+                                      onClick={e => selectMultiAnswer(e)}
+                            />
+                            <br/>
+                        </>
+                    ))}
+                </>
+            }
+            <br/>
+            <Button type="button" variant="outline"
+                    onClick={() => onSubmit()}
+                    disabled={!isSubmitEnabled()}
+            >
+                Siguiente
+            </Button>
         </>
     )
 }
