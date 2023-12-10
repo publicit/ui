@@ -30,7 +30,7 @@ export default function Edit() {
                 const data = await QuestionLoad(id)
                 setQuestion(data)
                 setQuiz(data.quiz)
-                setCanEdit(quiz.status === QuizStatus[QuizStatus.draft])
+                setCanEdit(data.quiz.status === QuizStatus[QuizStatus.draft])
                 form.setValues(data)
                 setReturnUrl(`/quizs/${data.quiz.id}`)
                 const answerData = await AnswerList(id)

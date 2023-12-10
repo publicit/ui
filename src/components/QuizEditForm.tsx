@@ -10,11 +10,12 @@ type params = {
     quiz: Quiz
     showDelete?: boolean
     onPublish?: any | undefined
+    canEdit:boolean
 }
 
 export default function QuizEditForm({
                                          onSubmit, form, legend, quiz, onDelete,
-                                         showDelete = false, onPublish
+                                         showDelete = false, onPublish, canEdit,
                                      }: params) {
     return (
         <>
@@ -40,23 +41,21 @@ export default function QuizEditForm({
                              {...form.getInputProps("number_of_questions")}/>
                 <br/>
                 <Group>
-                    {quiz.status === QuizStatus[QuizStatus.draft] &&
+                    {canEdit &&
                         <Button type="submit" variant="outline">
                             Guardar
                         </Button>
                     }
-                    {quiz.id && quiz.status === QuizStatus[QuizStatus.draft] &&
+                    {quiz.id && canEdit &&
                         <Group>
                             <Button type="button" variant="outline">
                                 <Link to={`/questions/new/${quiz.id}`}>
                                     Agregar Pregunta
                                 </Link>
                             </Button>
-                            {quiz.status === QuizStatus[QuizStatus.draft] &&
-                                <Button type="button" variant="outline" onClick={() => onPublish()}>
-                                    Publicar Encuesta
-                                </Button>
-                            }
+                            <Button type="button" variant="outline" onClick={() => onPublish()}>
+                                Publicar Encuesta
+                            </Button>
                             {showDelete &&
                                 <Button type="button" variant="outline" onClick={onDelete}>
                                     Eliminar Encuesta

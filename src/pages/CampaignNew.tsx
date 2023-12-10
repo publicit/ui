@@ -10,6 +10,7 @@ import {notifyErrResponse} from "../components/Errors";
 export default function CampaignNew() {
     const navigate = useNavigate();
     const [campaign] = useState<Campaign>(new Campaign())
+    const canEdit=true
     const form = useForm<Campaign>({
         initialValues: campaign,
         validate: campaignValidation(),
@@ -32,7 +33,7 @@ export default function CampaignNew() {
                 {campaign.name}
             </Title>
             <br/>
-            <CampaignEditForm form={form} onSubmit={onSubmit}
+            <CampaignEditForm form={form} onSubmit={onSubmit} canEdit={canEdit}
                               legend="Nueva Campaña" campaign={campaign}/>
 
         </div>

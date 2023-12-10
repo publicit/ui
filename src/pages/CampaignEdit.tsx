@@ -15,6 +15,7 @@ export default function Edit() {
     const navigate = useNavigate();
     const [campaign, setCampaign] = useState<Campaign>(new Campaign())
     const [quizs, setQuizs] = useState<Quiz[]>([])
+    const canEdit=true
     const form = useForm<Campaign>({
         initialValues: campaign,
         validate: campaignValidation(),
@@ -63,6 +64,7 @@ export default function Edit() {
             </Title>
             <br/>
             <CampaignEditForm form={form} onSubmit={onSubmit}
+                              canEdit={canEdit}
                               legend="Datos de la Campaña" campaign={campaign}
                               onDelete={onDelete} showDelete={quizs.length === 0}
             />

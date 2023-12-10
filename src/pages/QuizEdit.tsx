@@ -17,6 +17,7 @@ export default function Edit() {
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [questions, setQuestions] = useState<Question[]>([])
     const [campaign, setCampaign] = useState<Campaign>(new Campaign())
+    const [canEdit, setCanEdit] = useState<boolean>(false)
     const form = useForm<Quiz>({
         initialValues: quiz,
         validate: quizValidation(),
@@ -27,6 +28,7 @@ export default function Edit() {
             try {
                 const data = await QuizLoad(id)
                 setQuiz(data)
+                setCanEdit(data.status === QuizStatus[QuizStatus.draft])
                 form.setValues(data)
                 const res = await QuestionList(id)
                 setQuestions(res)
@@ -85,7 +87,9 @@ export default function Edit() {
             <BreadcrumComponent items={items}/>
             <br/>
             <QuizEditForm onSubmit={onSubmit} form={form} legend="Datos de la Encuesta" quiz={quiz}
-                          onDelete={onDelete} showDelete={questions.length === 0} onPublish={onPublish}/>
+                          onDelete={onDelete} showDelete={questions.length === 0} onPublish={onPublish}
+                          canEdit={canEdit}
+            />
             <QuestionTable rows={questions} canEdit={quiz.status === QuizStatus[QuizStatus.draft]}/>
         </div>
     )
