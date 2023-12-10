@@ -1,16 +1,16 @@
 import {UserQuizStatus} from "../models/user_quiz";
-import {MoodBoy, MoodHappy, MoodSick} from "tabler-icons-react";
+import {MoodBoy, MoodCrazyHappy, MoodHappy, MoodSick} from "tabler-icons-react";
 
 export function resolveUserQuizStatusIcon(status: string): any {
     switch (status) {
         case UserQuizStatus[UserQuizStatus.success]:
-            return <MoodHappy style={{color: "green"}} />
+            return <MoodCrazyHappy style={{color: "green"}} />
         case UserQuizStatus[UserQuizStatus.failed]:
             return <MoodSick style={{color: "red"}} />
         case UserQuizStatus[UserQuizStatus.pending]:
-            return <MoodBoy style={{color: "blue"}} />
+            return <MoodBoy style={{color: "yellow"}} />
         case UserQuizStatus[UserQuizStatus.started]:
-            return <MoodBoy style={{color: "orange"}} />
+            return <MoodHappy style={{color: "orange"}} />
         default:
             return null
     }
