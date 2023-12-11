@@ -2,21 +2,13 @@ import {Button, Group, Progress, Table, Text} from "@mantine/core";
 import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
 import {UserQuestion} from "../models/user_question";
 import {useNavigate} from "react-router-dom";
-import {MoodHappy, MoodSick} from "tabler-icons-react";
-import {PostUserQuizRetry} from "../helpers/api";
+import {setIconFromAnswer} from "../helpers/user_quiz_utils";
 
 type UserQuestionSummaryViewParams = {
     questions: UserQuestion[]
 }
 
 function UserQuestionSummaryView({questions}: UserQuestionSummaryViewParams) {
-    function setIcon(value: boolean | null) {
-        if (value === null) {
-            return <></>
-        }
-        return value ? <MoodHappy style={{color: "green"}}/> : <MoodSick style={{color: "red"}}/>
-    }
-
     return (
         <Table striped={true} withRowBorders={true}>
             <Table.Thead>
@@ -33,7 +25,7 @@ function UserQuestionSummaryView({questions}: UserQuestionSummaryViewParams) {
                                 {q.question.body}
                             </Table.Td>
                             <Table.Td>
-                                {setIcon(q.has_correct_answer)}
+                                {setIconFromAnswer(q.has_correct_answer)}
                             </Table.Td>
                         </Table.Tr>
                     )
@@ -83,7 +75,11 @@ export default function QuizSummary({userQuiz, userQuestions, onRetry}: params) 
             }
             <br/>
             {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
-                <Text>Felicidades, has respondido correctamente todas las preguntas!</Text>
+                <>
+                    <Text>
+                        Felicidades, has respondido correctamente todas las preguntas!
+                    </Text>
+                </>
             }
             {userQuiz.status === UserQuizStatus[UserQuizStatus.failed] &&
                 <>

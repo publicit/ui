@@ -1,16 +1,17 @@
 import {UserQuizStatus} from "../models/user_quiz";
 import {MoodBoy, MoodCrazyHappy, MoodHappy, MoodSick} from "tabler-icons-react";
 
+
 export function resolveUserQuizStatusIcon(status: string): any {
     switch (status) {
         case UserQuizStatus[UserQuizStatus.success]:
-            return <MoodCrazyHappy style={{color: "green"}} />
+            return <MoodCrazyHappy style={{color: "green"}}/>
         case UserQuizStatus[UserQuizStatus.failed]:
-            return <MoodSick style={{color: "red"}} />
+            return <MoodSick style={{color: "red"}}/>
         case UserQuizStatus[UserQuizStatus.pending]:
-            return <MoodBoy style={{color: "yellow"}} />
+            return <MoodBoy style={{color: "yellow"}}/>
         case UserQuizStatus[UserQuizStatus.started]:
-            return <MoodHappy style={{color: "orange"}} />
+            return <MoodHappy style={{color: "orange"}}/>
         default:
             return null
     }
@@ -29,4 +30,11 @@ export function resolveUserQuizStatus(status: string): string {
         default:
             return ""
     }
+}
+
+export function setIconFromAnswer(value: boolean | null) {
+    if (value === null) {
+        return <></>
+    }
+    return value ? <MoodHappy style={{color: "green"}}/> : <MoodSick style={{color: "red"}}/>
 }
