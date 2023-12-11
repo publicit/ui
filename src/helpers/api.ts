@@ -170,6 +170,11 @@ async function PostUserQuizRetry(userQuizId: string) {
     return res.data
 }
 
+async function UserQuizShareLink(userQuizId: string) {
+    const res = await instance.post(`/v1/users/quizs/${userQuizId}/share`)
+    return res.data
+}
+
 export {
     AnswerLoad,
     AnswerList,
@@ -201,6 +206,7 @@ export {
     UserQuestionSendAnswers,
     GetUserQuizSummary,
     PostUserQuizRetry,
+    UserQuizShareLink,
 
     UserRegistrationPost,
     UserRegistrationLoad,
