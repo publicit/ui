@@ -35,8 +35,8 @@ export function toUserQuiz(v: any): UserQuiz {
     if (!v) return new UserQuiz()
     return {
         ...v,
-        created_at: truncateTime(new Date(v["created_at"])),
-        updated_at: truncateTime(new Date(v["updated_at"])),
+        created_at: new Date(v["created_at"]),
+        updated_at: new Date(v["updated_at"]),
         user: toUser(v.user),
         quiz: toQuiz(v.quiz),
     }
