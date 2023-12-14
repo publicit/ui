@@ -51,6 +51,11 @@ async function QuizLoad(id: string) {
     return toQuiz(res.data)
 }
 
+async function QuizLoadByToken(token: string) {
+    const res = await instance.get(`/v1/quizs?token=${token}`)
+    return toQuiz(res.data)
+}
+
 async function QuizPut(quiz: Quiz) {
     const res = await instance.put(`/v1/quizs/${quiz.id}`, quiz)
     return toQuiz(res.data)

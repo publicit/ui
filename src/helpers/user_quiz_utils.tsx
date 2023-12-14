@@ -38,3 +38,21 @@ export function setIconFromAnswer(value: boolean | null) {
     }
     return value ? <MoodHappy style={{color: "green"}}/> : <MoodSick style={{color: "red"}}/>
 }
+
+// extractCurrentLocation returns the base url for the current location.
+// if port is 80, is omitted.
+function extractCurrentLocation(): string {
+    const loc = window.location
+    if (!loc) return ""
+    const {protocol, hostname, port} = loc
+    const p = port === '80' ? '' : `:${port}`
+    return `${protocol}://${hostname}${p}`
+}
+
+type quizTokenShareParams = {
+    token: string
+}
+
+export function quizTokenShareUrl({token}: quizTokenShareParams): string {
+    return `${extractCurrentLocation()}/apis/quiz/token/${token}`
+}

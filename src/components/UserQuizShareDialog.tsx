@@ -12,10 +12,16 @@ export default function ShowDialog({children, onClose, onOpen}: params) {
     const [opened, {open, close}] = useDisclosure(false);
     return (
         <>
-            <Modal opened={opened} onClose={() => {
-                onClose()
-                close()
-            }} title="Compartir Encuesta">
+            <Modal opened={opened}
+                   size="auto"
+                   overlayProps={{
+                       backgroundOpacity: 0.55,
+                       blur: 3,
+                   }}
+                   onClose={() => {
+                       onClose()
+                       close()
+                   }} title="Compartir Encuesta">
                 {children}
             </Modal>
             <Button onClick={() => {

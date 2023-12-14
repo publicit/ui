@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {AnswerDelete, AnswerLoad, AnswerPut, QuizLoad} from "../helpers/api"
+import {AnswerDelete, AnswerLoad, AnswerPut} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
 import {Question} from "../models/question";
 import {Answer, answerValidation} from "../models/answer";

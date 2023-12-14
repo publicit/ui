@@ -5,18 +5,18 @@ import {UserQuiz} from "../models/user_quiz";
 import {GetUserQuizSummary, PostUserQuizRetry, UserQuizShareLink} from "../helpers/api";
 import {UserQuestion} from "../models/user_question";
 import QuizSummary from "../components/QuizSummary";
-import {useDisclosure} from "@mantine/hooks";
 import UserQuizShareDialog from "../components/UserQuizShareDialog"
 import {ActionIcon, Group, TextInput} from "@mantine/core";
-import {IconAdjustments} from "@tabler/icons-react";
 import {ClipboardCopy} from "tabler-icons-react";
+import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
+import {popupInfo} from "../components/Notifier";
 
 export default function UserQuizSummaryView() {
     const navigate = useNavigate()
     const userQuizId = useParams().user_quiz_id || ""
     const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
     const [userQuestions, setUserQuestions] = useState<UserQuestion[]>([])
-    const [sharedUrl,setSharedUrl]=useState("")
+    const [sharedUrl, setSharedUrl] = useState("")
 
     async function loadData(id: string) {
         try {
@@ -43,11 +43,19 @@ export default function UserQuizSummaryView() {
 
     async function shareQuiz() {
         try {
-            const res = await UserQuizShareLink(userQuizId)
-            setSharedUrl(JSON.stringify(res))
+            const res = await UserQuizShareLink(userQuiz.quiz.id)
+            const tokenUrl = quizTokenShareUrl(res)
+            setSharedUrl(tokenUrl)
         } catch (error) {
             await notifyErrResponse(error)
         }
+    }
+
+    async function copyTokenUrlToClipboard() {
+        try{
+            if(!navigator?.clipboard) return
+            await navigator.clipboard.writeText(sharedUrl)
+        }catch (err){}
     }
 
     function shareDialogBody() {
@@ -55,17 +63,25 @@ export default function UserQuizSummaryView() {
             <>
                 <Group>
                     <TextInput label="Link"
+                               style={{width: "400px"}}
                                placeholder=""
                                value={sharedUrl}
                                disabled={true}/>
-                    <ActionIcon variant="filled">
-                        <ClipboardCopy style={{width: '70%', height: '70%'}} onClick={() => shareQuiz()} />
+                    <ActionIcon variant="filled" onClick={async () => {
+                        await copyTokenUrlToClipboard()
+                        popupInfo({
+                            title: "Copiado",
+                            text: "Se ha copiado la direccion de la invitacion",
+                            confirmButtonText: true,
+                            timer: 3000,
+                        })
+                    }}>
+                        <ClipboardCopy style={{width: '70%', height: '70%'}} onClick={() => shareQuiz()}/>
                     </ActionIcon>
                 </Group>
             </>
         )
     }
-
 
 
     return (

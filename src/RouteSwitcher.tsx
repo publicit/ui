@@ -11,10 +11,11 @@ import QuestionNew from "./pages/QuestionNew";
 import QuestionEdit from "./pages/QuestionEdit"
 import AnswerNew from "./pages/AnswerNew";
 import AnswerEdit from "./pages/AnswerEdit";
-import ProfileEdit from "./pages/ProfileEdit"
+import ProfileEdit from "./pages/UserProfileEdit"
 import UserQuizList from "./pages/UserQuizList"
 import UserQuizFillForm from "./pages/UserQuizFillForm";
 import UserQuizSummaryView from "./pages/UserQuizSummaryView";
+import ShareStart from "./pages/UserQuizSharedStart";
 
 type params = {
     profile: UserProfile | undefined
@@ -38,6 +39,7 @@ export default function RouteSwitcher({profile}: params) {
             <Route path="/user/quizs" element={<UserQuizList/>}/>
             <Route path="/user/quizs/:id" element={<UserQuizFillForm/>}/>
             <Route path="/user/quizs/:user_quiz_id/summary" element={<UserQuizSummaryView/>}/>
+            <Route path="/apis/quiz/token/:id" element={<ShareStart/>}/>
         </Routes>
     )
 }

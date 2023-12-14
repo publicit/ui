@@ -25,6 +25,20 @@ function popupWarning({
         showConfirmButton: confirmButtonText,
     })
 }
+function popupInfo({
+                          title,
+                          text,
+                          confirmButtonText,
+                          timer = 1500,
+                      }: Params) {
+    return MySwal.fire({
+        title: title,
+        text: text,
+        icon: "info",
+        timer: timer,
+        showConfirmButton: confirmButtonText,
+    })
+}
 
 function popupError({title, text, confirmButtonText, timer = 1500}: Params) {
     return MySwal.fire({
@@ -40,5 +54,6 @@ function popupError({title, text, confirmButtonText, timer = 1500}: Params) {
 
 export {
     popupError,
+    popupInfo,
     popupWarning,
 };

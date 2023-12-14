@@ -16,6 +16,7 @@ export default function Edit() {
         initialValues: userRegistration,
         validate: userRegistrationValidation(),
     })
+    const params = new URLSearchParams(window.location.search)
     useEffect(() => {
         async function loadData() {
             try {
@@ -37,7 +38,13 @@ export default function Edit() {
         try {
             data.user_id = user.id || ""
             await UserRegistrationPost(fromUserRegistration(data))
-            navigate(returnUrl);
+            // check if user is coming from a shared quiz url
+            const quizId = params.get('quiz_id')
+            const token = params.get('token')
+            if (!quizId || !token) navigate(returnUrl)
+            //  TODO: call the server api to validate the token
+            console.info(`TODO: use quizId: ${quizId} and token: ${token}`)
+            //  TODO: once quiz has been validated, redirect to the quiz list
         } catch (err) {
             await notifyErrResponse(err)
         }
