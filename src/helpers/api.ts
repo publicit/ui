@@ -52,8 +52,13 @@ async function QuizLoad(id: string) {
 }
 
 async function QuizLoadByToken(token: string) {
-    const res = await instance.get(`/v1/quizs?token=${token}`)
+    const res = await instance.get(`/v1/quizs/invitation/${token}`)
     return toQuiz(res.data)
+}
+
+async function QuizRegisterInvitation(token: string) {
+    await instance.post(`/v1/quizs/invitation/${token}`)
+    return {}
 }
 
 async function QuizPut(quiz: Quiz) {
@@ -66,7 +71,7 @@ async function QuizDelete(id: string) {
     return toQuiz(res.data)
 }
 
-async function QuizPublish(id:string){
+async function QuizPublish(id: string) {
     const res = await instance.post(`/v1/quizs/${id}/publish`)
     return toQuiz(res.data)
 }
@@ -205,6 +210,8 @@ export {
     QuizPut,
     QuizDelete,
     QuizPublish,
+    QuizLoadByToken,
+    QuizRegisterInvitation,
 
     UserQuizList,
     UserQuizNextQuestion,

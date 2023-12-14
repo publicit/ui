@@ -1,11 +1,18 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {UserRegistrationLoad, UserRegistrationPost, UserWhoAmi} from "../helpers/api"
+import {
+    QuizLoadByToken,
+    QuizRegisterInvitation,
+    UserRegistrationLoad,
+    UserRegistrationPost,
+    UserWhoAmi
+} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
 import {fromUserRegistration, UserRegistration, userRegistrationValidation} from "../models/user_registration";
 import {User} from "../models/user";
 import ProfileForm from "../components/ProfileForm";
+import {Quiz} from "../models/quiz";
 
 export default function Edit() {
     const returnUrl = "/"
@@ -26,6 +33,8 @@ export default function Edit() {
                 const data: UserRegistration = await UserRegistrationLoad(userId)
                 setUserRegistration(data)
                 form.setValues(data)
+                //  user may be redirected from a token invitation
+                const token = params.get('token')
             } catch (err) {
                 // ignoring since the first time will always fail
             }
@@ -39,12 +48,12 @@ export default function Edit() {
             data.user_id = user.id || ""
             await UserRegistrationPost(fromUserRegistration(data))
             // check if user is coming from a shared quiz url
-            const quizId = params.get('quiz_id')
             const token = params.get('token')
-            if (!quizId || !token) navigate(returnUrl)
-            //  TODO: call the server api to validate the token
-            console.info(`TODO: use quizId: ${quizId} and token: ${token}`)
-            //  TODO: once quiz has been validated, redirect to the quiz list
+            if (!token) navigate(returnUrl)
+            //  call the server api to validate the token
+            await QuizRegisterInvitation(token || "")
+            //  once quiz has been validated, redirect to the quiz list
+            navigate(`/`)
         } catch (err) {
             await notifyErrResponse(err)
         }

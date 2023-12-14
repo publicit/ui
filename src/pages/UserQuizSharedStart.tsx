@@ -3,30 +3,33 @@ import {isLoggedIn} from "../helpers/sso_service";
 import {QuizRegisterForm, QuizUnregisteredForm} from "../components/UserQuizRegisterForm";
 import {useEffect, useState} from "react";
 import {User} from "../models/user";
-import {QuizLoad, UserRegistrationLoad, UserWhoAmi} from "../helpers/api";
+import {QuizLoad, QuizLoadByToken, UserRegistrationLoad, UserWhoAmi} from "../helpers/api";
 import {UserRegistration} from "../models/user_registration";
+import {Quiz} from "../models/quiz";
+import {popupWarning} from "../components/Notifier";
 
 export default function ShareStart() {
-    const id = useParams().id || ""
-    const [quizId,setQuizId]=useState<string>("")
+    const token = useParams().token || ""
+    const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     useEffect(() => {
         async function loadData() {
             try {
-                const res = await QuizLoad()
+                const res = await QuizLoadByToken(token)
+                setQuiz(res)
             } catch (err) {
-                // ignoring since the first time will always fail
+                // first time will always fail
             }
         }
-
         loadData()
     }, [])
+
 
     return (
         <>
             {isLoggedIn() ?
-                <QuizRegisterForm />
+                <QuizRegisterForm token={token}/>
                 :
-                <QuizUnregisteredForm id={id} />
+                <QuizUnregisteredForm token={token}/>
             }
         </>
     )

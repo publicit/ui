@@ -21,7 +21,7 @@ instance.interceptors.response.use(function (response) {
     // Do something with response data
     return response;
 }, function (error) {
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
         window.alert(`Tu sesion ha expirado`)
         window.location.href = "/"
     }

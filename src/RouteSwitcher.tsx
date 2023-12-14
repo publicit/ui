@@ -39,7 +39,7 @@ export default function RouteSwitcher({profile}: params) {
             <Route path="/user/quizs" element={<UserQuizList/>}/>
             <Route path="/user/quizs/:id" element={<UserQuizFillForm/>}/>
             <Route path="/user/quizs/:user_quiz_id/summary" element={<UserQuizSummaryView/>}/>
-            <Route path="/apis/quiz/token/:id" element={<ShareStart/>}/>
+            <Route path="/apis/quiz/invitation/:token" element={<ShareStart/>}/>
         </Routes>
     )
 }

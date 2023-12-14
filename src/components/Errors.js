@@ -2,6 +2,7 @@ import {popupError, popupWarning} from "./Notifier";
 
 export function notifyErrResponse(err) {
     const {response} = err;
+    // TODO: fix this mess
     if (!response) {
         return popupError({
             title: "API error",

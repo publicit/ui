@@ -54,5 +54,5 @@ type quizTokenShareParams = {
 }
 
 export function quizTokenShareUrl({token}: quizTokenShareParams): string {
-    return `${extractCurrentLocation()}/apis/quiz/token/${token}`
+    return `${extractCurrentLocation()}/apis/quiz/invitation/${token}`
 }
