@@ -2,12 +2,14 @@ import {Button, Group, Select, Text, TextInput, Title} from "@mantine/core";
 import {UseFormReturnType} from "@mantine/form";
 import {DatePickerInput} from "@mantine/dates";
 import {UserRegistration, UserSex} from "../models/user_registration";
+import {Check} from "tabler-icons-react";
 
 type params = {
     onSubmit: any
     form: UseFormReturnType<UserRegistration>
     legend: string
     email?: string | undefined
+    is_completed: boolean
 }
 
 const userSex: string[] = [
@@ -21,10 +23,16 @@ export default function ProfileForm({
                                         form,
                                         legend,
                                         email,
+                                        is_completed,
                                     }: params) {
     return (
         <>
-            <Title>{legend}</Title>
+            <Title>
+                {legend}
+                {is_completed && <Check
+                    size={32}
+                    color="green"/>}
+            </Title>
             <form onSubmit={form.onSubmit((data: any) => {
                 onSubmit(data)
             })}>

@@ -2,11 +2,11 @@ import {Button} from "@mantine/core";
 import {Link} from "react-router-dom";
 
 type params = {
-    token:string
+    token: string
 }
 
 
-export function QuizRegisterForm({token}:params) {
+export function QuizRegisterForm({token}: params) {
     return (
         <>
             <p>Antes de responder la encuesta, es necesario que te registres.</p>

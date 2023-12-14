@@ -33,10 +33,8 @@ export default function Edit() {
                 const data: UserRegistration = await UserRegistrationLoad(userId)
                 setUserRegistration(data)
                 form.setValues(data)
-                //  user may be redirected from a token invitation
-                const token = params.get('token')
             } catch (err) {
-                // ignoring since the first time will always fail
+                // ignoring since the first time may fail
             }
         }
 
@@ -49,11 +47,14 @@ export default function Edit() {
             await UserRegistrationPost(fromUserRegistration(data))
             // check if user is coming from a shared quiz url
             const token = params.get('token')
-            if (!token) navigate(returnUrl)
+            if (!params.has('token')) {
+                navigate(returnUrl)
+                return
+            }
             //  call the server api to validate the token
             await QuizRegisterInvitation(token || "")
-            //  once quiz has been validated, redirect to the quiz list
-            navigate(`/`)
+            //  once quiz has been processed, redirect to the quiz list
+            navigate(returnUrl)
         } catch (err) {
             await notifyErrResponse(err)
         }
@@ -62,7 +63,9 @@ export default function Edit() {
     return (
         <>
             <ProfileForm onSubmit={onSubmit} form={form} email={user.email}
-                         legend={`${userRegistration.first_name} ${userRegistration.last_name}`}/>
+                         legend={`${userRegistration.first_name} ${userRegistration.last_name}`}
+                         is_completed={userRegistration.is_completed}
+            />
         </>
     )
 }
