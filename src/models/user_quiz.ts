@@ -1,7 +1,15 @@
-import {trimAll, truncateTime} from "../helpers/text_utils";
+import {truncateTime} from "../helpers/text_utils";
 import {Quiz, toQuiz} from "./quiz";
 import {toUser, User} from "./user";
 import {UserQuestion} from "./user_question";
+
+export enum UserQuizStatus {
+    unknown,
+    pending,
+    started,
+    success,
+    failed,
+}
 
 export class UserQuiz {
     id: string
@@ -27,16 +35,15 @@ export function toUserQuiz(v: any): UserQuiz {
     if (!v) return new UserQuiz()
     return {
         ...v,
-        created_at: truncateTime(new Date(v["created_at"])),
-        updated_at: truncateTime(new Date(v["updated_at"])),
+        created_at: new Date(v["created_at"]),
+        updated_at: new Date(v["updated_at"]),
         user: toUser(v.user),
         quiz: toQuiz(v.quiz),
     }
 }
 
 
-
 export type UserQuizSummary = {
-    user_questions:UserQuestion[]
-    user_quiz:UserQuiz
+    user_questions: UserQuestion[]
+    user_quiz: UserQuiz
 }

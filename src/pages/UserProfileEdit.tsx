@@ -1,11 +1,18 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {UserRegistrationLoad, UserRegistrationPost, UserWhoAmi} from "../helpers/api"
+import {
+    QuizLoadByToken,
+    QuizRegisterInvitation,
+    UserRegistrationLoad,
+    UserRegistrationPost,
+    UserWhoAmi
+} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
 import {fromUserRegistration, UserRegistration, userRegistrationValidation} from "../models/user_registration";
 import {User} from "../models/user";
 import ProfileForm from "../components/ProfileForm";
+import {Quiz} from "../models/quiz";
 
 export default function Edit() {
     const returnUrl = "/"
@@ -16,6 +23,7 @@ export default function Edit() {
         initialValues: userRegistration,
         validate: userRegistrationValidation(),
     })
+    const params = new URLSearchParams(window.location.search)
     useEffect(() => {
         async function loadData() {
             try {
@@ -26,7 +34,7 @@ export default function Edit() {
                 setUserRegistration(data)
                 form.setValues(data)
             } catch (err) {
-                // ignoring since the first time will always fail
+                // ignoring since the first time may fail
             }
         }
 
@@ -37,7 +45,16 @@ export default function Edit() {
         try {
             data.user_id = user.id || ""
             await UserRegistrationPost(fromUserRegistration(data))
-            navigate(returnUrl);
+            // check if user is coming from a shared quiz url
+            const token = params.get('token')
+            if (!params.has('token')) {
+                navigate(returnUrl)
+                return
+            }
+            //  call the server api to validate the token
+            await QuizRegisterInvitation(token || "")
+            //  once quiz has been processed, redirect to the quiz list
+            navigate(returnUrl)
         } catch (err) {
             await notifyErrResponse(err)
         }
@@ -46,7 +63,9 @@ export default function Edit() {
     return (
         <>
             <ProfileForm onSubmit={onSubmit} form={form} email={user.email}
-                         legend={`${userRegistration.first_name} ${userRegistration.last_name}`}/>
+                         legend={`${userRegistration.first_name} ${userRegistration.last_name}`}
+                         is_completed={userRegistration.is_completed}
+            />
         </>
     )
 }

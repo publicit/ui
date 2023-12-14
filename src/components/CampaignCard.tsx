@@ -42,7 +42,7 @@ export default function CampaignCard({c}: Params) {
                 </Text>
             </Group>
             <Button
-                variant="outline" color="blue" fullWidth mt="md" radius="md"
+                variant="outline" fullWidth mt="md" radius="md"
                 component={Link} to={`/campaigns/${c.id}`}
             >
                 Editar

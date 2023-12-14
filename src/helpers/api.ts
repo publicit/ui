@@ -51,6 +51,16 @@ async function QuizLoad(id: string) {
     return toQuiz(res.data)
 }
 
+async function QuizLoadByToken(token: string) {
+    const res = await instance.get(`/v1/quizs/invitation/${token}`)
+    return toQuiz(res.data)
+}
+
+async function QuizRegisterInvitation(token: string) {
+    await instance.post(`/v1/quizs/invitation/${token}`)
+    return {}
+}
+
 async function QuizPut(quiz: Quiz) {
     const res = await instance.put(`/v1/quizs/${quiz.id}`, quiz)
     return toQuiz(res.data)
@@ -61,7 +71,7 @@ async function QuizDelete(id: string) {
     return toQuiz(res.data)
 }
 
-async function QuizPublish(id:string){
+async function QuizPublish(id: string) {
     const res = await instance.post(`/v1/quizs/${id}/publish`)
     return toQuiz(res.data)
 }
@@ -165,6 +175,16 @@ async function GetUserQuizSummary(userQuizId: string) {
     return res.data as UserQuizSummary
 }
 
+async function PostUserQuizRetry(userQuizId: string) {
+    const res = await instance.post(`/v1/users/quizs/${userQuizId}/retry`)
+    return res.data
+}
+
+async function UserQuizShareLink(userQuizId: string) {
+    const res = await instance.post(`/v1/users/quizs/${userQuizId}/share`)
+    return res.data
+}
+
 export {
     AnswerLoad,
     AnswerList,
@@ -190,11 +210,15 @@ export {
     QuizPut,
     QuizDelete,
     QuizPublish,
+    QuizLoadByToken,
+    QuizRegisterInvitation,
 
     UserQuizList,
     UserQuizNextQuestion,
     UserQuestionSendAnswers,
     GetUserQuizSummary,
+    PostUserQuizRetry,
+    UserQuizShareLink,
 
     UserRegistrationPost,
     UserRegistrationLoad,

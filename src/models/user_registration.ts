@@ -14,6 +14,7 @@ export class UserRegistration {
     phone_number: string
     sex: string
     user_id: string
+    is_completed: boolean
 
     constructor() {
         this.id = ""
@@ -23,6 +24,7 @@ export class UserRegistration {
         this.phone_number = ""
         this.user_id = ""
         this.sex = ""
+        this.is_completed = false
     }
 }
 

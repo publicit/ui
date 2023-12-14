@@ -1,44 +1,29 @@
 import {Badge, Button, Card, Group, Progress, Text} from "@mantine/core";
 import {Link} from "react-router-dom";
-import {LayoutBoard} from "tabler-icons-react";
-import {UserQuiz} from "../models/user_quiz";
+import {CircleCheck, LayoutBoard} from "tabler-icons-react";
+import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
+import {resolveUserQuizStatus, resolveUserQuizStatusIcon} from "../helpers/user_quiz_utils";
 
 type Params = {
     uq: UserQuiz
 }
 
 
+function resolveLabel(status: string): string {
+    switch (status) {
+        case UserQuizStatus[UserQuizStatus.success]:
+        case UserQuizStatus[UserQuizStatus.failed]:
+            return "Ver"
+        case UserQuizStatus[UserQuizStatus.pending]:
+            return "Comenzar"
+        case UserQuizStatus[UserQuizStatus.started]:
+            return "Continuar"
+        default:
+            return ""
+    }
+}
+
 export default function UserQuizCard({uq}: Params) {
-    function resolveLabel(status: string): string {
-        switch (status) {
-            case "success":
-            case "failed":
-                return "Ver"
-            case "pending":
-                return "Comenzar"
-            case "started":
-                return "Continuar"
-            default:
-                console.log(status)
-                return ""
-        }
-    }
-
-    function resolveStatus(status: string): string {
-        switch (status) {
-            case "success":
-                return "Completado"
-            case "failed":
-                return "Incorrecto"
-            case "pending":
-                return "Pendiente"
-            case "started":
-                return "En Proceso"
-            default:
-                return "N/A"
-        }
-    }
-
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Card.Section>
@@ -48,13 +33,12 @@ export default function UserQuizCard({uq}: Params) {
             </Card.Section>
             <Group justify="space-between" mt="md" mb="xs">
                 <LayoutBoard/>
-                <Badge color="pink" variant="light">
-                    {resolveStatus(uq.status)}
-                </Badge>
+                {resolveUserQuizStatus(uq.status)}
+                {resolveUserQuizStatusIcon(uq.status)}
             </Group>
             <Progress value={uq.percent_completed * 100}/>
             <Group>
-                {uq.status === "success" || uq.status === "failed" &&
+                {(uq.status === UserQuizStatus[UserQuizStatus.success] || uq.status === UserQuizStatus[UserQuizStatus.failed]) &&
                     <Button
                         variant="outline" color="blue" fullWidth mt="md" radius="md"
                         component={Link} to={`/user/quizs/${uq.id}/summary`}
