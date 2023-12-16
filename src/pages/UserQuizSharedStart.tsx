@@ -5,7 +5,6 @@ import {useEffect, useState} from "react";
 import {QuizLoadByToken, UserQuizRegister, UserRegistrationLoad, UserWhoAmi} from "../helpers/api";
 import {Quiz} from "../models/quiz";
 import {popupWarning} from "../components/Notifier";
-import {AxiosError} from "axios";
 
 export default function ShareStart() {
     const navigate = useNavigate()

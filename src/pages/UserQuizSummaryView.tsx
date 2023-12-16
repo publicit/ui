@@ -6,10 +6,8 @@ import {GetUserQuizSummary, PostUserQuizRetry, UserQuizShareLink} from "../helpe
 import {UserQuestion} from "../models/user_question";
 import QuizSummary from "../components/QuizSummary";
 import UserQuizShareDialog from "../components/UserQuizShareDialog"
-import {ActionIcon, Group, TextInput} from "@mantine/core";
-import {ClipboardCopy} from "tabler-icons-react";
 import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
-import {popupInfo} from "../components/Notifier";
+import {ShareDialogBody} from "../components/ShareDialog";
 
 export default function UserQuizSummaryView() {
     const navigate = useNavigate()
@@ -51,46 +49,18 @@ export default function UserQuizSummaryView() {
         }
     }
 
-    async function copyTokenUrlToClipboard() {
-        try {
-            if (!navigator?.clipboard) return
-            await navigator.clipboard.writeText(sharedUrl)
-        } catch (err) {
-        }
-    }
-
-    function shareDialogBody() {
-        return (
-            <>
-                <Group>
-                    <TextInput label="Link"
-                               style={{width: "400px"}}
-                               placeholder=""
-                               value={sharedUrl}
-                               disabled={true}/>
-                    <ActionIcon variant="filled" onClick={async () => {
-                        await copyTokenUrlToClipboard()
-                        popupInfo({
-                            title: "Copiado",
-                            text: "Se ha copiado la direccion de la invitacion",
-                            confirmButtonText: true,
-                            timer: 3000,
-                        })
-                    }}>
-                        <ClipboardCopy style={{width: '70%', height: '70%'}} onClick={() => shareQuiz()}/>
-                    </ActionIcon>
-                </Group>
-            </>
-        )
-    }
-
 
     return (
         <>
             <QuizSummary userQuiz={userQuiz} userQuestions={userQuestions} onRetry={retryQuiz}/>
             <br/>
             {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
-                <UserQuizShareDialog children={shareDialogBody()} onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
+                <UserQuizShareDialog
+                    children={ShareDialogBody({
+                        sharedUrl,
+                        shareQuiz,
+                    })}
+                    onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
             }
 
         </>
