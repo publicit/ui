@@ -159,6 +159,11 @@ async function UserQuizNextQuestion(userQuiz: UserQuiz) {
     return res.data as UserNextQuestion
 }
 
+async function UserQuizRegister(quiz:Quiz) {
+    const res = await instance.post(`/v1/users/quizs/${quiz.id}`)
+    return res.data as UserNextQuestion
+}
+
 type UserQuestionSendAnswersParams = {
     quizId: string
     questionId: string
@@ -219,6 +224,7 @@ export {
     GetUserQuizSummary,
     PostUserQuizRetry,
     UserQuizShareLink,
+    UserQuizRegister,
 
     UserRegistrationPost,
     UserRegistrationLoad,

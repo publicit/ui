@@ -1,4 +1,3 @@
-import {truncateTime} from "../helpers/text_utils";
 import {Quiz, toQuiz} from "./quiz";
 import {toUser, User} from "./user";
 import {UserQuestion} from "./user_question";

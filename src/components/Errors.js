@@ -6,7 +6,7 @@ export function notifyErrResponse(err) {
     if (!response) {
         return popupError({
             title: "API error",
-            text: "No hay respuesta del servidor",
+            text: "Inicia tu sesion",
         });
     }
     const {data, status} = response;

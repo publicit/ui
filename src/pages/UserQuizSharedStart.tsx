@@ -1,22 +1,48 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {isLoggedIn} from "../helpers/sso_service";
 import {QuizRegisterForm, QuizUnregisteredForm} from "../components/UserQuizRegisterForm";
 import {useEffect, useState} from "react";
-import {QuizLoadByToken} from "../helpers/api";
+import {QuizLoadByToken, UserQuizRegister, UserRegistrationLoad, UserWhoAmi} from "../helpers/api";
 import {Quiz} from "../models/quiz";
+import {popupWarning} from "../components/Notifier";
+import {AxiosError} from "axios";
 
 export default function ShareStart() {
+    const navigate = useNavigate()
     const token = useParams().token || ""
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     useEffect(() => {
         async function loadData() {
             try {
-                const res = await QuizLoadByToken(token)
-                setQuiz(res)
+                // load the quiz
+                const q = await QuizLoadByToken(token)
+                setQuiz(q)
+                // load user data
+                const who = await UserWhoAmi()
+                // check user registration is completed
+                const user = await UserRegistrationLoad(who.id || "")
+                if (!user.is_completed) return
+                //  register the user to this quiz
+                try{
+                    await UserQuizRegister(q)
+                    navigate(`/user/quizs`)
+                }catch (err:any){
+                    const req = err?.request
+                    if(!req) return
+                    const text = req.response
+                    if(!text) return
+                    const body = JSON.parse(text)
+                    popupWarning({
+                        title:"Error",
+                        text:body?.error || "No se pudo hacer el registro de la encuesta",
+                    })
+                    navigate(`/user/quizs`)
+                }
             } catch (err) {
                 // first time will always fail
             }
         }
+
         loadData()
     }, [])
 

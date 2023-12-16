@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {notifyErrResponse} from "../components/Errors";
-import {UserQuiz} from "../models/user_quiz";
+import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
 import {GetUserQuizSummary, PostUserQuizRetry, UserQuizShareLink} from "../helpers/api";
 import {UserQuestion} from "../models/user_question";
 import QuizSummary from "../components/QuizSummary";
@@ -52,10 +52,11 @@ export default function UserQuizSummaryView() {
     }
 
     async function copyTokenUrlToClipboard() {
-        try{
-            if(!navigator?.clipboard) return
+        try {
+            if (!navigator?.clipboard) return
             await navigator.clipboard.writeText(sharedUrl)
-        }catch (err){}
+        } catch (err) {
+        }
     }
 
     function shareDialogBody() {
@@ -88,7 +89,10 @@ export default function UserQuizSummaryView() {
         <>
             <QuizSummary userQuiz={userQuiz} userQuestions={userQuestions} onRetry={retryQuiz}/>
             <br/>
-            <UserQuizShareDialog children={shareDialogBody()} onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
+            {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
+                <UserQuizShareDialog children={shareDialogBody()} onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
+            }
+
         </>
     )
 }
