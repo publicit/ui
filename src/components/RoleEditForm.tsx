@@ -23,6 +23,7 @@ export function RoleEditForm({
                 <br/>
                 <TextInput label="Nombre"
                            placeholder="Nombre"
+                           disabled={true}
                            {...form.getInputProps("name")}/>
                 <br/>
                 <TextInput label="Descripcion"

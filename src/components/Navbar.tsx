@@ -132,7 +132,7 @@ export default function NavbarMain({user, version, login, logout}: NavbarParams)
             <div className={classes.footer}>
                 {user?.email ?
                     <>
-                        <UserButton email={user.email} name={user.name} image={user.image}/>
+                        <UserButton email={user.email} name={user.name} image={user.image} last_login_date={new Date()}/>
                         <NavLink label="Cerrar Sesion" onClick={logout}/>
                     </>
                     : <NavLink label="Iniciar Sesion" onClick={login}/>

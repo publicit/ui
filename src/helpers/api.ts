@@ -149,11 +149,6 @@ async function RoleList(){
     return (res.data || []).map((x:any) => x as Role)
 }
 
-async function RolePost(role:Role){
-    const res = await instance.post(`/v1/roles`, role)
-    return res.data as Role
-}
-
 async function RolePut(role:Role){
     const res = await instance.put(`/v1/roles/${role.id}`, role)
     return res.data as Role
@@ -203,11 +198,6 @@ async function UserRegistrationLoad(userId: string) {
     return toUserRegistration(res.data)
 }
 
-async function UserWhoAmi() {
-    const res = await instance.get(`/v1/users/whoami`)
-    return toUser(res.data)
-}
-
 /////////////////////////////////////////////////////////////
 // User Quiz
 /////////////////////////////////////////////////////////////
@@ -253,6 +243,20 @@ async function UserQuizShareLink(userQuizId: string) {
     return res.data
 }
 
+/////////////////////////////////////////////////////////////
+// User
+/////////////////////////////////////////////////////////////
+
+async function PostUserList(){
+    const res = await instance.post(``)
+    return (res.data || []).map((x:any)=> toUser(x))
+}
+
+async function UserWhoAmi() {
+    const res = await instance.get(`/v1/users/whoami`)
+    return toUser(res.data)
+}
+
 export {
     AnswerLoad,
     AnswerList,
@@ -282,7 +286,6 @@ export {
     QuizRegisterInvitation,
 
     RoleList,
-    RolePost,
     RolePut,
     RoleGet,
     RoleDelete,
@@ -301,5 +304,7 @@ export {
 
     UserRegistrationPost,
     UserRegistrationLoad,
+
     UserWhoAmi,
+    PostUserList,
 }
