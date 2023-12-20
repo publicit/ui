@@ -1,5 +1,5 @@
 import {Code, Group, NavLink, rem, ScrollArea} from '@mantine/core';
-import {IconBellQuestion, IconGauge, IconNotes, IconUser,} from '@tabler/icons-react';
+import {IconBellQuestion, IconGauge, IconLock, IconNotes, IconUser,} from '@tabler/icons-react';
 import {UserButton} from './UserButton';
 import {LinksGroup} from './NavbarLinksGroup';
 import Logo from './Logo';
@@ -76,6 +76,19 @@ const menuData: MenuGroup[] = [
             {
                 label: 'Perfil',
                 link: '/user/profile',
+                authenticated: true,
+            },
+        ],
+    },
+    {
+        label: 'Seguridad',
+        icon: IconLock,
+        initiallyOpened: true,
+        authenticated:true,
+        links: [
+            {
+                label: 'Roles',
+                link: '/roles',
                 authenticated: true,
             },
         ],
