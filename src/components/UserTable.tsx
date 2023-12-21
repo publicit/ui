@@ -1,17 +1,17 @@
-import {Button, Checkbox, Image, Table} from "@mantine/core";
-import {Link} from "react-router-dom";
-import {Answer} from "../models/answer";
+import {Button, Table} from "@mantine/core";
 import {User} from "../models/user";
 
 type Params = {
+    onDelete: any
     rows: User[]
 }
 
 type RowParams = {
+    onDelete: any
     user: User
 }
 
-function Row({user}: RowParams) {
+function Row({user, onDelete}: RowParams) {
     return (
         <Table.Tr key={user.id}>
             <Table.Td>
@@ -27,17 +27,15 @@ function Row({user}: RowParams) {
                 {`${user.last_login?.toLocaleDateString()} ${user.last_login?.toLocaleTimeString()}`}
             </Table.Td>
             <Table.Td>
-                <Button type="button" variant="outline">
-                    <Link to={`/users/${user.id}`}>
-                        Editar
-                    </Link>
+                <Button type="button" variant="outline" onClick={() => onDelete(user)}>
+                    Quitar
                 </Button>
             </Table.Td>
         </Table.Tr>
     )
 }
 
-export function UserTable({rows}: Params) {
+export function UserTable({rows, onDelete}: Params) {
     return (
         <Table striped={true} withRowBorders={true}>
             <Table.Thead>
@@ -50,7 +48,7 @@ export function UserTable({rows}: Params) {
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.map((user: User) => <Row key={user.id} user={user}/>)}
+                {rows.map((user: User) => <Row key={user.id} user={user} onDelete={onDelete}/>)}
             </Table.Tbody>
         </Table>
     )

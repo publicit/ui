@@ -1,4 +1,4 @@
-import {Button, Group, TextInput} from "@mantine/core";
+import {Button, Title, Group, TextInput} from "@mantine/core";
 import {Role} from "../models/role";
 
 type params = {
@@ -19,7 +19,7 @@ export function RoleEditForm({
             <form onSubmit={form.onSubmit((data: any) => {
                 onSubmit(data)
             })}>
-                <legend>{legend}</legend>
+                <Title>{legend}</Title>
                 <br/>
                 <TextInput label="Nombre"
                            placeholder="Nombre"
