@@ -181,7 +181,7 @@ async function RolesInUser(userId:string){
 
 async function UsersInRole(roleId:string){
     const res = await instance.get(`/v1/roles/${roleId}/users`)
-    return (res.data || []).map((x:any)=> x as User)
+    return (res.data || []).map((x:any)=> toUser(x))
 }
 
 /////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-function trimAll(s: any): any {
+export function trimAll(s: any): any {
     switch (typeof s) {
         case "string":
             return s.trim()
@@ -11,7 +11,7 @@ function trimAll(s: any): any {
     }
 }
 
-function truncateTime(utcDate: Date): Date {
+export function truncateTime(utcDate: Date): Date {
     return new Date(
         utcDate.getUTCFullYear(),
         utcDate.getUTCMonth(),
@@ -19,18 +19,34 @@ function truncateTime(utcDate: Date): Date {
     )
 }
 
-function formatDate(d: Date): string {
+export function toUTCDate(utcDate: Date): Date {
+    return new Date(
+        utcDate.getUTCFullYear(),
+        utcDate.getUTCMonth(),
+        utcDate.getUTCDate(),
+        utcDate.getUTCHours(),
+        utcDate.getUTCMinutes(),
+        utcDate.getUTCSeconds(),
+    )
+}
+
+export function toDate(utcDate: Date): Date {
+    return new Date(
+        utcDate.getFullYear(),
+        utcDate.getMonth(),
+        utcDate.getDate(),
+        utcDate.getHours(),
+        utcDate.getMinutes(),
+        utcDate.getSeconds(),
+    )
+}
+
+export function formatDate(d: Date): string {
     return dayjs(d).format("YYYY-MM-DD")
 }
 
-function trimBigText(d: string, maxLength: number = 50): string {
+export function trimBigText(d: string, maxLength: number = 50): string {
     return d.length >= maxLength ? `${d.substring(0, maxLength - 1)}...` : d
 }
 
 
-export {
-    formatDate,
-    trimAll,
-    trimBigText,
-    truncateTime,
-}

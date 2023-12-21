@@ -1,24 +1,26 @@
+import {toDate, truncateTime} from "../helpers/text_utils";
+
 export class User {
     email?: string
     image?: string | undefined
     name?: string
     id?: string
-    last_login_date: Date
+    last_login: Date
 
     constructor() {
         this.email = ""
         this.image = ""
         this.name = ""
         this.id = ""
-        this.last_login_date = new Date()
+        this.last_login = new Date()
     }
 }
 
 export function toUser(v: any): User {
     if (!v) return new User()
-    return {
+    return  {
         ...v,
-        last_login_date: new Date(),
+        last_login: toDate(new Date(v["last_login"])),
     }
 }
 

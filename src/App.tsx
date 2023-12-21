@@ -49,7 +49,7 @@ function App() {
             email: profile?.email,
             name: profile?.name,
             image: profile?.picture,
-            last_login_date: new Date(),
+            last_login: new Date(),
         }
         const version = process.env.REACT_APP_TAG_NAME || ""
 

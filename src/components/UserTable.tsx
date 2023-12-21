@@ -18,10 +18,13 @@ function Row({user}: RowParams) {
                 {user.email}
             </Table.Td>
             <Table.Td>
-                {user.image && <Image src={user.image} width={2}/>}
+                {user.image && <img alt="avatar" src={user.image} width={"10%"}/>}
             </Table.Td>
             <Table.Td>
-                {user.last_login_date?.toLocaleDateString()}
+                {user.name}
+            </Table.Td>
+            <Table.Td>
+                {`${user.last_login?.toLocaleDateString()} ${user.last_login?.toLocaleTimeString()}`}
             </Table.Td>
             <Table.Td>
                 <Button type="button" variant="outline">
@@ -40,6 +43,7 @@ export function UserTable({rows}: Params) {
             <Table.Thead>
                 <Table.Tr>
                     <Table.Th>Email</Table.Th>
+                    <Table.Th>Avatar</Table.Th>
                     <Table.Th>Nombre</Table.Th>
                     <Table.Th>Ultimo Inicio de Sesion</Table.Th>
                     <Table.Th></Table.Th>
