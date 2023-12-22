@@ -1,5 +1,5 @@
 import {Code, Group, NavLink, rem, ScrollArea} from '@mantine/core';
-import {IconBellQuestion, IconGauge, IconNotes, IconUser,} from '@tabler/icons-react';
+import {IconBellQuestion, IconGauge, IconLock, IconNotes, IconUser,} from '@tabler/icons-react';
 import {UserButton} from './UserButton';
 import {LinksGroup} from './NavbarLinksGroup';
 import Logo from './Logo';
@@ -80,6 +80,19 @@ const menuData: MenuGroup[] = [
             },
         ],
     },
+    {
+        label: 'Seguridad',
+        icon: IconLock,
+        initiallyOpened: true,
+        authenticated:true,
+        links: [
+            {
+                label: 'Roles',
+                link: '/roles',
+                authenticated: true,
+            },
+        ],
+    },
     // {label: 'Analytics', icon: IconPresentationAnalytics},
     // {label: 'Contracts', icon: IconFileAnalytics},
     // {
@@ -119,7 +132,7 @@ export default function NavbarMain({user, version, login, logout}: NavbarParams)
             <div className={classes.footer}>
                 {user?.email ?
                     <>
-                        <UserButton email={user.email} name={user.name} image={user.image}/>
+                        <UserButton user={user}  />
                         <NavLink label="Cerrar Sesion" onClick={logout}/>
                     </>
                     : <NavLink label="Iniciar Sesion" onClick={login}/>

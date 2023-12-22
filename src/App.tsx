@@ -9,7 +9,7 @@ import {useDisclosure} from "@mantine/hooks";
 import Logo from "./components/Logo";
 import Navbar from "./components/Navbar";
 import RouteSwitcher from "./RouteSwitcher"
-import {UserProfile} from "./models/user";
+import {User, UserProfile} from "./models/user";
 
 
 function App() {
@@ -45,11 +45,10 @@ function App() {
         const [mobileOpened] = useDisclosure();
         const [desktopOpened, {toggle: toggleDesktop}] = useDisclosure(true);
         const [opened] = useDisclosure()
-        const user = {
-            email: profile?.email,
-            name: profile?.name,
-            image: profile?.picture
-        }
+        const user = new User()
+        user.email=profile?.email
+        user.name=profile?.name
+        user.image=profile?.picture
         const version = process.env.REACT_APP_TAG_NAME || ""
 
 

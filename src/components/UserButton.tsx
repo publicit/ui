@@ -3,22 +3,26 @@ import { IconChevronRight } from '@tabler/icons-react';
 import classes from './UserButton.module.css';
 import {User} from "../models/user"
 
-export function UserButton(u:User) {
+type params = {
+    user: User
+}
+
+export function UserButton({user}:params) {
     return (
         <UnstyledButton className={classes.user}>
             <Group>
                 <Avatar
-                    src={u.image}
+                    src={user.image}
                     radius="xl"
                 />
 
                 <div style={{ flex: 1 }}>
                     <Text size="sm" fw={500}>
-                        {u.name}
+                        {user.name}
                     </Text>
 
                     <Text c="dimmed" size="xs">
-                        {u.email}
+                        {user.email}
                     </Text>
                 </div>
 
