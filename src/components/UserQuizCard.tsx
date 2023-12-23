@@ -1,6 +1,6 @@
-import {Badge, Button, Card, Group, Progress, Text} from "@mantine/core";
+import {Button, Card, Group, Progress, Text} from "@mantine/core";
 import {Link} from "react-router-dom";
-import {CircleCheck, LayoutBoard} from "tabler-icons-react";
+import {LayoutBoard} from "tabler-icons-react";
 import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
 import {resolveUserQuizStatus, resolveUserQuizStatusIcon} from "../helpers/user_quiz_utils";
 

@@ -1,5 +1,5 @@
 import {Button, Group, NumberInput, TextInput} from "@mantine/core";
-import {Quiz, QuizStatus} from "../models/quiz";
+import {Quiz} from "../models/quiz";
 import {Link} from "react-router-dom";
 
 type params = {
@@ -10,13 +10,13 @@ type params = {
     quiz: Quiz
     showDelete?: boolean
     onPublish?: any | undefined
-    canEdit:boolean
+    canEdit: boolean
 }
 
-export default function QuizEditForm({
-                                         onSubmit, form, legend, quiz, onDelete,
-                                         showDelete = false, onPublish, canEdit,
-                                     }: params) {
+export function QuizEditForm({
+                                 onSubmit, form, legend, quiz, onDelete,
+                                 showDelete = false, onPublish, canEdit,
+                             }: params) {
     return (
         <>
             <form onSubmit={form.onSubmit((data: any) => {
@@ -32,6 +32,14 @@ export default function QuizEditForm({
                            placeholder="URL Video"
                            {...form.getInputProps("video_url")}/>
                 <br/>
+                {quiz.thumbnail_url &&
+                    <>
+                        <Link to={quiz.video_url} target="_blank">
+                            <img src={quiz.thumbnail_url} alt="thumbnail"/>
+                        </Link>
+                        <br/>
+                    </>
+                }
                 <TextInput label="Estatus"
                            disabled={true}
                            {...form.getInputProps("status")}/>

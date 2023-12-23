@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {notifyErrResponse} from "../components/Errors";
 import {UserQuestionSendAnswers, UserQuizNextQuestion} from "../helpers/api";
@@ -83,9 +83,15 @@ export default function UserQuizFillForm() {
     }
 
     return (
-        <UserQuizForm userQuestion={userQuestion} userQuiz={userQuiz} userAnswers={userAnswers}
-                      onSubmit={onSubmit} isSubmitEnabled={isSubmitEnabled} selectMultiAnswer={selectMultiAnswer}
-                      setSelectedAnswer={setSelectedAnswer}
-        />
+        <>
+            <Link to={userQuiz.quiz.video_url} target="_blank">
+                <img src={userQuiz.quiz.thumbnail_url} alt="thumbnail"/>
+            </Link>
+            <br/>
+            <UserQuizForm userQuestion={userQuestion} userQuiz={userQuiz} userAnswers={userAnswers}
+                          onSubmit={onSubmit} isSubmitEnabled={isSubmitEnabled} selectMultiAnswer={selectMultiAnswer}
+                          setSelectedAnswer={setSelectedAnswer}
+            />
+        </>
     )
 }

@@ -5,7 +5,7 @@ import {CampaignLoad, QuizPost} from "../helpers/api"
 import {Title} from "@mantine/core";
 import {notifyErrResponse} from "../components/Errors";
 import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
-import QuizEditForm from "../components/QuizEditForm";
+import {QuizEditForm} from "../components/QuizEditForm";
 import {Campaign} from "../models/campaign";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
 import {BreadcrumComponent} from "../components/BreadcrumComponent";

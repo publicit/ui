@@ -1,15 +1,19 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {CampaignLoad, QuestionList, QuizDelete, QuizLoad, QuizPublish, QuizPut} from "../helpers/api"
+import {CampaignLoad, QuestionList, QuizDelete, QuizLoad, QuizPublish, QuizPut, UserQuizShareLink} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
 import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
-import QuizEditForm from "../components/QuizEditForm";
+import {QuizEditForm} from "../components/QuizEditForm";
 import QuestionTable from "../components/QuestionTable";
 import {Question} from "../models/question";
 import {Campaign} from "../models/campaign";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
 import {BreadcrumComponent} from "../components/BreadcrumComponent";
+import {ShowDialog} from "../components/UserQuizShareDialog"
+import {UserQuizStatus} from "../models/user_quiz";
+import {ShareDialogBody} from "../components/ShareDialog";
+import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
 
 export default function Edit() {
     const id = useParams().id || ""
@@ -23,6 +27,7 @@ export default function Edit() {
         validate: quizValidation(),
     })
     const [items, setItems] = useState<BreadcrumbItem[]>([])
+    const [sharedUrl, setSharedUrl] = useState("")
     useEffect(() => {
         async function loadData(id: string) {
             try {
@@ -82,6 +87,17 @@ export default function Edit() {
         }
     }
 
+    async function shareQuiz() {
+        try {
+            const res = await UserQuizShareLink(quiz.id)
+            const tokenUrl = quizTokenShareUrl(res)
+            console.log('generating a new token:', tokenUrl)
+            setSharedUrl(tokenUrl)
+        } catch (error) {
+            await notifyErrResponse(error)
+        }
+    }
+
     return (
         <div>
             <BreadcrumComponent items={items}/>
@@ -90,6 +106,16 @@ export default function Edit() {
                           onDelete={onDelete} showDelete={questions.length === 0} onPublish={onPublish}
                           canEdit={canEdit}
             />
+            <hr/>
+            {quiz.status === QuizStatus[QuizStatus.published] &&
+                <ShowDialog
+                    children={ShareDialogBody({
+                        sharedUrl,
+                        text: "Se ha copiado la direccion de la invitacion",
+                    })}
+                    onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
+            }
+            <hr/>
             <QuestionTable rows={questions} canEdit={quiz.status === QuizStatus[QuizStatus.draft]}/>
         </div>
     )

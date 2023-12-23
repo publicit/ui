@@ -1,6 +1,5 @@
-import {Button, Checkbox, Table} from "@mantine/core";
+import {Button, Table} from "@mantine/core";
 import {Link} from "react-router-dom";
-import {Answer} from "../models/answer";
 import {Role} from "../models/role";
 
 type Params = {

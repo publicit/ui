@@ -1,18 +1,11 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {
-    QuizLoadByToken,
-    QuizRegisterInvitation,
-    UserRegistrationLoad,
-    UserRegistrationPost,
-    UserWhoAmi
-} from "../helpers/api"
+import {QuizRegisterInvitation, UserRegistrationLoad, UserRegistrationPost, UserWhoAmi} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
 import {fromUserRegistration, UserRegistration, userRegistrationValidation} from "../models/user_registration";
 import {User} from "../models/user";
 import ProfileForm from "../components/ProfileForm";
-import {Quiz} from "../models/quiz";
 
 export default function Edit() {
     const returnUrl = "/"
