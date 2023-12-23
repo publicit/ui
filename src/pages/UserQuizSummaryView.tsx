@@ -5,7 +5,7 @@ import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
 import {GetUserQuizSummary, PostUserQuizRetry, UserQuizShareLink} from "../helpers/api";
 import {UserQuestion} from "../models/user_question";
 import QuizSummary from "../components/QuizSummary";
-import UserQuizShareDialog from "../components/UserQuizShareDialog"
+import {ShowDialog} from "../components/UserQuizShareDialog"
 import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
 import {ShareDialogBody} from "../components/ShareDialog";
 
@@ -55,14 +55,14 @@ export default function UserQuizSummaryView() {
             <QuizSummary userQuiz={userQuiz} userQuestions={userQuestions} onRetry={retryQuiz}/>
             <br/>
             {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
-                <UserQuizShareDialog
+                <ShowDialog
                     children={ShareDialogBody({
                         sharedUrl,
-                        shareQuiz,
+                        onClick:() => {},
+                        text: "Se ha copiado la direccion de la invitacion",
                     })}
                     onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
             }
-
         </>
     )
 }

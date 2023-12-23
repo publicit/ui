@@ -8,7 +8,7 @@ type params = {
 }
 
 
-export default function ShowDialog({children, onClose, onOpen}: params) {
+export function ShowDialog({children, onClose, onOpen}: params) {
     const [opened, {open, close}] = useDisclosure(false);
     return (
         <>

@@ -21,6 +21,13 @@ function QuizRow({index, quiz}: RowParams) {
                 {quiz.status}
             </Table.Td>
             <Table.Td>
+                {quiz.thumbnail_url &&
+                    <Link to={quiz.video_url} target="_blank">
+                        <img alt="avatar" src={quiz.thumbnail_url} width={"10%"}/>
+                    </Link>
+                }
+            </Table.Td>
+            <Table.Td>
                 {quiz.number_of_questions}
             </Table.Td>
             <Table.Td>
@@ -41,6 +48,7 @@ export default function QuizTable({rows}: Params) {
                 <Table.Tr>
                     <Table.Th>Nombre de Encuesta</Table.Th>
                     <Table.Th>Estatus</Table.Th>
+                    <Table.Th>Imagen</Table.Th>
                     <Table.Th>Numero de Preguntas</Table.Th>
                     <Table.Th></Table.Th>
                 </Table.Tr>

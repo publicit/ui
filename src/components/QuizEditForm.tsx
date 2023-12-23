@@ -10,13 +10,13 @@ type params = {
     quiz: Quiz
     showDelete?: boolean
     onPublish?: any | undefined
-    canEdit:boolean
+    canEdit: boolean
 }
 
-export default function QuizEditForm({
-                                         onSubmit, form, legend, quiz, onDelete,
-                                         showDelete = false, onPublish, canEdit,
-                                     }: params) {
+export function QuizEditForm({
+                                 onSubmit, form, legend, quiz, onDelete,
+                                 showDelete = false, onPublish, canEdit,
+                             }: params) {
     return (
         <>
             <form onSubmit={form.onSubmit((data: any) => {
@@ -32,8 +32,14 @@ export default function QuizEditForm({
                            placeholder="URL Video"
                            {...form.getInputProps("video_url")}/>
                 <br/>
-                <img src="https://img.youtube.com/vi/-yIsQPp31L0/0.jpg" alt="thumbnail" />
-                <br/>
+                {quiz.thumbnail_url &&
+                    <>
+                        <Link to={quiz.video_url} target="_blank">
+                            <img src={quiz.thumbnail_url} alt="thumbnail"/>
+                        </Link>
+                        <br/>
+                    </>
+                }
                 <TextInput label="Estatus"
                            disabled={true}
                            {...form.getInputProps("status")}/>

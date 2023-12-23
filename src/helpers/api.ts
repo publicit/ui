@@ -212,8 +212,8 @@ async function UserQuizNextQuestion(userQuiz: UserQuiz) {
     return res.data as UserNextQuestion
 }
 
-async function UserQuizRegister(quiz:Quiz) {
-    const res = await instance.post(`/v1/users/quizs/${quiz.id}`)
+async function UserQuizRegister(quiz:Quiz, skipValidation:boolean=true) {
+    const res = await instance.post(`/v1/users/quizs/${quiz.id}?skip=${skipValidation}`)
     return res.data as UserNextQuestion
 }
 

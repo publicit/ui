@@ -4,7 +4,8 @@ import {ClipboardCopy} from "tabler-icons-react";
 
 type params = {
     sharedUrl: string
-    shareQuiz: any
+    onClick?: any
+    text:string
 }
 
 async function copyTokenUrlToClipboard(sharedUrl: string) {
@@ -16,7 +17,7 @@ async function copyTokenUrlToClipboard(sharedUrl: string) {
 }
 
 
-export function ShareDialogBody({sharedUrl, shareQuiz}: params) {
+export function ShareDialogBody({sharedUrl, onClick,text}: params) {
     return (
         <>
             <Group>
@@ -29,12 +30,12 @@ export function ShareDialogBody({sharedUrl, shareQuiz}: params) {
                     await copyTokenUrlToClipboard(sharedUrl)
                     popupInfo({
                         title: "Copiado",
-                        text: "Se ha copiado la direccion de la invitacion",
                         confirmButtonText: true,
                         timer: 3000,
+                        text,
                     })
                 }}>
-                    <ClipboardCopy style={{width: '70%', height: '70%'}} onClick={() => shareQuiz()}/>
+                    <ClipboardCopy style={{width: '70%', height: '70%'}} onClick={onClick}/>
                 </ActionIcon>
             </Group>
         </>

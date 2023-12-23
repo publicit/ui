@@ -23,7 +23,8 @@ export default function ShareStart() {
                 if (!user.is_completed) return
                 //  register the user to this quiz
                 try{
-                    await UserQuizRegister(q)
+                    // TODO: fix the double registration thing, code is reaching here two times
+                    await UserQuizRegister(q,true)
                     navigate(`/user/quizs`)
                 }catch (err:any){
                     const req = err?.request
