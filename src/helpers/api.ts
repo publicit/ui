@@ -4,7 +4,7 @@ import {Quiz, toQuiz} from "../models/quiz";
 import {Question, toQuestion} from "../models/question";
 import {Answer, toAnswer} from "../models/answer";
 import {toUserRegistration, UserRegistration} from "../models/user_registration";
-import {toUser, User} from "../models/user";
+import {toUser} from "../models/user";
 import {toUserQuiz, UserQuiz, UserQuizSummary} from "../models/user_quiz";
 import {UserNextQuestion} from "../models/user_question";
 import {Role} from "../models/role";

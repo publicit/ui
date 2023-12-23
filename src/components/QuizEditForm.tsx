@@ -1,5 +1,5 @@
 import {Button, Group, NumberInput, TextInput} from "@mantine/core";
-import {Quiz, QuizStatus} from "../models/quiz";
+import {Quiz} from "../models/quiz";
 import {Link} from "react-router-dom";
 
 type params = {
@@ -31,6 +31,8 @@ export default function QuizEditForm({
                 <TextInput label="Video URL"
                            placeholder="URL Video"
                            {...form.getInputProps("video_url")}/>
+                <br/>
+                <img src="https://img.youtube.com/vi/-yIsQPp31L0/0.jpg" alt="thumbnail" />
                 <br/>
                 <TextInput label="Estatus"
                            disabled={true}
