@@ -27,8 +27,6 @@ export function QuizUnregisteredForm({token}: params) {
             <p>Gracias por aplicar para resolver una encuesta.</p>
             <p>Es necesario que inicies sesion y te registres para continuar.</p>
             <p>Haz click en el boton INICIAR SESION.</p>
-            <p>TODO: redirect after login to user registration, pass the token in the query parameters</p>
-            <div>hello user quiz shared start {`token: ${token}`}</div>
         </div>
     )
 }
