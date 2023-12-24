@@ -5,7 +5,7 @@ export function notifyErrResponse(err) {
     // TODO: fix this mess
     if (!response) {
         return popupError({
-            title: "API error",
+            title: "error",
             text: "Inicia tu sesion",
         });
     }
@@ -14,7 +14,7 @@ export function notifyErrResponse(err) {
     switch (status) {
         default:
             return popupWarning({
-                title: "API error",
+                title: "error",
                 confirmButtonText: "Continuar",
                 text: payload.message,
                 timer: 2000,
