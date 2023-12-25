@@ -8,6 +8,7 @@ import {toUser} from "../models/user";
 import {toUserQuiz, UserQuiz, UserQuizSummary} from "../models/user_quiz";
 import {UserNextQuestion} from "../models/user_question";
 import {Role} from "../models/role";
+import {FileItem, toFileItem} from "../models/file_item";
 
 /////////////////////////////////////////////////////////////
 // Answer
@@ -65,6 +66,30 @@ async function CampaignPut(campaign: Campaign) {
 async function CampaignDelete(id: string) {
     const res = await instance.delete(`/v1/campaigns/${id}`)
     return toCampaign(res.data)
+}
+
+/////////////////////////////////////////////////////////////
+// File
+/////////////////////////////////////////////////////////////
+
+export async function fileUpload(f: FileItem, file: File) {
+    const formData = new FormData()
+    console.log(`file type: ${file.type}`)
+    formData.append("file", file)
+    formData.append("json", JSON.stringify({
+        ...f,
+        type: file?.type,
+    }))
+    const res = await instance({
+        data: formData,
+        method: "post",
+        url: `/v1/files`,
+        headers: {
+            'accept': 'application/json',
+            'content-type': 'multipart/form-data',
+        }
+    })
+    return toFileItem(res.data)
 }
 
 /////////////////////////////////////////////////////////////
@@ -144,44 +169,44 @@ async function QuizPublish(id: string) {
 // Role
 /////////////////////////////////////////////////////////////
 
-async function RoleList(){
+async function RoleList() {
     const res = await instance.get(`/v1/roles`)
-    return (res.data || []).map((x:any) => x as Role)
+    return (res.data || []).map((x: any) => x as Role)
 }
 
-async function RolePut(role:Role){
+async function RolePut(role: Role) {
     const res = await instance.put(`/v1/roles/${role.id}`, role)
     return res.data as Role
 }
 
-async function RoleGet(id:string){
+async function RoleGet(id: string) {
     const res = await instance.get(`/v1/roles/${id}`)
     return res.data as Role
 }
 
-async function RoleDelete(id:string){
+async function RoleDelete(id: string) {
     const res = await instance.delete(`/v1/roles/${id}`)
     return res.data as Role
 }
 
-async function RoleAddUser(roleId:string, userId:string){
+async function RoleAddUser(roleId: string, userId: string) {
     const res = await instance.put(`/v1/roles/${roleId}/users/${userId}`)
     return res.data
 }
 
-async function RoleRemoveUser(roleId:string, userId:string){
+async function RoleRemoveUser(roleId: string, userId: string) {
     const res = await instance.delete(`/v1/roles/${roleId}/users/${userId}`)
     return res.data
 }
 
-async function RolesInUser(userId:string){
+async function RolesInUser(userId: string) {
     const res = await instance.get(`/v1/users/${userId}/roles`)
-    return (res.data || []).map((x:any)=> x as Role)
+    return (res.data || []).map((x: any) => x as Role)
 }
 
-async function UsersInRole(roleId:string){
+async function UsersInRole(roleId: string) {
     const res = await instance.get(`/v1/roles/${roleId}/users`)
-    return (res.data || []).map((x:any)=> toUser(x))
+    return (res.data || []).map((x: any) => toUser(x))
 }
 
 /////////////////////////////////////////////////////////////
@@ -212,7 +237,7 @@ async function UserQuizNextQuestion(userQuiz: UserQuiz) {
     return res.data as UserNextQuestion
 }
 
-async function UserQuizRegister(quiz:Quiz) {
+async function UserQuizRegister(quiz: Quiz) {
     const res = await instance.post(`/v1/users/quizs/${quiz.id}`)
     return res.data as UserNextQuestion
 }
@@ -247,9 +272,9 @@ async function UserQuizShareLink(userQuizId: string) {
 // User
 /////////////////////////////////////////////////////////////
 
-async function PostUserList(){
+async function PostUserList() {
     const res = await instance.post(``)
-    return (res.data || []).map((x:any)=> toUser(x))
+    return (res.data || []).map((x: any) => toUser(x))
 }
 
 async function UserWhoAmi() {

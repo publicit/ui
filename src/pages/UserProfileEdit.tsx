@@ -1,11 +1,18 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
-import {QuizRegisterInvitation, UserRegistrationLoad, UserRegistrationPost, UserWhoAmi} from "../helpers/api"
+import {
+    fileUpload,
+    QuizRegisterInvitation,
+    UserRegistrationLoad,
+    UserRegistrationPost,
+    UserWhoAmi
+} from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
 import {fromUserRegistration, UserRegistration, userRegistrationValidation} from "../models/user_registration";
 import {User} from "../models/user";
 import ProfileForm from "../components/ProfileForm";
+import {FileItem} from "../models/file_item"
 
 export default function Edit() {
     const returnUrl = "/"
@@ -17,6 +24,7 @@ export default function Edit() {
         validate: userRegistrationValidation(),
     })
     const params = new URLSearchParams(window.location.search)
+    const [ineFile, setIneFile] = useState<FileItem>(new FileItem())
     useEffect(() => {
         async function loadData() {
             try {
@@ -53,11 +61,25 @@ export default function Edit() {
         }
     }
 
+    async function onFileSelected(file: File) {
+        if (!file) return
+        try {
+            // TODO: check file size is not beyond limit
+            const f = new FileItem()
+            const newFile = await fileUpload(f, file)
+            setIneFile(newFile)
+        } catch (err) {
+            await notifyErrResponse(err)
+        }
+    }
+
     return (
         <>
             <ProfileForm onSubmit={onSubmit} form={form} email={user.email}
                          legend={`${userRegistration.first_name} ${userRegistration.last_name}`}
                          is_completed={userRegistration.is_completed}
+                         onFileSelected={onFileSelected}
+                         ineFile={ineFile}
             />
         </>
     )

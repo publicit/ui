@@ -57,6 +57,9 @@ export default function CampaignEditForm({
                            disabled={!canEdit}
                            {...form.getInputProps("image_url")}/>
                 <br/>
+                {campaign.image_url &&
+                    <img src={campaign.image_url} alt="logo" height="300"/>
+                }
                 <Group>
                     {canEdit &&
                         <Button type="submit" variant="outline">
