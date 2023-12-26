@@ -25,29 +25,32 @@ export default function Edit() {
     })
     const params = new URLSearchParams(window.location.search)
     const [ineFile, setIneFile] = useState<FileItem>(new FileItem())
-    const [saveEnabled, setSaveEnabled] = useState(false)
+    const [saveEnabled, setSaveEnabled] = useState(true)
     const [showUpload, setShowUpload] = useState(false)
-    useEffect(() => {
-        async function loadData() {
-            try {
-                const userData: User = await UserWhoAmi()
-                setUser(userData)
-                const userId: string = userData?.id || ""
-                const data: UserProfile = await UserProfileLoad(userId)
-                setUserRegistration(data)
-                setShowUpload(!data.is_completed)
-                form.setValues(data)
-            } catch (err) {
-                // ignoring since the first time may fail, we still need to load the data if available,
-                // so
-            }
-        }
 
+    async function loadData() {
+        try {
+            const userData: User = await UserWhoAmi()
+            setUser(userData)
+            const userId: string = userData?.id || ""
+            const data: UserProfile = await UserProfileLoad(userId)
+            setSaveEnabled(!data.is_completed)
+            setUserRegistration(data)
+            setShowUpload(!data.is_completed)
+            form.setValues(data)
+        } catch (err) {
+            // ignoring since the first time may fail, we still need to load the data if available,
+            // so
+        }
+    }
+
+    useEffect(() => {
         loadData()
     }, [])
 
     async function onSubmit(data: UserProfile) {
         try {
+            setSaveEnabled(false)
             data.user_id = user.id || ""
             const userProfile = fromUserProfile(data)
             await UserProfilePost(userProfile, ineFile)
@@ -57,9 +60,10 @@ export default function Edit() {
                 //  call the server api to validate the token
                 await QuizRegisterInvitation(token || "")
             }
-            navigate(returnUrl)
+            await loadData()
         } catch (err) {
             await notifyErrResponse(err)
+            setSaveEnabled(true)
         }
     }
 
@@ -68,10 +72,13 @@ export default function Edit() {
         try {
             // TODO: check file size is not beyond limit
             const f = new FileItem()
+            setSaveEnabled(false)
             const newFile = await fileUpload(f, file)
             setIneFile(newFile)
         } catch (err) {
             await notifyErrResponse(err)
+        }finally {
+            setSaveEnabled(true)
         }
     }
 

@@ -64,6 +64,7 @@ export default function ProfileForm({
                 <br/>
                 <TextInput label="Telefono"
                            placeholder="Telefono"
+                           disabled={isCompleted}
                            {...form.getInputProps("phone_number")}/>
                 <br/>
                 <Text>Fecha de Nacimiento</Text>

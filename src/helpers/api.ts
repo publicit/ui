@@ -224,7 +224,7 @@ async function UserProfilePost(userRegistration: UserProfile, file: FileItem) {
 
 async function UserProfileLoad(userId: string) {
     const res = await instance.get(`/v1/user-profile/${userId}`)
-    return (res.data)
+    return toUserProfile(res.data)
 }
 
 /////////////////////////////////////////////////////////////
