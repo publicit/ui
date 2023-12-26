@@ -1,19 +1,20 @@
-import {Button, FileInput, Group, Select, Text, TextInput, Title} from "@mantine/core";
+import {Button, FileInput, Select, Text, TextInput, Title} from "@mantine/core";
 import {UseFormReturnType} from "@mantine/form";
 import {DatePickerInput} from "@mantine/dates";
-import {UserRegistration, UserSex} from "../models/user_registration";
+import {UserProfile, UserSex} from "../models/user_profile";
 import {Check} from "tabler-icons-react";
 import {IconUpload} from "@tabler/icons-react";
-import {FileItem} from "../models/file_item";
+import {useDisclosure} from "@mantine/hooks";
 
 type params = {
     onSubmit: any
-    form: UseFormReturnType<UserRegistration>
+    form: UseFormReturnType<UserProfile>
     legend: string
     email?: string | undefined
-    is_completed: boolean
+    isCompleted: boolean
     onFileSelected: any
-    ineFile: FileItem
+    saveEnabled: boolean
+    showUpload: boolean
 }
 
 const userSex: string[] = [
@@ -27,30 +28,33 @@ export default function ProfileForm({
                                         form,
                                         legend,
                                         email,
-                                        is_completed,
+                                        isCompleted,
                                         onFileSelected,
-                                        ineFile,
+                                        saveEnabled,
+                                        showUpload,
                                     }: params) {
+    const [visible, {toggle}] = useDisclosure(false)
     return (
         <>
             <Title>
                 {legend}
-                {is_completed && <Check
+                {isCompleted && <Check
                     size={32}
                     color="green"/>}
             </Title>
             <form onSubmit={form.onSubmit((data: any) => {
+                toggle()
                 onSubmit(data)
             })}>
                 <br/>
                 <TextInput label="Nombre(s)"
                            placeholder="Nombre(s)"
-                           disabled={is_completed}
+                           disabled={isCompleted}
                            {...form.getInputProps("first_name")}/>
                 <br/>
                 <TextInput label="Apellidos"
                            placeholder="Apellidos"
-                           disabled={is_completed}
+                           disabled={isCompleted}
                            {...form.getInputProps("last_name")}/>
                 <br/>
                 <TextInput label="Email"
@@ -64,7 +68,7 @@ export default function ProfileForm({
                 <br/>
                 <Text>Fecha de Nacimiento</Text>
                 <DatePickerInput
-                    disabled={is_completed}
+                    disabled={isCompleted}
                     {...form.getInputProps(`dob`)}
                 />
                 <br/>
@@ -73,10 +77,10 @@ export default function ProfileForm({
                     data={userSex}
                     comboboxProps={{transitionProps: {transition: 'pop', duration: 200}}}
                     {...form.getInputProps("sex")}
-                    disabled={is_completed}
+                    disabled={isCompleted}
                 />
                 <br/>
-                {!is_completed &&
+                {showUpload &&
                     <>
                         <FileInput
                             placeholder="Haz click para subir la parte trasera de tu credencial del INE"
@@ -90,15 +94,14 @@ export default function ProfileForm({
                         <br/>
                     </>
                 }
-                <Group>
-                    <Button
-                        type="submit"
-                        variant="outline"
-                        disabled={!ineFile.id}
-                    >
-                        Guardar
-                    </Button>
-                </Group>
+                <Button
+                    type="submit"
+                    variant="outline"
+                    disabled={!saveEnabled}
+                >
+                    Guardar
+                </Button>
+
             </form>
         </>
     )

@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {isLoggedIn} from "../helpers/sso_service";
 import {QuizRegisterForm, QuizUnregisteredForm} from "../components/UserQuizRegisterForm";
 import {useEffect, useState} from "react";
-import {QuizLoadByToken, UserQuizRegister, UserRegistrationLoad, UserWhoAmi} from "../helpers/api";
+import {QuizLoadByToken, UserQuizRegister, UserProfileLoad, UserWhoAmi} from "../helpers/api";
 import {Quiz} from "../models/quiz";
 import {popupWarning} from "../components/Notifier";
 
@@ -19,7 +19,7 @@ export default function ShareStart() {
                 // load user data
                 const who = await UserWhoAmi()
                 // check user registration is completed
-                const user = await UserRegistrationLoad(who.id || "")
+                const user = await UserProfileLoad(who.id || "")
                 if (!user.is_completed) return
                 //  register the user to this quiz
                 try{

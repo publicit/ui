@@ -6,7 +6,7 @@ export enum UserSex {
     Otro,
 }
 
-export class UserRegistration {
+export class UserProfile {
     id: string
     dob: Date
     first_name: string
@@ -28,8 +28,8 @@ export class UserRegistration {
     }
 }
 
-export function toUserRegistration(v: any): UserRegistration {
-    if (!v) return new UserRegistration()
+export function toUserProfile(v: any): UserProfile {
+    if (!v) return new UserProfile()
     let sex: string = ""
     switch (v.sex) {
         case "MALE":
@@ -49,7 +49,7 @@ export function toUserRegistration(v: any): UserRegistration {
     }
 }
 
-export function fromUserRegistration(u: UserRegistration): UserRegistration {
+export function fromUserProfile(u: UserProfile): UserProfile {
     const clone = JSON.parse(JSON.stringify(u))
     switch (clone.sex) {
         case UserSex[UserSex.Hombre]:
@@ -66,7 +66,7 @@ export function fromUserRegistration(u: UserRegistration): UserRegistration {
 }
 
 
-export function userRegistrationValidation() {
+export function userProfileValidation() {
     return {
         first_name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
         last_name: (value: string) => trimAll(value).length === 0 ? "Apellidos es mandatorio" : null,

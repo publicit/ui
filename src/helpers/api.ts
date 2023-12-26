@@ -3,7 +3,7 @@ import {Campaign, toCampaign} from "../models/campaign";
 import {Quiz, toQuiz} from "../models/quiz";
 import {Question, toQuestion} from "../models/question";
 import {Answer, toAnswer} from "../models/answer";
-import {toUserRegistration, UserRegistration} from "../models/user_registration";
+import {toUserProfile, UserProfile} from "../models/user_profile";
 import {toUser} from "../models/user";
 import {toUserQuiz, UserQuiz, UserQuizSummary} from "../models/user_quiz";
 import {UserNextQuestion} from "../models/user_question";
@@ -213,14 +213,18 @@ async function UsersInRole(roleId: string) {
 // User Registration
 /////////////////////////////////////////////////////////////
 
-async function UserRegistrationPost(userRegistration: UserRegistration) {
-    const res = await instance.post(`/v1/user-registration`, userRegistration)
-    return toUserRegistration(res.data)
+async function UserProfilePost(userRegistration: UserProfile, file: FileItem) {
+    const payload = {
+        profile: userRegistration,
+        file: file,
+    }
+    const res = await instance.post(`/v1/user-profile`, payload)
+    return toUserProfile(res.data)
 }
 
-async function UserRegistrationLoad(userId: string) {
-    const res = await instance.get(`/v1/user-registration/${userId}`)
-    return toUserRegistration(res.data)
+async function UserProfileLoad(userId: string) {
+    const res = await instance.get(`/v1/user-profile/${userId}`)
+    return (res.data)
 }
 
 /////////////////////////////////////////////////////////////
@@ -327,8 +331,8 @@ export {
     UserQuizShareLink,
     UserQuizRegister,
 
-    UserRegistrationPost,
-    UserRegistrationLoad,
+    UserProfilePost,
+    UserProfileLoad,
 
     UserWhoAmi,
     PostUserList,
