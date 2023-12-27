@@ -30,6 +30,8 @@ export default function UserQuizCard({uq}: Params) {
                 <Text fw={800}>
                     {uq.quiz.name}
                 </Text>
+                <br/>
+                <img src={uq.quiz.thumbnail_url} alt="logo"/>
             </Card.Section>
             <Group justify="space-between" mt="md" mb="xs">
                 <LayoutBoard/>
