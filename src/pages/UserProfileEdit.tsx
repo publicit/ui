@@ -13,14 +13,15 @@ import {fromUserProfile, UserProfile, userProfileValidation} from "../models/use
 import {User} from "../models/user";
 import ProfileForm from "../components/ProfileForm";
 import {FileItem} from "../models/file_item"
+import {debug} from "util";
 
 export default function Edit() {
     const returnUrl = "/"
     const navigate = useNavigate();
     const [user, setUser] = useState<User>(new User())
-    const [userRegistration, setUserRegistration] = useState<UserProfile>(new UserProfile())
+    const [userProfile, setUserProfile] = useState<UserProfile>(new UserProfile())
     const form = useForm<UserProfile>({
-        initialValues: userRegistration,
+        initialValues: userProfile,
         validate: userProfileValidation(),
     })
     const params = new URLSearchParams(window.location.search)
@@ -35,9 +36,16 @@ export default function Edit() {
             const userId: string = userData?.id || ""
             const data: UserProfile = await UserProfileLoad(userId)
             setSaveEnabled(!data.is_completed)
-            setUserRegistration(data)
+            setUserProfile(data)
             setShowUpload(!data.is_completed)
             form.setValues(data)
+            // check if user is coming from a shared quiz url
+            const token = params.get('token')
+            if (params.has('token') && data.is_completed) {
+                //  call the server api to validate the token
+                await QuizRegisterInvitation(token || "")
+            }
+
         } catch (err) {
             // ignoring since the first time may fail, we still need to load the data if available,
             // so
@@ -54,12 +62,6 @@ export default function Edit() {
             data.user_id = user.id || ""
             const userProfile = fromUserProfile(data)
             await UserProfilePost(userProfile, ineFile)
-            // check if user is coming from a shared quiz url
-            const token = params.get('token')
-            if (params.has('token')) {
-                //  call the server api to validate the token
-                await QuizRegisterInvitation(token || "")
-            }
             await loadData()
         } catch (err) {
             await notifyErrResponse(err)
@@ -77,7 +79,7 @@ export default function Edit() {
             setIneFile(newFile)
         } catch (err) {
             await notifyErrResponse(err)
-        }finally {
+        } finally {
             setSaveEnabled(true)
         }
     }
@@ -85,8 +87,8 @@ export default function Edit() {
     return (
         <>
             <ProfileForm onSubmit={onSubmit} form={form} email={user.email}
-                         legend={`${userRegistration.first_name} ${userRegistration.last_name}`}
-                         isCompleted={userRegistration.is_completed}
+                         legend={`${userProfile.first_name} ${userProfile.last_name}`}
+                         isCompleted={userProfile.is_completed}
                          onFileSelected={onFileSelected}
                          saveEnabled={saveEnabled}
                          showUpload={showUpload}
