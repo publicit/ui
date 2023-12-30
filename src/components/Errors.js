@@ -2,6 +2,11 @@ import {popupError, popupWarning} from "./Notifier";
 
 export function notifyErrResponse(err) {
     const {response} = err;
+    const errMsg = err?.response?.data?.error
+    if (errMsg) {
+        alert(errMsg)
+        return
+    }
     // TODO: fix this mess
     if (!response) {
         return popupError({
