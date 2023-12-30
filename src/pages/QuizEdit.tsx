@@ -11,7 +11,6 @@ import {Campaign} from "../models/campaign";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
 import {BreadcrumComponent} from "../components/BreadcrumComponent";
 import {ShowDialog} from "../components/UserQuizShareDialog"
-import {UserQuizStatus} from "../models/user_quiz";
 import {ShareDialogBody} from "../components/ShareDialog";
 import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
 
@@ -82,7 +81,7 @@ export default function Edit() {
             await QuizPublish(id)
             const returnUrl = `/campaigns/${campaign.id}`
             navigate(returnUrl);
-        } catch (err) {
+        } catch (err: any) {
             await notifyErrResponse(err)
         }
     }
