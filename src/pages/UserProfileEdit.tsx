@@ -44,6 +44,8 @@ export default function Edit() {
             if (params.has('token') && data.is_completed) {
                 //  call the server api to validate the token
                 await QuizRegisterInvitation(token || "")
+                // if all goes well, redirect to the user's quiz page
+                navigate(`/user/quizs`)
             }
 
         } catch (err) {
