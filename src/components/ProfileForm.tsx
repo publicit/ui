@@ -1,7 +1,7 @@
 import {Button, FileInput, Select, Text, TextInput, Title} from "@mantine/core";
 import {UseFormReturnType} from "@mantine/form";
 import {DatePickerInput} from "@mantine/dates";
-import {UserProfile, UserSex} from "../models/user_profile";
+import {FileType, UserProfile, UserSex} from "../models/user_profile";
 import {Check} from "tabler-icons-react";
 import {IconUpload} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
@@ -87,7 +87,7 @@ export default function ProfileForm({
                             placeholder="Haz click para subir la parte trasera de tu credencial del INE"
                             label="Credencial INE"
                             multiple={false}
-                            onChange={file => onFileSelected(file)}
+                            onChange={file => onFileSelected(file, FileType.INE_ID_BACK)}
                             leftSection={<IconUpload/>}
                             clearable={true}
                             accept="image/*"

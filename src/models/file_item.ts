@@ -7,6 +7,8 @@ export class FileItem {
     key: string
     name: string
     size: number
+    type: string
+    content_type: string
 
     constructor() {
         this.id = ""
@@ -15,6 +17,8 @@ export class FileItem {
         this.key = ""
         this.name = ""
         this.size = 0
+        this.type = ""
+        this.content_type = ""
     }
 }
 

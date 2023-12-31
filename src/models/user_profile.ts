@@ -6,6 +6,13 @@ export enum UserSex {
     Otro,
 }
 
+export enum FileType {
+    UNKNOWN_FILE_TYPE,
+    INE_ID_BACK,
+    INE_ID_FRONT,
+    CURP_ID
+}
+
 export class UserProfile {
     id: string
     dob: Date

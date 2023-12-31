@@ -9,14 +9,13 @@ import {
     UserWhoAmi
 } from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
-import {fromUserProfile, UserProfile, userProfileValidation} from "../models/user_profile";
+import {FileType, fromUserProfile, UserProfile, userProfileValidation} from "../models/user_profile";
 import {User} from "../models/user";
 import ProfileForm from "../components/ProfileForm";
 import {FileItem} from "../models/file_item"
 import {debug} from "util";
 
 export default function Edit() {
-    const returnUrl = "/"
     const navigate = useNavigate();
     const [user, setUser] = useState<User>(new User())
     const [userProfile, setUserProfile] = useState<UserProfile>(new UserProfile())
@@ -71,11 +70,12 @@ export default function Edit() {
         }
     }
 
-    async function onFileSelected(file: File) {
+    async function onFileSelected(file: File, fileType: FileType) {
         if (!file) return
         try {
             // TODO: check file size is not beyond limit
             const f = new FileItem()
+            f.type = fileType.toString()
             setSaveEnabled(false)
             const newFile = await fileUpload(f, file)
             setIneFile(newFile)
