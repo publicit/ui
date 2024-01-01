@@ -14,7 +14,7 @@ type params = {
     isCompleted: boolean
     onFileSelected: any
     saveEnabled: boolean
-    showUpload: boolean
+    scans: FileType[]
 }
 
 const userSex: string[] = [
@@ -31,7 +31,7 @@ export default function ProfileForm({
                                         isCompleted,
                                         onFileSelected,
                                         saveEnabled,
-                                        showUpload,
+                                        scans,
                                     }: params) {
     const [visible, {toggle}] = useDisclosure(false)
     return (
@@ -81,19 +81,21 @@ export default function ProfileForm({
                     disabled={isCompleted}
                 />
                 <br/>
-                {showUpload &&
-                    <>
-                        <FileInput
-                            placeholder="Haz click para subir la parte trasera de tu credencial del INE"
-                            label="Credencial INE"
-                            multiple={false}
-                            onChange={file => onFileSelected(file, FileType.INE_ID_BACK)}
-                            leftSection={<IconUpload/>}
-                            clearable={true}
-                            accept="image/*"
-                        />
-                        <br/>
-                    </>
+                {
+                    scans.map(fileType => (
+                        <>
+                            <FileInput
+                                placeholder="Haz click para subir la parte trasera de tu credencial del INE"
+                                label="Credencial INE"
+                                multiple={false}
+                                onChange={file => onFileSelected(file, fileType)}
+                                leftSection={<IconUpload/>}
+                                clearable={true}
+                                accept="image/*"
+                            />
+                            <br/>
+                        </>
+                    ))
                 }
                 <Button
                     type="submit"

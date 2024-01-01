@@ -93,7 +93,7 @@ export default function Edit() {
                          isCompleted={userProfile.is_completed}
                          onFileSelected={onFileSelected}
                          saveEnabled={saveEnabled}
-                         showUpload={showUpload}
+                         scans={[]}
             />
         </>
     )
