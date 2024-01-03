@@ -1,5 +1,5 @@
 import {trimAll, truncateTime} from "../helpers/text_utils";
-import {User} from "./user";
+import {FileItem} from "./file_item";
 
 export enum UserSex {
     Hombre,
@@ -85,20 +85,15 @@ export function userProfileValidation() {
 }
 
 export type UserProfileFile = {
-    id: string
-    reference_id: string
-    created: Date
-    key: string
-    name: string
-    size: number
-    content_type: string
-    user: User
-    profile: UserProfile
+    id?: string
+    file: FileItem
+    profile?: UserProfile
+    is_valid?: boolean
+    type: FileTypeNames
 }
 
 export function toUserProfileFile(v: any): UserProfileFile {
     return {
         ...v,
-        created: new Date(v.created),
     }
 }

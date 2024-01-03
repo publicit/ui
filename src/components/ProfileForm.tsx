@@ -89,7 +89,7 @@ export default function ProfileForm({
                                 placeholder={fileType.description}
                                 label={fileType.description}
                                 multiple={false}
-                                onChange={file => onFileSelected(file, fileType)}
+                                onChange={file => onFileSelected(file, fileType.name)}
                                 leftSection={<IconUpload/>}
                                 clearable={true}
                                 accept="image/*"

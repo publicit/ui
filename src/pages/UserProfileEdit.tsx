@@ -4,7 +4,7 @@ import {useForm} from "@mantine/form";
 import {
     FileItemUpload,
     FileTypes,
-    QuizRegisterInvitation,
+    QuizRegisterInvitation, UserProfileFileSave,
     UserProfileFilesLoad,
     UserProfileLoad,
     UserProfilePost,
@@ -31,7 +31,6 @@ export default function Edit() {
         validate: userProfileValidation(),
     })
     const params = new URLSearchParams(window.location.search)
-    const [ineFile, setIneFile] = useState<FileItem>(new FileItem())
     const [saveEnabled, setSaveEnabled] = useState(true)
     const [files, setFiles] = useState<UserProfileFile[]>([])
     const [fileTypes, setFileTypes] = useState<FileType[]>([])
@@ -72,7 +71,7 @@ export default function Edit() {
             setSaveEnabled(false)
             data.user_id = user.id || ""
             const userProfile = fromUserProfile(data)
-            await UserProfilePost(userProfile, ineFile)
+            await UserProfilePost(userProfile)
             await loadData()
         } catch (err) {
             await notifyErrResponse(err)
@@ -86,9 +85,14 @@ export default function Edit() {
             // TODO: check file size is not beyond limit
             const f = new FileItem()
             f.type = fileType.toString()
+            f.content_type = file.type
             setSaveEnabled(false)
             const newFile = await FileItemUpload(f, file)
-            setIneFile(newFile)
+            const payload = {
+                file: newFile,
+                type: fileType,
+            }
+            await UserProfileFileSave(payload)
         } catch (err) {
             await notifyErrResponse(err)
         } finally {

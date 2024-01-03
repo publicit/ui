@@ -3,7 +3,7 @@ import {Campaign, toCampaign} from "../models/campaign";
 import {Quiz, toQuiz} from "../models/quiz";
 import {Question, toQuestion} from "../models/question";
 import {Answer, toAnswer} from "../models/answer";
-import {toUserProfile, toUserProfileFile, UserProfile} from "../models/user_profile";
+import {toUserProfile, toUserProfileFile, UserProfile, UserProfileFile} from "../models/user_profile";
 import {toUser} from "../models/user";
 import {toUserQuiz, UserQuiz, UserQuizSummary} from "../models/user_quiz";
 import {UserNextQuestion} from "../models/user_question";
@@ -74,7 +74,6 @@ async function CampaignDelete(id: string) {
 
 async function FileItemUpload(f: FileItem, file: File) {
     const formData = new FormData()
-    console.log(`file type: ${file.type}`)
     formData.append("file", file)
     formData.append("json", JSON.stringify({
         ...f,
@@ -219,12 +218,8 @@ async function UsersInRole(roleId: string) {
 // User Profile
 /////////////////////////////////////////////////////////////
 
-async function UserProfilePost(userRegistration: UserProfile, file: FileItem) {
-    const payload = {
-        profile: userRegistration,
-        file: file,
-    }
-    const res = await instance.post(`/v1/user-profile`, payload)
+async function UserProfilePost(profile: UserProfile) {
+    const res = await instance.post(`/v1/user-profile`, profile)
     return toUserProfile(res.data)
 }
 
@@ -236,6 +231,11 @@ async function UserProfileLoad() {
 async function UserProfileFilesLoad() {
     const res = await instance.get(`/v1/user-profile/files`)
     return (res.data || []).map((x: any) => toUserProfileFile(x))
+}
+
+async function UserProfileFileSave(file: UserProfileFile){
+    const res = await instance.put(`/v1/user-profile/files`,file)
+    return toUserProfileFile(res.data)
 }
 
 /////////////////////////////////////////////////////////////
@@ -348,6 +348,7 @@ export {
     UserProfilePost,
     UserProfileLoad,
     UserProfileFilesLoad,
+    UserProfileFileSave,
 
     UserWhoAmi,
     PostUserList,
