@@ -1,4 +1,4 @@
-import {toDate, trimAll, truncateTime} from "../helpers/text_utils";
+import {trimAll, truncateTime} from "../helpers/text_utils";
 import {User} from "./user";
 
 export enum UserSex {
