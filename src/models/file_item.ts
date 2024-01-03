@@ -1,4 +1,5 @@
 import {toDate} from "../helpers/text_utils";
+import {FileTypeNames} from "./user_profile";
 
 export class FileItem {
     id: string
@@ -30,3 +31,7 @@ export function toFileItem(v: any): FileItem {
     }
 }
 
+export type FileType = {
+    description:string
+    name:FileTypeNames
+}

@@ -2,18 +2,25 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useForm} from "@mantine/form";
 import {
-    fileUpload,
+    FileItemUpload,
+    FileTypes,
     QuizRegisterInvitation,
+    UserProfileFilesLoad,
     UserProfileLoad,
     UserProfilePost,
     UserWhoAmi
 } from "../helpers/api"
 import {notifyErrResponse} from "../components/Errors";
-import {FileType, fromUserProfile, UserProfile, userProfileValidation} from "../models/user_profile";
+import {
+    FileTypeNames,
+    fromUserProfile,
+    UserProfile,
+    UserProfileFile,
+    userProfileValidation
+} from "../models/user_profile";
 import {User} from "../models/user";
 import ProfileForm from "../components/ProfileForm";
-import {FileItem} from "../models/file_item"
-import {debug} from "util";
+import {FileItem, FileType} from "../models/file_item"
 
 export default function Edit() {
     const navigate = useNavigate();
@@ -26,18 +33,21 @@ export default function Edit() {
     const params = new URLSearchParams(window.location.search)
     const [ineFile, setIneFile] = useState<FileItem>(new FileItem())
     const [saveEnabled, setSaveEnabled] = useState(true)
-    const [showUpload, setShowUpload] = useState(false)
+    const [files, setFiles] = useState<UserProfileFile[]>([])
+    const [fileTypes, setFileTypes] = useState<FileType[]>([])
 
     async function loadData() {
         try {
             const userData: User = await UserWhoAmi()
             setUser(userData)
-            const userId: string = userData?.id || ""
-            const data: UserProfile = await UserProfileLoad(userId)
+            const data: UserProfile = await UserProfileLoad()
             setSaveEnabled(!data.is_completed)
             setUserProfile(data)
-            setShowUpload(!data.is_completed)
             form.setValues(data)
+            const filesData = await UserProfileFilesLoad()
+            setFiles(filesData)
+            const fileTypesData = await FileTypes()
+            setFileTypes(fileTypesData)
             // check if user is coming from a shared quiz url
             const token = params.get('token')
             if (params.has('token') && data.is_completed) {
@@ -49,7 +59,7 @@ export default function Edit() {
 
         } catch (err) {
             // ignoring since the first time may fail, we still need to load the data if available,
-            // so
+            console.warn(err)
         }
     }
 
@@ -70,14 +80,14 @@ export default function Edit() {
         }
     }
 
-    async function onFileSelected(file: File, fileType: FileType) {
+    async function onFileSelected(file: File, fileType: FileTypeNames) {
         if (!file) return
         try {
             // TODO: check file size is not beyond limit
             const f = new FileItem()
             f.type = fileType.toString()
             setSaveEnabled(false)
-            const newFile = await fileUpload(f, file)
+            const newFile = await FileItemUpload(f, file)
             setIneFile(newFile)
         } catch (err) {
             await notifyErrResponse(err)
@@ -93,7 +103,7 @@ export default function Edit() {
                          isCompleted={userProfile.is_completed}
                          onFileSelected={onFileSelected}
                          saveEnabled={saveEnabled}
-                         scans={[]}
+                         fileTypes={fileTypes}
             />
         </>
     )

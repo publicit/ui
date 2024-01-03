@@ -1,10 +1,11 @@
 import {Button, FileInput, Select, Text, TextInput, Title} from "@mantine/core";
 import {UseFormReturnType} from "@mantine/form";
 import {DatePickerInput} from "@mantine/dates";
-import {FileType, UserProfile, UserSex} from "../models/user_profile";
+import {UserProfile, UserSex} from "../models/user_profile";
 import {Check} from "tabler-icons-react";
 import {IconUpload} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
+import {FileType} from "../models/file_item";
 
 type params = {
     onSubmit: any
@@ -14,7 +15,7 @@ type params = {
     isCompleted: boolean
     onFileSelected: any
     saveEnabled: boolean
-    scans: FileType[]
+    fileTypes: FileType[]
 }
 
 const userSex: string[] = [
@@ -31,7 +32,7 @@ export default function ProfileForm({
                                         isCompleted,
                                         onFileSelected,
                                         saveEnabled,
-                                        scans,
+                                        fileTypes,
                                     }: params) {
     const [visible, {toggle}] = useDisclosure(false)
     return (
@@ -82,11 +83,11 @@ export default function ProfileForm({
                 />
                 <br/>
                 {
-                    scans.map(fileType => (
+                    fileTypes.map(fileType => (
                         <>
                             <FileInput
-                                placeholder="Haz click para subir la parte trasera de tu credencial del INE"
-                                label="Credencial INE"
+                                placeholder={fileType.description}
+                                label={fileType.description}
                                 multiple={false}
                                 onChange={file => onFileSelected(file, fileType)}
                                 leftSection={<IconUpload/>}

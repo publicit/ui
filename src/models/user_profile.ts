@@ -1,4 +1,5 @@
-import {trimAll, truncateTime} from "../helpers/text_utils";
+import {toDate, trimAll, truncateTime} from "../helpers/text_utils";
+import {User} from "./user";
 
 export enum UserSex {
     Hombre,
@@ -6,7 +7,7 @@ export enum UserSex {
     Otro,
 }
 
-export enum FileType {
+export enum FileTypeNames {
     UNKNOWN_FILE_TYPE,
     INE_ID_BACK,
     INE_ID_FRONT,
@@ -80,5 +81,24 @@ export function userProfileValidation() {
         phone_number: (value: string) => trimAll(value).length === 0 ? "Telefono es mandatorio" : null,
         sex: (value: string) => trimAll(value).length === 0 ? "Sexo es mandatorio" : null,
         dob: (value: Date) => !value ? "Fecha de nacimiento es mandatorio" : null,
+    }
+}
+
+export type UserProfileFile = {
+    id: string
+    reference_id: string
+    created: Date
+    key: string
+    name: string
+    size: number
+    content_type: string
+    user: User
+    profile: UserProfile
+}
+
+export function toUserProfileFile(v: any): UserProfileFile {
+    return {
+        ...v,
+        created: new Date(v.created),
     }
 }
