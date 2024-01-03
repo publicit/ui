@@ -93,6 +93,7 @@ export default function Edit() {
                 type: fileType,
             }
             await UserProfileFileSave(payload)
+            await loadData()
         } catch (err) {
             await notifyErrResponse(err)
         } finally {
