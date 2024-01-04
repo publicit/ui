@@ -17,9 +17,8 @@ export default function ShareStart() {
                 const q = await QuizLoadByToken(token)
                 setQuiz(q)
                 // load user data
-                const who = await UserWhoAmi()
                 // check user registration is completed
-                const user = await UserProfileLoad(who.id || "")
+                const user = await UserProfileLoad()
                 if (!user.is_completed) return
                 //  register the user to this quiz
                 try{

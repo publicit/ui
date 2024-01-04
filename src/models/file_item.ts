@@ -1,4 +1,5 @@
 import {toDate} from "../helpers/text_utils";
+import {FileTypeNames} from "./user_profile";
 
 export class FileItem {
     id: string
@@ -7,6 +8,8 @@ export class FileItem {
     key: string
     name: string
     size: number
+    type: string
+    content_type: string
 
     constructor() {
         this.id = ""
@@ -15,6 +18,8 @@ export class FileItem {
         this.key = ""
         this.name = ""
         this.size = 0
+        this.type = ""
+        this.content_type = ""
     }
 }
 
@@ -26,3 +31,7 @@ export function toFileItem(v: any): FileItem {
     }
 }
 
+export type FileType = {
+    description:string
+    name:FileTypeNames
+}

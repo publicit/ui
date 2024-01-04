@@ -1,9 +1,17 @@
 import {trimAll, truncateTime} from "../helpers/text_utils";
+import {FileItem} from "./file_item";
 
 export enum UserSex {
     Hombre,
     Mujer,
     Otro,
+}
+
+export enum FileTypeNames {
+    UNKNOWN_FILE_TYPE,
+    INE_ID_BACK,
+    INE_ID_FRONT,
+    CURP_ID
 }
 
 export class UserProfile {
@@ -73,5 +81,19 @@ export function userProfileValidation() {
         phone_number: (value: string) => trimAll(value).length === 0 ? "Telefono es mandatorio" : null,
         sex: (value: string) => trimAll(value).length === 0 ? "Sexo es mandatorio" : null,
         dob: (value: Date) => !value ? "Fecha de nacimiento es mandatorio" : null,
+    }
+}
+
+export type UserProfileFile = {
+    id?: string
+    file: FileItem
+    profile?: UserProfile
+    is_valid?: boolean
+    type: FileTypeNames
+}
+
+export function toUserProfileFile(v: any): UserProfileFile {
+    return {
+        ...v,
     }
 }

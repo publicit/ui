@@ -1,10 +1,11 @@
 import {Button, FileInput, Select, Text, TextInput, Title} from "@mantine/core";
 import {UseFormReturnType} from "@mantine/form";
 import {DatePickerInput} from "@mantine/dates";
-import {UserProfile, UserSex} from "../models/user_profile";
+import {UserProfile, UserProfileFile, UserSex} from "../models/user_profile";
 import {Check} from "tabler-icons-react";
-import {IconUpload} from "@tabler/icons-react";
+import {IconCheck, IconUpload, IconX} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
+import {FileType} from "../models/file_item";
 
 type params = {
     onSubmit: any
@@ -14,7 +15,8 @@ type params = {
     isCompleted: boolean
     onFileSelected: any
     saveEnabled: boolean
-    showUpload: boolean
+    fileTypes: FileType[]
+    files: UserProfileFile[]
 }
 
 const userSex: string[] = [
@@ -31,7 +33,8 @@ export default function ProfileForm({
                                         isCompleted,
                                         onFileSelected,
                                         saveEnabled,
-                                        showUpload,
+                                        fileTypes,
+                                        files,
                                     }: params) {
     const [visible, {toggle}] = useDisclosure(false)
     return (
@@ -81,19 +84,31 @@ export default function ProfileForm({
                     disabled={isCompleted}
                 />
                 <br/>
-                {showUpload &&
-                    <>
-                        <FileInput
-                            placeholder="Haz click para subir la parte trasera de tu credencial del INE"
-                            label="Credencial INE"
-                            multiple={false}
-                            onChange={file => onFileSelected(file)}
-                            leftSection={<IconUpload/>}
-                            clearable={true}
-                            accept="image/*"
-                        />
-                        <br/>
-                    </>
+                {
+                    fileTypes.map(fileType => {
+                        const file = files.find(f => f.type === fileType.name)
+                        if (!file) {
+                            return null
+                        }
+                        const iconRight = !!file.is_valid ? <IconCheck style={{color: "green"}}/> :
+                            <IconX style={{color: "red"}}/>
+                        return (
+                            <>
+                                <FileInput
+                                    placeholder={file.file?.name}
+                                    label={fileType.description}
+                                    multiple={false}
+                                    onChange={file => onFileSelected(file, fileType.name)}
+                                    leftSection={<IconUpload/>}
+                                    rightSection={iconRight}
+                                    clearable={true}
+                                    accept="image/*"
+                                    disabled={!!file.is_valid}
+                                />
+                                <br/>
+                            </>
+                        )
+                    })
                 }
                 <Button
                     type="submit"
