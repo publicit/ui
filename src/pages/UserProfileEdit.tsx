@@ -109,6 +109,7 @@ export default function Edit() {
                          onFileSelected={onFileSelected}
                          saveEnabled={saveEnabled}
                          fileTypes={fileTypes}
+                         files={files}
             />
         </>
     )
