@@ -86,6 +86,7 @@ export default function Edit() {
             const f = new FileItem()
             f.type = fileType.toString()
             f.content_type = file.type
+            f.reference_id = userProfile.id
             setSaveEnabled(false)
             const newFile = await FileItemUpload(f, file)
             const payload = {

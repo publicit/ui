@@ -1,7 +1,7 @@
 import {trimAll, truncateTime} from "../helpers/text_utils";
 import {FileItem} from "./file_item";
 
-export enum UserSex {
+export enum UserGender {
     Hombre,
     Mujer,
     Otro,
@@ -20,7 +20,7 @@ export class UserProfile {
     first_name: string
     last_name: string
     phone_number: string
-    sex: string
+    gender: string
     user_id: string
     is_completed: boolean
 
@@ -31,43 +31,43 @@ export class UserProfile {
         this.last_name = ""
         this.phone_number = ""
         this.user_id = ""
-        this.sex = ""
+        this.gender = ""
         this.is_completed = false
     }
 }
 
 export function toUserProfile(v: any): UserProfile {
     if (!v) return new UserProfile()
-    let sex: string = ""
-    switch (v.sex) {
+    let gender: string = ""
+    switch (v.gender) {
         case "MALE":
-            sex = UserSex[UserSex.Hombre]
+            gender = UserGender[UserGender.Hombre]
             break
         case "FEMALE":
-            sex = UserSex[UserSex.Mujer]
+            gender = UserGender[UserGender.Mujer]
             break
         default:
-            sex = UserSex[UserSex.Otro]
+            gender = UserGender[UserGender.Otro]
             break
     }
     return {
         ...v,
         dob: truncateTime(new Date(v["dob"])),
-        sex: sex,
+        gender: gender,
     }
 }
 
 export function fromUserProfile(u: UserProfile): UserProfile {
     const clone = JSON.parse(JSON.stringify(u))
-    switch (clone.sex) {
-        case UserSex[UserSex.Hombre]:
-            clone.sex = "MALE"
+    switch (clone.gender) {
+        case UserGender[UserGender.Hombre]:
+            clone.gender = "MALE"
             break
-        case UserSex[UserSex.Mujer]:
-            clone.sex = "FEMALE"
+        case UserGender[UserGender.Mujer]:
+            clone.gender = "FEMALE"
             break
         default:
-            clone.sex = "OTHER"
+            clone.gender = "OTHER"
             break
     }
     return clone
@@ -79,7 +79,7 @@ export function userProfileValidation() {
         first_name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
         last_name: (value: string) => trimAll(value).length === 0 ? "Apellidos es mandatorio" : null,
         phone_number: (value: string) => trimAll(value).length === 0 ? "Telefono es mandatorio" : null,
-        sex: (value: string) => trimAll(value).length === 0 ? "Sexo es mandatorio" : null,
+        gender: (value: string) => trimAll(value).length === 0 ? "Genero es mandatorio" : null,
         dob: (value: Date) => !value ? "Fecha de nacimiento es mandatorio" : null,
     }
 }

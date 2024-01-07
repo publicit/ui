@@ -1,7 +1,7 @@
 import {Button, FileInput, Select, Text, TextInput, Title} from "@mantine/core";
 import {UseFormReturnType} from "@mantine/form";
 import {DatePickerInput} from "@mantine/dates";
-import {UserProfile, UserProfileFile, UserSex} from "../models/user_profile";
+import {UserProfile, UserProfileFile, UserGender} from "../models/user_profile";
 import {Check} from "tabler-icons-react";
 import {IconCheck, IconUpload, IconX} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
@@ -19,10 +19,10 @@ type params = {
     files: UserProfileFile[]
 }
 
-const userSex: string[] = [
-    UserSex[UserSex.Hombre],
-    UserSex[UserSex.Mujer],
-    UserSex[UserSex.Otro],
+const userGender: string[] = [
+    UserGender[UserGender.Hombre],
+    UserGender[UserGender.Mujer],
+    UserGender[UserGender.Otro],
 ]
 
 export default function ProfileForm({
@@ -78,9 +78,9 @@ export default function ProfileForm({
                 <br/>
                 <Select
                     label="Sexo"
-                    data={userSex}
+                    data={userGender}
                     comboboxProps={{transitionProps: {transition: 'pop', duration: 200}}}
-                    {...form.getInputProps("sex")}
+                    {...form.getInputProps("gender")}
                     disabled={isCompleted}
                 />
                 <br/>
