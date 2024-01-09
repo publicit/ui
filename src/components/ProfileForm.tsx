@@ -1,10 +1,9 @@
 import {Button, FileInput, Select, Text, TextInput, Title} from "@mantine/core";
 import {UseFormReturnType} from "@mantine/form";
 import {DatePickerInput} from "@mantine/dates";
-import {UserProfile, UserProfileFile, UserGender} from "../models/user_profile";
+import {UserGender, UserProfile, UserProfileFile} from "../models/user_profile";
 import {Check} from "tabler-icons-react";
 import {IconCheck, IconUpload, IconX} from "@tabler/icons-react";
-import {useDisclosure} from "@mantine/hooks";
 import {FileType} from "../models/file_item";
 
 type params = {
@@ -36,7 +35,6 @@ export default function ProfileForm({
                                         fileTypes,
                                         files,
                                     }: params) {
-    const [visible, {toggle}] = useDisclosure(false)
     return (
         <>
             <Title>
@@ -45,9 +43,8 @@ export default function ProfileForm({
                     size={32}
                     color="green"/>}
             </Title>
-            <form onSubmit={form.onSubmit((data: any) => {
-                toggle()
-                onSubmit(data)
+            <form onSubmit={form.onSubmit(async (data: any) => {
+                await onSubmit(data)
             })}>
                 <br/>
                 <TextInput label="Nombre(s)"
@@ -110,14 +107,13 @@ export default function ProfileForm({
                         )
                     })
                 }
-                <Button
+                {saveEnabled && <Button
                     type="submit"
                     variant="outline"
-                    disabled={!saveEnabled}
                 >
                     Guardar
                 </Button>
-
+                }
             </form>
         </>
     )

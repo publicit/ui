@@ -1,6 +1,7 @@
-import {Button, Group, NumberInput, TextInput} from "@mantine/core";
+import {Box, Button, Group, LoadingOverlay, NumberInput, TextInput} from "@mantine/core";
 import {Quiz} from "../models/quiz";
 import {Link} from "react-router-dom";
+import {useDisclosure} from "@mantine/hooks";
 
 type params = {
     onSubmit: any
@@ -17,61 +18,67 @@ export function QuizEditForm({
                                  onSubmit, form, legend, quiz, onDelete,
                                  showDelete = false, onPublish, canEdit,
                              }: params) {
+    const [visible, {toggle}] = useDisclosure(false);
     return (
         <>
-            <form onSubmit={form.onSubmit((data: any) => {
-                onSubmit(data)
+            <form onSubmit={form.onSubmit(async (data: any) => {
+                toggle()
+                await onSubmit(data)
+                toggle()
             })}>
-                <legend>{legend}</legend>
-                <br/>
-                <TextInput label="Nombre"
-                           placeholder="Nombre"
-                           {...form.getInputProps("name")}/>
-                <br/>
-                <TextInput label="Video URL"
-                           placeholder="URL Video"
-                           {...form.getInputProps("video_url")}/>
-                <br/>
-                {quiz.thumbnail_url &&
-                    <>
-                        <Link to={quiz.video_url} target="_blank">
-                            <img src={quiz.thumbnail_url} alt="thumbnail"/>
-                        </Link>
-                        <br/>
-                    </>
-                }
-                <TextInput label="Estatus"
-                           disabled={true}
-                           {...form.getInputProps("status")}/>
-                <br/>
-                <NumberInput label="Numero Minimo de Preguntas"
-                             placeholder="Numero de Preguntas"
-                             {...form.getInputProps("number_of_questions")}/>
-                <br/>
-                <Group>
-                    {canEdit &&
-                        <Button type="submit" variant="outline">
-                            Guardar
-                        </Button>
+                <Box pos="relative">
+                    <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{radius: "sm", blur: 1}}/>
+                    <legend>{legend}</legend>
+                    <br/>
+                    <TextInput label="Nombre"
+                               placeholder="Nombre"
+                               {...form.getInputProps("name")}/>
+                    <br/>
+                    <TextInput label="Video URL"
+                               placeholder="URL Video"
+                               {...form.getInputProps("video_url")}/>
+                    <br/>
+                    {quiz.thumbnail_url &&
+                        <>
+                            <Link to={quiz.video_url} target="_blank">
+                                <img src={quiz.thumbnail_url} alt="thumbnail"/>
+                            </Link>
+                            <br/>
+                        </>
                     }
-                    {quiz.id && canEdit &&
-                        <Group>
-                            <Button type="button" variant="outline">
-                                <Link to={`/questions/new/${quiz.id}`}>
-                                    Agregar Pregunta
-                                </Link>
+                    <TextInput label="Estatus"
+                               disabled={true}
+                               {...form.getInputProps("status")}/>
+                    <br/>
+                    <NumberInput label="Numero Minimo de Preguntas"
+                                 placeholder="Numero de Preguntas"
+                                 {...form.getInputProps("number_of_questions")}/>
+                    <br/>
+                    <Group>
+                        {canEdit &&
+                            <Button type="submit" variant="outline">
+                                Guardar
                             </Button>
-                            <Button type="button" variant="outline" onClick={() => onPublish()}>
-                                Publicar Encuesta
-                            </Button>
-                            {showDelete &&
-                                <Button type="button" variant="outline" onClick={onDelete}>
-                                    Eliminar Encuesta
+                        }
+                        {quiz.id && canEdit &&
+                            <Group>
+                                <Button type="button" variant="outline">
+                                    <Link to={`/questions/new/${quiz.id}`}>
+                                        Agregar Pregunta
+                                    </Link>
                                 </Button>
-                            }
-                        </Group>
-                    }
-                </Group>
+                                <Button type="button" variant="outline" onClick={() => onPublish()}>
+                                    Publicar Encuesta
+                                </Button>
+                                {showDelete &&
+                                    <Button type="button" variant="outline" onClick={onDelete}>
+                                        Eliminar Encuesta
+                                    </Button>
+                                }
+                            </Group>
+                        }
+                    </Group>
+                </Box>
             </form>
         </>
     )

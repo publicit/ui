@@ -32,7 +32,7 @@ export default function AnswerEdit() {
                 const data = await AnswerLoad(id)
                 setAnswer(data)
                 setQuestion(data.question)
-                setCanEdit(data.question.quiz.status === QuizStatus[QuizStatus.draft])
+                enableControls(data.question)
                 form.setValues(data)
                 setItems([
                     {
@@ -57,6 +57,10 @@ export default function AnswerEdit() {
 
     }, []);
 
+    function enableControls(q:Question){
+        setCanEdit(q.quiz.status === QuizStatus[QuizStatus.draft])
+    }
+
     async function onSubmit(data: Answer) {
         try {
             data.question = question
@@ -64,6 +68,8 @@ export default function AnswerEdit() {
             navigate(returnUrl());
         } catch (err) {
             await notifyErrResponse(err)
+        }finally {
+            enableControls(question)
         }
     }
 

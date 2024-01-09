@@ -30,7 +30,7 @@ export default function Edit() {
                 const data = await QuestionLoad(id)
                 setQuestion(data)
                 setQuiz(data.quiz)
-                setCanEdit(data.quiz.status === QuizStatus[QuizStatus.draft])
+                enableControls(data.quiz)
                 form.setValues(data)
                 setReturnUrl(`/quizs/${data.quiz.id}`)
                 const answerData = await AnswerList(id)
@@ -53,12 +53,19 @@ export default function Edit() {
         loadData(id)
     }, [])
 
+    function enableControls(q:Quiz){
+        setCanEdit(q.status === QuizStatus[QuizStatus.draft])
+    }
+
     async function onSubmit(data: Question) {
         try {
+            setCanEdit(false)
             await QuestionPut(data)
             navigate(returnUrl);
         } catch (err) {
             await notifyErrResponse(err)
+        }finally {
+            enableControls(quiz)
         }
     }
 
