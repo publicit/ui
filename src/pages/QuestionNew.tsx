@@ -12,7 +12,7 @@ import {BreadcrumComponent} from "../components/BreadcrumComponent";
 export default function QuestionNew() {
     const quizId = useParams().quiz_id || ""
     const navigate = useNavigate();
-    const canEdit = true
+    const [canEdit,setCanEdit]=useState<boolean>(true)
     const [question] = useState<Question>(new Question())
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
@@ -47,12 +47,15 @@ export default function QuestionNew() {
 
     async function onSubmit(data: Question) {
         try {
+            setCanEdit(false)
             data.quiz = quiz
             const res = await QuestionPost(data)
             const returnURL = `/questions/${res.id}`
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
+        }finally {
+            setCanEdit(true)
         }
     }
 

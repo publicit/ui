@@ -15,7 +15,7 @@ export default function Edit() {
     const navigate = useNavigate();
     const [campaign, setCampaign] = useState<Campaign>(new Campaign())
     const [quizs, setQuizs] = useState<Quiz[]>([])
-    const canEdit=true
+    const [canEdit,setCanEdit]=useState<boolean>(true)
     const form = useForm<Campaign>({
         initialValues: campaign,
         validate: campaignValidation(),
@@ -38,10 +38,13 @@ export default function Edit() {
 
     async function onSubmit(data: Campaign) {
         try {
+            setCanEdit(false)
             await CampaignPut(cleanCampaign(data))
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
+        } finally {
+            setCanEdit(true)
         }
     }
 

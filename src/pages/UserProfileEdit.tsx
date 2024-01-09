@@ -4,7 +4,8 @@ import {useForm} from "@mantine/form";
 import {
     FileItemUpload,
     FileTypes,
-    QuizRegisterInvitation, UserProfileFileSave,
+    QuizRegisterInvitation,
+    UserProfileFileSave,
     UserProfileFilesLoad,
     UserProfileLoad,
     UserProfilePost,
@@ -21,6 +22,7 @@ import {
 import {User} from "../models/user";
 import ProfileForm from "../components/ProfileForm";
 import {FileItem, FileType} from "../models/file_item"
+import {popupInfo} from "../components/Notifier";
 
 export default function Edit() {
     const navigate = useNavigate();
@@ -40,7 +42,7 @@ export default function Edit() {
             const userData: User = await UserWhoAmi()
             setUser(userData)
             const data: UserProfile = await UserProfileLoad()
-            setSaveEnabled(!data.is_completed)
+            enableControls(data)
             setUserProfile(data)
             form.setValues(data)
             const filesData = await UserProfileFilesLoad()
@@ -66,8 +68,16 @@ export default function Edit() {
         loadData()
     }, [])
 
+    function enableControls(p: UserProfile) {
+        setSaveEnabled(!p.is_completed)
+    }
+
     async function onSubmit(data: UserProfile) {
         try {
+            await popupInfo({
+                title: "Actualizando Informacion",
+                text: "Por favor espera unos segundos",
+            })
             setSaveEnabled(false)
             data.user_id = user.id || ""
             const userProfile = fromUserProfile(data)
@@ -75,7 +85,8 @@ export default function Edit() {
             await loadData()
         } catch (err) {
             await notifyErrResponse(err)
-            setSaveEnabled(true)
+        } finally {
+            enableControls(userProfile)
         }
     }
 
@@ -98,7 +109,7 @@ export default function Edit() {
         } catch (err) {
             await notifyErrResponse(err)
         } finally {
-            setSaveEnabled(true)
+            enableControls(userProfile)
         }
     }
 
