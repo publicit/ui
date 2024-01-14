@@ -26,7 +26,7 @@ const menuData: MenuGroup[] = [
     {
         label: 'PublicitUX',
         icon: IconGauge,
-        initiallyOpened: true,
+        initiallyOpened: false,
         authenticated:false,
         links: [
             {
@@ -39,11 +39,11 @@ const menuData: MenuGroup[] = [
     {
         label: 'Campañas',
         icon: IconNotes,
-        initiallyOpened: true,
+        initiallyOpened: false,
         authenticated:true,
         links: [
             {
-                label: 'Listado',
+                label: 'Mis Campañas',
                 link: '/campaigns',
                 authenticated: true,
             },
@@ -56,8 +56,8 @@ const menuData: MenuGroup[] = [
     },
     {
         label:"Encuestas",
+        initiallyOpened:false,
         authenticated:true,
-        initiallyOpened:true,
         icon:IconBellQuestion,
         links:[
             {
@@ -68,9 +68,22 @@ const menuData: MenuGroup[] = [
         ],
     },
     {
+        label:"Localizaciones",
+        initiallyOpened:false,
+        authenticated:true,
+        icon:IconBellQuestion,
+        links:[
+            {
+                label: 'Importar Datos',
+                link: '/locations/import',
+                authenticated: true,
+            },
+        ],
+    },
+    {
         label: 'Usuario',
         icon: IconUser,
-        initiallyOpened: true,
+        initiallyOpened: false,
         authenticated:true,
         links: [
             {
@@ -83,7 +96,7 @@ const menuData: MenuGroup[] = [
     {
         label: 'Seguridad',
         icon: IconLock,
-        initiallyOpened: true,
+        initiallyOpened: false,
         authenticated:true,
         links: [
             {
