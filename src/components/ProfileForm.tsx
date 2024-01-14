@@ -90,20 +90,19 @@ export default function ProfileForm({
                         const iconRight = !!file.is_valid ? <IconCheck style={{color: "green"}}/> :
                             <IconX style={{color: "red"}}/>
                         return (
-                            <>
-                                <FileInput
-                                    placeholder={file.file?.name}
-                                    label={fileType.description}
-                                    multiple={false}
-                                    onChange={file => onFileSelected(file, fileType.name)}
-                                    leftSection={<IconUpload/>}
-                                    rightSection={iconRight}
-                                    clearable={true}
-                                    accept="image/*"
-                                    disabled={!!file.is_valid}
-                                />
-                                <br/>
-                            </>
+                            <div key={file.id}>
+                            <FileInput
+                                placeholder={file.file?.name}
+                                label={fileType.description}
+                                multiple={false}
+                                onChange={file => onFileSelected(file, fileType.name)}
+                                leftSection={<IconUpload/>}
+                                rightSection={iconRight}
+                                clearable={true}
+                                accept="image/*"
+                                disabled={!!file.is_valid}
+                            />
+                            </div>
                         )
                     })
                 }
