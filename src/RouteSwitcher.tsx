@@ -18,7 +18,6 @@ import UserQuizSummaryView from "./pages/UserQuizSummaryView";
 import ShareStart from "./pages/UserQuizSharedStart";
 import {RolesList} from "./pages/RolesList";
 import {RoleEdit} from "./pages/RoleEdit";
-import LocationImport from "./pages/LocationImport";
 
 type params = {
     profile: UserProfile | undefined
@@ -33,7 +32,6 @@ export default function RouteSwitcher({profile}: params) {
             <Route path="/campaigns" element={<CampaignList/>}/>
             <Route path="/campaigns/new" element={<CampaignNew/>}/>
             <Route path="/campaigns/:id" element={<CampaignEdit/>}/>
-            <Route path="/locations/import" element={<LocationImport/>}/>
             <Route path="/questions/new/:quiz_id" element={<QuestionNew/>}/>
             <Route path="/questions/:id" element={<QuestionEdit/>}/>
             <Route path="/quizs/new/:campaign_id" element={<QuizNew/>}/>
