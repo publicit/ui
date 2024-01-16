@@ -68,19 +68,6 @@ const menuData: MenuGroup[] = [
         ],
     },
     {
-        label:"Localizaciones",
-        initiallyOpened:false,
-        authenticated:true,
-        icon:IconBellQuestion,
-        links:[
-            {
-                label: 'Importar Datos',
-                link: '/locations/import',
-                authenticated: true,
-            },
-        ],
-    },
-    {
         label: 'Usuario',
         icon: IconUser,
         initiallyOpened: false,
