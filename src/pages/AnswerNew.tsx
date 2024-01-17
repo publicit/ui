@@ -19,6 +19,7 @@ export default function AnswerNew() {
         initialValues: answer,
         validate: answerValidation(),
     })
+    const [canEdit,setCanEdit]=useState<boolean>(true)
 
     useEffect(() => {
         async function loadData(id: string) {
@@ -50,12 +51,15 @@ export default function AnswerNew() {
 
     async function onSubmit(data: Answer) {
         try {
+            setCanEdit(false)
             data.question = question
             await AnswerPost(data)
             const returnURL = `/questions/${questionId}`
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
+        }finally {
+            setCanEdit(true)
         }
     }
 
@@ -65,7 +69,7 @@ export default function AnswerNew() {
             <BreadcrumComponent items={items}/>
             <br/>
             <AnswerEditForm onSubmit={onSubmit} form={form} legend="Nueva Respuesta"
-                            answer={answer} canEdit={true}/>
+                            answer={answer} canEdit={canEdit}/>
         </div>
     )
 }
