@@ -10,7 +10,7 @@ import {notifyErrResponse} from "../components/Errors";
 export default function CampaignNew() {
     const navigate = useNavigate();
     const [campaign] = useState<Campaign>(new Campaign())
-    const canEdit=true
+    const [canEdit, setCanEdit] = useState<boolean>(true)
     const form = useForm<Campaign>({
         initialValues: campaign,
         validate: campaignValidation(),
@@ -18,11 +18,14 @@ export default function CampaignNew() {
 
     async function onSubmit(data: Campaign) {
         try {
+            setCanEdit(false)
             const res = await CampaignPost(cleanCampaign(data))
             const returnURL = `/campaigns/${res.id}`
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
+        } finally {
+            setCanEdit(true)
         }
     }
 

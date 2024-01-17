@@ -11,11 +11,11 @@ import {BreadcrumbItem} from "../models/breadcrumbItem";
 import {BreadcrumComponent} from "../components/BreadcrumComponent";
 
 export default function QuizNew() {
+    const [canEdit,setCanEdit]=useState<boolean>(true)
     const campaignId = useParams().campaign_id || ""
     const navigate = useNavigate();
     const [quiz,setQuiz] = useState<Quiz>(new Quiz())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
-    const canEdit=true
     const form = useForm<Quiz>({
         initialValues: quiz,
         validate: quizValidation(),
@@ -45,6 +45,7 @@ export default function QuizNew() {
 
     async function onSubmit(data: Quiz) {
         try {
+            setCanEdit(false)
             const campaign = new Campaign()
             campaign.id = campaignId
             data.campaign = campaign
@@ -53,6 +54,8 @@ export default function QuizNew() {
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
+        }finally {
+            setCanEdit(true)
         }
     }
 

@@ -32,7 +32,7 @@ export default function Edit() {
             try {
                 const data = await QuizLoad(id)
                 setQuiz(data)
-                setCanEdit(data.status === QuizStatus[QuizStatus.draft])
+                enableControls(data)
                 form.setValues(data)
                 const res = await QuestionList(id)
                 setQuestions(res)
@@ -52,13 +52,20 @@ export default function Edit() {
         loadData(id)
     }, [])
 
+    function enableControls(q:Quiz){
+        setCanEdit(q.status === QuizStatus[QuizStatus.draft])
+    }
+
     async function onSubmit(data: Quiz) {
         try {
+            setCanEdit(false)
             await QuizPut(data)
             const returnUrl = `/campaigns/${campaign.id}`
             navigate(returnUrl);
         } catch (err) {
             await notifyErrResponse(err)
+        }finally {
+            enableControls(data)
         }
     }
 

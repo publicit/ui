@@ -1,7 +1,6 @@
-import {Box, Button, Group, LoadingOverlay, NumberInput, TextInput} from "@mantine/core";
+import {Box, Button, Group, NumberInput, TextInput} from "@mantine/core";
 import {Quiz} from "../models/quiz";
 import {Link} from "react-router-dom";
-import {useDisclosure} from "@mantine/hooks";
 
 type params = {
     onSubmit: any
@@ -18,16 +17,10 @@ export function QuizEditForm({
                                  onSubmit, form, legend, quiz, onDelete,
                                  showDelete = false, onPublish, canEdit,
                              }: params) {
-    const [visible, {toggle}] = useDisclosure(false);
     return (
         <>
-            <form onSubmit={form.onSubmit(async (data: any) => {
-                toggle()
-                await onSubmit(data)
-                toggle()
-            })}>
+            <form onSubmit={form.onSubmit(async (data: any) => onSubmit(data))}>
                 <Box pos="relative">
-                    <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{radius: "sm", blur: 1}}/>
                     <legend>{legend}</legend>
                     <br/>
                     <TextInput label="Nombre"
