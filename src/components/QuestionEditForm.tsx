@@ -40,7 +40,6 @@ export default function QuestionEditForm({
                 <Select
                     label="Tipo de Pregunta"
                     data={questionTypes}
-                    disabled={!!question.id || !canEdit}
                     comboboxProps={{transitionProps: {transition: 'pop', duration: 200}}}
                     {...form.getInputProps("type")}
                 />
