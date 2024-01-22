@@ -288,12 +288,17 @@ async function UserQuizShareLink(userQuizId: string) {
 /////////////////////////////////////////////////////////////
 
 async function PostUserList() {
-    const res = await instance.post(``)
+    const res = await instance.post(`/v1/users`)
     return (res.data || []).map((x: any) => toUser(x))
 }
 
 async function UserWhoAmi() {
     const res = await instance.get(`/v1/users/whoami`)
+    return toUser(res.data)
+}
+
+async function UserLoad(id:string){
+    const res = await instance.get(`/v1/user/${id}`)
     return toUser(res.data)
 }
 
@@ -352,4 +357,5 @@ export {
 
     UserWhoAmi,
     PostUserList,
+    UserLoad,
 }

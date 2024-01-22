@@ -91,6 +91,11 @@ const menuData: MenuGroup[] = [
                 link: '/roles',
                 authenticated: true,
             },
+            {
+                label: 'Usuarios',
+                link: '/users',
+                authenticated: true,
+            },
         ],
     },
     // {label: 'Analytics', icon: IconPresentationAnalytics},
