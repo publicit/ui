@@ -297,6 +297,11 @@ async function UserWhoAmi() {
     return toUser(res.data)
 }
 
+async function UserLoad(id:string){
+    const res = await instance.get(`/v1/user/${id}`)
+    return toUser(res.data)
+}
+
 export {
     AnswerLoad,
     AnswerList,
@@ -352,4 +357,5 @@ export {
 
     UserWhoAmi,
     PostUserList,
+    UserLoad,
 }
