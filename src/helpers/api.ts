@@ -288,7 +288,7 @@ async function UserQuizShareLink(userQuizId: string) {
 /////////////////////////////////////////////////////////////
 
 async function PostUserList() {
-    const res = await instance.post(``)
+    const res = await instance.post(`/v1/users`)
     return (res.data || []).map((x: any) => toUser(x))
 }
 
