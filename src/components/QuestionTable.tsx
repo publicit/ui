@@ -1,6 +1,7 @@
 import {Button, Checkbox, Table} from "@mantine/core";
 import {Link} from "react-router-dom";
 import {Question} from "../models/question";
+import {IconCheck, IconX} from "@tabler/icons-react";
 
 type Params = {
     rows: Question[]
@@ -14,6 +15,8 @@ type RowParams = {
 }
 
 function QuestionRow({question, index, canEdit}: RowParams) {
+    const iconRight = question.is_valid ? <IconCheck style={{color: "green"}}/> :
+        <IconX style={{color: "red"}}/>
     return (
         <Table.Tr key={question.id}>
             <Table.Td>
@@ -25,6 +28,9 @@ function QuestionRow({question, index, canEdit}: RowParams) {
             <Table.Td>
                 <Checkbox checked={question.allow_any_answer_as_valid} onChange={() => {
                 }}/>
+            </Table.Td>
+            <Table.Td>
+                {iconRight}
             </Table.Td>
             <Table.Td>
                 <Button type="button" variant="outline">
@@ -45,6 +51,7 @@ export default function QuestionTable({rows,canEdit}: Params) {
                     <Table.Th>Pregunta</Table.Th>
                     <Table.Th>Tipo</Table.Th>
                     <Table.Th>Cualquiera es Valida</Table.Th>
+                    <Table.Th>Lista</Table.Th>
                     <Table.Th></Table.Th>
                 </Table.Tr>
             </Table.Thead>

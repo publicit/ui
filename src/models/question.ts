@@ -12,6 +12,7 @@ export class Question {
     type: string
     quiz: Quiz
     allow_any_answer_as_valid: boolean
+    is_valid: boolean
 
     constructor() {
         this.id = ""
@@ -19,6 +20,7 @@ export class Question {
         this.quiz = new Quiz()
         this.type = QuestionType[QuestionType.single]
         this.allow_any_answer_as_valid = false
+        this.is_valid = false
     }
 }
 
