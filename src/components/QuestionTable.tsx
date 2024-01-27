@@ -1,4 +1,4 @@
-import {Button, Table} from "@mantine/core";
+import {Button, Checkbox, Table} from "@mantine/core";
 import {Link} from "react-router-dom";
 import {Question} from "../models/question";
 
@@ -23,6 +23,10 @@ function QuestionRow({question, index, canEdit}: RowParams) {
                 {question.type}
             </Table.Td>
             <Table.Td>
+                <Checkbox checked={question.allow_any_answer_as_valid} onChange={() => {
+                }}/>
+            </Table.Td>
+            <Table.Td>
                 <Button type="button" variant="outline">
                     <Link to={`/questions/${question.id}`}>
                         {canEdit ? "Editar" : "Ver"}
@@ -40,6 +44,7 @@ export default function QuestionTable({rows,canEdit}: Params) {
                 <Table.Tr>
                     <Table.Th>Pregunta</Table.Th>
                     <Table.Th>Tipo</Table.Th>
+                    <Table.Th>Cualquiera es Valida</Table.Th>
                     <Table.Th></Table.Th>
                 </Table.Tr>
             </Table.Thead>

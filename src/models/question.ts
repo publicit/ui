@@ -11,12 +11,14 @@ export class Question {
     body: string
     type: string
     quiz: Quiz
+    allow_any_answer_as_valid: boolean
 
     constructor() {
         this.id = ""
         this.body = ""
         this.quiz = new Quiz()
         this.type = QuestionType[QuestionType.single]
+        this.allow_any_answer_as_valid = false
     }
 }
 
