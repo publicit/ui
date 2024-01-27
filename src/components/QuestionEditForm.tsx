@@ -1,4 +1,4 @@
-import {Box, Button, Group, Select, Text, Textarea} from "@mantine/core";
+import {Button, Checkbox, Group, Select, Text, Textarea} from "@mantine/core";
 import {Link} from "react-router-dom";
 import {Question, QuestionType} from "../models/question";
 import {UseFormReturnType} from "@mantine/form";
@@ -48,6 +48,12 @@ export default function QuestionEditForm({
                     ? <Text size="xs">Solo una respuesta puede ser la correcta.</Text>
                     : <Text size="xs">Puede haber una o mas respuestas correctas.</Text>
                 }
+                <br/>
+                <Checkbox
+                    label="Cualquier respuesta es valida"
+                    disabled={!canEdit}
+                    {...form.getInputProps('allow_any_answer_as_valid', {type: 'checkbox'})}
+                />
                 <br/>
                 {canEdit &&
                     <Group>
