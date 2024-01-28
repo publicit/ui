@@ -46,7 +46,7 @@ export default function RouteSwitcher({profile}: params) {
             <Route path="/user/quizs/:user_quiz_id/summary" element={<UserQuizSummaryView/>}/>
             <Route path="/users" element={<UsersList/>}/>
             <Route path="/users/:id" element={<UserEdit/>}/>
-            <Route path="/apis/quiz/invitation/:token" element={<ShareStart/>}/>
+            <Route path="/invitation/:token" element={<ShareStart/>}/>
 
             <Route path="*" element={<ErrorPage/>}/>
         </Routes>
