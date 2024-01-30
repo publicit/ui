@@ -37,6 +37,11 @@ export default function Edit() {
     const [files, setFiles] = useState<UserProfileFile[]>([])
     const [fileTypes, setFileTypes] = useState<FileType[]>([])
 
+    async function loadFiles() {
+        const filesData = await UserProfileFilesLoad()
+        setFiles(filesData)
+    }
+
     async function loadData() {
         try {
             const userData: User = await UserWhoAmi()
@@ -45,8 +50,7 @@ export default function Edit() {
             enableControls(data)
             setUserProfile(data)
             form.setValues(data)
-            const filesData = await UserProfileFilesLoad()
-            setFiles(filesData)
+            await loadFiles()
             const fileTypesData = await FileTypes()
             setFileTypes(fileTypesData)
             // check if user is coming from a shared quiz url
@@ -110,6 +114,7 @@ export default function Edit() {
             await notifyErrResponse(err)
         } finally {
             enableControls(userProfile)
+            await loadFiles()
         }
     }
 
