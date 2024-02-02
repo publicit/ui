@@ -1,18 +1,20 @@
-import React, {useEffect, useState} from 'react'
-import {TokenResponse, useGoogleLogin} from '@react-oauth/google';
-import {logout, parseToken, saveUserProfile} from "./helpers/sso_service"
+import React, { useEffect, useState } from 'react'
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import { logout, parseToken, saveUserProfile } from "./helpers/sso_service"
 import '@mantine/core/styles/global.css';
 import "@mantine/core/styles.css"
 import '@mantine/dates/styles.css';
-import {AppShell, Burger, Group} from "@mantine/core";
-import {useDisclosure} from "@mantine/hooks";
+import { AppShell, Burger, Group } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import Logo from "./components/Logo";
 import Navbar from "./components/Navbar";
 import RouteSwitcher from "./RouteSwitcher"
-import {User, UserProfile} from "./models/user";
+import { User, UserProfile } from "./models/user";
+import { useNavigate } from 'react-router-dom';
 
 
 function App() {
+    const navigate = useNavigate();
     // user contains the access token information, and expiration
     const [user, setUser] = useState<TokenResponse>();
     // profile contains the parsed information after we verify the access token with Google endpoint
@@ -26,66 +28,60 @@ function App() {
         onError: (error) => console.log('Login Failed:', error)
     });
 
-    useEffect(
-        () => {
-            parseToken()
-                .then(p => setProfile(p))
-                .catch(() => {
-                });
-        },
-        [user]
-    );
+    useEffect(() => {
+        parseToken()
+            .then(p => setProfile(p))
+            .catch(() => {
+            });
+    }, [user]);
 
     const logOut = () => {
-        logout()
         setProfile(undefined);
+        localStorage.clear()
+        navigate('/');
     };
 
     function CollapseDesktop() {
         const [mobileOpened] = useDisclosure();
-        const [desktopOpened, {toggle: toggleDesktop}] = useDisclosure(true);
+        const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
         const [opened] = useDisclosure()
         const user = new User()
-        user.email=profile?.email
-        user.name=profile?.name
-        user.image=profile?.picture
+        user.email = profile?.email
+        user.name = profile?.name
+        user.image = profile?.picture
         const version = process.env.REACT_APP_TAG_NAME || ""
 
-
         return (
-            <>
-                <AppShell
-                    padding="md"
-                    header={{height: 60}}
-                    navbar={{
-                        width: 200,
-                        breakpoint: 'sm',
-                        collapsed: {mobile: !mobileOpened, desktop: !desktopOpened},
-                    }}
-                >
-                    <AppShell.Header>
-                        <Group>
-                            <Burger opened={opened} onClick={toggleDesktop} aria-label="Toggle navigation"/>
-                            <div>
-                                <Logo/>
-                            </div>
-                        </Group>
-                    </AppShell.Header>
-                    <AppShell.Navbar>
-                        <Navbar user={user} version={version} login={login} logout={logOut}/>
-                    </AppShell.Navbar>
-                    <AppShell.Main>
-                        <RouteSwitcher profile={profile}/>
-                    </AppShell.Main>
-                </AppShell>
-            </>
+            <AppShell
+                padding="md"
+                header={{ height: 60 }}
+                navbar={{
+                    width: 200,
+                    breakpoint: 'sm',
+                    collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+                }}
+            >
+                <AppShell.Header>
+                    <Group>
+                        <Burger opened={opened} onClick={toggleDesktop} aria-label="Toggle navigation" />
+                        <div>
+                            <Logo />
+                        </div>
+                    </Group>
+                </AppShell.Header>
+                <AppShell.Navbar>
+                    <Navbar user={user} version={version} login={login} logout={logOut} />
+                </AppShell.Navbar>
+                <AppShell.Main>
+                    <RouteSwitcher profile={profile} />
+                </AppShell.Main>
+            </AppShell>
         );
     }
 
-
     return (
         <>
-            <CollapseDesktop/>
+            <CollapseDesktop />
         </>
     );
 }
