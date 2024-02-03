@@ -1,9 +1,9 @@
 
-export default function ErrorPage() {
+export default function Error404() {
     return (
-        <div id="error-page">
+        <>
             <h1>Oops!</h1>
             <p>Esta pagina no existe</p>
-        </div>
+        </>
     );
 }
