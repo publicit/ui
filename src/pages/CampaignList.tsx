@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {Campaign} from "../models/campaign";
 import {CampaignList} from "../helpers/api";
 import {isLoggedIn} from "../helpers/sso_service";
+import {notifyErrResponse} from "../components/Errors";
 
 
 export default function CampaignsList() {
@@ -12,8 +13,8 @@ export default function CampaignsList() {
             try {
                 const data = await CampaignList()
                 setRows(data)
-            } catch (e) {
-                console.error(e)
+            } catch (err) {
+                await notifyErrResponse(err)
             }
         }
         loadData();

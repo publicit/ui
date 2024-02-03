@@ -14,18 +14,25 @@ instance.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${profile.access_token}`;
         return Promise.resolve(config);
     }
+    return Promise.resolve(config);
 });
 
 instance.interceptors.response.use(function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
     return response;
 }, function (error) {
-    if (error?.response?.status === 401) {
-        window.alert(`Tu sesion ha expirado`)
-        window.location.href = "/"
+    const status = error?.response?.status
+    switch (status) {
+        case 401:
+            window.location.href = "/errors/unauthenticaed"
+            break;
+        case 403:
+            window.location.href = "/errors/unauthorized"
+            break;
+        default:
+            if (status >= 400) {
+                return Promise.reject(error);
+            }
     }
-    return Promise.reject(error);
 });
 
 export default instance;
