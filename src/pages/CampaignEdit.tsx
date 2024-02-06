@@ -84,11 +84,11 @@ export default function Edit() {
                 legend="Datos de la Campaña"
                 onDelete={onDelete} showDelete={quizs.length === 0}
             />
-            {/* <hr />
+            <hr />
             <Title>
                 Encuestas
             </Title>
-            <QuizTable rows={quizs} /> */}
+            <QuizTable rows={quizs} />
         </>
     )
 }
