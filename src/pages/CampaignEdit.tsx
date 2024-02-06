@@ -1,13 +1,22 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
-import {useForm} from "@mantine/form";
-import {CampaignDelete, CampaignLoad, CampaignPut, QuizList} from "../helpers/api"
-import {Title} from "@mantine/core";
-import CampaignEditForm from "../components/CampaignEditForm";
-import {notifyErrResponse} from "../components/Errors";
-import {Quiz} from "../models/quiz";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Mantine :
+import { Title } from "@mantine/core";
+import { useForm } from "@mantine/form";
+
+// Compoenets :
 import QuizTable from "../components/QuizTable";
+import { notifyErrResponse } from "../components/Errors";
+import CampaignEditForm from "../components/CampaignEditForm";
+
+// Models :
+import { Quiz } from "../models/quiz";
+import { Campaign, campaignValidation, cleanCampaign } from "../models/campaign";
+
+// Helpers :
+import { CampaignDelete, CampaignLoad, CampaignPut, QuizList } from "../helpers/api"
+
 
 export default function Edit() {
     const id = useParams().id || ""
@@ -15,11 +24,12 @@ export default function Edit() {
     const navigate = useNavigate();
     const [campaign, setCampaign] = useState<Campaign>(new Campaign())
     const [quizs, setQuizs] = useState<Quiz[]>([])
-    const [canEdit,setCanEdit]=useState<boolean>(true)
+    const [canEdit, setCanEdit] = useState<boolean>(true)
     const form = useForm<Campaign>({
         initialValues: campaign,
         validate: campaignValidation(),
     })
+
     useEffect(() => {
         async function loadData(id: string) {
             try {
@@ -48,7 +58,6 @@ export default function Edit() {
         }
     }
 
-
     async function onDelete() {
         try {
             // eslint-disable-next-line no-restricted-globals
@@ -61,21 +70,22 @@ export default function Edit() {
     }
 
     return (
-        <div>
-            <Title>
-                {campaign.name}
-            </Title>
-            <br/>
-            <CampaignEditForm form={form} onSubmit={onSubmit}
-                              canEdit={canEdit}
-                              legend="Datos de la Campaña" campaign={campaign}
-                              onDelete={onDelete} showDelete={quizs.length === 0}
+        <>
+            <Title>{campaign.name}</Title>
+            <br />
+            <CampaignEditForm
+                form={form}
+                onSubmit={onSubmit}
+                canEdit={canEdit}
+                campaign={campaign}
+                legend="Datos de la Campaña"
+                onDelete={onDelete} showDelete={quizs.length === 0}
             />
-            <hr/>
+            {/* <hr />
             <Title>
                 Encuestas
             </Title>
-            <QuizTable rows={quizs}/>
-        </div>
+            <QuizTable rows={quizs} /> */}
+        </>
     )
 }
