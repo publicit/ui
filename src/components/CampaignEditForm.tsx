@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 
+// ANT-D :
+import { Col, Row } from "antd";
+
 // Mantine :
 import { DatePickerInput } from "@mantine/dates";
-import { Button, Grid, Group, Text, Textarea, TextInput } from "@mantine/core";
+import { Button, Grid, Group, Text, Textarea, TextInput, Title } from "@mantine/core";
 
 // Models :
 import { Campaign } from "../models/campaign";
@@ -29,46 +32,46 @@ export default function CampaignEditForm({
 }: params) {
     return (
         <form onSubmit={form.onSubmit((data: any) => onSubmit(data))}>
-            {campaign.image_url &&
-                <img
-                    src={campaign.image_url}
-                    alt="logo"
-                    className="compaign-image"
-                />
-            }
-            <br />
-            <legend className="legend-tag">{legend}</legend>
-            <br />
-            <Grid gutter="md">
-                <Grid.Col span={6}>
+            <div className="campaign-image-section">
+                {campaign.image_url &&
+                    <img
+                        src={campaign.image_url}
+                        alt="logo"
+                        className="campaign-image"
+                    />
+                }
+                {/* <legend className="legend-tag">{legend}</legend> */}
+            </div>
+            <Row gutter={[10, 10]}>
+                <Col span={24}>
                     <TextInput label="Nombre"
                         size="md"
                         placeholder="Nombre"
                         disabled={!canEdit}
                         {...form.getInputProps("name")} />
-                </Grid.Col>
-                <Grid.Col span={6}>
+                </Col>
+                <Col span={24}>
                     <TextInput label="Imagen"
                         size="md"
                         disabled={!canEdit}
                         placeholder="URL Imagen"
                         {...form.getInputProps("image_url")} />
-                </Grid.Col>
-                <Grid.Col span={6}>
+                </Col>
+                <Col span={12}>
                     <Text>Fecha de Inicio</Text>
                     <DatePickerInput
                         size="md"
                         disabled={!canEdit}
                         {...form.getInputProps(`start_date`)} />
-                </Grid.Col>
-                <Grid.Col span={6}>
+                </Col>
+                <Col span={12}>
                     <Text>Fecha de Fin</Text>
                     <DatePickerInput
                         size="md"
                         disabled={!canEdit}
                         {...form.getInputProps(`end_date`)} />
-                </Grid.Col>
-                <Grid.Col span={12}>
+                </Col>
+                <Col span={24}>
                     <Textarea label="Descripcion"
                         size="md"
                         minRows={2}
@@ -76,8 +79,8 @@ export default function CampaignEditForm({
                         disabled={!canEdit}
                         placeholder="Descripcion"
                         {...form.getInputProps("description")} />
-                </Grid.Col>
-                <Grid.Col span={12}>
+                </Col>
+                <Col span={24}>
                     <Group>
                         {canEdit &&
                             <Button type="submit" size="md" variant="outline">
@@ -103,8 +106,8 @@ export default function CampaignEditForm({
                             </Group>
                         }
                     </Group>
-                </Grid.Col>
-            </Grid>
+                </Col>
+            </Row>
         </form >
     )
 }
