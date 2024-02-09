@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 // ANT-D :
-import { Col, Row } from "antd";
+import {Col, Row} from "antd";
 
 // Mantine :
-import { Title } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import {Title} from "@mantine/core";
+import {useForm} from "@mantine/form";
 
 // Compoenets :
 import QuizTable from "../components/QuizTable";
 import PreLoader from "../components/PreLoader";
-import { notifyErrResponse } from "../components/Errors";
+import {notifyErrResponse} from "../components/Errors";
 import CampaignEditForm from "../components/CampaignEditForm";
 
 // Models :
-import { Quiz } from "../models/quiz";
-import { Campaign, campaignValidation, cleanCampaign } from "../models/campaign";
+import {Quiz} from "../models/quiz";
+import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
 
 // Helpers :
-import { CampaignDelete, CampaignLoad, CampaignPut, QuizList } from "../helpers/api"
+import {CampaignDelete, CampaignLoad, CampaignPut, QuizList} from "../helpers/api"
 
 
 export default function Edit() {
@@ -81,12 +81,8 @@ export default function Edit() {
         }
     }
 
-    return isLoading ? <PreLoader /> : (
+    return isLoading ? <PreLoader/> : (
         <Row gutter={15}>
-            <Col span={14}>
-                <Title>Encuestas</Title>
-                <QuizTable rows={quizs} />
-            </Col>
             <Col span={10}>
                 <Title>{campaign.name}</Title>
                 <div className="campaign-profile-wrap">
@@ -99,6 +95,10 @@ export default function Edit() {
                         onDelete={onDelete} showDelete={quizs.length === 0}
                     />
                 </div>
+            </Col>
+            <Col span={14}>
+                <Title>Encuestas</Title>
+                <QuizTable rows={quizs}/>
             </Col>
         </Row>
     )
