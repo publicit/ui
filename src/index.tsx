@@ -1,11 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { BrowserRouter } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 import reportWebVitals from './reportWebVitals';
-import {GoogleOAuthProvider} from "@react-oauth/google";
-import {createTheme, MantineProvider} from "@mantine/core";
-import {BrowserRouter} from "react-router-dom";
-import {ModalsProvider} from "@mantine/modals";
+
+// Mantine :
+import { ModalsProvider } from "@mantine/modals";
+import { createTheme, MantineProvider } from "@mantine/core";
+
+// Component :
+import App from './App';
+
+
+// CSS :
+import './styles/main.scss'
+
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -39,7 +49,7 @@ root.render(
         <MantineProvider theme={theme} defaultColorScheme="dark">
             <ModalsProvider>
                 <BrowserRouter>
-                    <App/>
+                    <App />
                 </BrowserRouter>
             </ModalsProvider>
         </MantineProvider>
