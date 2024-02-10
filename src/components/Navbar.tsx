@@ -27,7 +27,7 @@ const menuData: MenuGroup[] = [
         label: 'PublicitUX',
         icon: IconGauge,
         initiallyOpened: false,
-        authenticated:false,
+        authenticated: false,
         links: [
             {
                 label: "Inicio",
@@ -40,7 +40,7 @@ const menuData: MenuGroup[] = [
         label: 'Campañas',
         icon: IconNotes,
         initiallyOpened: false,
-        authenticated:true,
+        authenticated: true,
         links: [
             {
                 label: 'Mis Campañas',
@@ -55,11 +55,11 @@ const menuData: MenuGroup[] = [
         ],
     },
     {
-        label:"Encuestas",
-        initiallyOpened:false,
-        authenticated:true,
-        icon:IconBellQuestion,
-        links:[
+        label: "Encuestas",
+        initiallyOpened: false,
+        authenticated: true,
+        icon: IconBellQuestion,
+        links: [
             {
                 label: 'Mis Encuestas',
                 link: '/user/quizs',
@@ -71,7 +71,7 @@ const menuData: MenuGroup[] = [
         label: 'Usuario',
         icon: IconUser,
         initiallyOpened: false,
-        authenticated:true,
+        authenticated: true,
         links: [
             {
                 label: 'Perfil',
@@ -84,7 +84,7 @@ const menuData: MenuGroup[] = [
         label: 'Seguridad',
         icon: IconLock,
         initiallyOpened: false,
-        authenticated:true,
+        authenticated: true,
         links: [
             {
                 label: 'Roles',
@@ -111,7 +111,7 @@ const menuData: MenuGroup[] = [
 
 type NavbarParams = {
     version: string
-    profile: UserProfileResponse|undefined
+    profile: UserProfileResponse | undefined
     login: any
     logout: any
 }
@@ -119,6 +119,7 @@ type NavbarParams = {
 // NavbarMain is the real navbar that appears on the left pane of the app.
 export default function NavbarMain({profile, version, login, logout}: NavbarParams) {
     const menuItems = profile?.email ? menuData : menuData.filter(x => !x.authenticated)
+    console.info(`navbar user roles: ${profile?.roles}`)
     return (
         <nav className={classes.navbar}>
             <div className={classes.header}>
@@ -137,7 +138,7 @@ export default function NavbarMain({profile, version, login, logout}: NavbarPara
             <div className={classes.footer}>
                 {profile?.email ?
                     <>
-                        <UserButton user={profile}  />
+                        <UserButton user={profile}/>
                         <NavLink label="Cerrar Sesion" onClick={logout}/>
                     </>
                     : <NavLink label="Iniciar Sesion" onClick={login}/>

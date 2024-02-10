@@ -29,7 +29,7 @@ type params = {
 
 export default function RouteSwitcher({profile}: params) {
     //  TODO: allow to access routes based on role membership
-    console.info(`user roles: ${profile?.roles}`)
+    console.info(`router user roles: ${profile?.roles}`)
     return (
         <Routes>
             <Route path="/" element={<Root/>}/>
