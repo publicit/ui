@@ -233,8 +233,8 @@ async function UserProfileFilesLoad() {
     return (res.data || []).map((x: any) => toUserProfileFile(x))
 }
 
-async function UserProfileFileSave(file: UserProfileFile){
-    const res = await instance.put(`/v1/user-profile/files`,file)
+async function UserProfileFileSave(file: UserProfileFile) {
+    const res = await instance.put(`/v1/user-profile/files`, file)
     return toUserProfileFile(res.data)
 }
 
@@ -252,8 +252,8 @@ async function UserQuizNextQuestion(userQuiz: UserQuiz) {
     return res.data as UserNextQuestion
 }
 
-async function UserQuizRegister(quiz: Quiz) {
-    const res = await instance.post(`/v1/users/quizs/${quiz.id}`)
+async function UserQuizRegister(quiz: Quiz, token: string) {
+    const res = await instance.post(`/v1/users/quizs/${quiz.id}?token=${token}`)
     return res.data as UserNextQuestion
 }
 
@@ -297,7 +297,7 @@ async function UserWhoAmi() {
     return toUser(res.data)
 }
 
-async function UserLoad(id:string){
+async function UserLoad(id: string) {
     const res = await instance.get(`/v1/user/${id}`)
     return toUser(res.data)
 }

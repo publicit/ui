@@ -21,19 +21,19 @@ export default function ShareStart() {
                 const user = await UserProfileLoad()
                 if (!user.is_completed) return
                 //  register the user to this quiz
-                try{
+                try {
                     // TODO: fix the double registration thing, code is reaching here two times
-                    await UserQuizRegister(q)
+                    await UserQuizRegister(q, token)
                     navigate(`/user/quizs`)
-                }catch (err:any){
+                } catch (err: any) {
                     const req = err?.request
-                    if(!req) return
+                    if (!req) return
                     const text = req.response
-                    if(!text) return
+                    if (!text) return
                     const body = JSON.parse(text)
                     popupWarning({
-                        title:"Error",
-                        text:body?.error || "No se pudo hacer el registro de la encuesta",
+                        title: "Error",
+                        text: body?.error || "No se pudo hacer el registro de la encuesta",
                     })
                     navigate(`/user/quizs`)
                 }
