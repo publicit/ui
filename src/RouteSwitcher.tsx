@@ -2,7 +2,7 @@ import Root from "./pages/Root";
 import {Route, Routes} from "react-router-dom";
 import Error404 from "./pages/Error404";
 import CampaignList from "./pages/CampaignList";
-import {UserProfile} from "./models/user";
+import {UserProfileResponse} from "./models/user";
 import CampaignEdit from "./pages/CampaignEdit";
 import CampaignNew from "./pages/CampaignNew";
 import QuizNew from "./pages/QuizNew";
@@ -24,10 +24,12 @@ import Error401 from "./pages/Error401";
 import Error403 from "./pages/Error403";
 
 type params = {
-    profile: UserProfile | undefined
+    profile: UserProfileResponse | undefined
 }
 
 export default function RouteSwitcher({profile}: params) {
+    //  TODO: allow to access routes based on role membership
+    console.info(`user roles: ${profile?.roles}`)
     return (
         <Routes>
             <Route path="/" element={<Root/>}/>

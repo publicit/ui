@@ -37,8 +37,9 @@ async function parseToken() {
         ...data,
         image: data.picture,
     }
-    await instance.post(`/v1/users/login`, user)
-    return data
+    const loginRes = await instance.post(`/v1/users/login`, user)
+    user.roles = loginRes.data?.roles
+    return user
 }
 
 function logout() {
@@ -46,7 +47,7 @@ function logout() {
     clearUserProfile()
 }
 
-function isLoggedIn():boolean{
+function isLoggedIn(): boolean {
     const profile = loadUserProfile()
     return !!profile
 }

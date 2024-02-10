@@ -24,9 +24,10 @@ export function toUser(v: any): User {
     }
 }
 
-export type UserProfile = {
+export type UserProfileResponse = {
     id: string
     picture: string
     name: string
     email: string
+    roles: string[]
 }

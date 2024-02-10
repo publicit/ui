@@ -5,7 +5,7 @@ import {LinksGroup} from './NavbarLinksGroup';
 import Logo from './Logo';
 import classes from './NavbarNested.module.css';
 import {useNavigate} from "react-router-dom";
-import {User} from "../models/user";
+import {UserProfileResponse} from "../models/user";
 import React from "react";
 
 type MenuItem = {
@@ -111,14 +111,14 @@ const menuData: MenuGroup[] = [
 
 type NavbarParams = {
     version: string
-    user: User
+    profile: UserProfileResponse|undefined
     login: any
     logout: any
 }
 
 // NavbarMain is the real navbar that appears on the left pane of the app.
-export default function NavbarMain({user, version, login, logout}: NavbarParams) {
-    const menuItems = user?.email ? menuData : menuData.filter(x => !x.authenticated)
+export default function NavbarMain({profile, version, login, logout}: NavbarParams) {
+    const menuItems = profile?.email ? menuData : menuData.filter(x => !x.authenticated)
     return (
         <nav className={classes.navbar}>
             <div className={classes.header}>
@@ -135,9 +135,9 @@ export default function NavbarMain({user, version, login, logout}: NavbarParams)
             </ScrollArea>
 
             <div className={classes.footer}>
-                {user?.email ?
+                {profile?.email ?
                     <>
-                        <UserButton user={user}  />
+                        <UserButton user={profile}  />
                         <NavLink label="Cerrar Sesion" onClick={logout}/>
                     </>
                     : <NavLink label="Iniciar Sesion" onClick={login}/>
