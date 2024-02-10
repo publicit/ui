@@ -43,7 +43,7 @@ export function QuizEditForm({
                                disabled={true}
                                {...form.getInputProps("status")}/>
                     <br/>
-                    <NumberInput label="Numero Minimo de Preguntas"
+                    <NumberInput label="Numero de Preguntas"
                                  placeholder="Numero de Preguntas"
                                  {...form.getInputProps("number_of_questions")}/>
                     <br/>
