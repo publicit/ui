@@ -1,3 +1,20 @@
+// ************************ Campaign List ************************
+.campaign-card-container {
+
+    .campaign-card-description {
+        text-align: justify;
+        height: 70px;
+    }
+
+    .mantine-Button-label {
+        display: flex !important;
+        gap: 5px !important;
+        justify-content: center;
+    }
+
+}
+
+// ************************ Campaign Details ************************
 .campaign-profile-wrap {
     margin-top: 1.5rem;
     border: 1px solid #e7e4e442;
@@ -14,20 +31,17 @@
             font-weight: 600;
         }
     }
-}
 
+    .campaign-image {
+        height: 200px;
+        width: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
 
-.campaign-image {
-    height: 200px;
-    width: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-
-
-.link-button a {
-    text-decoration: none;
+    .link-button a {
+        text-decoration: none;
+    }
 }
 
 .table-container {
