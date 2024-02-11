@@ -1,5 +1,4 @@
 import {Code, Group, NavLink, rem, ScrollArea} from '@mantine/core';
-import {IconBellQuestion, IconGauge, IconLock, IconNotes, IconUser,} from '@tabler/icons-react';
 import {UserButton} from './UserButton';
 import {LinksGroup} from './NavbarLinksGroup';
 import Logo from './Logo';
@@ -7,107 +6,9 @@ import classes from './NavbarNested.module.css';
 import {useNavigate} from "react-router-dom";
 import {UserProfileResponse} from "../models/user";
 import React from "react";
+import {MenuGroups} from "../helpers/menu_groups";
+import {filterMenuGroup, glueMenus} from "../helpers/menu";
 
-type MenuItem = {
-    label: string
-    link: string
-    authenticated: boolean
-}
-
-type MenuGroup = {
-    label: string
-    icon: any
-    initiallyOpened: boolean
-    authenticated: boolean
-    links: MenuItem[]
-}
-
-const menuData: MenuGroup[] = [
-    {
-        label: 'PublicitUX',
-        icon: IconGauge,
-        initiallyOpened: false,
-        authenticated: false,
-        links: [
-            {
-                label: "Inicio",
-                link: "/",
-                authenticated: false,
-            },
-        ],
-    },
-    {
-        label: 'Campañas',
-        icon: IconNotes,
-        initiallyOpened: false,
-        authenticated: true,
-        links: [
-            {
-                label: 'Mis Campañas',
-                link: '/campaigns',
-                authenticated: true,
-            },
-            {
-                label: 'Nueva Campaña',
-                link: '/campaigns/new',
-                authenticated: true,
-            },
-        ],
-    },
-    {
-        label: "Encuestas",
-        initiallyOpened: false,
-        authenticated: true,
-        icon: IconBellQuestion,
-        links: [
-            {
-                label: 'Mis Encuestas',
-                link: '/user/quizs',
-                authenticated: true,
-            },
-        ],
-    },
-    {
-        label: 'Usuario',
-        icon: IconUser,
-        initiallyOpened: false,
-        authenticated: true,
-        links: [
-            {
-                label: 'Perfil',
-                link: '/user/profile',
-                authenticated: true,
-            },
-        ],
-    },
-    {
-        label: 'Seguridad',
-        icon: IconLock,
-        initiallyOpened: false,
-        authenticated: true,
-        links: [
-            {
-                label: 'Roles',
-                link: '/roles',
-                authenticated: true,
-            },
-            {
-                label: 'Usuarios',
-                link: '/users',
-                authenticated: true,
-            },
-        ],
-    },
-    // {label: 'Analytics', icon: IconPresentationAnalytics},
-    // {label: 'Contracts', icon: IconFileAnalytics},
-    // {
-    //     label: 'Configuracion',
-    //     icon: IconAdjustments,
-    //     links: [
-    //         {label: 'Registro', link: '/'},
-    //     ],
-    // },
-];
 
 type NavbarParams = {
     version: string
@@ -118,8 +19,7 @@ type NavbarParams = {
 
 // NavbarMain is the real navbar that appears on the left pane of the app.
 export default function NavbarMain({profile, version, login, logout}: NavbarParams) {
-    const menuItems = profile?.email ? menuData : menuData.filter(x => !x.authenticated)
-    console.info(`navbar user roles: ${profile?.roles}`)
+    const menuItems = glueMenus(MenuGroups(),profile)
     return (
         <nav className={classes.navbar}>
             <div className={classes.header}>
