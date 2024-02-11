@@ -1,6 +1,10 @@
 import {UserProfileResponse} from "../models/user";
 import {glueMenus, menuItemHasRoleMembership} from "./menu";
 import {RoleNames} from "../models/role";
+import {MenuGroup} from "../models/menuGroup";
+import {MenuItem} from "../models/menuItem";
+import React from "react";
+import {IconGauge} from "@tabler/icons-react";
 
 function mockedProfile(): UserProfileResponse {
     return {
@@ -12,8 +16,12 @@ function mockedProfile(): UserProfileResponse {
     }
 }
 
+function mockedIcon(): React.FC<any> {
+    return IconGauge
+}
+
 test('no profile no auth membership', () => {
-    const item = {
+    const item: MenuItem = {
         label: "Inicio",
         link: "/",
     }
@@ -22,7 +30,7 @@ test('no profile no auth membership', () => {
 })
 
 test('membership matches profile', () => {
-    const item = {
+    const item: MenuItem = {
         label: "Matches",
         link: "/",
         roles: [RoleNames.Unknown]
@@ -34,9 +42,9 @@ test('membership matches profile', () => {
 })
 
 test("home page no auth", () => {
-    const menus = [{
+    const menuGroups: MenuGroup[] = [{
         label: 'Home',
-        icon: null,
+        icon: mockedIcon(),
         initiallyOpened: false,
         items: [
             {
@@ -47,10 +55,10 @@ test("home page no auth", () => {
     }]
     const profile = mockedProfile()
     profile.roles = []
-    const result = glueMenus(menus, profile)
+    const result = glueMenus(menuGroups, profile)
     const expected = [{
         label: 'Home',
-        icon: null,
+        icon: mockedIcon(),
         initiallyOpened: false,
         items: [
             {
@@ -63,9 +71,9 @@ test("home page no auth", () => {
 })
 
 test("home page auth", () => {
-    const menus = [{
+    const menus: MenuGroup[] = [{
         label: 'Home',
-        icon: null,
+        icon: mockedIcon(),
         initiallyOpened: false,
         items: [
             {
@@ -85,7 +93,7 @@ test("home page auth", () => {
     const result = glueMenus(menus, profile)
     const expected = [{
         label: 'Home',
-        icon: null,
+        icon: mockedIcon(),
         initiallyOpened: false,
         items: [
             {

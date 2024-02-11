@@ -3,6 +3,7 @@ import {IconBellQuestion, IconGauge, IconLock, IconNotes, IconUser} from "@table
 import {RoleNames} from "../models/role";
 
 // returns the default menu groups for the whole application
+// these items appear in the sidebar menu
 export function MenuGroups(): MenuGroup[] {
     return [
         {
@@ -19,7 +20,7 @@ export function MenuGroups(): MenuGroup[] {
         {
             label: 'Campañas',
             icon: IconNotes,
-            initiallyOpened: false,
+            initiallyOpened: true,
             items: [
                 {
                     label: 'Mis Campañas',
@@ -35,7 +36,7 @@ export function MenuGroups(): MenuGroup[] {
         },
         {
             label: "Encuestas",
-            initiallyOpened: false,
+            initiallyOpened: true,
             icon: IconBellQuestion,
             items: [
                 {
@@ -48,7 +49,7 @@ export function MenuGroups(): MenuGroup[] {
         {
             label: 'Usuario',
             icon: IconUser,
-            initiallyOpened: false,
+            initiallyOpened: true,
             items: [
                 {
                     label: 'Perfil',
@@ -60,7 +61,7 @@ export function MenuGroups(): MenuGroup[] {
         {
             label: 'Seguridad',
             icon: IconLock,
-            initiallyOpened: false,
+            initiallyOpened: true,
             items: [
                 {
                     label: 'Roles',

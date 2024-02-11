@@ -3,25 +3,25 @@ import {UserProfileResponse} from "../models/user";
 import {roleNameToEnum} from "./roles";
 import {MenuGroup} from "../models/menuGroup";
 
+// returns true if any of the profile roles is allowed in the MenuItem
 export function menuItemHasRoleMembership(item: MenuItem, profile: UserProfileResponse | undefined): boolean {
     // no roles defined, means no authentication
     if (!item.roles || item.roles?.length === 0) return true
     // no profile email, cannot have any role membership
     if (!profile || !profile?.email) return false
     // compute the role membership on each item, first match returns true
-    let ok: boolean = false
-    item.roles.forEach(x => {
-        profile.roles.forEach(y => {
-            const newRole = roleNameToEnum(y)
-            if (newRole === x) {
-                ok = true
-                return
+    for (let i = 0; i < item.roles.length; i++) {
+        for (let j = 0; j < profile?.roles.length; j++) {
+            const role = roleNameToEnum(profile?.roles[j])
+            if (role === item.roles[i]) {
+                return true
             }
-        })
-    })
-    return ok
+        }
+    }
+    return false
 }
 
+// creates a copy of the menu group, but filtering only those which have permissions
 export function filterMenuGroup(group: MenuGroup, profile: UserProfileResponse | undefined): MenuGroup | null {
     const items = group.items.filter(x => menuItemHasRoleMembership(x, profile))
     if (items.length === 0) return null
@@ -33,8 +33,9 @@ export function filterMenuGroup(group: MenuGroup, profile: UserProfileResponse |
     }
 }
 
+// parses an array of MenuGroup vs the profile
 export function glueMenus(groups: MenuGroup[], profile: UserProfileResponse | undefined): MenuGroup[] {
-    const result: MenuGroup[] = []
+    let result: MenuGroup[] = []
     groups.forEach(group => {
         const filtered = filterMenuGroup(group, profile)
         if (!filtered) return

@@ -1,8 +1,9 @@
 import {MenuItem} from "./menuItem";
+import React from "react";
 
 export type MenuGroup = {
     label: string
-    icon: any
+    icon: React.FC<any>
     initiallyOpened: boolean
     items: MenuItem[]
 }
