@@ -1,19 +1,26 @@
-import CampaignCard from "./CampaignCard";
-import {Grid} from "@mantine/core";
-import {Campaign} from "../models/campaign";
+// Mantine :
+import { Grid } from "@mantine/core";
 
-export default function CampaignCards({rows}: { rows: Campaign[] }) {
+// Components :
+import CampaignCard from "./CampaignCard";
+
+// Models :
+import { Campaign } from "../models/campaign";
+
+
+type params = { rows: Campaign[] }
+
+export default function CampaignCards({ rows }: params) {
     return (
-        <div>
+        <>
             <h2>Listado de Campañas</h2>
-            <Grid
-            >
+            <Grid>
                 {rows.map(r =>
-                    <Grid.Col span={4} key={r.id}>
+                    <Grid.Col span={{ base: 12, md: 6, lg: 4, xl: 3 }} key={r.id}>
                         <CampaignCard c={r} />
                     </Grid.Col>
                 )}
             </Grid>
-        </div>
+        </>
     )
 }

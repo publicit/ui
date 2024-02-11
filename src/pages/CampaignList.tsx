@@ -1,28 +1,41 @@
+import { useEffect, useState } from "react";
+
+// Components :
+import PreLoader from "../components/PreLoader";
 import CampaignCards from "../components/CampaignCards";
-import {useEffect, useState} from "react";
-import {Campaign} from "../models/campaign";
-import {CampaignList} from "../helpers/api";
-import {isLoggedIn} from "../helpers/sso_service";
-import {notifyErrResponse} from "../components/Errors";
+import { notifyErrResponse } from "../components/Errors";
+
+// Models :
+import { Campaign } from "../models/campaign";
+
+// Helpers :
+import { CampaignList } from "../helpers/api";
+import { isLoggedIn } from "../helpers/sso_service";
 
 
 export default function CampaignsList() {
     const [rows, setRows] = useState<Campaign[]>([])
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         async function loadData() {
             try {
                 const data = await CampaignList()
-                setRows(data)
+                setRows(data);
             } catch (err) {
-                await notifyErrResponse(err)
+                await notifyErrResponse(err);
+            } finally {
+                setIsLoading(false);
             }
         }
         loadData();
     }, []);
-    if(!isLoggedIn()) return null
-    return (
-        <div>
-            <CampaignCards rows={rows}/>
-        </div>
+
+    if (!isLoggedIn()) return null
+
+    return isLoading ? <PreLoader /> : (
+        <>
+            <CampaignCards rows={rows} />
+        </>
     )
 }
