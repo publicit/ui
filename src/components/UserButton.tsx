@@ -1,10 +1,10 @@
-import { UnstyledButton, Group, Avatar, Text, rem } from '@mantine/core';
-import { IconChevronRight } from '@tabler/icons-react';
+import {Avatar, Group, rem, Text, UnstyledButton} from '@mantine/core';
+import {IconChevronRight} from '@tabler/icons-react';
 import classes from './UserButton.module.css';
-import {User} from "../models/user"
+import {UserProfileResponse} from "../models/user"
 
 type params = {
-    user: User
+    user: UserProfileResponse
 }
 
 export function UserButton({user}:params) {
@@ -12,7 +12,7 @@ export function UserButton({user}:params) {
         <UnstyledButton className={classes.user}>
             <Group>
                 <Avatar
-                    src={user.image}
+                    src={user.picture}
                     radius="xl"
                 />
 
