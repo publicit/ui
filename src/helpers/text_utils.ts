@@ -49,4 +49,11 @@ export function trimBigText(d: string, maxLength: number = 50): string {
     return d.length >= maxLength ? `${d.substring(0, maxLength - 1)}...` : d
 }
 
+export function capitalizeAllWords(text: string): string {
+    return text.replace(/\b\w/g, char => char.toUpperCase());
+}
 
+export function trimAndCapitalize(d: string, maxLength: number = 50): string {
+    const trimmedText = d.length >= maxLength ? `${d.substring(0, maxLength - 1)}...` : d;
+    return trimmedText.replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+}
