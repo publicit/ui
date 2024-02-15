@@ -1,29 +1,44 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useForm} from "@mantine/form";
-import {AnswerList, QuestionDelete, QuestionLoad, QuestionPut} from "../helpers/api"
-import {notifyErrResponse} from "../components/Errors";
-import {Question, questionValidation} from "../models/question";
-import QuestionEditForm from "../components/QuestionEditForm";
-import {Answer} from "../models/answer";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Mantine :
+import { Grid } from "@mantine/core";
+import { useForm } from "@mantine/form";
+
+// Helpers :
+import { AnswerList, QuestionDelete, QuestionLoad, QuestionPut } from "../helpers/api"
+
+// Components :
+import PreLoader from "../components/PreLoader";
 import AnswerTable from "../components/AnswerTable";
-import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {BreadcrumComponent} from "../components/BreadcrumComponent";
-import {Quiz, QuizStatus} from "../models/quiz";
+import { notifyErrResponse } from "../components/Errors";
+import QuestionEditForm from "../components/QuestionEditForm";
+import { BreadcrumComponent } from "../components/BreadcrumComponent";
+
+// Models :
+import { Answer } from "../models/answer";
+import { Quiz, QuizStatus } from "../models/quiz";
+import { BreadcrumbItem } from "../models/breadcrumbItem";
+import { Question, questionValidation } from "../models/question";
+
 
 export default function Edit() {
     const id = useParams().id || ""
     const navigate = useNavigate();
-    const [question, setQuestion] = useState<Question>(new Question())
+
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
-    const [returnUrl, setReturnUrl] = useState<string>("")
     const [answers, setAnswers] = useState<Answer[]>([])
+    const [canEdit, setCanEdit] = useState<boolean>(false)
+    const [returnUrl, setReturnUrl] = useState<string>("")
     const [items, setItems] = useState<BreadcrumbItem[]>([])
-    const [canEdit,setCanEdit]=useState<boolean>(false)
+    const [question, setQuestion] = useState<Question>(new Question())
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
     const form = useForm<Question>({
         initialValues: question,
         validate: questionValidation(),
     })
+
     useEffect(() => {
         async function loadData(id: string) {
             try {
@@ -47,13 +62,15 @@ export default function Edit() {
                 ])
             } catch (err) {
                 await notifyErrResponse(err)
+            } finally {
+                setIsLoading(false)
             }
         }
 
         loadData(id)
     }, [])
 
-    function enableControls(q:Quiz){
+    function enableControls(q: Quiz) {
         setCanEdit(q.status === QuizStatus[QuizStatus.draft])
     }
 
@@ -64,7 +81,7 @@ export default function Edit() {
             navigate(returnUrl);
         } catch (err) {
             await notifyErrResponse(err)
-        }finally {
+        } finally {
             enableControls(quiz)
         }
     }
@@ -80,13 +97,25 @@ export default function Edit() {
         }
     }
 
-    return (
+    return isLoading ? <PreLoader /> : (
         <>
-            <BreadcrumComponent items={items}/>
-            <br/>
-            <QuestionEditForm onSubmit={onSubmit} form={form}
-                              question={question} onDelete={onDelete} showDelete={answers.length === 0} canEdit={canEdit}/>
-            <AnswerTable rows={answers} canEdit={canEdit}/>
+            <BreadcrumComponent items={items} />
+            <Grid gutter={15}>
+                <Grid.Col span={{ md: 12, lg: 5, }}>
+                    <h1>Formulario del Preguntas</h1>
+                    <div className="form-wrapper">
+                        <QuestionEditForm
+                            form={form} question={question}
+                            onSubmit={onSubmit} onDelete={onDelete}
+                            canEdit={canEdit} showDelete={answers.length === 0}
+                        />
+                    </div>
+                </Grid.Col>
+                <Grid.Col span={{ md: 12, lg: 7, }}>
+                    <h1>Tabla de Respuestas</h1>
+                    <AnswerTable rows={answers} canEdit={canEdit} />
+                </Grid.Col>
+            </Grid>
         </>
     )
 }
