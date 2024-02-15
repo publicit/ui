@@ -15,8 +15,7 @@
 }
 
 // ************************ Campaign Details ************************
-.campaign-profile-wrap {
-    margin-top: 1.5rem;
+.form-wrapper {
     border: 1px solid #e7e4e442;
     padding: 15px;
     border-radius: .5rem;
@@ -42,47 +41,4 @@
     .link-button a {
         text-decoration: none;
     }
-}
-
-.table-container {
-    margin-top: 1.5rem;
-    border-radius: .5rem !important;
-
-    .table-row-container {
-        border-radius: 8px;
-
-        .content-center {
-            text-align: center;
-        }
-
-        img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-        }
-
-        .survey-name {
-            min-width: 250px;
-            max-width: 250px;
-        }
-
-        .action-buttons {
-            text-align: center;
-        }
-
-    }
-
-    .table-head-container {
-        --table-vertical-spacing: calc(1.2rem * var(--mantine-scale));
-        background-color: #ededed0d !important;
-
-        .numbers {
-            width: 200px !important;
-        }
-
-        .content-center {
-            text-align: center;
-        }
-    }
-
 }

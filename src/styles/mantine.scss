@@ -1,11 +1,29 @@
+@import './variables.scss';
+
+// ************************ Input ************************
 .mantine-Input-input {
     background: transparent !important;
 }
 
-.preloder {
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+// ************************ Breadcrumbs ************************
+.mantine-Breadcrumbs-breadcrumb {
+    .non-active-link {
+        color: var(--light-color);
+        text-decoration: none;
+
+        &:hover {
+            color: var(--primary-color) !important;
+        }
+    }
+
+    .active-link {
+        text-decoration: none;
+        color: var(--primary-color) !important;
+    }
+
+}
+
+.mantine-Breadcrumbs-separator {
+    margin-right: 15px !important;
+    margin-left: 15px !important;
 }

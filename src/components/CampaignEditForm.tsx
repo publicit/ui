@@ -81,7 +81,7 @@ export default function CampaignEditForm({
                         {...form.getInputProps("description")} />
                 </Col>
                 <Col span={24}>
-                    <Group>
+                    <Group mt="md">
                         {canEdit &&
                             <Button type="submit" size="md" variant="outline">
                                 Guardar
@@ -90,11 +90,11 @@ export default function CampaignEditForm({
                         {campaign.id &&
                             <Group>
                                 {canEdit && <>
-                                    <Button type="button" size="md" variant="outline" className="link-button">
-                                        <Link to={`/quizs/new/${campaign.id}`}>
+                                    <Link to={`/quizs/new/${campaign.id}`}>
+                                        <Button type="button" size="md" variant="outline" className="link-button">
                                             Agregar Encuesta
-                                        </Link>
-                                    </Button>
+                                        </Button>
+                                    </Link>
                                     {
                                         showDelete && <Button type="button" size="md" variant="outline" onClick={onDelete}>
                                             Eliminar Campaña
@@ -108,6 +108,6 @@ export default function CampaignEditForm({
                     </Group>
                 </Col>
             </Row>
-        </form >
+        </form>
     )
 }

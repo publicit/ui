@@ -13,7 +13,7 @@ type params = { rows: Campaign[] }
 export default function CampaignCards({ rows }: params) {
     return (
         <>
-            <h2>Listado de Campañas</h2>
+            <h1>Listado de Campañas</h1>
             <Grid>
                 {rows.map(r =>
                     <Grid.Col span={{ base: 12, md: 6, lg: 4, xl: 3 }} key={r.id}>

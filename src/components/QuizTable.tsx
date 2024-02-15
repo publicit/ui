@@ -20,7 +20,7 @@ function QuizRow({ index, quiz }: RowParams) {
     return (
         <Table.Tr key={quiz.id} className="table-row-container">
             <Table.Td className="content-center">{index + 1}</Table.Td>
-            <Table.Td className="survey-name">{quiz.name}</Table.Td>
+            <Table.Td className="row-title">{quiz.name}</Table.Td>
             <Table.Td className="content-center">{quiz.status}</Table.Td>
             <Table.Td className="content-center">
                 {quiz.thumbnail_url &&
@@ -31,9 +31,11 @@ function QuizRow({ index, quiz }: RowParams) {
             </Table.Td>
             <Table.Td className="content-center">{quiz.number_of_questions}</Table.Td>
             <Table.Td className="content-center">
-                <Button type="button" variant="outline">
-                    <Link to={`/quizs/${quiz.id}`}>{quiz.status === "draft" ? "Editar" : "Ver"}</Link>
-                </Button>
+                <Link to={`/quizs/${quiz.id}`}>
+                    <Button type="button" variant="outline">
+                        {quiz.status === "draft" ? "Editar" : "Ver"}
+                    </Button>
+                </Link>
             </Table.Td>
         </Table.Tr>
     )

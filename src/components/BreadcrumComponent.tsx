@@ -1,17 +1,39 @@
-import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {Breadcrumbs} from "@mantine/core";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+
+// Mantine :
+import { Breadcrumbs } from "@mantine/core";
+
+// Models :
+import { BreadcrumbItem } from "../models/breadcrumbItem";
+
+// Helpers :
+import { trimAndCapitalize } from "../helpers/text_utils";
+
 
 type Params = {
     items: BreadcrumbItem[]
 }
 
-export function BreadcrumComponent({items}: Params) {
+const maxCharLength = 20;
+
+export function BreadcrumComponent({ items }: Params) {
     return (
-        <Breadcrumbs>
-            {items.map((item: BreadcrumbItem) => (
-                <Link key={item.to} to={item.to}>{item.text}</Link>
-            ))}
-        </Breadcrumbs>
+        <>
+            <Breadcrumbs>
+                {items.map((item: BreadcrumbItem, index) => (
+                    <>
+                        {index < items.length - 1 ? (
+                            <Link key={item.to} to={item.to} className="non-active-link">
+                                {trimAndCapitalize(item.text, maxCharLength)}
+                            </Link>
+                        ) : (
+                            <Link key={item.to} to={item.to} className="active-link">
+                                {trimAndCapitalize(item.text, maxCharLength)}
+                            </Link>
+                        )}
+                    </>
+                ))}
+            </Breadcrumbs>
+        </>
     )
 }

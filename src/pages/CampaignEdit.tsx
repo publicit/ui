@@ -1,25 +1,26 @@
-import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 // ANT-D :
-import {Col, Row} from "antd";
+import { Col, Row } from "antd";
 
 // Mantine :
-import {Title} from "@mantine/core";
-import {useForm} from "@mantine/form";
+import { Grid } from "@mantine/core";
+import { useForm } from "@mantine/form";
 
 // Compoenets :
 import QuizTable from "../components/QuizTable";
 import PreLoader from "../components/PreLoader";
-import {notifyErrResponse} from "../components/Errors";
+import { notifyErrResponse } from "../components/Errors";
 import CampaignEditForm from "../components/CampaignEditForm";
 
 // Models :
-import {Quiz} from "../models/quiz";
-import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
+import { Quiz } from "../models/quiz";
+import { Campaign, campaignValidation, cleanCampaign } from "../models/campaign";
 
 // Helpers :
-import {CampaignDelete, CampaignLoad, CampaignPut, QuizList} from "../helpers/api"
+import { trimAndCapitalize } from "../helpers/text_utils";
+import { CampaignDelete, CampaignLoad, CampaignPut, QuizList } from "../helpers/api"
 
 
 export default function Edit() {
@@ -29,7 +30,7 @@ export default function Edit() {
     const [campaign, setCampaign] = useState<Campaign>(new Campaign())
     const [quizs, setQuizs] = useState<Quiz[]>([])
     const [canEdit, setCanEdit] = useState<boolean>(true)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const form = useForm<Campaign>({
         initialValues: campaign,
         validate: campaignValidation(),
@@ -38,16 +39,15 @@ export default function Edit() {
     useEffect(() => {
         async function loadData(id: string) {
             try {
-                setIsLoading(true)
                 const data = await CampaignLoad(id)
                 setCampaign(data)
                 form.setValues(data)
-                setIsLoading(false)
                 const quizData: Quiz[] = await QuizList(id)
                 setQuizs(quizData)
             } catch (err) {
-                setIsLoading(false)
                 await notifyErrResponse(err)
+            } finally {
+                setIsLoading(false)
             }
         }
 
@@ -57,10 +57,8 @@ export default function Edit() {
     async function onSubmit(data: Campaign) {
         try {
             setCanEdit(false)
-            setIsLoading(true)
             await CampaignPut(cleanCampaign(data))
             navigate(returnURL);
-            setIsLoading(false)
         } catch (err) {
             await notifyErrResponse(err)
             setIsLoading(false)
@@ -80,12 +78,13 @@ export default function Edit() {
             await notifyErrResponse(err)
         }
     }
+    const maxHeadingLength = 30;
 
-    return isLoading ? <PreLoader/> : (
-        <Row gutter={15}>
-            <Col span={10}>
-                <Title>{campaign.name}</Title>
-                <div className="campaign-profile-wrap">
+    return isLoading ? <PreLoader /> : (
+        <Grid gutter={15}>
+            <Grid.Col span={{ md: 12, lg: 5, }}>
+                <h1>{campaign.name && trimAndCapitalize(campaign.name, maxHeadingLength)}</h1>
+                <div className="form-wrapper">
                     <CampaignEditForm
                         form={form}
                         onSubmit={onSubmit}
@@ -95,11 +94,11 @@ export default function Edit() {
                         onDelete={onDelete} showDelete={quizs.length === 0}
                     />
                 </div>
-            </Col>
-            <Col span={14}>
-                <Title>Encuestas</Title>
-                <QuizTable rows={quizs}/>
-            </Col>
-        </Row>
+            </Grid.Col>
+            <Grid.Col span={{ md: 12, lg: 7, }}>
+                <h1>Mesa Encuestas</h1>
+                <QuizTable rows={quizs} />
+            </Grid.Col>
+        </Grid>
     )
 }
