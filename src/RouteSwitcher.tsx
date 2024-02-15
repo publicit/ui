@@ -1,30 +1,38 @@
+import * as React from "react";
+import { Route, Routes } from "react-router-dom";
+
+// Pages :
 import Root from "./pages/Root";
-import {Route, Routes} from "react-router-dom";
-import Error404 from "./pages/Error404";
-import CampaignList from "./pages/CampaignList";
-import {UserProfileResponse} from "./models/user";
-import CampaignEdit from "./pages/CampaignEdit";
-import CampaignNew from "./pages/CampaignNew";
 import QuizNew from "./pages/QuizNew";
 import QuizEdit from "./pages/QuizEdit";
-import QuestionNew from "./pages/QuestionNew";
-import QuestionEdit from "./pages/QuestionEdit"
+import Error404 from "./pages/Error404";
 import AnswerNew from "./pages/AnswerNew";
 import AnswerEdit from "./pages/AnswerEdit";
+import { RoleEdit } from "./pages/RoleEdit";
+import { UserEdit } from "./pages/UserEdit";
+import { UsersList } from "./pages/UserList";
+import { RolesList } from "./pages/RolesList";
+import QuestionNew from "./pages/QuestionNew";
+import CampaignNew from "./pages/CampaignNew";
+import UserQuizList from "./pages/UserQuizList";
+import CampaignList from "./pages/CampaignList";
+import CampaignEdit from "./pages/CampaignEdit";
+import QuestionEdit from "./pages/QuestionEdit";
 import ProfileEdit from "./pages/UserProfileEdit"
-import UserQuizList from "./pages/UserQuizList"
+import ShareStart from "./pages/UserQuizSharedStart";
 import UserQuizFillForm from "./pages/UserQuizFillForm";
 import UserQuizSummaryView from "./pages/UserQuizSummaryView";
-import ShareStart from "./pages/UserQuizSharedStart";
-import {RolesList} from "./pages/RolesList";
-import {RoleEdit} from "./pages/RoleEdit";
-import {UsersList} from "./pages/UserList";
-import {UserEdit} from "./pages/UserEdit";
+
 import Error401 from "./pages/Error401";
 import Error403 from "./pages/Error403";
-import {RoleNames} from "./models/role";
-import * as React from "react";
-import {roleNameToEnum} from "./helpers/roles";
+
+// Models :
+import { RoleNames } from "./models/role";
+import { UserProfileResponse } from "./models/user";
+
+// Helpers :
+import { roleNameToEnum } from "./helpers/roles";
+
 
 type params = {
     profile: UserProfileResponse | undefined
@@ -60,96 +68,98 @@ function routeHasAccess(route: RouteRole, profile: UserProfileResponse | undefin
 function routesWithRoles(): RouteRole[] {
     return [
         {
-            route: <Route path="/invitation/:token" element={<ShareStart/>}/>,
+            route: <Route path="/invitation/:token" element={<ShareStart />} />,
             roles: [],
         },
         {
-            route: <Route path="/answers/new/:question_id" element={<AnswerNew/>}/>,
+            route: <Route path="/answers/new/:question_id" element={<AnswerNew />} />,
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/answers/:id" element={<AnswerEdit/>}/>,
+            route: <Route path="/answers/:id" element={<AnswerEdit />} />,
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/campaigns" element={<CampaignList/>}/>,
+            route: <Route path="/campaigns" element={<CampaignList />} />,
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/campaigns/new" element={<CampaignNew/>}/>,
+            route: <Route path="/campaigns/new" element={<CampaignNew />} />,
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/campaigns/:id" element={<CampaignEdit/>}/>,
+            route: <Route path="/campaigns/:id" element={<CampaignEdit />} />,
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/questions/new/:quiz_id" element={<QuestionNew/>}/>,
+            route: <Route path="/questions/new/:quiz_id" element={<QuestionNew />} />,
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/questions/:id" element={<QuestionEdit/>}/>,
+            route: <Route path="/questions/:id" element={<QuestionEdit />} />,
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/quizs/new/:campaign_id" element={<QuizNew/>}/>,
+            route: <Route path="/quizs/new/:campaign_id" element={<QuizNew />} />,
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/quizs/:id" element={<QuizEdit/>}/>,
+            route: <Route path="/quizs/:id" element={<QuizEdit />} />,
             roles: [RoleNames.CampaignOwners],
         },
 
         {
-            route: <Route path="/user/quizs/:id" element={<UserQuizFillForm/>}/>,
+            route: <Route path="/user/quizs/:id" element={<UserQuizFillForm />} />,
             roles: [RoleNames.Users],
         },
         {
-            route: <Route path="/user/quizs" element={<UserQuizList/>}/>,
+            route: <Route path="/user/quizs" element={<UserQuizList />} />,
             roles: [RoleNames.Users],
         },
         {
-            route: <Route path="/user/quizs/:user_quiz_id/summary" element={<UserQuizSummaryView/>}/>,
-            roles: [RoleNames.Users],
-        },
-
-
-        {
-            route: <Route path="/user/profile" element={<ProfileEdit/>}/>,
+            route: <Route path="/user/quizs/:user_quiz_id/summary" element={<UserQuizSummaryView />} />,
             roles: [RoleNames.Users],
         },
 
+
         {
-            route: <Route path="/roles/:id" element={<RoleEdit/>}/>,
+            route: <Route path="/user/profile" element={<ProfileEdit />} />,
+            roles: [RoleNames.Users],
+        },
+
+        {
+            route: <Route path="/roles/:id" element={<RoleEdit />} />,
             roles: [RoleNames.Administrators],
         },
         {
-            route: <Route path="/roles" element={<RolesList/>}/>,
+            route: <Route path="/roles" element={<RolesList />} />,
             roles: [RoleNames.Administrators],
         },
         {
-            route: <Route path="/users" element={<UsersList/>}/>,
+            route: <Route path="/users" element={<UsersList />} />,
             roles: [RoleNames.Administrators],
         },
         {
-            route: <Route path="/users/:id" element={<UserEdit/>}/>,
+            route: <Route path="/users/:id" element={<UserEdit />} />,
             roles: [RoleNames.Administrators],
         },
     ]
 }
 
-export default function RouteSwitcher({profile}: params) {
+export default function RouteSwitcher({ profile }: params) {
     //  allow to access routes based on role membership
     const routes = routesWithRoles()
     return (
         <Routes>
-            <Route path="/" element={<Root/>}/>
+            <Route path="/" element={<Root />} />
 
-            {routes.filter(route => routeHasAccess(route, profile)).map(route => route.route)}
+            {routes.filter(route => routeHasAccess(route, profile)).map((route, index) => (
+                <Route key={route.route.props.path.toString()} {...route.route.props} />
+            ))}
 
-            <Route path="/errors/unauthenticaed" element={<Error401/>}/>
-            <Route path="/errors/unauthorized" element={<Error403/>}/>
-            <Route path="*" element={<Error404/>}/>
+            <Route path="/errors/unauthenticaed" element={<Error401 />} />
+            <Route path="/errors/unauthorized" element={<Error403 />} />
+            <Route path="*" element={<Error404 />} />
         </Routes>
     )
 }
