@@ -1,6 +1,11 @@
-import {Box, Button, Group, NumberInput, TextInput} from "@mantine/core";
-import {Quiz} from "../models/quiz";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+
+// Mantine :
+import { Button, Grid, Group, NumberInput, TextInput } from "@mantine/core";
+
+// Models :
+import { Quiz } from "../models/quiz";
+
 
 type params = {
     onSubmit: any
@@ -14,74 +19,87 @@ type params = {
 }
 
 export function QuizEditForm({
-                                 onSubmit, form, legend, quiz, onDelete,
-                                 showDelete = false, onPublish, canEdit,
-                             }: params) {
+    onSubmit, form, legend, quiz, onDelete,
+    showDelete = false, onPublish, canEdit,
+}: params) {
     return (
-        <>
-            <form onSubmit={form.onSubmit(async (data: any) => onSubmit(data))}>
-                <Box pos="relative">
-                    <legend>{legend}</legend>
-                    <br/>
-                    <TextInput label="Nombre"
-                               placeholder="Nombre"
-                               {...form.getInputProps("name")}/>
-                    <br/>
-                    <TextInput label="Video URL"
-                               placeholder="URL Video"
-                               {...form.getInputProps("video_url")}/>
-                    <br/>
+        <form onSubmit={form.onSubmit(async (data: any) => onSubmit(data))}>
+            <Grid gutter={10} pos="relative">
+                {/* <legend>{legend}</legend> */}
+                <Grid.Col span={12}>
                     {quiz.thumbnail_url &&
-                        <>
-                            <Link to={quiz.video_url} target="_blank">
-                                <img src={quiz.thumbnail_url} alt="thumbnail"/>
-                            </Link>
-                            <br/>
-                        </>
+                        <Link to={quiz.video_url} target="_blank">
+                            <img
+                                src={quiz.thumbnail_url}
+                                alt="thumbnail"
+                                className="form-image"
+                            />
+                        </Link>
                     }
+                </Grid.Col>
+                <Grid.Col span={12}>
+                    <TextInput label="Nombre"
+                        size="md" placeholder="Nombre"
+                        {...form.getInputProps("name")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <TextInput label="Video URL"
+                        size="md" placeholder="URL Video"
+                        {...form.getInputProps("video_url")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
                     <TextInput label="Estatus"
-                               disabled={true}
-                               {...form.getInputProps("status")}/>
-                    <br/>
+                        size="md" disabled={true}
+                        {...form.getInputProps("status")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
                     <NumberInput label="Numero de Preguntas"
-                                 placeholder="Numero de Preguntas"
-                                 {...form.getInputProps("number_of_questions")}/>
-                    <br/>
+                        size="md" placeholder="Numero de Preguntas"
+                        {...form.getInputProps("number_of_questions")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
                     <NumberInput label="Monto de Recompensa"
-                                 allowNegative={false}
-                                 allowedDecimalSeparators={"."}
-                                 decimalScale={2}
-                                 prefix={"$"}
-                                 thousandSeparator={true}
-                                 placeholder="Esto aplicara cuando hayan respondido toda las preguntas satisfactoriamente. No importa el numero de intentos."
-                                 {...form.getInputProps("reward_amount")}/>
-                    <br/>
-                    <Group>
+                        size="md"
+                        prefix={"$"}
+                        decimalScale={2}
+                        allowNegative={false}
+                        thousandSeparator={true}
+                        allowedDecimalSeparators={"."}
+                        placeholder="Esto aplicara cuando hayan respondido toda las preguntas satisfactoriamente. No importa el numero de intentos."
+                        {...form.getInputProps("reward_amount")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={12}>
+                    <Group mt="md">
                         {canEdit &&
-                            <Button type="submit" variant="outline">
+                            <Button type="submit" size="md" variant="outline">
                                 Guardar
                             </Button>
                         }
                         {quiz.id && canEdit &&
                             <Group>
-                                <Button type="button" variant="outline">
-                                    <Link to={`/questions/new/${quiz.id}`}>
+                                <Link to={`/questions/new/${quiz.id}`}>
+                                    <Button type="button" size="md" variant="outline">
                                         Agregar Pregunta
-                                    </Link>
-                                </Button>
-                                <Button type="button" variant="outline" onClick={() => onPublish()}>
+                                    </Button>
+                                </Link>
+                                <Button type="button" size="md" variant="outline" onClick={() => onPublish()}>
                                     Publicar Encuesta
                                 </Button>
                                 {showDelete &&
-                                    <Button type="button" variant="outline" onClick={onDelete}>
+                                    <Button type="button" size="md" variant="outline" onClick={onDelete}>
                                         Eliminar Encuesta
                                     </Button>
                                 }
                             </Group>
                         }
                     </Group>
-                </Box>
-            </form>
-        </>
+                </Grid.Col>
+            </Grid>
+        </form>
     )
 }

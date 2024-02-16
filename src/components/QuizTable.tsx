@@ -44,14 +44,14 @@ function QuizRow({ index, quiz }: RowParams) {
 
 function EmpteyRow() {
     return (
-        <Table.Tr>
-            <Table.Td className="content-center"></Table.Td>
-            <Table.Td className="survey-name"></Table.Td>
-            <Table.Td className="content-center"></Table.Td>
+        <Table.Tr className="table-row-container">
+            <Table.Td></Table.Td>
+            <Table.Td></Table.Td>
+            <Table.Td></Table.Td>
             <Table.Td className="content-center">Sin datos</Table.Td>
-            <Table.Td className="content-center"></Table.Td>
-            <Table.Td className="content-center"></Table.Td>
-            <Table.Td className="content-center"></Table.Td>
+            <Table.Td></Table.Td>
+            <Table.Td></Table.Td>
+            <Table.Td></Table.Td>
         </Table.Tr>
     )
 }
@@ -66,7 +66,7 @@ export default function QuizTable({ rows }: Params) {
                     <Table.Th className="content-center">Estatus</Table.Th>
                     <Table.Th className="content-center">Imagen</Table.Th>
                     <Table.Th className="content-center numbers">Numero de Preguntas</Table.Th>
-                    <Table.Th className="content-center numbers">Recompensa</Table.Th>
+                    <Table.Th className="content-center">Recompensa</Table.Th>
                     <Table.Th className="content-center">Acciones</Table.Th>
                 </Table.Tr>
             </Table.Thead>
@@ -75,7 +75,8 @@ export default function QuizTable({ rows }: Params) {
                     <>
                         {rows.map((r: Quiz, index: number) => <QuizRow key={r.id} quiz={r} index={index} />)}
                     </>
-                    : <EmpteyRow />
+                    :
+                    <EmpteyRow />
                 }
             </Table.Tbody>
         </Table>

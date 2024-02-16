@@ -37,7 +37,7 @@ export default function CampaignEditForm({
                     <img
                         src={campaign.image_url}
                         alt="logo"
-                        className="campaign-image"
+                        className="form-image"
                     />
                 }
                 {/* <legend className="legend-tag">{legend}</legend> */}

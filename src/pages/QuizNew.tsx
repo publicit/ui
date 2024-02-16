@@ -1,20 +1,28 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useForm} from "@mantine/form";
-import {CampaignLoad, QuizPost} from "../helpers/api"
-import {Title} from "@mantine/core";
-import {notifyErrResponse} from "../components/Errors";
-import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
-import {QuizEditForm} from "../components/QuizEditForm";
-import {Campaign} from "../models/campaign";
-import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {BreadcrumComponent} from "../components/BreadcrumComponent";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+//  Mantine :
+import { useForm } from "@mantine/form";
+
+// Helpers :
+import { CampaignLoad, QuizPost } from "../helpers/api"
+
+// Components :
+import { QuizEditForm } from "../components/QuizEditForm";
+import { notifyErrResponse } from "../components/Errors";
+import { BreadcrumComponent } from "../components/BreadcrumComponent";
+
+// Models :
+import { Campaign } from "../models/campaign";
+import { BreadcrumbItem } from "../models/breadcrumbItem";
+import { Quiz, QuizStatus, quizValidation } from "../models/quiz";
+
 
 export default function QuizNew() {
-    const [canEdit,setCanEdit]=useState<boolean>(true)
+    const [canEdit, setCanEdit] = useState<boolean>(true)
     const campaignId = useParams().campaign_id || ""
     const navigate = useNavigate();
-    const [quiz,setQuiz] = useState<Quiz>(new Quiz())
+    const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
     const form = useForm<Quiz>({
         initialValues: quiz,
@@ -54,21 +62,19 @@ export default function QuizNew() {
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
-        }finally {
+        } finally {
             setCanEdit(true)
         }
     }
 
-
     return (
         <>
-            <BreadcrumComponent items={items}/>
-            <br/>
-            <Title>
-                {quiz.name}
-            </Title>
-            <br/>
-            <QuizEditForm onSubmit={onSubmit} form={form} legend="Nueva Encuesta" quiz={quiz} canEdit={canEdit}/>
+            <BreadcrumComponent items={items} />
+            <h1>Nueva Encuesta</h1>
+            <QuizEditForm
+                onSubmit={onSubmit} form={form}
+                legend="Nueva Encuesta" quiz={quiz} canEdit={canEdit}
+            />
         </>
     )
 }

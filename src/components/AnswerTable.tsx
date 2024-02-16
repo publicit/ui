@@ -41,9 +41,10 @@ function Row({ index, answer, canEdit }: RowParams) {
 }
 function EmptyTable() {
     return (
-        <Table.Tr>
+        <Table.Tr className="table-row-container">
             <Table.Td></Table.Td>
-            <Table.Td>Sin datos</Table.Td>
+            <Table.Td></Table.Td>
+            <Table.Td className="content-center">Sin datos</Table.Td>
             <Table.Td></Table.Td>
         </Table.Tr>
     )
@@ -65,7 +66,8 @@ export default function AnswerTable({ rows, canEdit }: Params) {
                     <>
                         {rows.map((answer: Answer, index: number) => <Row key={answer.id} answer={answer} canEdit={canEdit} index={index} />)}
                     </>
-                    : <EmptyTable />
+                    :
+                    <EmptyTable />
                 }
             </Table.Tbody>
         </Table>
