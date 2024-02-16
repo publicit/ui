@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
 // Components :
 import PreLoader from "../components/PreLoader";
 import CampaignCards from "../components/CampaignCards";
-import { notifyErrResponse } from "../components/Errors";
+import {notifyErrResponse} from "../components/Errors";
 
 // Models :
-import { Campaign } from "../models/campaign";
+import {Campaign} from "../models/campaign";
 
 // Helpers :
-import { CampaignList } from "../helpers/api";
-import { isLoggedIn } from "../helpers/sso_service";
+import {CampaignList} from "../helpers/api";
+import {isLoggedIn} from "../helpers/sso_service";
 
 
 export default function CampaignsList() {
@@ -28,14 +28,14 @@ export default function CampaignsList() {
                 setIsLoading(false);
             }
         }
+
         loadData();
     }, []);
 
-    if (!isLoggedIn()) return null
 
-    return isLoading ? <PreLoader /> : (
+    return isLoading ? <PreLoader/> : (
         <>
-            <CampaignCards rows={rows} />
+            <CampaignCards rows={rows}/>
         </>
     )
 }

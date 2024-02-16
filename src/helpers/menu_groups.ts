@@ -56,6 +56,11 @@ export function MenuGroups(): MenuGroup[] {
                     link: '/user/profile',
                     roles: [RoleNames.Users],
                 },
+                {
+                    label: 'Recompensas',
+                    link: '/user/rewards',
+                    roles: [RoleNames.Users],
+                },
             ],
         },
         {
