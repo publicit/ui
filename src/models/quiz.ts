@@ -15,7 +15,8 @@ export class Quiz {
     status: string
     youtube_video_id: string
     thumbnail_url: string
-    reward_amount:number
+    reward_amount: number
+    expired: boolean
 
     constructor() {
         this.id = ""
@@ -26,7 +27,8 @@ export class Quiz {
         this.status = ""
         this.youtube_video_id = ""
         this.thumbnail_url = ""
-        this.reward_amount=0
+        this.reward_amount = 0
+        this.expired = false
     }
 }
 
