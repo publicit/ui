@@ -47,6 +47,15 @@ export function QuizEditForm({
                                  placeholder="Numero de Preguntas"
                                  {...form.getInputProps("number_of_questions")}/>
                     <br/>
+                    <NumberInput label="Monto de Recompensa"
+                                 allowNegative={false}
+                                 allowedDecimalSeparators={"."}
+                                 decimalScale={2}
+                                 prefix={"$"}
+                                 thousandSeparator={true}
+                                 placeholder="Esto aplicara cuando hayan respondido toda las preguntas satisfactoriamente. No importa el numero de intentos."
+                                 {...form.getInputProps("reward_amount")}/>
+                    <br/>
                     <Group>
                         {canEdit &&
                             <Button type="submit" variant="outline">

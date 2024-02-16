@@ -15,6 +15,7 @@ export class Quiz {
     status: string
     youtube_video_id: string
     thumbnail_url: string
+    reward_amount:number
 
     constructor() {
         this.id = ""
@@ -25,6 +26,7 @@ export class Quiz {
         this.status = ""
         this.youtube_video_id = ""
         this.thumbnail_url = ""
+        this.reward_amount=0
     }
 }
 
@@ -42,5 +44,6 @@ export function quizValidation() {
         name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
         video_url: (value: string) => trimAll(value).length === 0 ? "Video es mandatorio" : null,
         number_of_questions: (value: number) => value <= 0 ? "Minimo numero de preguntas es 1" : null,
+        reward_amount: (value: number) => value <= 0 ? "El monto de recompensa debe ser mayor a cero" : null,
     }
 }
