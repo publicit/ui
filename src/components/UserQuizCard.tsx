@@ -31,6 +31,18 @@ export default function UserQuizCard({uq}: Params) {
                     {uq.quiz.name}
                 </Text>
                 <br/>
+                <Text fw={800}>
+                    {uq.quiz?.reward_amount}
+                </Text>
+                <br/>
+                <Text fw={800}>
+                    {uq.quiz?.expired ?
+                        `La encuesta ha expirado` :
+                        `Puedes responder hasta: ${uq.quiz?.campaign?.end_date.toLocaleDateString()}`
+                    }
+
+                </Text>
+                <br/>
                 <img src={uq.quiz.thumbnail_url} alt="logo"/>
             </Card.Section>
             <Group justify="space-between" mt="md" mb="xs">
@@ -48,7 +60,7 @@ export default function UserQuizCard({uq}: Params) {
                         Ver
                     </Button>
                 }
-                {uq.percent_completed !== 1 &&
+                {uq.percent_completed !== 1 && !uq.quiz?.expired &&
                     <Button
                         variant="outline" color="blue" fullWidth mt="md" radius="md"
                         component={Link} to={`/user/quizs/${uq.id}`}

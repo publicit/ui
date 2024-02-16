@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 // Mantine :
-import { Button, Grid, Group, NumberInput, TextInput } from "@mantine/core";
+import { Button, Flex, Grid, Group, NumberInput, TextInput } from "@mantine/core";
 
 // Models :
 import { Quiz } from "../models/quiz";
@@ -37,6 +37,36 @@ export function QuizEditForm({
                                 />
                             </Link>
                         }
+                    </Grid.Col>
+                    <Grid.Col span={12}>
+                        <TextInput label="Estatus"
+                            disabled={true}
+                            {...form.getInputProps("status")}
+                        />
+                    </Grid.Col>
+                    <Grid.Col span={12}>
+                        <NumberInput label="Numero de Preguntas"
+                            placeholder="Numero de Preguntas"
+                            {...form.getInputProps("number_of_questions")}
+                        />
+                    </Grid.Col>
+                    <Grid.Col span={12}>
+                        <NumberInput label="Monto de Recompensa"
+                            allowNegative={false}
+                            allowedDecimalSeparators={"."}
+                            decimalScale={2}
+                            prefix={"$"}
+                            thousandSeparator={true}
+                            placeholder="Esto aplicara cuando hayan respondido toda las preguntas satisfactoriamente. No importa el numero de intentos."
+                            {...form.getInputProps("reward_amount")}
+                        />
+                        <Group>
+                            {canEdit &&
+                                <Button type="submit" variant="outline">
+                                    Guardar
+                                </Button>
+                            }
+                        </Group>
                     </Grid.Col>
                     <Grid.Col span={12}>
                         <TextInput label="Nombre"
@@ -89,7 +119,7 @@ export function QuizEditForm({
                         </Group>
                     </Grid.Col>
                 </Grid>
-            </form>
+            </form >
         </>
     )
 }
