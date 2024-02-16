@@ -1,18 +1,37 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useForm} from "@mantine/form";
-import {CampaignLoad, QuestionList, QuizDelete, QuizLoad, QuizPublish, QuizPut, UserQuizShareLink} from "../helpers/api"
-import {notifyErrResponse} from "../components/Errors";
-import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
-import {QuizEditForm} from "../components/QuizEditForm";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Mantine :
+import { Grid } from "@mantine/core";
+import { useForm } from "@mantine/form";
+
+// Helpers :
+import {
+    QuizPut,
+    QuizLoad,
+    QuizDelete,
+    QuizPublish,
+    QuestionList,
+    CampaignLoad,
+    UserQuizShareLink,
+} from "../helpers/api";
+import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
+
+// Components :
+import PreLoader from "../components/PreLoader";
 import QuestionTable from "../components/QuestionTable";
-import {Question} from "../models/question";
-import {Campaign} from "../models/campaign";
-import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {BreadcrumComponent} from "../components/BreadcrumComponent";
-import {ShowDialog} from "../components/UserQuizShareDialog"
-import {ShareDialogBody} from "../components/ShareDialog";
-import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
+import { notifyErrResponse } from "../components/Errors";
+import { QuizEditForm } from "../components/QuizEditForm";
+import { ShareDialogBody } from "../components/ShareDialog";
+import { ShowDialog } from "../components/UserQuizShareDialog";
+import { BreadcrumComponent } from "../components/BreadcrumComponent";
+
+// Models :
+import { Question } from "../models/question";
+import { Campaign } from "../models/campaign";
+import { BreadcrumbItem } from "../models/breadcrumbItem";
+import { Quiz, QuizStatus, quizValidation } from "../models/quiz";
+
 
 export default function Edit() {
     const id = useParams().id || ""
@@ -27,6 +46,8 @@ export default function Edit() {
     })
     const [items, setItems] = useState<BreadcrumbItem[]>([])
     const [sharedUrl, setSharedUrl] = useState("")
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
     useEffect(() => {
         async function loadData(id: string) {
             try {
@@ -46,13 +67,15 @@ export default function Edit() {
                 ])
             } catch (err) {
                 await notifyErrResponse(err)
+            } finally {
+                setIsLoading(false)
             }
         }
 
         loadData(id)
     }, [])
 
-    function enableControls(q:Quiz){
+    function enableControls(q: Quiz) {
         setCanEdit(q.status === QuizStatus[QuizStatus.draft])
     }
 
@@ -64,7 +87,7 @@ export default function Edit() {
             navigate(returnUrl);
         } catch (err) {
             await notifyErrResponse(err)
-        }finally {
+        } finally {
             enableControls(data)
         }
     }
@@ -104,25 +127,41 @@ export default function Edit() {
         }
     }
 
-    return (
-        <div>
-            <BreadcrumComponent items={items}/>
-            <br/>
-            <QuizEditForm onSubmit={onSubmit} form={form} legend="Datos de la Encuesta" quiz={quiz}
-                          onDelete={onDelete} showDelete={questions.length === 0} onPublish={onPublish}
-                          canEdit={canEdit}
-            />
-            <hr/>
+    return isLoading ? <PreLoader /> : (
+        <>
+            <BreadcrumComponent items={items} />
+
+            <Grid gutter={15}>
+                <Grid.Col span={{ md: 12, lg: 5, }}>
+                    <h1>Formulario de Encuesta</h1>
+                    <div className="form-wrapper">
+                        <QuizEditForm
+                            form={form} canEdit={canEdit} quiz={quiz}
+                            showDelete={questions.length === 0} legend="Datos de la Encuesta"
+                            onSubmit={onSubmit} onDelete={onDelete} onPublish={onPublish}
+                        />
+                    </div>
+                </Grid.Col>
+
+                <Grid.Col span={{ md: 12, lg: 7, }}>
+                    <h1>Mesa de Encuesta</h1>
+                    <QuestionTable
+                        rows={questions}
+                        canEdit={quiz.status === QuizStatus[QuizStatus.draft]}
+                    />
+                </Grid.Col>
+            </Grid>
+
             {quiz.status === QuizStatus[QuizStatus.published] &&
                 <ShowDialog
                     children={ShareDialogBody({
                         sharedUrl,
                         text: "Se ha copiado la direccion de la invitacion",
                     })}
-                    onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
+                    onClose={() => setSharedUrl("")} onOpen={shareQuiz}
+                />
             }
-            <hr/>
-            <QuestionTable rows={questions} canEdit={quiz.status === QuizStatus[QuizStatus.draft]}/>
-        </div>
+        </>
     )
+
 }
