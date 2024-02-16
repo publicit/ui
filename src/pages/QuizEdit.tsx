@@ -133,7 +133,7 @@ export default function Edit() {
 
             <Grid gutter={15}>
                 <Grid.Col span={{ md: 12, lg: 5, }}>
-                    <h1>Formulario de Encuesta</h1>
+                    <h1>Configuracion de Encuesta</h1>
                     <div className="form-wrapper">
                         <QuizEditForm
                             form={form} canEdit={canEdit} quiz={quiz}
@@ -144,7 +144,7 @@ export default function Edit() {
                 </Grid.Col>
 
                 <Grid.Col span={{ md: 12, lg: 7, }}>
-                    <h1>Mesa de Encuesta</h1>
+                    <h1>Preguntas</h1>
                     <QuestionTable
                         rows={questions}
                         canEdit={quiz.status === QuizStatus[QuizStatus.draft]}
