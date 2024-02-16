@@ -30,6 +30,7 @@ function QuizRow({ index, quiz }: RowParams) {
                 }
             </Table.Td>
             <Table.Td className="content-center">{quiz.number_of_questions}</Table.Td>
+            <Table.Td className="content-center">{quiz.reward_amount}</Table.Td>
             <Table.Td className="content-center">
                 <Link to={`/quizs/${quiz.id}`}>
                     <Button type="button" variant="outline">
@@ -50,6 +51,7 @@ function EmpteyRow() {
             <Table.Td className="content-center">Sin datos</Table.Td>
             <Table.Td className="content-center"></Table.Td>
             <Table.Td className="content-center"></Table.Td>
+            <Table.Td className="content-center"></Table.Td>
         </Table.Tr>
     )
 }
@@ -64,6 +66,7 @@ export default function QuizTable({ rows }: Params) {
                     <Table.Th className="content-center">Estatus</Table.Th>
                     <Table.Th className="content-center">Imagen</Table.Th>
                     <Table.Th className="content-center numbers">Numero de Preguntas</Table.Th>
+                    <Table.Th className="content-center numbers">Recompensa</Table.Th>
                     <Table.Th className="content-center">Acciones</Table.Th>
                 </Table.Tr>
             </Table.Thead>
