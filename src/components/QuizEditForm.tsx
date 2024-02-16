@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 // Mantine :
-import { Button, Flex, Grid, Group, NumberInput, TextInput } from "@mantine/core";
+import { Button, Grid, Group, NumberInput, TextInput } from "@mantine/core";
 
 // Models :
 import { Quiz } from "../models/quiz";
@@ -23,103 +23,83 @@ export function QuizEditForm({
     showDelete = false, onPublish, canEdit,
 }: params) {
     return (
-        <>
-            <form onSubmit={form.onSubmit(async (data: any) => onSubmit(data))}>
-                <Grid gutter={10} pos="relative">
-                    {/* <legend>{legend}</legend> */}
-                    <Grid.Col span={12}>
-                        {quiz.thumbnail_url &&
-                            <Link to={quiz.video_url} target="_blank">
-                                <img
-                                    src={quiz.thumbnail_url}
-                                    alt="thumbnail"
-                                    className="form-image"
-                                />
-                            </Link>
+        <form onSubmit={form.onSubmit(async (data: any) => onSubmit(data))}>
+            <Grid gutter={10} pos="relative">
+                {/* <legend>{legend}</legend> */}
+                <Grid.Col span={12}>
+                    {quiz.thumbnail_url &&
+                        <Link to={quiz.video_url} target="_blank">
+                            <img
+                                src={quiz.thumbnail_url}
+                                alt="thumbnail"
+                                className="form-image"
+                            />
+                        </Link>
+                    }
+                </Grid.Col>
+                <Grid.Col span={12}>
+                    <TextInput label="Nombre"
+                        size="md" placeholder="Nombre"
+                        {...form.getInputProps("name")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <TextInput label="Video URL"
+                        size="md" placeholder="URL Video"
+                        {...form.getInputProps("video_url")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <TextInput label="Estatus"
+                        size="md" disabled={true}
+                        {...form.getInputProps("status")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <NumberInput label="Numero de Preguntas"
+                        size="md" placeholder="Numero de Preguntas"
+                        {...form.getInputProps("number_of_questions")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <NumberInput label="Monto de Recompensa"
+                        size="md"
+                        prefix={"$"}
+                        decimalScale={2}
+                        allowNegative={false}
+                        thousandSeparator={true}
+                        allowedDecimalSeparators={"."}
+                        placeholder="Esto aplicara cuando hayan respondido toda las preguntas satisfactoriamente. No importa el numero de intentos."
+                        {...form.getInputProps("reward_amount")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={12}>
+                    <Group mt="md">
+                        {canEdit &&
+                            <Button type="submit" size="md" variant="outline">
+                                Guardar
+                            </Button>
                         }
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <TextInput label="Estatus"
-                            disabled={true}
-                            {...form.getInputProps("status")}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <NumberInput label="Numero de Preguntas"
-                            placeholder="Numero de Preguntas"
-                            {...form.getInputProps("number_of_questions")}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <NumberInput label="Monto de Recompensa"
-                            allowNegative={false}
-                            allowedDecimalSeparators={"."}
-                            decimalScale={2}
-                            prefix={"$"}
-                            thousandSeparator={true}
-                            placeholder="Esto aplicara cuando hayan respondido toda las preguntas satisfactoriamente. No importa el numero de intentos."
-                            {...form.getInputProps("reward_amount")}
-                        />
-                        <Group>
-                            {canEdit &&
-                                <Button type="submit" variant="outline">
-                                    Guardar
-                                </Button>
-                            }
-                        </Group>
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <TextInput label="Nombre"
-                            size="md" placeholder="Nombre"
-                            {...form.getInputProps("name")}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <TextInput label="Video URL"
-                            size="md" placeholder="URL Video"
-                            {...form.getInputProps("video_url")}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <TextInput label="Estatus"
-                            size="md" disabled={true}
-                            {...form.getInputProps("status")}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <NumberInput label="Numero de Preguntas"
-                            size="md" placeholder="Numero de Preguntas"
-                            {...form.getInputProps("number_of_questions")}
-                        />
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                        <Group mt="md">
-                            {canEdit &&
-                                <Button type="submit" size="md" variant="outline">
-                                    Guardar
-                                </Button>
-                            }
-                            {quiz.id && canEdit &&
-                                <Group>
-                                    <Link to={`/questions/new/${quiz.id}`}>
-                                        <Button type="button" size="md" variant="outline">
-                                            Agregar Pregunta
-                                        </Button>
-                                    </Link>
-                                    <Button type="button" size="md" variant="outline" onClick={() => onPublish()}>
-                                        Publicar Encuesta
+                        {quiz.id && canEdit &&
+                            <Group>
+                                <Link to={`/questions/new/${quiz.id}`}>
+                                    <Button type="button" size="md" variant="outline">
+                                        Agregar Pregunta
                                     </Button>
-                                    {showDelete &&
-                                        <Button type="button" size="md" variant="outline" onClick={onDelete}>
-                                            Eliminar Encuesta
-                                        </Button>
-                                    }
-                                </Group>
-                            }
-                        </Group>
-                    </Grid.Col>
-                </Grid>
-            </form >
-        </>
+                                </Link>
+                                <Button type="button" size="md" variant="outline" onClick={() => onPublish()}>
+                                    Publicar Encuesta
+                                </Button>
+                                {showDelete &&
+                                    <Button type="button" size="md" variant="outline" onClick={onDelete}>
+                                        Eliminar Encuesta
+                                    </Button>
+                                }
+                            </Group>
+                        }
+                    </Group>
+                </Grid.Col>
+            </Grid>
+        </form>
     )
 }
