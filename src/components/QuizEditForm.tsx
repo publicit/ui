@@ -24,10 +24,9 @@ export function QuizEditForm({
 }: params) {
     return (
         <form onSubmit={form.onSubmit(async (data: any) => onSubmit(data))}>
-            <Grid gutter={10} pos="relative">
-                {/* <legend>{legend}</legend> */}
-                <Grid.Col span={12}>
-                    {quiz.thumbnail_url &&
+            <Grid gutter={10} >
+                {quiz.thumbnail_url &&
+                    <Grid.Col span={12}>
                         <Link to={quiz.video_url} target="_blank">
                             <img
                                 src={quiz.thumbnail_url}
@@ -35,8 +34,8 @@ export function QuizEditForm({
                                 className="form-image"
                             />
                         </Link>
-                    }
-                </Grid.Col>
+                    </Grid.Col>
+                }
                 <Grid.Col span={12}>
                     <TextInput label="Nombre"
                         size="md" placeholder="Nombre"

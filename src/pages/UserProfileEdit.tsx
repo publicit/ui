@@ -1,28 +1,39 @@
-import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useForm} from "@mantine/form";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Mantine :
+import { useForm } from "@mantine/form";
+
+// Components :
+import PreLoader from "../components/PreLoader";
+import { popupInfo } from "../components/Notifier";
+import ProfileForm from "../components/ProfileForm";
+import { notifyErrResponse } from "../components/Errors";
+
+// Helpers :
 import {
-    FileItemUpload,
     FileTypes,
-    QuizRegisterInvitation,
-    UserProfileFileSave,
-    UserProfileFilesLoad,
+    UserWhoAmi,
+    FileItemUpload,
     UserProfileLoad,
     UserProfilePost,
-    UserWhoAmi
+    UserProfileFileSave,
+    UserProfileFilesLoad,
+    QuizRegisterInvitation,
 } from "../helpers/api"
-import {notifyErrResponse} from "../components/Errors";
+
+// Models :
 import {
+    UserProfile,
     FileTypeNames,
     fromUserProfile,
-    UserProfile,
     UserProfileFile,
-    userProfileValidation
+    userProfileValidation,
 } from "../models/user_profile";
-import {User} from "../models/user";
-import ProfileForm from "../components/ProfileForm";
-import {FileItem, FileType} from "../models/file_item"
-import {popupInfo} from "../components/Notifier";
+import { User } from "../models/user";
+import { FileItem, FileType } from "../models/file_item"
+import { Check } from "tabler-icons-react";
+
 
 export default function Edit() {
     const navigate = useNavigate();
@@ -36,6 +47,7 @@ export default function Edit() {
     const [saveEnabled, setSaveEnabled] = useState(true)
     const [files, setFiles] = useState<UserProfileFile[]>([])
     const [fileTypes, setFileTypes] = useState<FileType[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     async function loadFiles() {
         const filesData = await UserProfileFilesLoad()
@@ -65,6 +77,8 @@ export default function Edit() {
         } catch (err) {
             // ignoring since the first time may fail, we still need to load the data if available,
             console.warn(err)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -118,15 +132,22 @@ export default function Edit() {
         }
     }
 
-    return (
+    return isLoading ? <PreLoader /> : (
+
         <>
+            <h1>
+                {`${userProfile.first_name} ${userProfile.last_name}`}
+                {userProfile.is_completed &&
+                    <Check size={32} color="green" />
+                }
+            </h1>
             <ProfileForm onSubmit={onSubmit} form={form} email={user.email}
-                         legend={`${userProfile.first_name} ${userProfile.last_name}`}
-                         isCompleted={userProfile.is_completed}
-                         onFileSelected={onFileSelected}
-                         saveEnabled={saveEnabled}
-                         fileTypes={fileTypes}
-                         files={files}
+                // legend=
+                isCompleted={userProfile.is_completed}
+                onFileSelected={onFileSelected}
+                saveEnabled={saveEnabled}
+                fileTypes={fileTypes}
+                files={files}
             />
         </>
     )
