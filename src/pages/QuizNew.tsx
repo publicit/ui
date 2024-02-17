@@ -71,10 +71,13 @@ export default function QuizNew() {
         <>
             <BreadcrumComponent items={items} />
             <h1>Nueva Encuesta</h1>
-            <QuizEditForm
-                onSubmit={onSubmit} form={form}
-                legend="Nueva Encuesta" quiz={quiz} canEdit={canEdit}
-            />
+
+            <div className="form-wrapper">
+                <QuizEditForm
+                    onSubmit={onSubmit} form={form}
+                    legend="Nueva Encuesta" quiz={quiz} canEdit={canEdit}
+                />
+            </div>
         </>
     )
 }

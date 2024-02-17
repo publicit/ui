@@ -1,15 +1,21 @@
-import {Button, FileInput, Select, Text, TextInput, Title} from "@mantine/core";
-import {UseFormReturnType} from "@mantine/form";
-import {DatePickerInput} from "@mantine/dates";
-import {UserGender, UserProfile, UserProfileFile} from "../models/user_profile";
-import {Check} from "tabler-icons-react";
-import {IconCheck, IconUpload, IconX} from "@tabler/icons-react";
-import {FileType} from "../models/file_item";
+import { IconCheck, IconUpload, IconX } from "@tabler/icons-react";
+
+// Mantine :
+import { UseFormReturnType } from "@mantine/form";
+import { DatePickerInput } from "@mantine/dates";
+import { Button, FileInput, Grid, Select, Text, TextInput, Title } from "@mantine/core";
+
+// Models :
+import { FileType } from "../models/file_item";
+import { UserGender, UserProfile, UserProfileFile } from "../models/user_profile";
+
+// Helpers :
+import { capitalizeAllWords } from "../helpers/text_utils";
+
 
 type params = {
     onSubmit: any
     form: UseFormReturnType<UserProfile>
-    legend: string
     email?: string | undefined
     isCompleted: boolean
     onFileSelected: any
@@ -25,95 +31,104 @@ const userGender: string[] = [
 ]
 
 export default function ProfileForm({
-                                        onSubmit,
-                                        form,
-                                        legend,
-                                        email,
-                                        isCompleted,
-                                        onFileSelected,
-                                        saveEnabled,
-                                        fileTypes,
-                                        files,
-                                    }: params) {
+    onSubmit,
+    form,
+    email,
+    isCompleted,
+    onFileSelected,
+    saveEnabled,
+    fileTypes,
+    files,
+}: params) {
     return (
-        <>
-            <Title>
-                {legend}
-                {isCompleted && <Check
-                    size={32}
-                    color="green"/>}
-            </Title>
-            <form onSubmit={form.onSubmit(async (data: any) => {
+        <form
+            onSubmit={form.onSubmit(async (data: any) => {
                 await onSubmit(data)
-            })}>
-                <br/>
-                <TextInput label="Nombre(s)"
-                           placeholder="Nombre(s)"
-                           disabled={isCompleted}
-                           {...form.getInputProps("first_name")}/>
-                <br/>
-                <TextInput label="Apellidos"
-                           placeholder="Apellidos"
-                           disabled={isCompleted}
-                           {...form.getInputProps("last_name")}/>
-                <br/>
-                <TextInput label="Email"
-                           value={email}
-                           disabled
-                />
-                <br/>
-                <TextInput label="Telefono"
-                           placeholder="Telefono"
-                           disabled={isCompleted}
-                           {...form.getInputProps("phone_number")}/>
-                <br/>
-                <Text>Fecha de Nacimiento</Text>
-                <DatePickerInput
-                    disabled={isCompleted}
-                    {...form.getInputProps(`dob`)}
-                />
-                <br/>
-                <Select
-                    label="Sexo"
-                    data={userGender}
-                    comboboxProps={{transitionProps: {transition: 'pop', duration: 200}}}
-                    {...form.getInputProps("gender")}
-                    disabled={isCompleted}
-                />
-                <br/>
-                {
-                    fileTypes.map(fileType => {
+            })}
+            className="form-wrapper"
+        >
+
+            <Grid gutter={10}>
+                <Grid.Col span={6}>
+                    <TextInput label="Nombre(s)" size="md"
+                        placeholder="Nombre(s)"
+                        disabled={isCompleted}
+                        {...form.getInputProps("first_name")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <TextInput label="Apellidos" size="md"
+                        placeholder="Apellidos"
+                        disabled={isCompleted}
+                        {...form.getInputProps("last_name")}
+                    />
+                </Grid.Col>
+
+                <Grid.Col span={6}>
+                    <TextInput label="Email" size="md"
+                        value={email}
+                        disabled
+                    />
+                </Grid.Col>
+
+                <Grid.Col span={6}>
+                    <TextInput label="Telefono" size="md"
+                        placeholder="Telefono"
+                        disabled={isCompleted}
+                        {...form.getInputProps("phone_number")}
+                    />
+                </Grid.Col>
+
+                <Grid.Col span={6}>
+                    <Text>Fecha de Nacimiento</Text>
+                    <DatePickerInput size="md"
+                        disabled={isCompleted}
+                        {...form.getInputProps(`dob`)}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <Select
+                        label="Sexo" size="md"
+                        data={userGender}
+                        comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 } }}
+                        {...form.getInputProps("gender")}
+                        disabled={isCompleted}
+                    />
+                </Grid.Col>
+                <Grid.Col span={12}>
+                    {fileTypes.map(fileType => {
                         const file = files.find(f => f.type === fileType.name)
                         if (!file) {
                             return null
                         }
-                        const iconRight = !!file.is_valid ? <IconCheck style={{color: "green"}}/> :
-                            <IconX style={{color: "red"}}/>
+                        const iconRight = !!file.is_valid ? <IconCheck style={{ color: "green" }} /> :
+                            <IconX style={{ color: "red" }} />
                         return (
                             <div key={file.id}>
-                            <FileInput
-                                placeholder={file.file?.name}
-                                label={fileType.description}
-                                multiple={false}
-                                onChange={file => onFileSelected(file, fileType.name)}
-                                leftSection={<IconUpload/>}
-                                rightSection={iconRight}
-                                clearable={true}
-                                accept="image/*"
-                                disabled={!!file.is_valid}
-                            />
+                                <FileInput size="md"
+                                    accept="image/*"
+                                    multiple={false}
+                                    clearable={true}
+                                    rightSection={iconRight}
+                                    disabled={!!file.is_valid}
+                                    leftSection={<IconUpload />}
+                                    placeholder={file.file?.name}
+                                    label={capitalizeAllWords(fileType.description)}
+                                    onChange={file => onFileSelected(file, fileType.name)}
+                                />
                             </div>
                         )
-                    })
-                }
-                {saveEnabled && <Button
-                    type="submit"
-                    variant="outline"
-                >
-                    Guardar
-                </Button>
-                }
-            </form>
-        </>
+                    })}
+                </Grid.Col>
+                <Grid.Col span={12} mt="sm">
+                    {saveEnabled &&
+                        <Button type="submit" size="md" variant="outline">
+                            Guardar
+                        </Button>
+                    }
+                </Grid.Col>
+            </Grid>
+
+        </form>
     )
 }
