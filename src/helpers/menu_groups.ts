@@ -1,6 +1,8 @@
-import {MenuGroup} from "../models/menuGroup";
-import {IconBellQuestion, IconGauge, IconLock, IconNotes, IconUser} from "@tabler/icons-react";
-import {RoleNames} from "../models/role";
+import { IconBellQuestion, IconGauge, IconLock, IconNotes, IconUser } from "@tabler/icons-react";
+
+// Models :
+import { RoleNames } from "../models/role";
+import { MenuGroup } from "../models/menuGroup";
 
 // returns the default menu groups for the whole application
 // these items appear in the sidebar menu

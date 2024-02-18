@@ -1,16 +1,26 @@
-import React, {useEffect, useState} from 'react'
-import {TokenResponse, useGoogleLogin} from '@react-oauth/google';
-import {parseToken, saveUserProfile} from "./helpers/sso_service"
-import '@mantine/core/styles/global.css';
-import "@mantine/core/styles.css"
-import '@mantine/dates/styles.css';
-import {AppShell, Burger, Group} from "@mantine/core";
-import {useDisclosure} from "@mantine/hooks";
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+
+// Mantine :
+import { useDisclosure } from "@mantine/hooks";
+import { AppShell, Burger, Group } from "@mantine/core";
+
+// Components :
 import Logo from "./components/Logo";
 import Navbar from "./components/Navbar";
 import RouteSwitcher from "./RouteSwitcher"
-import {User, UserProfileResponse} from "./models/user";
-import {useNavigate} from 'react-router-dom';
+
+// Helpers :
+import { parseToken, saveUserProfile } from "./helpers/sso_service"
+
+// Models :
+import { User, UserProfileResponse } from "./models/user";
+
+// CSS :
+import '@mantine/core/styles/global.css';
+import "@mantine/core/styles.css"
+import '@mantine/dates/styles.css';
 
 
 function App() {
@@ -43,7 +53,7 @@ function App() {
 
     function CollapseDesktop() {
         const [mobileOpened] = useDisclosure();
-        const [desktopOpened, {toggle: toggleDesktop}] = useDisclosure(true);
+        const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
         const [opened] = useDisclosure()
         const user = new User()
         user.email = profile?.email
@@ -54,26 +64,23 @@ function App() {
         return (
             <AppShell
                 padding="md"
-                header={{height: 60}}
+                header={{ height: 60 }}
                 navbar={{
-                    width: 200,
+                    width: 250,
                     breakpoint: 'sm',
-                    collapsed: {mobile: !mobileOpened, desktop: !desktopOpened},
-                }}
-            >
-                <AppShell.Header>
-                    <Group>
-                        <Burger opened={opened} onClick={toggleDesktop} aria-label="Toggle navigation"/>
-                        <div>
-                            <Logo/>
-                        </div>
+                    collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+                }}>
+                <AppShell.Header className='flex-verticle-center'>
+                    <Group pl="sm">
+                        <Burger opened={opened} onClick={toggleDesktop} aria-label="Toggle navigation" />
+                        <Logo />
                     </Group>
                 </AppShell.Header>
                 <AppShell.Navbar>
-                    <Navbar profile={profile} version={version} login={login} logout={logOut}/>
+                    <Navbar profile={profile} version={version} login={login} logout={logOut} />
                 </AppShell.Navbar>
                 <AppShell.Main>
-                    <RouteSwitcher profile={profile}/>
+                    <RouteSwitcher profile={profile} />
                 </AppShell.Main>
             </AppShell>
         );
@@ -81,7 +88,7 @@ function App() {
 
     return (
         <>
-            <CollapseDesktop/>
+            <CollapseDesktop />
         </>
     );
 }

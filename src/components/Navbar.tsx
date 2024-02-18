@@ -1,12 +1,20 @@
-import {Code, Group, NavLink, rem, ScrollArea} from '@mantine/core';
-import {UserButton} from './UserButton';
-import {LinksGroup} from './NavbarLinksGroup';
+import { IconLogout } from '@tabler/icons-react';
+import { Box, Code, Group, rem, ScrollArea, ThemeIcon } from '@mantine/core';
+
+// Components :
 import Logo from './Logo';
+import { UserButton } from './UserButton';
+import { LinksGroup } from './NavbarLinksGroup';
+
+// Models :
+import { UserProfileResponse } from "../models/user";
+
+// Helpers :
+import { glueMenus } from "../helpers/menu";
+import { MenuGroups } from "../helpers/menu_groups";
+
+// CSS :
 import classes from './NavbarNested.module.css';
-import {UserProfileResponse} from "../models/user";
-import React from "react";
-import {MenuGroups} from "../helpers/menu_groups";
-import {glueMenus} from "../helpers/menu";
 
 
 type NavbarParams = {
@@ -17,32 +25,40 @@ type NavbarParams = {
 }
 
 // NavbarMain is the real navbar that appears on the left pane of the app.
-export default function NavbarMain({profile, version, login, logout}: NavbarParams) {
-    const menuGroups = glueMenus(MenuGroups(),profile)
+export default function NavbarMain({ profile, version, login, logout }: NavbarParams) {
+    const menuGroups = glueMenus(MenuGroups(), profile)
     return (
-        <nav className={classes.navbar}>
-            <div className={classes.header}>
-                <Group justify="space-between">
-                    <Logo style={{width: rem(120)}}/>
-                    <Code fw={700}>{version}</Code>
-                </Group>
-            </div>
-
-            <ScrollArea className={classes.links}>
-                <div className={classes.linksInner}>
-                    {menuGroups.map((menuGroup) => <LinksGroup menuGroup={menuGroup} key={menuGroup.label}/>)}
+        <>
+            <nav className={classes.navbar}>
+                <div className={classes.header}>
+                    <Group justify="space-between">
+                        <Logo style={{ width: rem(120) }} />
+                        <Code fw={700}>{version}</Code>
+                    </Group>
                 </div>
-            </ScrollArea>
-
-            <div className={classes.footer}>
-                {profile?.email ?
-                    <>
-                        <UserButton user={profile}/>
-                        <NavLink label="Cerrar Sesion" onClick={logout}/>
-                    </>
-                    : <NavLink label="Iniciar Sesion" onClick={login}/>
-                }
-            </div>
-        </nav>
+                <ScrollArea className={classes.links} type="never">
+                    <div className={classes.linksInner}>
+                        {menuGroups.map((menuGroup) => <LinksGroup menuGroup={menuGroup} key={menuGroup.label} />)}
+                    </div>
+                </ScrollArea>
+            </nav>
+            {profile?.email ?
+                <>
+                    <div onClick={logout} className={classes.logout}>
+                        <ThemeIcon variant="light" size={30}>
+                            <IconLogout style={{ width: rem(18), height: rem(18), }} />
+                        </ThemeIcon>
+                        <Box fw={500}>Cerrar Sesion</Box>
+                    </div>
+                    <div className={classes.footer}>
+                        <UserButton user={profile} />
+                    </div>
+                </>
+                :
+                <div className={classes.footer} onClick={login}>
+                    <Box fw={500}>Iniciar Sesion</Box>
+                </div>
+            }
+        </>
     );
 }

@@ -1,15 +1,21 @@
-import React, {useState} from 'react';
-import {Box, Collapse, Group, NavLink, rem, ThemeIcon, UnstyledButton} from '@mantine/core';
-import {IconChevronRight} from '@tabler/icons-react';
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { IconChevronRight } from '@tabler/icons-react';
+
+// Mantine :
+import { Box, Collapse, Group, NavLink, rem, ThemeIcon, UnstyledButton } from '@mantine/core';
+
+// Models :
+import { MenuGroup } from "../models/menuGroup";
+
+// CSS :
 import classes from './NavbarLinksGroup.module.css';
-import {useNavigate} from "react-router-dom";
-import {MenuGroup} from "../models/menuGroup";
 
 interface LinksGroupProps {
     menuGroup: MenuGroup
 }
 
-export function LinksGroup({menuGroup}: LinksGroupProps) {
+export function LinksGroup({ menuGroup }: LinksGroupProps) {
     const navigate = useNavigate();
     const hasLinks = true; // TODO: figure this out
     const [opened, setOpened] = useState(menuGroup.initiallyOpened || false);
@@ -18,7 +24,7 @@ export function LinksGroup({menuGroup}: LinksGroupProps) {
             key={item.link}
             label={item.label}
             onClick={() => navigate(item.link)}
-            style={{margin: '5px'}}
+            style={{ margin: '5px' }}
         />
     ));
 
@@ -26,9 +32,9 @@ export function LinksGroup({menuGroup}: LinksGroupProps) {
         <>
             <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
                 <Group justify="space-between" gap={0}>
-                    <Box style={{display: 'flex', alignItems: 'center'}}>
+                    <Box style={{ display: 'flex', alignItems: 'center' }}>
                         <ThemeIcon variant="light" size={30}>
-                            <menuGroup.icon style={{width: rem(18), height: rem(18)}}/>
+                            <menuGroup.icon style={{ width: rem(18), height: rem(18) }} />
                         </ThemeIcon>
                         <Box ml="md">{menuGroup.label}</Box>
                     </Box>
