@@ -36,7 +36,7 @@ export default function NavbarMain({ profile, version, login, logout }: NavbarPa
                         <Code fw={700}>{version}</Code>
                     </Group>
                 </div>
-                <ScrollArea className={classes.links} type="never">
+                <ScrollArea className={classes.links}>
                     <div className={classes.linksInner}>
                         {menuGroups.map((menuGroup) => <LinksGroup menuGroup={menuGroup} key={menuGroup.label} />)}
                     </div>
