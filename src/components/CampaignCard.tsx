@@ -35,7 +35,7 @@ export default function CampaignCard({ c }: Params) {
             </Card.Section>
             <Flex gap="sm" mt="sm">
                 <Map />
-                <Text fw={800}>
+                <Text fw={700}>
                     {c.name &&
                         trimAndCapitalize(c.name, maxHeadingLength)
                     }
