@@ -1,11 +1,20 @@
-import {useEffect, useState} from "react";
-import {UserQuizList} from "../helpers/api";
-import {UserQuiz} from "../models/user_quiz";
+import { useEffect, useState } from "react";
+
+// Components :
+import PreLoader from "../components/PreLoader";
 import UserQuizCards from "../components/UserQuizCards";
+
+// Models :
+import { UserQuiz } from "../models/user_quiz";
+
+// Helpers :
+import { UserQuizList } from "../helpers/api";
 
 
 export default function List() {
     const [rows, setRows] = useState<UserQuiz[]>([])
+    const [isLoading, setIsLoading] = useState<Boolean>(true)
+
     useEffect(() => {
         async function loadData() {
             try {
@@ -13,14 +22,14 @@ export default function List() {
                 setRows(data)
             } catch (e) {
                 console.error(e)
+            } finally {
+                setIsLoading(false)
             }
         }
-
         loadData();
     }, []);
-    return (
-        <div>
-            <UserQuizCards rows={rows}/>
-        </div>
+
+    return isLoading ? <PreLoader /> : (
+        <UserQuizCards rows={rows} />
     )
 }
