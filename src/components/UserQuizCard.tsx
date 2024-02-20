@@ -1,13 +1,20 @@
-import {Button, Card, Group, Progress, Text} from "@mantine/core";
-import {Link} from "react-router-dom";
-import {LayoutBoard} from "tabler-icons-react";
-import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
-import {resolveUserQuizStatus, resolveUserQuizStatusIcon} from "../helpers/user_quiz_utils";
+import { Link } from "react-router-dom";
+import { Map } from "tabler-icons-react";
+
+// Mantine :
+import { Button, Card, Flex, Group, Progress, Text } from "@mantine/core";
+
+// Models :
+import { UserQuiz, UserQuizStatus } from "../models/user_quiz";
+
+// Helpers :
+import { trimAndCapitalize } from "../helpers/text_utils";
+import { resolveUserQuizStatus, resolveUserQuizStatusIcon } from "../helpers/user_quiz_utils";
+
 
 type Params = {
     uq: UserQuiz
 }
-
 
 function resolveLabel(status: string): string {
     switch (status) {
@@ -23,36 +30,57 @@ function resolveLabel(status: string): string {
     }
 }
 
-export default function UserQuizCard({uq}: Params) {
+export default function UserQuizCard({ uq }: Params) {
     return (
-        <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <Card
+            radius="lg" withBorder
+            shadow="sm" padding="lg"
+            className="user-quiz-card-container"
+        >
             <Card.Section>
-                <Text fw={800}>
-                    {uq.quiz.name}
-                </Text>
-                <br/>
-                <Text fw={800}>
-                    {uq.quiz?.reward_amount}
-                </Text>
-                <br/>
-                <Text fw={800}>
-                    {uq.quiz?.expired ?
-                        `La encuesta ha expirado` :
-                        `Puedes responder hasta: ${uq.quiz?.campaign?.end_date.toLocaleDateString()}`
-                    }
-
-                </Text>
-                <br/>
-                <img src={uq.quiz.thumbnail_url} alt="logo"/>
+                <div className="card-image">
+                    <img src={uq.quiz.thumbnail_url} alt="logo" />
+                </div>
             </Card.Section>
-            <Group justify="space-between" mt="md" mb="xs">
-                <LayoutBoard/>
-                {resolveUserQuizStatus(uq.status)}
-                {resolveUserQuizStatusIcon(uq.status)}
-            </Group>
-            <Progress value={uq.percent_completed * 100}/>
+
+            <Flex gap="sm" mt="sm" align="center">
+                <Map />
+                <Text fw={700}>
+
+                    {uq.quiz.name &&
+                        trimAndCapitalize(uq.quiz.name, 30)
+                    }
+                </Text>
+            </Flex>
+
+            <div className="quiz-reward">
+                <div>Premio : </div>
+                <div> ${uq.quiz?.reward_amount} </div>
+            </div>
+
+            <div className="quiz-status">
+                <div>Estado :</div>
+                <div className="status">
+                    {resolveUserQuizStatus(uq.status)}
+                    {resolveUserQuizStatusIcon(uq.status)}
+                </div>
+            </div>
+
+            <div className="quiz-expire-date">
+                {uq.quiz?.expired ?
+                    <div style={{ color: "red" }}>La encuesta ha expirado</div>
+                    :
+                    <div className="expire-date">
+                        <span>Puedes responder hasta:</span> {uq.quiz?.campaign?.end_date.toLocaleDateString()}
+                    </div>
+                }
+            </div>
+
+            <Progress value={uq.percent_completed * 100} mt="sm" />
+
             <Group>
-                {(uq.status === UserQuizStatus[UserQuizStatus.success] || uq.status === UserQuizStatus[UserQuizStatus.failed]) &&
+                {(uq.status === UserQuizStatus[UserQuizStatus.success] ||
+                    uq.status === UserQuizStatus[UserQuizStatus.failed]) &&
                     <Button
                         variant="outline" color="blue" fullWidth mt="md" radius="md"
                         component={Link} to={`/user/quizs/${uq.id}/summary`}
@@ -69,6 +97,6 @@ export default function UserQuizCard({uq}: Params) {
                     </Button>
                 }
             </Group>
-        </Card>
+        </Card >
     )
 }
