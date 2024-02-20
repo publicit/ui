@@ -1,25 +1,34 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useForm} from "@mantine/form";
-import {AnswerPost, QuestionLoad} from "../helpers/api"
-import {notifyErrResponse} from "../components/Errors";
-import {Question} from "../models/question";
-import {Answer, answerValidation} from "../models/answer";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Mantine :
+import { useForm } from "@mantine/form";
+
+// Components :
+import { notifyErrResponse } from "../components/Errors";
 import AnswerEditForm from "../components/AnswerEditForm";
-import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {BreadcrumComponent} from "../components/BreadcrumComponent";
+import { BreadcrumComponent } from "../components/BreadcrumComponent";
+
+// Helpers :
+import { AnswerPost, QuestionLoad } from "../helpers/api";
+
+// Models :
+import { Question } from "../models/question";
+import { BreadcrumbItem } from "../models/breadcrumbItem";
+import { Answer, answerValidation } from "../models/answer";
+
 
 export default function AnswerNew() {
     const questionId = useParams().question_id || ""
     const navigate = useNavigate();
     const [answer] = useState<Answer>(new Answer())
-    const [question, setQuestion] = useState<Question>(new Question())
+    const [canEdit, setCanEdit] = useState<boolean>(true)
     const [items, setItems] = useState<BreadcrumbItem[]>([])
+    const [question, setQuestion] = useState<Question>(new Question())
     const form = useForm<Answer>({
         initialValues: answer,
         validate: answerValidation(),
     })
-    const [canEdit,setCanEdit]=useState<boolean>(true)
 
     useEffect(() => {
         async function loadData(id: string) {
@@ -44,9 +53,7 @@ export default function AnswerNew() {
                 await notifyErrResponse(err)
             }
         }
-
         loadData(questionId)
-
     }, []);
 
     async function onSubmit(data: Answer) {
@@ -58,18 +65,18 @@ export default function AnswerNew() {
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
-        }finally {
+        } finally {
             setCanEdit(true)
         }
     }
 
-
     return (
-        <div>
-            <BreadcrumComponent items={items}/>
-            <br/>
-            <AnswerEditForm onSubmit={onSubmit} form={form} legend="Nueva Respuesta"
-                            answer={answer} canEdit={canEdit}/>
-        </div>
+        <>
+            <BreadcrumComponent items={items} />
+            <AnswerEditForm form={form}
+                onSubmit={onSubmit} answer={answer}
+                legend="Nueva Respuesta" canEdit={canEdit}
+            />
+        </>
     )
 }

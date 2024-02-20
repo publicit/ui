@@ -1,18 +1,27 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useForm} from "@mantine/form";
-import {QuestionPost, QuizLoad} from "../helpers/api"
-import {notifyErrResponse} from "../components/Errors";
-import {Quiz} from "../models/quiz";
-import {Question, questionValidation} from "../models/question";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Mantine :
+import { useForm } from "@mantine/form";
+
+// Helpers :
+import { QuestionPost, QuizLoad } from "../helpers/api"
+
+// Components :
+import { notifyErrResponse } from "../components/Errors";
 import QuestionEditForm from "../components/QuestionEditForm";
-import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {BreadcrumComponent} from "../components/BreadcrumComponent";
+import { BreadcrumComponent } from "../components/BreadcrumComponent";
+
+// Models :
+import { Quiz } from "../models/quiz";
+import { BreadcrumbItem } from "../models/breadcrumbItem";
+import { Question, questionValidation } from "../models/question";
+
 
 export default function QuestionNew() {
     const quizId = useParams().quiz_id || ""
     const navigate = useNavigate();
-    const [canEdit,setCanEdit]=useState<boolean>(true)
+    const [canEdit, setCanEdit] = useState<boolean>(true)
     const [question] = useState<Question>(new Question())
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
@@ -54,18 +63,19 @@ export default function QuestionNew() {
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
-        }finally {
+        } finally {
             setCanEdit(true)
         }
     }
 
-
     return (
         <>
-            <BreadcrumComponent items={items}/>
-            <br/>
-            <QuestionEditForm onSubmit={onSubmit} form={form}
-                              question={question} canEdit={canEdit}/>
+            <BreadcrumComponent items={items} />
+            <h1>Agregar Pregunta</h1>
+            <div className="form-wrapper">
+                <QuestionEditForm onSubmit={onSubmit} form={form}
+                    question={question} canEdit={canEdit} />
+            </div>
         </>
     )
 }
