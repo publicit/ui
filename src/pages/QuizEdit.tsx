@@ -140,6 +140,15 @@ export default function Edit() {
                             showDelete={questions.length === 0} legend="Datos de la Encuesta"
                             onSubmit={onSubmit} onDelete={onDelete} onPublish={onPublish}
                         />
+                        {quiz.status === QuizStatus[QuizStatus.published] &&
+                            <ShowDialog
+                                children={ShareDialogBody({
+                                    sharedUrl,
+                                    text: "Se ha copiado la direccion de la invitacion",
+                                })}
+                                onClose={() => setSharedUrl("")} onOpen={shareQuiz}
+                            />
+                        }
                     </div>
                 </Grid.Col>
 
@@ -152,15 +161,7 @@ export default function Edit() {
                 </Grid.Col>
             </Grid>
 
-            {quiz.status === QuizStatus[QuizStatus.published] &&
-                <ShowDialog
-                    children={ShareDialogBody({
-                        sharedUrl,
-                        text: "Se ha copiado la direccion de la invitacion",
-                    })}
-                    onClose={() => setSharedUrl("")} onOpen={shareQuiz}
-                />
-            }
+
         </>
     )
 

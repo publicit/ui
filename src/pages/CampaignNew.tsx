@@ -1,11 +1,19 @@
-import {useNavigate} from "react-router-dom";
-import {useState} from "react";
-import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
-import {useForm} from "@mantine/form";
-import {CampaignPost} from "../helpers/api"
-import {Title} from "@mantine/core";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+// Mantine :
+import { useForm } from "@mantine/form";
+
+// Components :
+import { notifyErrResponse } from "../components/Errors";
 import CampaignEditForm from "../components/CampaignEditForm";
-import {notifyErrResponse} from "../components/Errors";
+
+// Models :
+import { Campaign, campaignValidation, cleanCampaign } from "../models/campaign";
+
+// Helper :
+import { CampaignPost } from "../helpers/api"
+
 
 export default function CampaignNew() {
     const navigate = useNavigate();
@@ -29,16 +37,15 @@ export default function CampaignNew() {
         }
     }
 
-
     return (
-        <div>
-            <Title>
-                {campaign.name}
-            </Title>
-            <br/>
-            <CampaignEditForm form={form} onSubmit={onSubmit} canEdit={canEdit}
-                              legend="Nueva Campaña" campaign={campaign}/>
-
-        </div>
+        <>
+            <h1>Nueva Campaña</h1>
+            <div className="form-wrapper">
+                <CampaignEditForm form={form}
+                    onSubmit={onSubmit} canEdit={canEdit}
+                    legend="Nueva Campaña" campaign={campaign}
+                />
+            </div>
+        </>
     )
 }

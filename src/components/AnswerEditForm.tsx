@@ -1,7 +1,11 @@
-import {Box, Button, Checkbox, Group, LoadingOverlay, Textarea, Title} from "@mantine/core";
-import {UseFormReturnType} from "@mantine/form";
-import {Answer} from "../models/answer";
-import {useDisclosure} from "@mantine/hooks";
+// Mantine :
+import { useDisclosure } from "@mantine/hooks";
+import { UseFormReturnType } from "@mantine/form";
+import { Box, Button, Checkbox, Group, LoadingOverlay, Textarea, } from "@mantine/core";
+
+// Models :
+import { Answer } from "../models/answer";
+
 
 type params = {
     onSubmit: any
@@ -12,41 +16,39 @@ type params = {
     canEdit: boolean
 }
 
-
 export default function AnswerEditForm({
-                                           onSubmit,
-                                           form,
-                                           legend,
-                                           onDelete,
-                                           answer,
-                                           canEdit,
-                                       }: params) {
-    const [visible, {toggle}] = useDisclosure(false);
+    onSubmit,
+    form,
+    legend,
+    onDelete,
+    answer,
+    canEdit,
+}: params) {
+    const [visible, { toggle }] = useDisclosure(false);
     return (
         <>
-            <Title>{legend}</Title>
+            <h1>{legend}</h1>
             <form onSubmit={form.onSubmit(async (data: any) => {
                 toggle()
                 await onSubmit(data)
                 toggle()
-            })}>
+            })} className="form-wrapper">
                 <Box pos="relative">
-                    <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{radius: "sm", blur: 1}}/>
-                    <br/>
+                    {/* <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 1 }} /> */}
                     <Textarea label="Texto de la Respuesta"
-                              autosize
-                              minRows={5}
-                              maxRows={10}
-                              placeholder="Texto de la Respuesta"
-                              disabled={!canEdit}
-                              {...form.getInputProps("body")}/>
-                    <br/>
+                        autosize
+                        minRows={5}
+                        maxRows={10}
+                        placeholder="Texto de la Respuesta"
+                        disabled={!canEdit}
+                        {...form.getInputProps("body")} />
+                    <br />
                     <Checkbox
                         label="Respuesta Valida"
                         disabled={!canEdit}
-                        {...form.getInputProps('is_valid', {type: 'checkbox'})}
+                        {...form.getInputProps('is_valid', { type: 'checkbox' })}
                     />
-                    <br/>
+                    <br />
                     {canEdit &&
                         <Group>
                             <Button type="submit" variant="outline">

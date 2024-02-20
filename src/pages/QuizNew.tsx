@@ -70,7 +70,7 @@ export default function QuizNew() {
     return (
         <>
             <BreadcrumComponent items={items} />
-            <h1>Nueva Encuesta</h1>
+            <h1>Agregar  Encuesta</h1>
 
             <div className="form-wrapper">
                 <QuizEditForm

@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-// ANT-D :
-import { Col, Row } from "antd";
-
 // Mantine :
 import { Grid } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -19,7 +16,6 @@ import { Quiz } from "../models/quiz";
 import { Campaign, campaignValidation, cleanCampaign } from "../models/campaign";
 
 // Helpers :
-import { trimAndCapitalize } from "../helpers/text_utils";
 import { CampaignDelete, CampaignLoad, CampaignPut, QuizList } from "../helpers/api"
 
 
@@ -78,12 +74,11 @@ export default function Edit() {
             await notifyErrResponse(err)
         }
     }
-    const maxHeadingLength = 30;
 
     return isLoading ? <PreLoader /> : (
         <Grid gutter={15}>
             <Grid.Col span={{ md: 12, lg: 5, }}>
-                <h1>{campaign.name && trimAndCapitalize(campaign.name, maxHeadingLength)}</h1>
+                <h1>Formulario de Campaña</h1>
                 <div className="form-wrapper">
                     <CampaignEditForm
                         form={form}

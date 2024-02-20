@@ -1,14 +1,24 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useForm} from "@mantine/form";
-import {AnswerDelete, AnswerLoad, AnswerPut} from "../helpers/api"
-import {notifyErrResponse} from "../components/Errors";
-import {Question} from "../models/question";
-import {Answer, answerValidation} from "../models/answer";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Mantine :
+import { useForm } from "@mantine/form";
+
+// Components :
+import { notifyErrResponse } from "../components/Errors";
 import AnswerEditForm from "../components/AnswerEditForm";
-import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {BreadcrumComponent} from "../components/BreadcrumComponent";
-import {QuizStatus} from "../models/quiz";
+import { BreadcrumComponent } from "../components/BreadcrumComponent";
+
+// Models :
+import { QuizStatus } from "../models/quiz";
+import { Question } from "../models/question";
+import { BreadcrumbItem } from "../models/breadcrumbItem";
+import { Answer, answerValidation } from "../models/answer";
+
+// Helpers :
+import { AnswerDelete, AnswerLoad, AnswerPut } from "../helpers/api"
+import PreLoader from "../components/PreLoader";
+
 
 export default function AnswerEdit() {
     const id = useParams().id || ""
@@ -16,7 +26,8 @@ export default function AnswerEdit() {
     const [answer, setAnswer] = useState<Answer>(new Answer())
     const [question, setQuestion] = useState<Question>(new Question())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
-    const [canEdit,setCanEdit]=useState<boolean>(false)
+    const [canEdit, setCanEdit] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const form = useForm<Answer>({
         initialValues: answer,
         validate: answerValidation(),
@@ -50,6 +61,8 @@ export default function AnswerEdit() {
                 ])
             } catch (err) {
                 await notifyErrResponse(err)
+            } finally {
+                setIsLoading(false)
             }
         }
 
@@ -57,7 +70,7 @@ export default function AnswerEdit() {
 
     }, []);
 
-    function enableControls(q:Question){
+    function enableControls(q: Question) {
         setCanEdit(q.quiz.status === QuizStatus[QuizStatus.draft])
     }
 
@@ -68,7 +81,7 @@ export default function AnswerEdit() {
             navigate(returnUrl());
         } catch (err) {
             await notifyErrResponse(err)
-        }finally {
+        } finally {
             enableControls(question)
         }
     }
@@ -84,13 +97,13 @@ export default function AnswerEdit() {
         }
     }
 
-
-    return (
-        <div>
-            <BreadcrumComponent items={items}/>
-            <br/>
-            <AnswerEditForm onSubmit={onSubmit} form={form} legend={answer.body}
-                            answer={answer} onDelete={onDelete} canEdit={canEdit}/>
-        </div>
+    return isLoading ? <PreLoader /> : (
+        <>
+            <BreadcrumComponent items={items} />
+            <AnswerEditForm form={form}
+                onSubmit={onSubmit} answer={answer}
+                legend="Formulario de Respuesta" onDelete={onDelete} canEdit={canEdit}
+            />
+        </>
     )
 }
