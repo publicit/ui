@@ -45,7 +45,7 @@ function extractCurrentLocation(): string {
     const loc = window.location
     if (!loc) return ""
     const {protocol, hostname, port} = loc
-    const p = port === '80' ? '' : `:${port}`
+    const p = port === '' ? '' : `:${port}`
     return `${protocol}://${hostname}${p}`
 }
 
