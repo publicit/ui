@@ -17,7 +17,6 @@ type params = {
     selectMultiAnswer: any
     isSubmitEnabled(): boolean
     selectedAnswer: string
-    selectedAnswers: string[]
 }
 
 export default function EditForm({
@@ -29,11 +28,8 @@ export default function EditForm({
     userQuestion,
     userQuiz,
     isSubmitEnabled,
-    selectedAnswers
 }: params) {
 
-    console.log("----------->userAnswers", userAnswers)
-    console.log("----------->", selectedAnswers)
     return (
         <>
             <Progress

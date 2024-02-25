@@ -111,7 +111,6 @@ export default function UserQuizFillForm() {
                 userAnswers={userAnswers} selectMultiAnswer={selectMultiAnswer}
                 onSubmit={onSubmit} isSubmitEnabled={isSubmitEnabled}
                 selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}
-                selectedAnswers={selectedAnswers}
             />
         </div>
     )
