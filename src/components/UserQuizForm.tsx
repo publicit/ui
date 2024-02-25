@@ -1,8 +1,12 @@
-import {Button, Checkbox, CheckIcon, Progress, Radio, Text} from "@mantine/core";
-import {UserQuiz} from "../models/user_quiz";
-import {QuestionType} from "../models/question";
-import {UserAnswer} from "../models/user_answer";
-import {UserQuestion} from "../models/user_question";
+// Mantine :
+import { Button, Checkbox, CheckIcon, Grid, Progress, Radio, Text } from "@mantine/core";
+
+// Models :
+import { UserQuiz } from "../models/user_quiz";
+import { QuestionType } from "../models/question";
+import { UserAnswer } from "../models/user_answer";
+import { UserQuestion } from "../models/user_question";
+
 
 type params = {
     onSubmit: any
@@ -12,70 +16,69 @@ type params = {
     setSelectedAnswer: any
     selectMultiAnswer: any
     isSubmitEnabled(): boolean
+    selectedAnswer: string
 }
 
 export default function EditForm({
-                                     setSelectedAnswer,
-                                     selectMultiAnswer,
-                                     onSubmit,
-                                     userAnswers,
-                                     userQuestion,
-                                     userQuiz,
-                                     isSubmitEnabled,
-                                 }: params) {
+    setSelectedAnswer,
+    selectedAnswer,
+    selectMultiAnswer,
+    onSubmit,
+    userAnswers,
+    userQuestion,
+    userQuiz,
+    isSubmitEnabled,
+}: params) {
+
     return (
         <>
-            <Text style={{
-                fontSize: "2.5em",
-            }}>
-                {userQuiz.quiz.name}
-            </Text>
-            <br/>
-            <Progress value={userQuiz.percent_completed * 100}/>
-            <br/>
-            <Text style={{
-                fontSize: "1.75em",
-            }}>
+            <Progress
+                mt="sm" mb="sm"
+                value={userQuiz.percent_completed * 100}
+            />
+            <Text className="question-body" mt="md">
                 {userQuestion.question.body}
             </Text>
-            <br/>
-            <hr/>
-            <br/>
+
             {userQuestion.question.type === QuestionType[QuestionType.single]
                 ?
-                <Radio.Group>
-                    {userAnswers.map((a: UserAnswer) => (
-                        <>
-                            <Radio key={a.answer.id}
-                                   value={a.answer.id}
-                                   variant="outline"
-                                   icon={CheckIcon}
-                                   label={a.answer.body}
-                                   onClick={e => setSelectedAnswer(e.currentTarget.value)}
-                            />
-                            <br/>
-                        </>
-                    ))}
-                </Radio.Group>
+                <Grid>
+                    <Grid.Col span={{ base: 12, md: 6, lg: 6, }}>
+                        <Radio.Group>
+                            {userAnswers.map((a: UserAnswer) => (
+                                <>
+                                    <Radio key={a.answer.id} value={a.answer.id}
+                                        label={a.answer.body} variant="outline"
+                                        icon={CheckIcon} className="selected-option"
+                                        onClick={e => setSelectedAnswer(e.currentTarget.value)}
+                                        style={{
+                                            borderColor: selectedAnswer === a.answer.id ? 'var(--mantine-primary-color-filled)' : '',
+                                            color: selectedAnswer === a.answer.id ? 'var(--mantine-primary-color-filled)' : '',
+                                            background: selectedAnswer === a.answer.id ? 'var(--mantine-color-blue-outline-hover)' : '',
+                                        }}
+                                    />
+                                </>
+                            ))}
+                        </Radio.Group>
+                    </Grid.Col>
+                </Grid>
                 :
-                <>
-                    {userAnswers.map((a: UserAnswer) => (
-                        <>
+                <Grid>
+                    <Grid.Col span={6}>
+                        {userAnswers.map((a: UserAnswer) => (
                             <Checkbox key={a.answer.id}
-                                      variant="outline"
-                                      value={a.answer.id}
-                                      label={a.answer.body}
-                                      onClick={e => selectMultiAnswer(e)}
+                                variant="outline" className="selected-option"
+                                value={a.answer.id}
+                                label={a.answer.body}
+                                onClick={e => selectMultiAnswer(e)}
                             />
-                            <br/>
-                        </>
-                    ))}
-                </>
+                        ))}
+                    </Grid.Col>
+                </Grid>
             }
-            <br/>
-            <Button type="button" variant="outline"
-                    onClick={() => onSubmit()}
-                    disabled={!isSubmitEnabled()}
+            <Button type="button" variant="outline" size="md"
+                onClick={() => onSubmit()}
+                disabled={!isSubmitEnabled()}
             >
                 Siguiente
             </Button>

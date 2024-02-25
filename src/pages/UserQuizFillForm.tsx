@@ -1,22 +1,40 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {notifyErrResponse} from "../components/Errors";
-import {UserQuestionSendAnswers, UserQuizNextQuestion} from "../helpers/api";
-import {UserQuiz} from "../models/user_quiz";
-import {UserNextQuestion, UserQuestion} from "../models/user_question";
-import {UserAnswer} from "../models/user_answer";
-import {QuestionType} from "../models/question";
-import UserQuizForm from "../components/UserQuizForm"
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+
+// Mantine :
+import { Text } from "@mantine/core";
+
+// Components :
+import PreLoader from "../components/PreLoader";
+import UserQuizForm from "../components/UserQuizForm";
+import { notifyErrResponse } from "../components/Errors";
+
+// Helpers :
+import { UserQuestionSendAnswers, UserQuizNextQuestion } from "../helpers/api";
+
+// Models:
+import { UserQuiz } from "../models/user_quiz";
+import { QuestionType } from "../models/question";
+import { UserAnswer } from "../models/user_answer";
+import { UserNextQuestion, UserQuestion } from "../models/user_question";
+
 
 export default function UserQuizFillForm() {
     const navigate = useNavigate()
     const userQuestionId = useParams().id || ""
     const returnUrl = `/user/quizs/${userQuestionId}/summary`
-    const [userQuestion, setUserQuestion] = useState<UserQuestion>(new UserQuestion())
+
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([])
+    const [selectedAnswer, setSelectedAnswer] = useState<string>("")
     const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
     const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
-    const [selectedAnswer, setSelectedAnswer] = useState<string>("")
+    const [userQuestion, setUserQuestion] = useState<UserQuestion>(new UserQuestion())
+
+
+    useEffect(() => {
+        loadData(userQuestionId)
+    }, []);
 
     function setData(data: UserNextQuestion) {
         if (!data.user_question || !data.user_answers) {
@@ -38,14 +56,10 @@ export default function UserQuizFillForm() {
             setData(data)
         } catch (err) {
             await notifyErrResponse(err)
+        } finally {
+            setIsLoading(false)
         }
     }
-
-    useEffect(() => {
-        loadData(userQuestionId)
-
-    }, []);
-
 
     async function onSubmit() {
         const answers = [
@@ -61,6 +75,8 @@ export default function UserQuizFillForm() {
             setData(data)
         } catch (err) {
             await notifyErrResponse(err)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -82,16 +98,20 @@ export default function UserQuizFillForm() {
         return selectedAnswers.length !== 0
     }
 
-    return (
-        <>
-            <Link to={userQuiz.quiz.video_url} target="_blank">
-                <img src={userQuiz.quiz.thumbnail_url} alt="thumbnail"/>
-            </Link>
-            <br/>
-            <UserQuizForm userQuestion={userQuestion} userQuiz={userQuiz} userAnswers={userAnswers}
-                          onSubmit={onSubmit} isSubmitEnabled={isSubmitEnabled} selectMultiAnswer={selectMultiAnswer}
-                          setSelectedAnswer={setSelectedAnswer}
+    return isLoading ? <PreLoader /> : (
+        <div className="form-wrapper user-quiz-form">
+            <div className="flex-quiz-header">
+                <Text className="quiz-name">{userQuiz.quiz.name}</Text>
+                <Link to={userQuiz.quiz.video_url} target="_blank">
+                    <img src={userQuiz.quiz.thumbnail_url} alt="thumbnail" />
+                </Link>
+            </div>
+            <UserQuizForm
+                userQuiz={userQuiz} userQuestion={userQuestion}
+                userAnswers={userAnswers} selectMultiAnswer={selectMultiAnswer}
+                onSubmit={onSubmit} isSubmitEnabled={isSubmitEnabled}
+                selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}
             />
-        </>
+        </div>
     )
 }
