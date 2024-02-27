@@ -10,6 +10,7 @@ import {UserNextQuestion} from "../models/user_question";
 import {Role} from "../models/role";
 import {FileItem, toFileItem} from "../models/file_item";
 import {toUserReward} from "../models/user_reward";
+import {toUserQuizShare} from "../models/user_quiz_share";
 
 /////////////////////////////////////////////////////////////
 // Answer
@@ -289,6 +290,11 @@ async function userRewardsList() {
     return (res.data || []).map((x: any) => toUserReward(x))
 }
 
+async function UserQuizShareList(quizId: string) {
+    const res = await instance.get(`/v1/users/quizs/${quizId}/share`)
+    return (res.data || []).map((x: any) => toUserQuizShare(x))
+}
+
 
 /////////////////////////////////////////////////////////////
 // User
@@ -357,6 +363,7 @@ export {
     UserQuizShareLink,
     UserQuizRegister,
     userRewardsList,
+    UserQuizShareList,
 
     UserProfilePost,
     UserProfileLoad,

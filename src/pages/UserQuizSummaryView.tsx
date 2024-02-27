@@ -2,12 +2,14 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {notifyErrResponse} from "../components/Errors";
 import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
-import {GetUserQuizSummary, PostUserQuizRetry, UserQuizShareLink} from "../helpers/api";
+import {GetUserQuizSummary, PostUserQuizRetry, UserQuizShareLink, UserQuizShareList} from "../helpers/api";
 import {UserQuestion} from "../models/user_question";
 import QuizSummary from "../components/QuizSummary";
 import {ShowDialog} from "../components/UserQuizShareDialog"
 import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
 import {ShareDialogBody} from "../components/ShareDialog";
+import {UserQuizShareTable} from "../components/UserQuizShareTable";
+import {UserQuizShare} from "../models/user_quiz_share";
 
 export default function UserQuizSummaryView() {
     const navigate = useNavigate()
@@ -15,12 +17,15 @@ export default function UserQuizSummaryView() {
     const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
     const [userQuestions, setUserQuestions] = useState<UserQuestion[]>([])
     const [sharedUrl, setSharedUrl] = useState("")
+    const [rows,setRows]=useState<UserQuizShare[]>([])
 
     async function loadData(id: string) {
         try {
             const res = await GetUserQuizSummary(userQuizId)
             setUserQuiz(res.user_quiz)
             setUserQuestions(res.user_questions)
+            const sharedData = await UserQuizShareList(res.user_quiz.quiz.id)
+            setRows(sharedData)
         } catch (err) {
             await notifyErrResponse(err)
         }
@@ -53,6 +58,9 @@ export default function UserQuizSummaryView() {
     return (
         <>
             <QuizSummary userQuiz={userQuiz} userQuestions={userQuestions} onRetry={retryQuiz}/>
+            <br/>
+            <h2>Con quien has compartido esta encuesta</h2>
+            <UserQuizShareTable rows={rows} />
             <br/>
             {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
                 <ShowDialog
