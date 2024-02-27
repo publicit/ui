@@ -295,6 +295,11 @@ async function UserQuizShareList(quizId: string) {
     return (res.data || []).map((x: any) => toUserQuizShare(x))
 }
 
+async function UserQuizShareDelete(id: string, quizId: string) {
+    const res = await instance.delete(`/v1/users/quizs/${quizId}/share/${id}`)
+    return toUserQuizShare(res.data)
+}
+
 
 /////////////////////////////////////////////////////////////
 // User
@@ -364,6 +369,7 @@ export {
     UserQuizRegister,
     userRewardsList,
     UserQuizShareList,
+    UserQuizShareDelete,
 
     UserProfilePost,
     UserProfileLoad,
