@@ -1,21 +1,26 @@
-import {Button, Group, Progress, Table, Text} from "@mantine/core";
-import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
-import {UserQuestion} from "../models/user_question";
-import {useNavigate} from "react-router-dom";
-import {setIconFromAnswer} from "../helpers/user_quiz_utils";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+// Mantine :
+import { Button, Progress, Table, Text } from "@mantine/core";
+
+// Models :
+import { UserQuestion } from "../models/user_question";
+import { UserQuiz, UserQuizStatus } from "../models/user_quiz";
+
+// Helpers :
+import { setIconFromAnswer } from "../helpers/user_quiz_utils";
+
 
 type UserQuestionSummaryViewParams = {
     questions: UserQuestion[]
 }
 
-function UserQuestionSummaryView({questions}: UserQuestionSummaryViewParams) {
+function UserQuestionSummaryView({ questions }: UserQuestionSummaryViewParams) {
     return (
-        <Table striped={true} withRowBorders={true}>
+        <Table highlightOnHover withTableBorder className="table-container">
             <Table.Thead>
-                <Table.Tr>
-                    <Table.Th></Table.Th>
-                    <Table.Th></Table.Th>
-                </Table.Tr>
+                <Table.Tr> </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
                 {questions.map((q: UserQuestion) => {
@@ -42,60 +47,47 @@ type params = {
     onRetry: any
 }
 
-export default function QuizSummary({userQuiz, userQuestions, onRetry}: params) {
+export default function QuizSummary({ userQuiz, userQuestions, onRetry }: params) {
     const navigate = useNavigate()
     return (
-        <div>
-            <Progress value={userQuiz.percent_completed * 100}/>
-            <br/>
-            <Text style={{
-                fontSize: "2em",
-            }}>
-                {userQuiz.quiz.name}
-            </Text>
-            <br/>
-            <hr/>
-            <br/>
+        <React.Fragment>
+            <Text className="quiz-name">{userQuiz.quiz.name}</Text>
+            <Progress mt="lg" value={userQuiz.percent_completed * 100} />
+
             {userQuiz.percent_completed === 1
                 ?
-                <Group>
-                    <>
-                        <Text style={{fontSize: "1.2em"}}>Preguntas</Text>
-                        <UserQuestionSummaryView questions={userQuestions}/>
-                    </>
-                </Group>
-                :
-                <Group>
-                    <Button type="button" variant="outline"
-                            onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
-                    >
-                        Responder
-                    </Button>
-                </Group>
-            }
-            <br/>
-            {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
                 <>
-                    <Text>
-                        Felicidades, has respondido correctamente todas las preguntas!
-                    </Text>
+                    <Text className="question-title">Preguntas</Text>
+                    <UserQuestionSummaryView questions={userQuestions} />
                 </>
+                :
+                <Button size="md" type="button"
+                    variant="outline" className="reply-button"
+                    onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
+                >
+                    Responder
+                </Button>
+            }
+
+            {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
+                <Text color="green" mt="sm">
+                    Felicidades, has respondido correctamente todas las preguntas!
+                </Text>
             }
             {userQuiz.status === UserQuizStatus[UserQuizStatus.failed] &&
                 <>
-                    <hr/>
-                    <Text>
+                    <Text className="try-again-text">
                         No has respondido correctamente todas las preguntas. Haz click en INTENTAR DE NUEVO para otra
                         oportunidad.
                     </Text>
-                    <br/>
-                    <Button type="button" variant="outline"
-                            onClick={() => onRetry()}
+                    <Button size="md" type="button"
+                        variant="outline" className="try-again-button"
+                        onClick={() => onRetry()}
                     >
                         Intentar de Nuevo
                     </Button>
                 </>
             }
-        </div>
+        </React.Fragment>
     )
 }

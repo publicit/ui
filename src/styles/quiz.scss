@@ -1,6 +1,8 @@
 @import './variables.scss';
 
 .user-quiz-card-container {
+    font-weight: 600;
+
     .card-image {
         height: 250px;
         width: 100%;
@@ -12,8 +14,6 @@
             object-fit: cover;
         }
     }
-
-    font-weight: 600;
 
     .quiz-status {
         display: flex;
@@ -45,6 +45,28 @@
 
         }
 
+    }
+
+}
+
+.user-quiz-summary-container {
+    .quiz-name {
+        font-size: 2em;
+    }
+
+    .question-title {
+        margin-top: 3rem;
+        font-size: 1.5em;
+    }
+
+    .reply-button,
+    .try-again-text {
+        margin-top: 30px !important;
+    }
+
+    .try-again-button,
+    .share-survey-button {
+        margin-top: 15px !important;
     }
 
 }
