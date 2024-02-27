@@ -22,19 +22,22 @@ export default function ShareStart() {
                 if (!user.is_completed) return
                 //  register the user to this quiz
                 try {
-                    // TODO: fix the double registration thing, code is reaching here two times
                     await UserQuizRegister(q, token)
                     navigate(`/user/quizs`)
                 } catch (err: any) {
-                    const req = err?.request
-                    if (!req) return
-                    const text = req.response
-                    if (!text) return
-                    const body = JSON.parse(text)
-                    popupWarning({
-                        title: "Error",
-                        text: body?.error || "No se pudo hacer el registro de la encuesta",
-                    })
+                    const status = err.response?.status
+                    switch (status){
+                        case 409:
+                            // TODO: fix the double registration thing, code is reaching here two times
+                            // intercepting the 409 status from the backend to avoid ugly workflow
+                            // in the ui
+                            return
+                        default:
+                            popupWarning({
+                                title: "Error",
+                                text: "No se pudo hacer el registro de la encuesta",
+                            })
+                    }
                     navigate(`/user/quizs`)
                 }
             } catch (err) {
