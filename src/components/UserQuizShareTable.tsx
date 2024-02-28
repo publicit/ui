@@ -1,9 +1,9 @@
 // Mantine :
-import {Button, Table} from "@mantine/core";
+import { Button, Table } from "@mantine/core";
 
 // Models :
-import {UserQuizShare} from "../models/user_quiz_share";
-import {IconCheck} from "@tabler/icons-react";
+import { UserQuizShare } from "../models/user_quiz_share";
+import { IconCheck } from "@tabler/icons-react";
 
 
 type Params = {
@@ -17,14 +17,14 @@ type RowParams = {
     onDelete: (item: UserQuizShare) => {}
 }
 
-function Row({index, item, onDelete}: RowParams) {
+function Row({ index, item, onDelete }: RowParams) {
     const isUsed: boolean = JSON.stringify(item.used_at) !== "null"
-    const usedIcon = <IconCheck style={{color: "green"}}/>
+    const usedIcon = <IconCheck style={{ color: "green" }} />
     return (
         <Table.Tr key={item.id} className="table-row-container">
             <Table.Td>{index + 1}</Table.Td>
-            <Table.Td
-                className="row-title">{`${item.created_at.toLocaleDateString()} ${item.created_at.toLocaleTimeString()}`}
+            <Table.Td className="row-title">
+                {`${item.created_at.toLocaleDateString()} ${item.created_at.toLocaleTimeString()}`}
             </Table.Td>
             <Table.Td className="row-title">
                 {isUsed && `${item.used_at?.toLocaleDateString()} ${item.used_at?.toLocaleTimeString()}`}
@@ -53,7 +53,7 @@ function EmptyTable() {
     )
 }
 
-export function UserQuizShareTable({rows, onDelete}: Params) {
+export function UserQuizShareTable({ rows, onDelete }: Params) {
     return (
         <Table highlightOnHover withTableBorder className="table-container">
             <Table.Thead className="table-head-container">
@@ -69,10 +69,10 @@ export function UserQuizShareTable({rows, onDelete}: Params) {
                 {rows.length > 0 ?
                     <>
                         {rows.map((row: UserQuizShare, index: number) => <Row key={row.id} item={row} index={index}
-                                                                              onDelete={onDelete}/>)}
+                            onDelete={onDelete} />)}
                     </>
                     :
-                    <EmptyTable/>
+                    <EmptyTable />
                 }
             </Table.Tbody>
         </Table>

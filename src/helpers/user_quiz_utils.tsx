@@ -1,17 +1,19 @@
-import {UserQuizStatus} from "../models/user_quiz";
-import {MoodBoy, MoodCrazyHappy, MoodHappy, MoodSick} from "tabler-icons-react";
+import { RxCross1 } from "react-icons/rx";
+import { Check, MoodBoy, MoodCrazyHappy, MoodHappy, MoodSick } from "tabler-icons-react";
+
+import { UserQuizStatus } from "../models/user_quiz";
 
 
 export function resolveUserQuizStatusIcon(status: string): any {
     switch (status) {
         case UserQuizStatus[UserQuizStatus.success]:
-            return <MoodCrazyHappy style={{color: "green"}}/>
+            return <MoodCrazyHappy style={{ color: "green" }} />
         case UserQuizStatus[UserQuizStatus.failed]:
-            return <MoodSick style={{color: "red"}}/>
+            return <MoodSick style={{ color: "red" }} />
         case UserQuizStatus[UserQuizStatus.pending]:
-            return <MoodBoy style={{color: "yellow"}}/>
+            return <MoodBoy style={{ color: "yellow" }} />
         case UserQuizStatus[UserQuizStatus.started]:
-            return <MoodHappy style={{color: "orange"}}/>
+            return <MoodHappy style={{ color: "orange" }} />
         default:
             return null
     }
@@ -36,7 +38,10 @@ export function setIconFromAnswer(value: boolean | null) {
     if (value === null) {
         return <></>
     }
-    return value ? <MoodHappy style={{color: "green"}}/> : <MoodSick style={{color: "red"}}/>
+    return value ?
+        <Check style={{ color: "green" }} />
+        :
+        <RxCross1 style={{ color: "red", fontSize: "18px" }} />
 }
 
 // extractCurrentLocation returns the base url for the current location.
@@ -44,7 +49,7 @@ export function setIconFromAnswer(value: boolean | null) {
 function extractCurrentLocation(): string {
     const loc = window.location
     if (!loc) return ""
-    const {protocol, hostname, port} = loc
+    const { protocol, hostname, port } = loc
     const p = port === '' ? '' : `:${port}`
     return `${protocol}://${hostname}${p}`
 }
@@ -53,6 +58,6 @@ type quizTokenShareParams = {
     token: string
 }
 
-export function quizTokenShareUrl({token}: quizTokenShareParams): string {
+export function quizTokenShareUrl({ token }: quizTokenShareParams): string {
     return `${extractCurrentLocation()}/invitation/${token}`
 }

@@ -1,7 +1,21 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {notifyErrResponse} from "../components/Errors";
-import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Mantine :
+import { Grid, Progress } from "@mantine/core";
+
+// Components :
+import PreLoader from "../components/PreLoader";
+import QuizSummary from "../components/QuizSummary";
+import { notifyErrResponse } from "../components/Errors";
+import { UserQuizShareTable } from "../components/UserQuizShareTable";
+
+// Models :
+import { UserQuiz } from "../models/user_quiz";
+import { UserQuestion } from "../models/user_question";
+import { UserQuizShare } from "../models/user_quiz_share";
+
+// Helpers :
 import {
     GetUserQuizSummary,
     PostUserQuizRetry,
@@ -9,21 +23,23 @@ import {
     UserQuizShareLink,
     UserQuizShareList
 } from "../helpers/api";
-import {UserQuestion} from "../models/user_question";
-import QuizSummary from "../components/QuizSummary";
-import {ShowDialog} from "../components/UserQuizShareDialog"
-import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
-import {ShareDialogBody} from "../components/ShareDialog";
-import {UserQuizShareTable} from "../components/UserQuizShareTable";
-import {UserQuizShare} from "../models/user_quiz_share";
+import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
+
 
 export default function UserQuizSummaryView() {
     const navigate = useNavigate()
-    const userQuizId = useParams().user_quiz_id || ""
-    const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
-    const [userQuestions, setUserQuestions] = useState<UserQuestion[]>([])
+    const userQuizId = useParams().user_quiz_id || "";
+
     const [sharedUrl, setSharedUrl] = useState("")
     const [rows, setRows] = useState<UserQuizShare[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
+    const [userQuestions, setUserQuestions] = useState<UserQuestion[]>([])
+
+
+    useEffect(() => {
+        loadData(userQuizId)
+    }, []);
 
     async function loadData(id: string) {
         try {
@@ -33,6 +49,8 @@ export default function UserQuizSummaryView() {
             await loadShares(res.user_quiz?.quiz?.id)
         } catch (err) {
             await notifyErrResponse(err)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -40,10 +58,6 @@ export default function UserQuizSummaryView() {
         const sharedData = await UserQuizShareList(quizId)
         setRows(sharedData)
     }
-
-    useEffect(() => {
-        loadData(userQuizId)
-    }, []);
 
     async function retryQuiz() {
         try {
@@ -75,24 +89,27 @@ export default function UserQuizSummaryView() {
         }
     }
 
+    return isLoading ? <PreLoader /> : (
+        <div className="user-quiz-summary-container">
+            <h1 className="quiz-name">{userQuiz.quiz.name}</h1>
+            <Progress mt="lg" value={userQuiz.percent_completed * 100} />
 
-    return (
-        <>
-            <QuizSummary userQuiz={userQuiz} userQuestions={userQuestions} onRetry={retryQuiz}/>
-            <br/>
-            <h2>Con quien compartes esta encuesta</h2>
-            <UserQuizShareTable rows={rows} onDelete={onDelete}/>
-            <br/>
-            {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
-                <ShowDialog
-                    children={ShareDialogBody({
-                        sharedUrl,
-                        onClick: () => {
-                        },
-                        text: "Se ha copiado la direccion de la invitacion",
-                    })}
-                    onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
-            }
-        </>
+            <Grid gutter={15}>
+                <Grid.Col span={{ md: 12, lg: 6, }}>
+                    <QuizSummary
+                        userQuiz={userQuiz} shareQuiz={shareQuiz}
+                        onRetry={retryQuiz} userQuestions={userQuestions}
+                        sharedUrl={sharedUrl} setSharedUrl={setSharedUrl}
+                    />
+
+                </Grid.Col>
+                <Grid.Col span={{ md: 12, lg: 6, }}>
+                    <h1>Con quien compartes esta encuesta</h1>
+                    <UserQuizShareTable
+                        rows={rows} onDelete={onDelete}
+                    />
+                </Grid.Col>
+            </Grid>
+        </div >
     )
 }

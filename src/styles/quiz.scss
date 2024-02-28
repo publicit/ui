@@ -1,6 +1,8 @@
 @import './variables.scss';
 
 .user-quiz-card-container {
+    font-weight: 600;
+
     .card-image {
         height: 250px;
         width: 100%;
@@ -12,8 +14,6 @@
             object-fit: cover;
         }
     }
-
-    font-weight: 600;
 
     .quiz-status {
         display: flex;
@@ -82,4 +82,31 @@
     .mantine-Checkbox-labelWrapper {
         width: 100% !important;
     }
+}
+
+.user-quiz-summary-container {
+
+    .quiz-summary-img {
+        display: block;
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .question-title {
+        margin-top: 3rem;
+        margin-bottom: 5px;
+        font-size: 1.5em;
+    }
+
+    .reply-button {
+        margin-top: 2rem !important;
+    }
+
+    .try-again-button,
+    .share-survey-button {
+        margin-top: .8rem !important;
+    }
+
 }
