@@ -1,8 +1,7 @@
-import Tick from '../assets/tick.png'
-import Cross from '../assets/cross.png'
+import { RxCross1 } from "react-icons/rx";
+import { Check, MoodBoy, MoodCrazyHappy, MoodHappy, MoodSick } from "tabler-icons-react";
 
 import { UserQuizStatus } from "../models/user_quiz";
-import { MoodBoy, MoodCrazyHappy, MoodHappy, MoodSick } from "tabler-icons-react";
 
 
 export function resolveUserQuizStatusIcon(status: string): any {
@@ -40,9 +39,9 @@ export function setIconFromAnswer(value: boolean | null) {
         return <></>
     }
     return value ?
-        <img src={Tick} alt="" style={{ height: "20px", width: "20px", }} />
+        <RxCross1 style={{ color: "red", fontSize: "18px" }} />
         :
-        <img src={Cross} alt="" style={{ height: "20px", width: "20px", paddingTop: "2px" }} />
+        <Check style={{ color: "green" }} />
 }
 
 // extractCurrentLocation returns the base url for the current location.
