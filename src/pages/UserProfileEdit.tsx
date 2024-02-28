@@ -33,6 +33,7 @@ import {
 import { User } from "../models/user";
 import { FileItem, FileType } from "../models/file_item"
 import { Check } from "tabler-icons-react";
+import {checkFileSize} from "../helpers/file_size";
 
 
 export default function Edit() {
@@ -109,9 +110,8 @@ export default function Edit() {
     }
 
     async function onFileSelected(file: File, fileType: FileTypeNames) {
-        if (!file) return
         try {
-            // TODO: check file size is not beyond limit
+            checkFileSize(file)
             const f = new FileItem()
             f.type = fileType.toString()
             f.content_type = file.type

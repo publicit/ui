@@ -1,41 +1,28 @@
 import {popupError, popupWarning} from "./Notifier";
+import {HttpStatusBadRequest} from "../models/errors";
 
 export function notifyErrResponse(err) {
+    let statusCode
+    let message
     const {response} = err;
-    const errMsg = err?.response?.data?.error
-    if (errMsg) {
-        alert(errMsg)
+    // statusCode may come from axios response or an AppError object
+    statusCode = response?.status || err.statusCode
+    message = response?.data?.error || err.message
+    if (!statusCode) {
+        window.alert(message)
         return
     }
-    // TODO: fix this mess
-    if (!response) {
-        return popupError({
-            title: "error",
-            text: "Inicia tu sesion",
-        });
-    }
-    const {data, status} = response;
-    const payload = {message: data.error, status};
-    switch (status) {
-        default:
+    switch (statusCode) {
+        case HttpStatusBadRequest:
             return popupWarning({
                 title: "error",
-                confirmButtonText: "Continuar",
-                text: payload.message,
-                timer: 2000,
+                text: message,
+                timer: 3000,
             });
+        default:
+            return popupError({
+                title: "error",
+                text: message,
+            })
     }
-}
-
-export function notifyError(err) {
-    let msg = err.toString()
-    if (err.response?.data?.message) {
-        msg = err.response?.data?.message
-    }
-    return popupWarning({
-        title: "Error",
-        confirmButtonText: "Continuar",
-        text: msg,
-        timer: 2000,
-    });
 }
