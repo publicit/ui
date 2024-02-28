@@ -39,9 +39,9 @@ export function setIconFromAnswer(value: boolean | null) {
         return <></>
     }
     return value ?
-        <RxCross1 style={{ color: "red", fontSize: "18px" }} />
-        :
         <Check style={{ color: "green" }} />
+        :
+        <RxCross1 style={{ color: "red", fontSize: "18px" }} />
 }
 
 // extractCurrentLocation returns the base url for the current location.
