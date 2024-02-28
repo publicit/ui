@@ -5,7 +5,7 @@ const inc = 1024
 const Kb = inc
 const Mb = Kb * inc
 
-const MAX_FILE_SIZE = 6.5 * Mb
+const MAX_FILE_SIZE = 15 * Mb
 
 export function checkFileSize(file: File) {
     let message
