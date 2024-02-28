@@ -62,7 +62,6 @@ export default function QuizSummary({
     userQuestions,
 }: params) {
     const navigate = useNavigate()
-    console.log("------------->", userQuiz)
     return (
         <React.Fragment>
             <h1>Preguntas</h1>
