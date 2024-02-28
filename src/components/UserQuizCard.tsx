@@ -71,18 +71,18 @@ export default function UserQuizCard({ uq }: Params) {
                     <div style={{ color: "red" }}>La encuesta ha expirado</div>
                     :
                     <div className="expire-date">
-                        <span>Puedes responder hasta:</span> {uq.quiz?.campaign?.end_date.toLocaleDateString()}
+                        <span>Puedes responder hasta:</span>{uq.quiz?.campaign?.end_date.toLocaleDateString()}
                     </div>
                 }
             </div>
 
             <Progress value={uq.percent_completed * 100} mt="sm" />
 
-            <Group>
+            <Group mt="md">
                 {(uq.status === UserQuizStatus[UserQuizStatus.success] ||
                     uq.status === UserQuizStatus[UserQuizStatus.failed]) &&
                     <Button
-                        variant="outline" color="blue" fullWidth mt="md" radius="md"
+                        variant="outline" color="blue" fullWidth radius="md"
                         component={Link} to={`/user/quizs/${uq.id}/summary`}
                     >
                         Ver
@@ -90,7 +90,7 @@ export default function UserQuizCard({ uq }: Params) {
                 }
                 {uq.percent_completed !== 1 && !uq.quiz?.expired &&
                     <Button
-                        variant="outline" color="blue" fullWidth mt="md" radius="md"
+                        variant="outline" color="blue" fullWidth radius="md"
                         component={Link} to={`/user/quizs/${uq.id}`}
                     >
                         {resolveLabel(uq.status)}

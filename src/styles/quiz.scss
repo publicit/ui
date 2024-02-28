@@ -49,24 +49,64 @@
 
 }
 
+.user-quiz-form {
+    .flex-quiz-header {
+        display: flex;
+        justify-content: space-between;
+
+        .quiz-name {
+            font-size: 2.5em;
+        }
+
+        img {
+            height: 200px;
+            width: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    }
+
+    .question-body {
+        font-size: 1.7em;
+        margin-bottom: 1rem;
+    }
+
+    .selected-option {
+        padding: 10px;
+        border: 1px solid rgba(231, 228, 228, 0.2588235294);
+        border-radius: 5px;
+        margin-bottom: 1rem;
+    }
+
+    .mantine-Radio-labelWrapper,
+    .mantine-Checkbox-labelWrapper {
+        width: 100% !important;
+    }
+}
+
 .user-quiz-summary-container {
-    .quiz-name {
-        font-size: 2em;
+
+    .quiz-summary-img {
+        display: block;
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        object-fit: cover;
     }
 
     .question-title {
         margin-top: 3rem;
+        margin-bottom: 5px;
         font-size: 1.5em;
     }
 
-    .reply-button,
-    .try-again-text {
-        margin-top: 30px !important;
+    .reply-button {
+        margin-top: 2rem !important;
     }
 
     .try-again-button,
     .share-survey-button {
-        margin-top: 15px !important;
+        margin-top: .8rem !important;
     }
 
 }

@@ -1,34 +1,63 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {notifyErrResponse} from "../components/Errors";
-import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
-import {GetUserQuizSummary, PostUserQuizRetry, UserQuizShareLink} from "../helpers/api";
-import {UserQuestion} from "../models/user_question";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Mantine :
+import { Grid, Progress } from "@mantine/core";
+
+// Components :
+import PreLoader from "../components/PreLoader";
 import QuizSummary from "../components/QuizSummary";
-import {ShowDialog} from "../components/UserQuizShareDialog"
-import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
-import {ShareDialogBody} from "../components/ShareDialog";
+import { notifyErrResponse } from "../components/Errors";
+import { UserQuizShareTable } from "../components/UserQuizShareTable";
+
+// Models :
+import { UserQuiz } from "../models/user_quiz";
+import { UserQuestion } from "../models/user_question";
+import { UserQuizShare } from "../models/user_quiz_share";
+
+// Helpers :
+import {
+    GetUserQuizSummary,
+    PostUserQuizRetry,
+    UserQuizShareDelete,
+    UserQuizShareLink,
+    UserQuizShareList
+} from "../helpers/api";
+import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
+
 
 export default function UserQuizSummaryView() {
     const navigate = useNavigate()
-    const userQuizId = useParams().user_quiz_id || ""
+    const userQuizId = useParams().user_quiz_id || "";
+
+    const [sharedUrl, setSharedUrl] = useState("")
+    const [rows, setRows] = useState<UserQuizShare[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
     const [userQuestions, setUserQuestions] = useState<UserQuestion[]>([])
-    const [sharedUrl, setSharedUrl] = useState("")
+
+
+    useEffect(() => {
+        loadData(userQuizId)
+    }, []);
 
     async function loadData(id: string) {
         try {
             const res = await GetUserQuizSummary(userQuizId)
             setUserQuiz(res.user_quiz)
             setUserQuestions(res.user_questions)
+            await loadShares(res.user_quiz?.quiz?.id)
         } catch (err) {
             await notifyErrResponse(err)
+        } finally {
+            setIsLoading(false)
         }
     }
 
-    useEffect(() => {
-        loadData(userQuizId)
-    }, []);
+    async function loadShares(quizId: string) {
+        const sharedData = await UserQuizShareList(quizId)
+        setRows(sharedData)
+    }
 
     async function retryQuiz() {
         try {
@@ -44,25 +73,43 @@ export default function UserQuizSummaryView() {
             const res = await UserQuizShareLink(userQuiz.quiz.id)
             const tokenUrl = quizTokenShareUrl(res)
             setSharedUrl(tokenUrl)
+            await loadShares(userQuiz.quiz.id)
         } catch (error) {
             await notifyErrResponse(error)
         }
     }
 
+    async function onDelete(item: UserQuizShare) {
+        if (!window.confirm(`Eliminar esta invitacion?`)) return
+        try {
+            await UserQuizShareDelete(item.id, item.quiz.id)
+            await loadShares(userQuiz.quiz.id)
+        } catch (error) {
+            await notifyErrResponse(error)
+        }
+    }
 
-    return (
-        <>
-            <QuizSummary userQuiz={userQuiz} userQuestions={userQuestions} onRetry={retryQuiz}/>
-            <br/>
-            {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
-                <ShowDialog
-                    children={ShareDialogBody({
-                        sharedUrl,
-                        onClick:() => {},
-                        text: "Se ha copiado la direccion de la invitacion",
-                    })}
-                    onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
-            }
-        </>
+    return isLoading ? <PreLoader /> : (
+        <div className="user-quiz-summary-container">
+            <h1 className="quiz-name">{userQuiz.quiz.name}</h1>
+            <Progress mt="lg" value={userQuiz.percent_completed * 100} />
+
+            <Grid gutter={15}>
+                <Grid.Col span={{ md: 12, lg: 6, }}>
+                    <QuizSummary
+                        userQuiz={userQuiz} shareQuiz={shareQuiz}
+                        onRetry={retryQuiz} userQuestions={userQuestions}
+                        sharedUrl={sharedUrl} setSharedUrl={setSharedUrl}
+                    />
+
+                </Grid.Col>
+                <Grid.Col span={{ md: 12, lg: 6, }}>
+                    <h1>Con quien compartes esta encuesta</h1>
+                    <UserQuizShareTable
+                        rows={rows} onDelete={onDelete}
+                    />
+                </Grid.Col>
+            </Grid>
+        </div >
     )
 }
