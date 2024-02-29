@@ -17,17 +17,19 @@ type params = {
     selectMultiAnswer: any
     isSubmitEnabled(): boolean
     selectedAnswer: string
+    selectedAnswers: any
 }
 
 export default function EditForm({
-    setSelectedAnswer,
-    selectedAnswer,
-    selectMultiAnswer,
     onSubmit,
+    userQuiz,
     userAnswers,
     userQuestion,
-    userQuiz,
+    selectedAnswer,
+    selectedAnswers,
     isSubmitEnabled,
+    setSelectedAnswer,
+    selectMultiAnswer,
 }: params) {
 
     return (
@@ -66,11 +68,14 @@ export default function EditForm({
                 <Grid>
                     <Grid.Col span={6}>
                         {userAnswers.map((a: UserAnswer) => (
-                            <Checkbox key={a.answer.id}
+                            <Checkbox
+                                key={a.answer.id}
+                                label={a.answer.body} value={a.answer.id}
                                 variant="outline" className="selected-option"
-                                value={a.answer.id}
-                                label={a.answer.body}
-                                onClick={e => selectMultiAnswer(e)}
+                                onClick={(e) => selectMultiAnswer(e)}
+                                style={{
+                                    borderColor: selectedAnswers.includes(a.answer.id) ? 'var(--mantine-primary-color-filled)' : '',
+                                }}
                             />
                         ))}
                     </Grid.Col>
