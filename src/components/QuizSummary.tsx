@@ -24,16 +24,16 @@ function UserQuestionSummaryView({ questions }: UserQuestionSummaryViewParams) {
     return (
         <Table highlightOnHover withTableBorder className="table-container" mt="md">
             <Table.Thead>
-                <Table.Tr> </Table.Tr>
+                <Table.Tr></Table.Tr>
             </Table.Thead>
             <Table.Tbody>
                 {questions.map((q: UserQuestion) => {
                     return (
-                        <Table.Tr key={q.id}>
+                        <Table.Tr key={q.id} className="table-row-container">
                             <Table.Td>
                                 {q.question.body}
                             </Table.Td>
-                            <Table.Td>
+                            <Table.Td className="content-center">
                                 {setIconFromAnswer(q.has_correct_answer)}
                             </Table.Td>
                         </Table.Tr>

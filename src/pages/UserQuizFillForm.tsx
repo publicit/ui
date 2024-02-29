@@ -107,9 +107,10 @@ export default function UserQuizFillForm() {
                 </Link>
             </div>
             <UserQuizForm
+                userAnswers={userAnswers}
                 userQuiz={userQuiz} userQuestion={userQuestion}
-                userAnswers={userAnswers} selectMultiAnswer={selectMultiAnswer}
                 onSubmit={onSubmit} isSubmitEnabled={isSubmitEnabled}
+                selectedAnswers={selectedAnswers} selectMultiAnswer={selectMultiAnswer}
                 selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}
             />
         </div>
