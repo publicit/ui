@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Mantine :
-import { Button, Table, Text } from "@mantine/core";
+import { Button, Flex, Table, Text } from "@mantine/core";
 
 // Components :
 import { ShareDialogBody } from "./ShareDialog";
@@ -66,27 +66,29 @@ export default function QuizSummary({
         <React.Fragment>
             <h1>Preguntas</h1>
             <div className="form-wrapper">
-
-                {userQuiz.quiz.thumbnail_url &&
-                    <Link to={userQuiz.quiz.video_url}>
-                        <img
-                            src={userQuiz.quiz.thumbnail_url}
-                            alt="logo" className="quiz-summary-img"
-                        />
-                    </Link>
-                }
-                {userQuiz.percent_completed === 1
-                    ?
-                    <UserQuestionSummaryView questions={userQuestions} />
-                    :
-                    <Button size="md" type="button"
-                        variant="outline" className="reply-button"
-                        onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
-                    >
-                        Responder
-                    </Button>
-                }
-
+                <Flex direction="column">
+                    {userQuiz.quiz.thumbnail_url &&
+                        <div>
+                            <Link to={userQuiz.quiz.video_url}>
+                                <img
+                                    src={userQuiz.quiz.thumbnail_url}
+                                    alt="logo" className="quiz-summary-img"
+                                />
+                            </Link>
+                        </div>
+                    }
+                    {userQuiz.percent_completed !== 1
+                        ?
+                        <UserQuestionSummaryView questions={userQuestions} />
+                        :
+                        <Button size="md" type="button"
+                            variant="outline" className="reply-button"
+                            onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
+                        >
+                            Responder
+                        </Button>
+                    }
+                </Flex>
                 {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
                     <>
                         <Text color="green" mt="md">
@@ -102,7 +104,6 @@ export default function QuizSummary({
                             onClose={() => setSharedUrl("")} onOpen={shareQuiz} />
                     </>
                 }
-
                 {userQuiz.status === UserQuizStatus[UserQuizStatus.failed] &&
                     <>
                         <Text mt="md">

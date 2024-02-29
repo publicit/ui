@@ -101,7 +101,6 @@ export default function UserQuizSummaryView() {
                         onRetry={retryQuiz} userQuestions={userQuestions}
                         sharedUrl={sharedUrl} setSharedUrl={setSharedUrl}
                     />
-
                 </Grid.Col>
                 <Grid.Col span={{ md: 12, lg: 6, }}>
                     <h1>Con quien compartes esta encuesta</h1>
