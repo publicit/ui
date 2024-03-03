@@ -280,8 +280,11 @@ async function PostUserQuizRetry(userQuizId: string) {
     return res.data
 }
 
-async function UserQuizShareLink(userQuizId: string) {
-    const res = await instance.post(`/v1/users/quizs/${userQuizId}/share`)
+async function UserQuizShareLink(quizId: string, email?: string) {
+    const payload = {
+        email
+    }
+    const res = await instance.post(`/v1/users/quizs/${quizId}/share`, payload)
     return res.data
 }
 
