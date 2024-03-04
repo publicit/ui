@@ -24,7 +24,6 @@ import {
     UserQuizShareList
 } from "../helpers/api";
 import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
-import {capitalizeAllWords} from "../helpers/text_utils";
 
 
 export default function UserQuizSummaryView() {

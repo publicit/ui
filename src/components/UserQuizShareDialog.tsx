@@ -1,8 +1,8 @@
 import React from "react";
 
 // Mantine :
-import { Button, Modal } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import {Button, Modal} from "@mantine/core";
+import {useDisclosure} from "@mantine/hooks";
 
 
 type params = {
