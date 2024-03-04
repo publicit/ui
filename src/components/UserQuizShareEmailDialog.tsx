@@ -8,14 +8,16 @@ import {useDisclosure} from "@mantine/hooks";
 type params = {
     children: any
     onClose: any
-    onOpen: any
+    modalTitle: string
+    buttonTitle: string
 }
-export function ShowDialog({ children, onClose, onOpen }: params) {
-    const [opened, { open, close }] = useDisclosure(false);
+
+export function ShowGenericDialog({buttonTitle, children, onClose, modalTitle}: params) {
+    const [opened, {open, close}] = useDisclosure(false);
     return (
         <React.Fragment>
             <Modal
-                title="Compartir Encuesta" size="auto"
+                title={modalTitle} size="auto"
                 opened={opened}
                 overlayProps={{
                     backgroundOpacity: 0.55,
@@ -30,14 +32,13 @@ export function ShowDialog({ children, onClose, onOpen }: params) {
                 {children}
             </Modal>
             <Button size="md"
-                variant="outline" className="share-survey-button"
-                onClick={
-                    () => {
-                        onOpen()
-                        open()
-                    }}
+                    variant="outline" className="share-survey-button"
+                    onClick={
+                        () => {
+                            open()
+                        }}
             >
-                Compartir Link a Encuesta
+                {buttonTitle}
             </Button>
         </React.Fragment>
     )

@@ -1,26 +1,27 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 // Mantine :
-import { Button, Flex, Table, Text } from "@mantine/core";
+import {Button, Flex, Table, Text} from "@mantine/core";
 
 // Components :
-import { ShareDialogBody } from "./ShareDialog";
-import { ShowDialog } from "./UserQuizShareDialog";
+import {ShareDialogBody} from "./ShareDialog";
+import {ShowDialog} from "./UserQuizShareDialog";
 
 // Models :
-import { UserQuestion } from "../models/user_question";
-import { UserQuiz, UserQuizStatus } from "../models/user_quiz";
+import {UserQuestion} from "../models/user_question";
+import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
 
 // Helpers :
-import { setIconFromAnswer } from "../helpers/user_quiz_utils";
+import {setIconFromAnswer} from "../helpers/user_quiz_utils";
+import {ShowGenericDialog} from "./UserQuizShareEmailDialog";
 
 
 type UserQuestionSummaryViewParams = {
     questions: UserQuestion[]
 }
 
-function UserQuestionSummaryView({ questions }: UserQuestionSummaryViewParams) {
+function UserQuestionSummaryView({questions}: UserQuestionSummaryViewParams) {
     return (
         <Table highlightOnHover withTableBorder className="table-container" mt="md">
             <Table.Thead>
@@ -44,6 +45,7 @@ function UserQuestionSummaryView({ questions }: UserQuestionSummaryViewParams) {
     )
 }
 
+
 type params = {
     userQuiz: UserQuiz
     userQuestions: UserQuestion[]
@@ -51,16 +53,20 @@ type params = {
     sharedUrl: string
     shareQuiz: any
     setSharedUrl: any
+    loadData: () => {}
+    emailShareDialog:React.ReactElement
 }
 
-export default function QuizSummary({
-    onRetry,
-    userQuiz,
-    sharedUrl,
-    shareQuiz,
-    setSharedUrl,
-    userQuestions,
-}: params) {
+export function QuizSummary({
+                                onRetry,
+                                userQuiz,
+                                sharedUrl,
+                                shareQuiz,
+                                setSharedUrl,
+                                userQuestions,
+                                loadData,
+    emailShareDialog,
+                            }: params) {
     const navigate = useNavigate()
     return (
         <React.Fragment>
@@ -79,11 +85,11 @@ export default function QuizSummary({
                     }
                     {userQuiz.percent_completed !== 1
                         ?
-                        <UserQuestionSummaryView questions={userQuestions} />
+                        <UserQuestionSummaryView questions={userQuestions}/>
                         :
                         <Button size="md" type="button"
-                            variant="outline" className="reply-button"
-                            onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
+                                variant="outline" className="reply-button"
+                                onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
                         >
                             Responder
                         </Button>
@@ -101,18 +107,25 @@ export default function QuizSummary({
                                 },
                                 text: "Se ha copiado la direccion de la invitacion",
                             })}
-                            onClose={() => setSharedUrl("")} onOpen={shareQuiz} />
+                            onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
+                        <ShowGenericDialog
+                            modalTitle={`Compartir encuesta ${userQuiz.quiz.name}`}
+                            buttonTitle="Compartir encuesta por email"
+                            onClose={() => loadData()}
+                            children={emailShareDialog}
+                        />
                     </>
                 }
                 {userQuiz.status === UserQuizStatus[UserQuizStatus.failed] &&
                     <>
                         <Text mt="md">
-                            No has respondido correctamente todas las preguntas. Haz click en INTENTAR DE NUEVO para otra
+                            No has respondido correctamente todas las preguntas. Haz click en INTENTAR DE NUEVO para
+                            otra
                             oportunidad.
                         </Text>
                         <Button size="md" type="button"
-                            variant="outline" className="try-again-button"
-                            onClick={() => onRetry()}
+                                variant="outline" className="try-again-button"
+                                onClick={() => onRetry()}
                         >
                             Intentar de Nuevo
                         </Button>
