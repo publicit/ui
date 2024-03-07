@@ -5,12 +5,11 @@ const inc = 1024
 const Kb = inc
 const Mb = Kb * inc
 
-const MAX_FILE_SIZE = 15 * Mb
+const MAX_FILE_SIZE = 5 * Mb
 
 export function checkFileSize(file: File) {
     let message
     const size = file?.size
-    debugger
     if (!file) {
         message = "No has seleccionado ningun archivo"
     } else if (size > MAX_FILE_SIZE) {
