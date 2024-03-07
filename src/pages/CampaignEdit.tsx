@@ -91,7 +91,7 @@ export default function Edit() {
                 </div>
             </Grid.Col>
             <Grid.Col span={{ md: 12, lg: 7, }}>
-                <h1>Mesa Encuestas</h1>
+                <h1>Encuestas</h1>
                 <QuizTable rows={quizs} />
             </Grid.Col>
         </Grid>
