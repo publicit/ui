@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Mantine :
-import { Grid, Progress } from "@mantine/core";
+import { Grid } from "@mantine/core";
 
 // Components :
 import PreLoader from "../components/PreLoader";
@@ -17,18 +17,24 @@ import { UserQuizShare } from "../models/user_quiz_share";
 
 // Helpers :
 import {
-    UserQuizShareLink,
-    PostUserQuizRetry,
     UserQuizShareList,
+    PostUserQuizRetry,
+    UserQuizShareLink,
     GetUserQuizSummary,
     UserQuizShareDelete,
 } from "../helpers/api";
 import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
 
+type Params = {
+    nextStep: any
+    userQuestionId: string
+}
 
-export default function UserQuizSummaryView() {
+export default function UserQuizSummary(
+    { nextStep, userQuestionId }: Params
+) {
     const navigate = useNavigate()
-    const userQuizId = useParams().user_quiz_id || "";
+    const userQuizId = useParams().user_quiz_id || userQuestionId;
 
     const [sharedUrl, setSharedUrl] = useState("")
     const [rows, setRows] = useState<UserQuizShare[]>([])
@@ -122,8 +128,6 @@ export default function UserQuizSummaryView() {
 
     return isLoading ? <PreLoader /> : (
         <div className="user-quiz-summary-container">
-            <h1 className="quiz-name">{userQuiz.quiz.name}</h1>
-            <Progress mt="50px" value={userQuiz.percent_completed * 100} />
             <Grid gutter={15}>
                 <Grid.Col span={{ md: 12, lg: 6, }}>
                     <QuizSummary

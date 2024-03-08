@@ -1,12 +1,11 @@
 // Mantine :
-import { Button, Checkbox, CheckIcon, Grid, Progress, Radio, Text } from "@mantine/core";
+import { Button, Checkbox, CheckIcon, Grid, Group, Radio, Text } from "@mantine/core";
 
 // Models :
 import { UserQuiz } from "../models/user_quiz";
 import { QuestionType } from "../models/question";
 import { UserAnswer } from "../models/user_answer";
 import { UserQuestion } from "../models/user_question";
-
 
 type params = {
     onSubmit: any
@@ -22,7 +21,6 @@ type params = {
 
 export default function EditForm({
     onSubmit,
-    userQuiz,
     userAnswers,
     userQuestion,
     selectedAnswer,
@@ -33,33 +31,26 @@ export default function EditForm({
 }: params) {
 
     return (
-        <>
-            <Progress
-                mt="sm" mb="sm"
-                value={userQuiz.percent_completed * 100}
-            />
-            <Text className="question-body" mt="md">
+        <div className="form-wrapper quiz-form">
+            <Text className="question-body">
                 {userQuestion.question.body}
             </Text>
-
             {userQuestion.question.type === QuestionType[QuestionType.single]
                 ?
                 <Grid>
                     <Grid.Col span={{ base: 12, md: 6, lg: 6, }}>
                         <Radio.Group>
                             {userAnswers.map((a: UserAnswer) => (
-                                <>
-                                    <Radio key={a.answer.id} value={a.answer.id}
-                                        label={a.answer.body} variant="outline"
-                                        icon={CheckIcon} className="selected-option"
-                                        onClick={e => setSelectedAnswer(e.currentTarget.value)}
-                                        style={{
-                                            borderColor: selectedAnswer === a.answer.id ? 'var(--mantine-primary-color-filled)' : '',
-                                            color: selectedAnswer === a.answer.id ? 'var(--mantine-primary-color-filled)' : '',
-                                            background: selectedAnswer === a.answer.id ? 'var(--mantine-color-blue-outline-hover)' : '',
-                                        }}
-                                    />
-                                </>
+                                <Radio key={a.answer.id} value={a.answer.id}
+                                    label={a.answer.body} variant="outline"
+                                    icon={CheckIcon} className="selected-option"
+                                    onClick={e => setSelectedAnswer(e.currentTarget.value)}
+                                    style={{
+                                        borderColor: selectedAnswer === a.answer.id ? 'var(--mantine-primary-color-filled)' : '',
+                                        color: selectedAnswer === a.answer.id ? 'var(--mantine-primary-color-filled)' : '',
+                                        background: selectedAnswer === a.answer.id ? 'var(--mantine-color-blue-outline-hover)' : '',
+                                    }}
+                                />
                             ))}
                         </Radio.Group>
                     </Grid.Col>
@@ -81,12 +72,14 @@ export default function EditForm({
                     </Grid.Col>
                 </Grid>
             }
-            <Button type="button" variant="outline" size="md"
-                onClick={() => onSubmit()}
-                disabled={!isSubmitEnabled()}
-            >
-                Siguiente
-            </Button>
-        </>
+            <Group mt="md">
+                <Button type="button" variant="outline" size="md"
+                    onClick={() => onSubmit()}
+                    disabled={!isSubmitEnabled()}
+                >
+                    Siguiente
+                </Button>
+            </Group>
+        </div>
     )
 }

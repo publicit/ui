@@ -32,7 +32,7 @@ import { UserProfileResponse } from "./models/user";
 
 // Helpers :
 import { roleNameToEnum } from "./helpers/roles";
-import {UserRewards} from "./pages/UserRewardList";
+import { UserRewards } from "./pages/UserRewardList";
 
 
 type params = {
@@ -121,7 +121,6 @@ function routesWithRoles(): RouteRole[] {
             route: <Route path="/user/quizs/:user_quiz_id/summary" element={<UserQuizSummaryView />} />,
             roles: [RoleNames.Users],
         },
-
 
         {
             route: <Route path="/user/profile" element={<ProfileEdit />} />,

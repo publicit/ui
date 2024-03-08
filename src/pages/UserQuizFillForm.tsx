@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Mantine :
-import { Text } from "@mantine/core";
+import { Progress, Stepper, } from "@mantine/core";
 
 // Components :
 import PreLoader from "../components/PreLoader";
 import UserQuizForm from "../components/UserQuizForm";
+import VideoPlayer from "../components/VideoPlayer";
 import { notifyErrResponse } from "../components/Errors";
+import UserQuizSummary from "../components/UserQuizsummary";
 
 // Helpers :
 import { UserQuestionSendAnswers, UserQuizNextQuestion } from "../helpers/api";
@@ -20,9 +22,7 @@ import { UserNextQuestion, UserQuestion } from "../models/user_question";
 
 
 export default function UserQuizFillForm() {
-    const navigate = useNavigate()
     const userQuestionId = useParams().id || ""
-    const returnUrl = `/user/quizs/${userQuestionId}/summary`
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([])
@@ -31,6 +31,8 @@ export default function UserQuizFillForm() {
     const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
     const [userQuestion, setUserQuestion] = useState<UserQuestion>(new UserQuestion())
 
+    const [active, setActive] = useState(1);
+    const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
 
     useEffect(() => {
         loadData(userQuestionId)
@@ -38,7 +40,9 @@ export default function UserQuizFillForm() {
 
     function setData(data: UserNextQuestion) {
         if (!data.user_question || !data.user_answers) {
-            navigate(returnUrl)
+            // navigate(returnUrl)
+
+            nextStep()
             return
         }
         setSelectedAnswers([])
@@ -99,20 +103,30 @@ export default function UserQuizFillForm() {
     }
 
     return isLoading ? <PreLoader /> : (
-        <div className="form-wrapper user-quiz-form">
-            <div className="flex-quiz-header">
-                <Text className="quiz-name">{userQuiz.quiz.name}</Text>
-                <Link to={userQuiz.quiz.video_url} target="_blank">
-                    <img src={userQuiz.quiz.thumbnail_url} alt="thumbnail" />
-                </Link>
-            </div>
-            <UserQuizForm
-                userAnswers={userAnswers}
-                userQuiz={userQuiz} userQuestion={userQuestion}
-                onSubmit={onSubmit} isSubmitEnabled={isSubmitEnabled}
-                selectedAnswers={selectedAnswers} selectMultiAnswer={selectMultiAnswer}
-                selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}
-            />
+        <div className="user-quiz-form">
+            <h1 className="quiz-name">{userQuiz.quiz.name}</h1>
+            <Stepper active={active} mt="lg">
+                <Stepper.Step label="First step" description="Ve el video completo antes de responder la encuesta">
+                </Stepper.Step>
+                <Stepper.Step label="Second step" description="Responde la siguientes preguntas">
+                    <VideoPlayer userQuiz={userQuiz} nextStep={nextStep} />
+                </Stepper.Step>
+                <Stepper.Step label="Final step" description="Completado">
+                    <UserQuizForm
+                        userAnswers={userAnswers}
+                        userQuiz={userQuiz} userQuestion={userQuestion}
+                        onSubmit={onSubmit} isSubmitEnabled={isSubmitEnabled}
+                        selectedAnswers={selectedAnswers} selectMultiAnswer={selectMultiAnswer}
+                        selectedAnswer={selectedAnswer} setSelectedAnswer={setSelectedAnswer}
+                    />
+                </Stepper.Step>
+                <Stepper.Completed>
+                    <UserQuizSummary
+                        nextStep={nextStep}
+                        userQuestionId={userQuestionId}
+                    />
+                </Stepper.Completed>
+            </Stepper>
         </div>
     )
 }

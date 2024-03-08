@@ -1,27 +1,27 @@
 import React from "react";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Mantine :
-import {Button, Flex, Table, Text} from "@mantine/core";
+import { Button, Flex, Group, Table, Text } from "@mantine/core";
 
 // Components :
-import {ShareDialogBody} from "./ShareDialog";
-import {ShowDialog} from "./UserQuizShareDialog";
+import { ShareDialogBody } from "./ShareDialog";
+import { ShowDialog } from "./UserQuizShareDialog";
 
 // Models :
-import {UserQuestion} from "../models/user_question";
-import {UserQuiz, UserQuizStatus} from "../models/user_quiz";
+import { UserQuestion } from "../models/user_question";
+import { UserQuiz, UserQuizStatus } from "../models/user_quiz";
 
 // Helpers :
-import {setIconFromAnswer} from "../helpers/user_quiz_utils";
-import {ShowGenericDialog} from "./UserQuizShareEmailDialog";
+import { setIconFromAnswer } from "../helpers/user_quiz_utils";
+import { ShowGenericDialog } from "./UserQuizShareEmailDialog";
 
 
 type UserQuestionSummaryViewParams = {
     questions: UserQuestion[]
 }
 
-function UserQuestionSummaryView({questions}: UserQuestionSummaryViewParams) {
+function UserQuestionSummaryView({ questions }: UserQuestionSummaryViewParams) {
     return (
         <Table highlightOnHover withTableBorder className="table-container" mt="md">
             <Table.Thead>
@@ -54,19 +54,19 @@ type params = {
     shareQuiz: any
     setSharedUrl: any
     loadData: () => {}
-    emailShareDialog:React.ReactElement
+    emailShareDialog: React.ReactElement
 }
 
 export function QuizSummary({
-                                onRetry,
-                                userQuiz,
-                                sharedUrl,
-                                shareQuiz,
-                                setSharedUrl,
-                                userQuestions,
-                                loadData,
+    onRetry,
+    userQuiz,
+    loadData,
+    sharedUrl,
+    shareQuiz,
+    setSharedUrl,
+    userQuestions,
     emailShareDialog,
-                            }: params) {
+}: params) {
     const navigate = useNavigate()
     return (
         <React.Fragment>
@@ -85,11 +85,11 @@ export function QuizSummary({
                     }
                     {userQuiz.percent_completed !== 1
                         ?
-                        <UserQuestionSummaryView questions={userQuestions}/>
+                        <UserQuestionSummaryView questions={userQuestions} />
                         :
                         <Button size="md" type="button"
-                                variant="outline" className="reply-button"
-                                onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
+                            variant="outline" className="reply-button"
+                            onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
                         >
                             Responder
                         </Button>
@@ -100,20 +100,22 @@ export function QuizSummary({
                         <Text color="green" mt="md">
                             Felicidades, has respondido correctamente todas las preguntas!
                         </Text>
-                        <ShowDialog
-                            children={ShareDialogBody({
-                                sharedUrl,
-                                onClick: () => {
-                                },
-                                text: "Se ha copiado la direccion de la invitacion",
-                            })}
-                            onClose={() => setSharedUrl("")} onOpen={shareQuiz}/>
-                        <ShowGenericDialog
-                            modalTitle={`Compartir encuesta ${userQuiz.quiz.name}`}
-                            buttonTitle="Compartir encuesta por email"
-                            onClose={() => loadData()}
-                            children={emailShareDialog}
-                        />
+                        <Group>
+                            <ShowDialog
+                                children={ShareDialogBody({
+                                    sharedUrl,
+                                    onClick: () => {
+                                    },
+                                    text: "Se ha copiado la direccion de la invitacion",
+                                })}
+                                onClose={() => setSharedUrl("")} onOpen={shareQuiz} />
+                            <ShowGenericDialog
+                                modalTitle={`Compartir encuesta ${userQuiz.quiz.name}`}
+                                buttonTitle="Compartir encuesta por email"
+                                onClose={() => loadData()}
+                                children={emailShareDialog}
+                            />
+                        </Group>
                     </>
                 }
                 {userQuiz.status === UserQuizStatus[UserQuizStatus.failed] &&
@@ -124,8 +126,8 @@ export function QuizSummary({
                             oportunidad.
                         </Text>
                         <Button size="md" type="button"
-                                variant="outline" className="try-again-button"
-                                onClick={() => onRetry()}
+                            variant="outline" className="try-again-button"
+                            onClick={() => onRetry()}
                         >
                             Intentar de Nuevo
                         </Button>
