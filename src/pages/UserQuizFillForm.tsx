@@ -29,10 +29,13 @@ export default function UserQuizFillForm() {
     const [selectedAnswer, setSelectedAnswer] = useState<string>("")
     const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
     const [selectedAnswers, setSelectedAnswers] = useState<string[]>([])
+    const [isExploding, setIsExploding] = useState<boolean>(false)
     const [userQuestion, setUserQuestion] = useState<UserQuestion>(new UserQuestion())
 
     const [active, setActive] = useState(1);
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
+    const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+
 
     useEffect(() => {
         loadData(userQuestionId)
@@ -40,8 +43,6 @@ export default function UserQuizFillForm() {
 
     function setData(data: UserNextQuestion) {
         if (!data.user_question || !data.user_answers) {
-            // navigate(returnUrl)
-
             nextStep()
             return
         }
@@ -76,6 +77,9 @@ export default function UserQuizFillForm() {
                 quizId: userQuiz.quiz.id,
                 answers: answers.filter(x => x.length !== 0),
             })
+            if (data.user_quiz.status === 'success') {
+                setIsExploding(true)
+            }
             setData(data)
         } catch (err) {
             await notifyErrResponse(err)
@@ -101,7 +105,6 @@ export default function UserQuizFillForm() {
         }
         return selectedAnswers.length !== 0
     }
-
     return isLoading ? <PreLoader /> : (
         <div className="user-quiz-form">
             <h1 className="quiz-name">{userQuiz.quiz.name}</h1>
@@ -113,7 +116,7 @@ export default function UserQuizFillForm() {
                 </Stepper.Step>
                 <Stepper.Step label="Final step" description="Completado">
                     <UserQuizForm
-                        userAnswers={userAnswers}
+                        userAnswers={userAnswers} prevStep={prevStep}
                         userQuiz={userQuiz} userQuestion={userQuestion}
                         onSubmit={onSubmit} isSubmitEnabled={isSubmitEnabled}
                         selectedAnswers={selectedAnswers} selectMultiAnswer={selectMultiAnswer}
@@ -122,8 +125,8 @@ export default function UserQuizFillForm() {
                 </Stepper.Step>
                 <Stepper.Completed>
                     <UserQuizSummary
-                        nextStep={nextStep}
                         userQuestionId={userQuestionId}
+                        isExploding={isExploding}
                     />
                 </Stepper.Completed>
             </Stepper>

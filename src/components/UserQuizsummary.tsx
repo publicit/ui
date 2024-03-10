@@ -24,14 +24,15 @@ import {
     UserQuizShareDelete,
 } from "../helpers/api";
 import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
+import SuccessAnimation from "./SuccessAnimation";
 
 type Params = {
-    nextStep: any
     userQuestionId: string
+    isExploding: boolean
 }
 
 export default function UserQuizSummary(
-    { nextStep, userQuestionId }: Params
+    { userQuestionId, isExploding }: Params
 ) {
     const navigate = useNavigate()
     const userQuizId = useParams().user_quiz_id || userQuestionId;
@@ -53,6 +54,7 @@ export default function UserQuizSummary(
             setUserQuiz(res.user_quiz)
             setUserQuestions(res.user_questions)
             await loadShares(res.user_quiz?.quiz?.id)
+
         } catch (err) {
             await notifyErrResponse(err)
         } finally {
@@ -127,24 +129,26 @@ export default function UserQuizSummary(
     }
 
     return isLoading ? <PreLoader /> : (
-        <div className="user-quiz-summary-container">
-            <Grid gutter={15}>
-                <Grid.Col span={{ md: 12, lg: 6, }}>
-                    <QuizSummary
-                        userQuiz={userQuiz} shareQuiz={shareQuiz}
-                        onRetry={retryQuiz} userQuestions={userQuestions}
-                        sharedUrl={sharedUrl} setSharedUrl={setSharedUrl}
-                        loadData={() => loadShares(userQuiz.quiz.id)}
-                        emailShareDialog={EmailShareForm(userQuiz, email)}
-                    />
-                </Grid.Col>
-                <Grid.Col span={{ md: 12, lg: 6, }}>
-                    <h1>Con quien compartes esta encuesta</h1>
-                    <UserQuizShareTable
-                        rows={rows} onDelete={onDelete}
-                    />
-                </Grid.Col>
-            </Grid>
-        </div>
+        <>
+            <SuccessAnimation isExploding={isExploding} />
+            <div className="user-quiz-summary-container">
+                <Grid gutter={15}>
+                    <Grid.Col span={{ md: 12, lg: 6, }} mt="3rem">
+                        <QuizSummary
+                            userQuiz={userQuiz} shareQuiz={shareQuiz}
+                            onRetry={retryQuiz} userQuestions={userQuestions}
+                            sharedUrl={sharedUrl} setSharedUrl={setSharedUrl}
+                            loadData={() => loadShares(userQuiz.quiz.id)}
+                            emailShareDialog={EmailShareForm(userQuiz, email)}
+                        />
+                    </Grid.Col>
+                    <Grid.Col span={{ md: 12, lg: 6, }} mt="3rem">
+                        <UserQuizShareTable
+                            rows={rows} onDelete={onDelete}
+                        />
+                    </Grid.Col>
+                </Grid>
+            </div>
+        </>
     )
 }

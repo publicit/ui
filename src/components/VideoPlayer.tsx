@@ -1,5 +1,6 @@
 import ReactPlayer from "react-player";
 import { Button, Group } from "@mantine/core";
+import { IconArrowNarrowRight } from '@tabler/icons-react';
 
 type Params = {
     userQuiz: any,
@@ -15,7 +16,14 @@ export default function VideoPlayer({ userQuiz, nextStep }: Params) {
                 url={userQuiz.quiz.video_url}
             />
             <Group mt="xl">
-                <Button variant="outline" size="md" onClick={nextStep}>Próxima</Button>
+                <Button
+                    size="md"
+                    variant="outline"
+                    onClick={nextStep}
+                    className="button"
+                >
+                    Próxima <IconArrowNarrowRight className="icon" />
+                </Button>
             </Group>
         </div>
     )

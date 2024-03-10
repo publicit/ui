@@ -124,7 +124,7 @@ export default function UserQuizSummaryView() {
         <div className="user-quiz-summary-container">
             <h1 className="quiz-name">{userQuiz.quiz.name}</h1>
             <Progress mt="50px" value={userQuiz.percent_completed * 100} />
-            <Grid gutter={15}>
+            <Grid gutter={15} mt="3rem">
                 <Grid.Col span={{ md: 12, lg: 6, }}>
                     <QuizSummary
                         userQuiz={userQuiz} shareQuiz={shareQuiz}
@@ -135,7 +135,6 @@ export default function UserQuizSummaryView() {
                     />
                 </Grid.Col>
                 <Grid.Col span={{ md: 12, lg: 6, }}>
-                    <h1>Con quien compartes esta encuesta</h1>
                     <UserQuizShareTable
                         rows={rows} onDelete={onDelete}
                     />

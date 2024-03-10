@@ -1,8 +1,9 @@
 import React from "react";
+import { IconShare } from '@tabler/icons-react';
 
 // Mantine :
-import {Button, Modal} from "@mantine/core";
-import {useDisclosure} from "@mantine/hooks";
+import { Button, Modal } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 
 type params = {
@@ -12,8 +13,8 @@ type params = {
     buttonTitle: string
 }
 
-export function ShowGenericDialog({buttonTitle, children, onClose, modalTitle}: params) {
-    const [opened, {open, close}] = useDisclosure(false);
+export function ShowGenericDialog({ buttonTitle, children, onClose, modalTitle }: params) {
+    const [opened, { open, close }] = useDisclosure(false);
     return (
         <React.Fragment>
             <Modal
@@ -31,14 +32,11 @@ export function ShowGenericDialog({buttonTitle, children, onClose, modalTitle}: 
             >
                 {children}
             </Modal>
-            <Button size="md"
-                    variant="outline" className="share-survey-button"
-                    onClick={
-                        () => {
-                            open()
-                        }}
+            <Button size="md" variant="outline"
+                className="share-survey-button"
+                onClick={() => { open() }}
             >
-                {buttonTitle}
+                {buttonTitle} <IconShare className="icon" />
             </Button>
         </React.Fragment>
     )

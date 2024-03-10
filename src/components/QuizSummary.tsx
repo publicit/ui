@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import ReactPlayer from "react-player";
+import { IconRefresh } from '@tabler/icons-react';
 
 // Mantine :
 import { Button, Flex, Group, Table, Text } from "@mantine/core";
@@ -23,7 +24,7 @@ type UserQuestionSummaryViewParams = {
 
 function UserQuestionSummaryView({ questions }: UserQuestionSummaryViewParams) {
     return (
-        <Table highlightOnHover withTableBorder className="table-container" mt="md">
+        <Table highlightOnHover withTableBorder className="table-container" mt="lg">
             <Table.Thead>
                 <Table.Tr></Table.Tr>
             </Table.Thead>
@@ -44,7 +45,6 @@ function UserQuestionSummaryView({ questions }: UserQuestionSummaryViewParams) {
         </Table>
     )
 }
-
 
 type params = {
     userQuiz: UserQuiz
@@ -67,33 +67,26 @@ export function QuizSummary({
     userQuestions,
     emailShareDialog,
 }: params) {
-    const navigate = useNavigate()
     return (
         <React.Fragment>
-            <h1>Preguntas</h1>
             <div className="form-wrapper">
                 <Flex direction="column">
                     {userQuiz.quiz.thumbnail_url &&
-                        <div>
-                            <Link to={userQuiz.quiz.video_url}>
-                                <img
-                                    src={userQuiz.quiz.thumbnail_url}
-                                    alt="logo" className="quiz-summary-img"
-                                />
-                            </Link>
-                        </div>
+                        <ReactPlayer
+                            controls
+                            width="100%"
+                            url={userQuiz.quiz.video_url}
+                        />
                     }
-                    {userQuiz.percent_completed !== 1
-                        ?
+                    {userQuiz.percent_completed === 1 &&
                         <UserQuestionSummaryView questions={userQuestions} />
-                        :
-                        <Button size="md" type="button"
-                            variant="outline" className="reply-button"
-                            onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
-                        >
-                            Responder
-                        </Button>
                     }
+                    {/* <Button size="md" type="button"
+                        variant="outline" className="reply-button"
+                        onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
+                    >
+                        Responder
+                    </Button> */}
                 </Flex>
                 {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
                     <>
@@ -104,8 +97,7 @@ export function QuizSummary({
                             <ShowDialog
                                 children={ShareDialogBody({
                                     sharedUrl,
-                                    onClick: () => {
-                                    },
+                                    onClick: () => { },
                                     text: "Se ha copiado la direccion de la invitacion",
                                 })}
                                 onClose={() => setSharedUrl("")} onOpen={shareQuiz} />
@@ -121,15 +113,14 @@ export function QuizSummary({
                 {userQuiz.status === UserQuizStatus[UserQuizStatus.failed] &&
                     <>
                         <Text mt="md">
-                            No has respondido correctamente todas las preguntas. Haz click en INTENTAR DE NUEVO para
-                            otra
-                            oportunidad.
+                            No has respondido correctamente todas las preguntas. Haz click en INTENTAR DE NUEVO para otra oportunidad.
                         </Text>
                         <Button size="md" type="button"
                             variant="outline" className="try-again-button"
                             onClick={() => onRetry()}
                         >
                             Intentar de Nuevo
+                            <IconRefresh className="icon" />
                         </Button>
                     </>
                 }

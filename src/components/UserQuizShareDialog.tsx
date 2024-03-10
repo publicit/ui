@@ -1,8 +1,9 @@
 import React from "react";
+import { IconShare } from '@tabler/icons-react';
 
 // Mantine :
-import {Button, Modal} from "@mantine/core";
-import {useDisclosure} from "@mantine/hooks";
+import { Button, Modal } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 
 type params = {
@@ -29,15 +30,16 @@ export function ShowDialog({ children, onClose, onOpen }: params) {
             >
                 {children}
             </Modal>
-            <Button size="md"
-                variant="outline" className="share-survey-button"
+            <Button
+                size="md" variant="outline"
+                className="share-survey-button"
                 onClick={
                     () => {
                         onOpen()
                         open()
                     }}
             >
-                Compartir Link a Encuesta
+                Compartir Link a Encuesta <IconShare className="icon" />
             </Button>
         </React.Fragment>
     )

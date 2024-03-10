@@ -1,3 +1,6 @@
+import { IconArrowNarrowLeft } from '@tabler/icons-react';
+import { IconArrowNarrowRight } from '@tabler/icons-react';
+
 // Mantine :
 import { Button, Checkbox, CheckIcon, Grid, Group, Radio, Text } from "@mantine/core";
 
@@ -9,6 +12,7 @@ import { UserQuestion } from "../models/user_question";
 
 type params = {
     onSubmit: any
+    prevStep: any
     userQuiz: UserQuiz
     userQuestion: UserQuestion
     userAnswers: UserAnswer[]
@@ -21,6 +25,7 @@ type params = {
 
 export default function EditForm({
     onSubmit,
+    prevStep,
     userAnswers,
     userQuestion,
     selectedAnswer,
@@ -29,7 +34,6 @@ export default function EditForm({
     setSelectedAnswer,
     selectMultiAnswer,
 }: params) {
-
     return (
         <div className="form-wrapper quiz-form">
             <Text className="question-body">
@@ -73,11 +77,19 @@ export default function EditForm({
                 </Grid>
             }
             <Group mt="md">
-                <Button type="button" variant="outline" size="md"
+                <Button
+                    variant="default" size="md" className='back-button'
+                    onClick={() => prevStep()}
+                >
+                    <IconArrowNarrowLeft className='icon' />  Atrás
+                </Button>
+                <Button
+                    type="button" variant="outline"
+                    size="md" className='next-button'
                     onClick={() => onSubmit()}
                     disabled={!isSubmitEnabled()}
                 >
-                    Siguiente
+                    Siguiente <IconArrowNarrowRight className='icon' />
                 </Button>
             </Group>
         </div>

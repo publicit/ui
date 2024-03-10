@@ -55,6 +55,16 @@
 // ************************ React Video Player ************************
 .video-player-continer {
     margin-top: 20px;
+
+    .button {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+
+        .icon {
+            margin: 5px 0 0 5px;
+        }
+    }
 }
 
 // ************************ Flex ************************
