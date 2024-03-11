@@ -308,8 +308,14 @@ async function UserQuizShareDelete(id: string, quizId: string) {
 // User
 /////////////////////////////////////////////////////////////
 
-async function PostUserList() {
-    const res = await instance.post(`/v1/users`)
+type UserListParams = {
+    offset: number
+    limit: number
+    email: string
+}
+
+async function PostUserList(params: UserListParams) {
+    const res = await instance.post(`/v1/users`, params)
     return (res.data || []).map((x: any) => toUser(x))
 }
 
