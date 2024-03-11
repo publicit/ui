@@ -308,10 +308,10 @@ async function UserQuizShareDelete(id: string, quizId: string) {
 // User
 /////////////////////////////////////////////////////////////
 
-type UserListParams = {
+export type UserListParams = {
     offset: number
     limit: number
-    email: string
+    emails: string[]
 }
 
 async function PostUserList(params: UserListParams) {

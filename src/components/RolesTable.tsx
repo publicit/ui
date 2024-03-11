@@ -1,5 +1,4 @@
-import {Button, Table} from "@mantine/core";
-import {Link} from "react-router-dom";
+import {Table} from "@mantine/core";
 import {Role} from "../models/role";
 
 type Params = {
@@ -19,13 +18,6 @@ function Row({role}: RowParams) {
             <Table.Td>
                 {role.description}
             </Table.Td>
-            <Table.Td>
-                <Button type="button" variant="outline">
-                    <Link to={`/roles/${role.id}`}>
-                        Editar
-                    </Link>
-                </Button>
-            </Table.Td>
         </Table.Tr>
     )
 }
@@ -37,7 +29,6 @@ export function RolesTable({rows}: Params) {
                 <Table.Tr>
                     <Table.Th>Nombre</Table.Th>
                     <Table.Th>Descripcion</Table.Th>
-                    <Table.Th></Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
