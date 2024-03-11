@@ -15,25 +15,22 @@ type Params = {
 }
 
 const maxCharLength = 20;
-
 export function BreadcrumComponent({ items }: Params) {
     return (
-        <>
-            <Breadcrumbs>
-                {items.map((item: BreadcrumbItem, index) => (
-                    <>
-                        {index < items.length - 1 ? (
-                            <Link key={item.to} to={item.to} className="non-active-link">
-                                {trimAndCapitalize(item.text, maxCharLength)}
-                            </Link>
-                        ) : (
-                            <Link key={item.to} to={item.to} className="active-link">
-                                {trimAndCapitalize(item.text, maxCharLength)}
-                            </Link>
-                        )}
-                    </>
-                ))}
-            </Breadcrumbs>
-        </>
+        <Breadcrumbs>
+            {items.map((item: BreadcrumbItem, index) => (
+                <div key={index}>
+                    {index < items.length - 1 ? (
+                        <Link key={item.to} to={item.to} className="non-active-link">
+                            {trimAndCapitalize(item.text, maxCharLength)}
+                        </Link>
+                    ) : (
+                        <Link key={item.to} to={item.to} className="active-link">
+                            {trimAndCapitalize(item.text, maxCharLength)}
+                        </Link>
+                    )}
+                </div>
+            ))}
+        </Breadcrumbs>
     )
 }
