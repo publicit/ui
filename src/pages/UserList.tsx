@@ -1,35 +1,81 @@
 import {useEffect, useState} from "react";
-import {PostUserList} from "../helpers/api";
+import {PostUserList, UserListParams} from "../helpers/api";
 import {isLoggedIn} from "../helpers/sso_service";
-import {Title} from "@mantine/core";
+import {Button, TextInput, Title} from "@mantine/core";
 import {User} from "../models/user";
 import {UserTable} from "../components/UserTable";
 
 
 export function UsersList() {
     const [rows, setRows] = useState<User[]>([])
-    const limit = 50
-    useEffect(() => {
-        async function loadData() {
-            try {
-                const data = await PostUserList({
-                    limit,
-                    offset: 0,
-                    email: "",
-                })
-                setRows(data)
-            } catch (e) {
-                console.error(e)
-            }
-        }
+    const [offset, setOffset] = useState(0)
+    const [email, setEmail] = useState("")
+    const limit = 5
 
+    async function loadData() {
+        try {
+            const params: UserListParams = {
+                limit,
+                offset,
+                emails: []
+            }
+            if (email.length !== 0) {
+                params.emails.push(email)
+            }
+            const data = await PostUserList(params)
+            setRows(data)
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    useEffect(() => {
         loadData();
     }, []);
+
+
     if (!isLoggedIn()) return null
+
+
     return (
         <div>
             <Title>Listado de Usuarios</Title>
             <UserTable rows={rows}/>
+            <hr/>
+            <form onSubmit={async (e) => {
+                e.preventDefault()
+                setOffset(0)
+                await loadData()
+            }}>
+                <TextInput
+                    label="Buscar por Email"
+                    description="Si hay coincidencias exactas, se mostrara el usuario que coincida con este email"
+                    placeholder="john.doe@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <Button type="submit" variant="outline" disabled={!email}>
+                    Buscar
+                </Button>
+            </form>
+            <hr/>
+            <div>
+                <Button type="button" variant="outline" disabled={offset <= 0}
+                        onClick={async () => {
+                            setOffset(offset - limit)
+                        }}
+                >
+                    Anterior
+                </Button>
+                <Button type="button" variant="outline" disabled={rows.length < limit}
+                        onClick={async () => {
+                            setOffset(offset + limit)
+                            await loadData()
+                        }}
+                >
+                    Siguiente
+                </Button>
+            </div>
         </div>
     )
 }
