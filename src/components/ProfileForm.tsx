@@ -107,7 +107,7 @@ export default function ProfileForm({
                                            accept="image/*"
                                            multiple={false}
                                            clearable={true}
-                                           disabled={!!file.is_valid}
+                                           disabled={!!file.is_valid || isCompleted}
                                            leftSection={<IconUpload/>}
                                            placeholder={file.file?.name}
                                            label={capitalizeAllWords(fileType.description)}
