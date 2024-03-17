@@ -106,7 +106,7 @@ export default function UserQuizFillForm() {
         return selectedAnswers.length !== 0
     }
     return isLoading ? <PreLoader /> : (
-        <div className="user-quiz-form">
+        <div className="user-quiz-fill-form-container">
             <h1 className="quiz-name">{userQuiz.quiz.name}</h1>
             <Stepper active={active} mt="lg">
                 <Stepper.Step label="First step" description="Ve el video completo antes de responder la encuesta">

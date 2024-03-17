@@ -49,7 +49,7 @@
 
 }
 
-.user-quiz-form {
+.user-quiz-fill-form-container {
     .quiz-name {
         font-size: 2.5em;
     }
@@ -123,6 +123,38 @@
         .icon {
             margin-left: 8px;
         }
+    }
+}
+
+.user-new-quiz-container {
+    .map-container {
+        height: calc(100vh - 420px);
+        width: 100%;
+    }
+
+    .locations-list {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 0 0 10px;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+    }
+
+    h2 {
+        margin-bottom: 0px;
+    }
+
+    .location-off-message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
