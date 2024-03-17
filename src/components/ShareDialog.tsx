@@ -1,11 +1,15 @@
-import {ActionIcon, Group, TextInput} from "@mantine/core";
-import {popupInfo} from "./Notifier";
-import {ClipboardCopy} from "tabler-icons-react";
+import { ClipboardCopy } from "tabler-icons-react";
+
+// Mantine :
+import { ActionIcon, Group, TextInput } from "@mantine/core";
+
+// Helpers :
+import { popupInfo } from "./Notifier";
 
 type params = {
     sharedUrl: string
     onClick?: any
-    text:string
+    text: string
 }
 
 async function copyTokenUrlToClipboard(sharedUrl: string) {
@@ -17,26 +21,31 @@ async function copyTokenUrlToClipboard(sharedUrl: string) {
 }
 
 
-export function ShareDialogBody({sharedUrl, onClick,text}: params) {
+export function ShareDialogBody({ sharedUrl, onClick, text }: params) {
     return (
         <>
             <Group>
                 <TextInput label="Link"
-                           style={{width: "400px"}}
-                           placeholder=""
-                           value={sharedUrl}
-                           disabled={true}/>
-                <ActionIcon variant="filled" onClick={async () => {
-                    await copyTokenUrlToClipboard(sharedUrl)
-                    popupInfo({
-                        title: "Copiado",
-                        confirmButtonText: true,
-                        timer: 3000,
-                        text,
-                    })
-                }}>
-                    <ClipboardCopy style={{width: '70%', height: '70%'}} onClick={onClick}/>
-                </ActionIcon>
+                    value={sharedUrl} disabled={true}
+                    placeholder="" className="link-input"
+                />
+                <div className="clipboard-icon">
+                    <ActionIcon variant="filled" className="clipboard"
+                        onClick={async () => {
+                            await copyTokenUrlToClipboard(sharedUrl)
+                            popupInfo({
+                                title: "Copiado",
+                                confirmButtonText: true,
+                                timer: 3000,
+                                text,
+                            })
+                        }}>
+                        <ClipboardCopy
+                            className="icon"
+                            onClick={onClick}
+                        />
+                    </ActionIcon>
+                </div>
             </Group>
         </>
     )

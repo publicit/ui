@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Mantine :
-import { Grid, Progress } from "@mantine/core";
+import { Grid, Progress, Button, TextInput } from "@mantine/core";
 
 // Components :
 import PreLoader from "../components/PreLoader";
+import { popupSuccess } from "../components/Notifier";
 import { QuizSummary } from "../components/QuizSummary";
 import { notifyErrResponse } from "../components/Errors";
 import { UserQuizShareTable } from "../components/UserQuizShareTable";
@@ -31,11 +32,12 @@ export default function UserQuizSummaryView() {
     const userQuizId = useParams().user_quiz_id || "";
 
     const [sharedUrl, setSharedUrl] = useState("")
+    const [email, setEmail] = useState<string>("")
     const [rows, setRows] = useState<UserQuizShare[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isShareLoading, setIsshareLoading] = useState<boolean>(false)
     const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
     const [userQuestions, setUserQuestions] = useState<UserQuestion[]>([])
-    const [email, setEmail] = useState<string>("")
 
     useEffect(() => {
         loadData(userQuizId)
@@ -92,31 +94,41 @@ export default function UserQuizSummaryView() {
     async function shareQuizUsingEmail(uq: UserQuiz, email: string) {
         if (!email) return
         try {
+            setIsshareLoading(true)
             await UserQuizShareLink(uq.quiz.id, email)
+            popupSuccess({
+                title: "Éxito",
+                confirmButtonText: true,
+                timer: 3000,
+                text: `Se ha generado una notificación a ${email} y se ha agregado a la encuesta ${uq.quiz.name}`,
+            })
+            setIsshareLoading(false)
         } catch (error) {
             await notifyErrResponse(error)
+            setIsshareLoading(false)
         }
     }
 
     function EmailShareForm(uq: UserQuiz, email: string) {
-        // TODO: this form needs love from an actual UI dev
         return (
-            <>
-                <form onSubmit={(e) => {
-                    e.preventDefault()
-                    shareQuizUsingEmail(uq, email).then(() => console.log(`TODO: close dialog`))
-                }}>
-                    <div>
-                        <label>Email</label>
-                        <input type="email" placeholder="someone@example.com" value={email}
+            <React.Fragment>
+                <form className="email-dialog-box">
+                    <div className="flex-email-field">
+                        <TextInput label="Email" type="email"
+                            placeholder="someone@example.com" value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                    </div>
-                    <div>
-                        <button type="submit">Enviar</button>
+                        <Button variant="outline" type="button"
+                            loading={isShareLoading} className="submit-button"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                shareQuizUsingEmail(uq, email).then(() => console.log(`TODO: close dialog`))
+                            }}>
+                            Enviar
+                        </Button>
                     </div>
                 </form>
-            </>
+            </React.Fragment>
         )
     }
 

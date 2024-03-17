@@ -67,6 +67,7 @@ export function QuizSummary({
     userQuestions,
     emailShareDialog,
 }: params) {
+
     return (
         <React.Fragment>
             <div className="form-wrapper">
@@ -81,12 +82,6 @@ export function QuizSummary({
                     {userQuiz.percent_completed === 1 &&
                         <UserQuestionSummaryView questions={userQuestions} />
                     }
-                    {/* <Button size="md" type="button"
-                        variant="outline" className="reply-button"
-                        onClick={() => navigate(`/user/quizs/${userQuiz.id}`)}
-                    >
-                        Responder
-                    </Button> */}
                 </Flex>
                 {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
                     <>
@@ -100,12 +95,11 @@ export function QuizSummary({
                                     onClick: () => { },
                                     text: "Se ha copiado la direccion de la invitacion",
                                 })}
-                                onClose={() => setSharedUrl("")} onOpen={shareQuiz} />
+                                onClose={() => setSharedUrl("")} onOpen={shareQuiz}
+                            />
                             <ShowGenericDialog
-                                modalTitle={`Compartir encuesta ${userQuiz.quiz.name}`}
-                                buttonTitle="Compartir encuesta por email"
-                                onClose={() => loadData()}
-                                children={emailShareDialog}
+                                buttonTitle="Compartir encuesta por email" userQuiz={userQuiz}
+                                children={emailShareDialog} onClose={() => loadData()}
                             />
                         </Group>
                     </>
