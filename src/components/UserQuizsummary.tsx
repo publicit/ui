@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Mantine :
-import { Grid } from "@mantine/core";
+import { Button, Grid, TextInput } from "@mantine/core";
 
 // Components :
 import PreLoader from "../components/PreLoader";
@@ -15,6 +15,9 @@ import { UserQuiz } from "../models/user_quiz";
 import { UserQuestion } from "../models/user_question";
 import { UserQuizShare } from "../models/user_quiz_share";
 
+// Components :
+import SuccessAnimation from "./SuccessAnimation";
+
 // Helpers :
 import {
     UserQuizShareList,
@@ -24,7 +27,7 @@ import {
     UserQuizShareDelete,
 } from "../helpers/api";
 import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
-import SuccessAnimation from "./SuccessAnimation";
+import { popupSuccess } from "./Notifier";
 
 type Params = {
     userQuestionId: string
@@ -38,11 +41,12 @@ export default function UserQuizSummary(
     const userQuizId = useParams().user_quiz_id || userQuestionId;
 
     const [sharedUrl, setSharedUrl] = useState("")
+    const [email, setEmail] = useState<string>("")
     const [rows, setRows] = useState<UserQuizShare[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isShareLoading, setIsshareLoading] = useState<boolean>(false)
     const [userQuiz, setUserQuiz] = useState<UserQuiz>(new UserQuiz())
     const [userQuestions, setUserQuestions] = useState<UserQuestion[]>([])
-    const [email, setEmail] = useState<string>("")
 
     useEffect(() => {
         loadData(userQuizId)
@@ -100,36 +104,46 @@ export default function UserQuizSummary(
     async function shareQuizUsingEmail(uq: UserQuiz, email: string) {
         if (!email) return
         try {
+            setIsshareLoading(true)
             await UserQuizShareLink(uq.quiz.id, email)
+            popupSuccess({
+                title: "Éxito",
+                confirmButtonText: true,
+                timer: 3000,
+                text: `Se ha generado una notificación a ${email} y se ha agregado a la encuesta ${uq.quiz.name}`,
+            })
+            setIsshareLoading(false)
         } catch (error) {
             await notifyErrResponse(error)
+            setIsshareLoading(false)
         }
     }
 
     function EmailShareForm(uq: UserQuiz, email: string) {
-        // TODO: this form needs love from an actual UI dev
         return (
-            <>
-                <form onSubmit={(e) => {
-                    e.preventDefault()
-                    shareQuizUsingEmail(uq, email).then(() => console.log(`TODO: close dialog`))
-                }}>
-                    <div>
-                        <label>Email</label>
-                        <input type="email" placeholder="someone@example.com" value={email}
+            <React.Fragment>
+                <form className="email-dialog-box">
+                    <div className="flex-email-field">
+                        <TextInput label="Email" type="email"
+                            placeholder="someone@example.com" value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                    </div>
-                    <div>
-                        <button type="submit">Enviar</button>
+                        <Button variant="outline" type="button"
+                            loading={isShareLoading} className="submit-button"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                shareQuizUsingEmail(uq, email).then(() => console.log(`TODO: close dialog`))
+                            }}>
+                            Enviar
+                        </Button>
                     </div>
                 </form>
-            </>
+            </React.Fragment>
         )
     }
 
     return isLoading ? <PreLoader /> : (
-        <>
+        <React.Fragment>
             <SuccessAnimation isExploding={isExploding} />
             <div className="user-quiz-summary-container">
                 <Grid gutter={15}>
@@ -149,6 +163,6 @@ export default function UserQuizSummary(
                     </Grid.Col>
                 </Grid>
             </div>
-        </>
+        </React.Fragment>
     )
 }

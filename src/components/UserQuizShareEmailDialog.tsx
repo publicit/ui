@@ -9,17 +9,24 @@ import { useDisclosure } from "@mantine/hooks";
 type params = {
     children: any
     onClose: any
-    modalTitle: string
+    userQuiz: any
     buttonTitle: string
 }
 
-export function ShowGenericDialog({ buttonTitle, children, onClose, modalTitle }: params) {
+export function ShowGenericDialog({ buttonTitle, children, onClose, userQuiz }: params) {
     const [opened, { open, close }] = useDisclosure(false);
+    function ModalHeader() {
+        return (
+            <React.Fragment>
+                Compartir encuesta <p>{userQuiz.quiz.name}</p>
+            </React.Fragment>
+        )
+    }
     return (
         <React.Fragment>
             <Modal
-                title={modalTitle} size="auto"
-                opened={opened}
+                title={<ModalHeader />} opened={opened}
+                size="auto" className="email-dialog-box"
                 overlayProps={{
                     backgroundOpacity: 0.55,
                     blur: 3,

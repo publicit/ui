@@ -11,12 +11,26 @@ type Params = {
     timer?: number;
 };
 
+function popupSuccess({
+    title,
+    text,
+    confirmButtonText,
+    timer = 1500,
+}: Params) {
+    return MySwal.fire({
+        title: title,
+        text: text,
+        icon: "success",
+        timer: timer,
+        showConfirmButton: confirmButtonText,
+    })
+}
 function popupWarning({
-                          title,
-                          text,
-                          confirmButtonText,
-                          timer = 1500,
-                      }: Params) {
+    title,
+    text,
+    confirmButtonText,
+    timer = 1500,
+}: Params) {
     return MySwal.fire({
         title: title,
         text: text,
@@ -26,11 +40,11 @@ function popupWarning({
     })
 }
 function popupInfo({
-                          title,
-                          text,
-                          confirmButtonText,
-                          timer = 1500,
-                      }: Params) {
+    title,
+    text,
+    confirmButtonText,
+    timer = 1500,
+}: Params) {
     return MySwal.fire({
         title: title,
         text: text,
@@ -39,8 +53,7 @@ function popupInfo({
         showConfirmButton: confirmButtonText,
     })
 }
-
-function popupError({title, text, confirmButtonText, timer = 1500}: Params) {
+function popupError({ title, text, confirmButtonText, timer = 1500 }: Params) {
     return MySwal.fire({
         title: title,
         text: text,
@@ -53,7 +66,8 @@ function popupError({title, text, confirmButtonText, timer = 1500}: Params) {
 
 
 export {
-    popupError,
     popupInfo,
+    popupError,
     popupWarning,
+    popupSuccess,
 };
