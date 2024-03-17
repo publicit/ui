@@ -1,9 +1,16 @@
-import {Button, Table} from "@mantine/core";
-import {User} from "../models/user";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+
+// Mantine :
+import { Button, Loader, Table } from "@mantine/core";
+
+// Models :
+import { User } from "../models/user";
+
 
 type Params = {
+    isTableLoading?: boolean
     onDelete?: any
+    loadData?: () => void;
     rows: User[]
 }
 
@@ -11,17 +18,20 @@ type RowParams = {
     onDelete: any
     user: User
 }
+type EmptyParams = {
+    loadData: any
+}
 
-function Row({user, onDelete}: RowParams) {
+function Row({ user, onDelete }: RowParams) {
     return (
-        <Table.Tr key={user.id}>
+        <Table.Tr key={user.id} className="table-row-container">
             <Table.Td>
                 <Link to={`/users/${user.id}`}>
                     {user.email}
                 </Link>
             </Table.Td>
             <Table.Td>
-                {user.image && <img alt="avatar" src={user.image} width={"10%"}/>}
+                {user.image && <img alt="avatar" src={user.image} width={"10%"} />}
             </Table.Td>
             <Table.Td>
                 {user.name}
@@ -29,34 +39,66 @@ function Row({user, onDelete}: RowParams) {
             <Table.Td>
                 {`${user.last_login?.toLocaleDateString()} ${user.last_login?.toLocaleTimeString()}`}
             </Table.Td>
-            {onDelete && <Table.Td>
-                <Button type="button" variant="outline" onClick={() => onDelete(user)}>
-                    Quitar
-                </Button>
-            </Table.Td>
-
+            {onDelete &&
+                <Table.Td className="content-center">
+                    <Button type="button" variant="outline" onClick={() => onDelete(user)}>
+                        Quitar
+                    </Button>
+                </Table.Td>
             }
         </Table.Tr>
     )
 }
-
-export function UserTable({rows, onDelete = null}: Params) {
+function EmptyRow({ loadData }: EmptyParams) {
     return (
-        <Table striped={true} withRowBorders={true}>
-            <Table.Thead>
+        <Table.Tr className="table-row-container">
+            <Table.Td></Table.Td>
+            <Table.Td></Table.Td>
+            <Table.Td className="content-center">
+                No se encontró ninguna cuenta
+            </Table.Td>
+            <Table.Td>
+                <Button onClick={loadData()}>Regresa</Button>
+            </Table.Td>
+        </Table.Tr>
+    )
+}
+function RowLoader() {
+    return (
+        <Table.Tr className="table-row-container">
+            <Table.Td></Table.Td>
+            <Table.Td></Table.Td>
+            <Table.Td><Loader className="table-loader" /></Table.Td>
+            <Table.Td></Table.Td>
+        </Table.Tr>
+    )
+}
+export function UserTable({ rows, onDelete = null, isTableLoading, loadData }: Params) {
+    return (
+        <Table highlightOnHover withTableBorder className="table-container">
+            <Table.Thead className="table-head-container">
                 <Table.Tr>
                     <Table.Th>Email</Table.Th>
                     <Table.Th>Avatar</Table.Th>
                     <Table.Th>Nombre</Table.Th>
                     <Table.Th>Ultimo Inicio de Sesion</Table.Th>
                     {onDelete &&
-                        <Table.Th></Table.Th>
+                        <Table.Th className="content-center">Acción</Table.Th>
                     }
-
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.map((user: User) => <Row key={user.id} user={user} onDelete={onDelete}/>)}
+                {isTableLoading ? (
+                    <RowLoader />
+                ) : (
+                    <>
+                        {rows.length > 0 ? (
+                            rows.map((user: User) => <Row key={user.id} user={user} onDelete={onDelete} />)
+                        ) : (
+                            <EmptyRow loadData={loadData} />
+                        )}
+                    </>
+                )}
             </Table.Tbody>
         </Table>
     )
