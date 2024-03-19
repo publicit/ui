@@ -78,7 +78,7 @@ export default function QuizNew() {
             <BreadcrumComponent items={items} />
             <h1>Agregar  Encuesta</h1>
             <Grid>
-                <Grid.Col span={{ md: 12, lg: 5, }}>
+                <Grid.Col span={{ md: 12, lg: 12, }}>
                     <div className="form-wrapper">
                         <QuizEditForm
                             onSubmit={onSubmit} form={form}
@@ -86,7 +86,9 @@ export default function QuizNew() {
                         />
                     </div>
                 </Grid.Col>
-                <Grid.Col span={{ md: 12, lg: 7 }}>
+            </Grid>
+            <Grid>
+                <Grid.Col span={{ md: 12, lg: 12 }}>
                     <div className="form-wrapper">
                         <GoogleMaps
                             selectedLocation={selectedLocation}

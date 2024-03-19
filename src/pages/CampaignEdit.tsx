@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 // Mantine :
-import { Grid } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import {Grid} from "@mantine/core";
+import {useForm} from "@mantine/form";
 
 // Compoenets :
 import QuizTable from "../components/QuizTable";
 import PreLoader from "../components/PreLoader";
-import { notifyErrResponse } from "../components/Errors";
+import {notifyErrResponse} from "../components/Errors";
 import CampaignEditForm from "../components/CampaignEditForm";
 
 // Models :
-import { Quiz } from "../models/quiz";
-import { Campaign, campaignValidation, cleanCampaign } from "../models/campaign";
+import {Quiz} from "../models/quiz";
+import {Campaign, campaignValidation, cleanCampaign} from "../models/campaign";
 
 // Helpers :
-import { CampaignDelete, CampaignLoad, CampaignPut, QuizList } from "../helpers/api"
+import {CampaignDelete, CampaignLoad, CampaignPut, QuizList} from "../helpers/api"
 
 
 export default function Edit() {
@@ -75,25 +75,29 @@ export default function Edit() {
         }
     }
 
-    return isLoading ? <PreLoader /> : (
-        <Grid gutter={15}>
-            <Grid.Col span={{ md: 12, lg: 5, }}>
-                <h1>Formulario de Campaña</h1>
-                <div className="form-wrapper">
-                    <CampaignEditForm
-                        form={form}
-                        onSubmit={onSubmit}
-                        canEdit={canEdit}
-                        campaign={campaign}
-                        legend="Datos de la Campaña"
-                        onDelete={onDelete} showDelete={quizs.length === 0}
-                    />
-                </div>
-            </Grid.Col>
-            <Grid.Col span={{ md: 12, lg: 7, }}>
-                <h1>Encuestas</h1>
-                <QuizTable rows={quizs} />
-            </Grid.Col>
-        </Grid>
+    return isLoading ? <PreLoader/> : (
+        <>
+            <Grid gutter={15}>
+                <Grid.Col span={{md: 12, lg: 12,}}>
+                    <h1>Formulario de Campaña</h1>
+                    <div className="form-wrapper">
+                        <CampaignEditForm
+                            form={form}
+                            onSubmit={onSubmit}
+                            canEdit={canEdit}
+                            campaign={campaign}
+                            legend="Datos de la Campaña"
+                            onDelete={onDelete} showDelete={quizs.length === 0}
+                        />
+                    </div>
+                </Grid.Col>
+            </Grid>
+            <Grid>
+                <Grid.Col span={{md: 12, lg: 12,}}>
+                    <h1>Encuestas</h1>
+                    <QuizTable rows={quizs}/>
+                </Grid.Col>
+            </Grid>
+        </>
     )
 }

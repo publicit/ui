@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 // Mantine :
-import { Grid } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import {Grid} from "@mantine/core";
+import {useForm} from "@mantine/form";
 
 // Helpers :
 import {
-    QuizPut,
-    QuizLoad,
-    QuizDelete,
-    QuizPublish,
-    QuestionList,
     CampaignLoad,
+    QuestionList,
+    QuizDelete,
+    QuizLoad,
+    QuizPublish,
+    QuizPut,
     UserQuizShareLink,
 } from "../helpers/api";
-import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
+import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
 
 // Components :
 import PreLoader from "../components/PreLoader";
 import QuestionTable from "../components/QuestionTable";
-import { notifyErrResponse } from "../components/Errors";
-import { QuizEditForm } from "../components/QuizEditForm";
-import { ShareDialogBody } from "../components/ShareDialog";
-import { ShowDialog } from "../components/UserQuizShareDialog";
-import { BreadcrumComponent } from "../components/BreadcrumComponent";
+import {notifyErrResponse} from "../components/Errors";
+import {QuizEditForm} from "../components/QuizEditForm";
+import {ShareDialogBody} from "../components/ShareDialog";
+import {ShowDialog} from "../components/UserQuizShareDialog";
+import {BreadcrumComponent} from "../components/BreadcrumComponent";
 
 // Models :
-import { Question } from "../models/question";
-import { Campaign } from "../models/campaign";
-import { BreadcrumbItem } from "../models/breadcrumbItem";
-import { Quiz, QuizStatus, quizValidation } from "../models/quiz";
+import {Question} from "../models/question";
+import {Campaign} from "../models/campaign";
+import {BreadcrumbItem} from "../models/breadcrumbItem";
+import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
 
 
 export default function Edit() {
@@ -127,12 +127,12 @@ export default function Edit() {
         }
     }
 
-    return isLoading ? <PreLoader /> : (
+    return isLoading ? <PreLoader/> : (
         <>
-            <BreadcrumComponent items={items} />
+            <BreadcrumComponent items={items}/>
 
             <Grid gutter={15}>
-                <Grid.Col span={{ md: 12, lg: 5, }}>
+                <Grid.Col span={{md: 12, lg: 12}}>
                     <h1>Configuracion de Encuesta</h1>
                     <div className="form-wrapper">
                         <QuizEditForm
@@ -151,8 +151,9 @@ export default function Edit() {
                         }
                     </div>
                 </Grid.Col>
-
-                <Grid.Col span={{ md: 12, lg: 7, }}>
+            </Grid>
+            <Grid>
+                <Grid.Col span={{md: 12, lg: 12}}>
                     <h1>Preguntas</h1>
                     <QuestionTable
                         rows={questions}
@@ -160,8 +161,6 @@ export default function Edit() {
                     />
                 </Grid.Col>
             </Grid>
-
-
         </>
     )
 
