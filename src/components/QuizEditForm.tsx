@@ -61,15 +61,33 @@ export function QuizEditForm({
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
-                    <NumberInput label="Monto de Recompensa"
+                    <NumberInput label="Recompensa por Encuesta"
                         size="md"
                         prefix={"$"}
                         decimalScale={2}
                         allowNegative={false}
                         thousandSeparator={true}
                         allowedDecimalSeparators={"."}
-                        placeholder="Esto aplicara cuando hayan respondido toda las preguntas satisfactoriamente. No importa el numero de intentos."
                         {...form.getInputProps("reward_amount")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <NumberInput label="Recompensa por Referido"
+                        size="md"
+                        prefix={"$"}
+                        decimalScale={2}
+                        allowNegative={false}
+                        thousandSeparator={true}
+                        allowedDecimalSeparators={"."}
+                        {...form.getInputProps("referral_amount")}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <NumberInput label="Numero Maximo de Usuarios"
+                        size="md"
+                        allowNegative={false}
+                        thousandSeparator={true}
+                        {...form.getInputProps("max_user_count")}
                     />
                 </Grid.Col>
                 <Grid.Col span={12}>

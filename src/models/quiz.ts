@@ -17,6 +17,9 @@ export class Quiz {
     thumbnail_url: string
     reward_amount: number
     expired: boolean
+    user_count: number
+    max_user_count: number
+    referral_amount: number
 
     constructor() {
         this.id = ""
@@ -29,6 +32,9 @@ export class Quiz {
         this.thumbnail_url = ""
         this.reward_amount = 0
         this.expired = false
+        this.user_count = 0
+        this.max_user_count = 0
+        this.referral_amount = 0
     }
 }
 
@@ -47,5 +53,7 @@ export function quizValidation() {
         video_url: (value: string) => trimAll(value).length === 0 ? "Video es mandatorio" : null,
         number_of_questions: (value: number) => value <= 0 ? "Minimo numero de preguntas es 1" : null,
         reward_amount: (value: number) => value <= 0 ? "El monto de recompensa debe ser mayor a cero" : null,
+        max_user_count: (value: number) => value <= 0 ? "El numero de usuarios que responden la encuesta debe ser mayor a cero" : null,
+        referral_amount: (value: number) => value <= 0 ? "El monto de recompensa para usuarios referenciados, debe ser mayor a cero" : null,
     }
 }
