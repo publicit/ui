@@ -19,8 +19,8 @@ import {Campaign} from "../models/campaign";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
 import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
 import {GoogleMaps} from "../components/GoogleMaps";
-import {Coordinate} from "../models/coordinate";
-import {CoordinatesTable} from "../components/CoordinatesTable";
+import {Location} from "../models/location";
+import {LocationsTable} from "../components/LocationsTable";
 
 
 export default function QuizNew() {
@@ -33,7 +33,7 @@ export default function QuizNew() {
 
     // Selected locations are coming in below state
     const [selectedLocation, setSelectedLocation] = useState<MarkerProps['position'][]>([]);
-    const [coordinates, setCoordinates] = useState<Coordinate[]>([])
+    const [locations, setLocations] = useState<Location[]>([])
 
     const form = useForm<Quiz>({
         initialValues: quiz,
@@ -61,13 +61,13 @@ export default function QuizNew() {
 
     }, []);
 
-    async function onSubmit(data: Quiz) {
+    async function onSubmit(q: Quiz) {
         try {
             setCanEdit(false)
             const campaign = new Campaign()
             campaign.id = campaignId
-            data.campaign = campaign
-            const res: Quiz = await QuizPost(data)
+            q.campaign = campaign
+            const res: Quiz = await QuizPost(q, locations)
             const returnURL: string = `/quizs/${res.id}`
             navigate(returnURL);
         } catch (err) {
@@ -77,15 +77,15 @@ export default function QuizNew() {
         }
     }
 
-    async function addCoordinate(c: Coordinate) {
-        const _coordinates = coordinates
-        _coordinates.push(c)
-        setCoordinates(_coordinates)
+    async function addLocation(c: Location) {
+        const _locations = locations
+        _locations.push(c)
+        setLocations(_locations)
     }
 
-    function removeCoordinate(index: number) {
-        const _coordinates = coordinates.filter((val: Coordinate, i: number) => i !== index)
-        setCoordinates(_coordinates)
+    function removeLocation(index: number) {
+        const _locations = locations.filter((val: Location, i: number) => i !== index)
+        setLocations(_locations)
     }
 
     return (
@@ -108,13 +108,13 @@ export default function QuizNew() {
                         <GoogleMaps
                             selectedLocation={selectedLocation}
                             setSelectedLocation={setSelectedLocation}
-                            onClick={addCoordinate}
+                            onClick={addLocation}
                         />
                     </div>
                 </Grid.Col>
                 <Grid.Col>
-                    <CoordinatesTable coordinates={coordinates}
-                                      onDelete={removeCoordinate}/>
+                    <LocationsTable locations={locations}
+                                    onDelete={removeLocation}/>
                 </Grid.Col>
             </Grid>
         </div>

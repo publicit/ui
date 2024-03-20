@@ -1,19 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import {
-    Marker,
-    GoogleMap,
-    MarkerProps,
-    useLoadScript,
-    GoogleMapProps,
-} from "@react-google-maps/api";
-import {Button} from '@mantine/core';
-import {Coordinate} from "../models/coordinate";
+import {GoogleMap, GoogleMapProps, Marker, MarkerProps, useLoadScript,} from "@react-google-maps/api";
+import {Location} from "../models/location";
 import {uuidV4} from "../helpers/uuid";
 
 type params = {
     selectedLocation: MarkerProps['position'][]
     setSelectedLocation: React.Dispatch<React.SetStateAction<MarkerProps['position'][]>>
-    onClick: (coordinate: Coordinate) => {}
+    onClick: (coordinate: Location) => {}
 }
 export const GoogleMaps = ({selectedLocation, setSelectedLocation, onClick}: params) => {
     const [currentLocation, setCurrentLocation] = useState<{ lat: number, lng: number } | null>(null);
@@ -37,7 +30,7 @@ export const GoogleMaps = ({selectedLocation, setSelectedLocation, onClick}: par
         const lat = evnet.latLng.lat();
         const lng = evnet.latLng.lng();
         setSelectedLocation([...selectedLocation, {lat, lng}]);
-        const c = new Coordinate()
+        const c = new Location()
         c.lat = lat
         c.lng = lng
         onClick(c)
