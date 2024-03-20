@@ -12,6 +12,7 @@ import {FileItem, toFileItem} from "../models/file_item";
 import {toUserReward} from "../models/user_reward";
 import {toUserQuizShare} from "../models/user_quiz_share";
 import {Location, toLocation} from "../models/location"
+import {toAddress} from "../models/address";
 
 /////////////////////////////////////////////////////////////
 // Answer
@@ -97,6 +98,15 @@ async function FileItemUpload(f: FileItem, file: File) {
 async function FileTypes() {
     const res = await instance.get(`/v1/user-profile/files/types`)
     return (res.data || [])
+}
+
+/////////////////////////////////////////////////////////////
+// Location
+/////////////////////////////////////////////////////////////
+
+async function AddressFromLocation(l: Location) {
+    const res = await instance.post(`/v1/locations/address`, l)
+    return toAddress(res.data)
 }
 
 
@@ -353,6 +363,8 @@ export {
 
     FileItemUpload,
     FileTypes,
+
+    AddressFromLocation,
 
     QuestionLoad,
     QuestionPut,

@@ -7,7 +7,7 @@ import {Grid} from "@mantine/core";
 import {useForm} from "@mantine/form";
 
 // Helpers :
-import {CampaignLoad, QuizPost} from "../helpers/api"
+import {AddressFromLocation, CampaignLoad, QuizPost} from "../helpers/api"
 
 // Components :
 import {QuizEditForm} from "../components/QuizEditForm";
@@ -77,9 +77,11 @@ export default function QuizNew() {
         }
     }
 
-    async function addLocation(c: Location) {
+    async function addLocation(location: Location) {
         const _locations = locations
-        _locations.push(c)
+        location.address = await AddressFromLocation(location)
+        _locations.push(location)
+        console.table(JSON.stringify(location.address))
         setLocations(_locations)
     }
 
@@ -113,8 +115,9 @@ export default function QuizNew() {
                     </div>
                 </Grid.Col>
                 <Grid.Col>
-                    <LocationsTable locations={locations}
-                                    onDelete={removeLocation}/>
+                    <LocationsTable
+                        locations={locations}
+                        onDelete={removeLocation}/>
                 </Grid.Col>
             </Grid>
         </div>

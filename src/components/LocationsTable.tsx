@@ -1,6 +1,7 @@
 import {Location} from "../models/location";
 import {Button} from "@mantine/core";
 import React from "react";
+import {Address} from "../models/address";
 
 
 type Params = {
@@ -14,14 +15,16 @@ export function LocationsTable({locations, onDelete}: Params) {
         <>
             <h2>Puntos Seleccionados</h2>
             <ul className='locations-list'>
-                {locations.map((c, index) => (
+                {locations.map((location, index) => (
                     <li key={index}>
                         <a
-                            href={c.url()}
+                            href={location.url()}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            {c.url()}
+                            {location.address
+                                ? location.address.full
+                                : location.url()}
                         </a>
                         {onDelete &&
                             <Button

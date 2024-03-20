@@ -34,6 +34,7 @@ import {BreadcrumbItem} from "../models/breadcrumbItem";
 import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
 import {Location} from "../models/location";
 import {LocationsTable} from "../components/LocationsTable";
+import {Address} from "../models/address";
 
 
 export default function Edit() {
@@ -170,7 +171,8 @@ export default function Edit() {
             </Grid>
             <Grid>
                 <Grid.Col>
-                    <LocationsTable locations={locations}/>
+                    <LocationsTable
+                        locations={locations}/>
                 </Grid.Col>
             </Grid>
         </>
