@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { MarkerProps } from "@react-google-maps/api";
-import { useNavigate, useParams } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {MarkerProps} from "@react-google-maps/api";
+import {useNavigate, useParams} from "react-router-dom";
 
 //  Mantine :
-import { Grid } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import {Grid} from "@mantine/core";
+import {useForm} from "@mantine/form";
 
 // Helpers :
-import { CampaignLoad, QuizPost } from "../helpers/api"
+import {AddressFromLocation, CampaignLoad, QuizPost} from "../helpers/api"
 
 // Components :
-import { QuizEditForm } from "../components/QuizEditForm";
-import { notifyErrResponse } from "../components/Errors";
-import { BreadcrumComponent } from "../components/BreadcrumComponent";
+import {QuizEditForm} from "../components/QuizEditForm";
+import {notifyErrResponse} from "../components/Errors";
+import {BreadcrumComponent} from "../components/BreadcrumComponent";
 
 // Models :
-import { Campaign } from "../models/campaign";
-import { BreadcrumbItem } from "../models/breadcrumbItem";
-import { Quiz, QuizStatus, quizValidation } from "../models/quiz";
-import GoogleMaps from "../components/GoogleMaps";
+import {Campaign} from "../models/campaign";
+import {BreadcrumbItem} from "../models/breadcrumbItem";
+import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
+import {GoogleMaps} from "../components/GoogleMaps";
+import {Location} from "../models/location";
+import {LocationsTable} from "../components/LocationsTable";
 
 
 export default function QuizNew() {
@@ -31,6 +33,7 @@ export default function QuizNew() {
 
     // Selected locations are coming in below state
     const [selectedLocation, setSelectedLocation] = useState<MarkerProps['position'][]>([]);
+    const [locations, setLocations] = useState<Location[]>([])
 
     const form = useForm<Quiz>({
         initialValues: quiz,
@@ -58,13 +61,13 @@ export default function QuizNew() {
 
     }, []);
 
-    async function onSubmit(data: Quiz) {
+    async function onSubmit(q: Quiz) {
         try {
             setCanEdit(false)
             const campaign = new Campaign()
             campaign.id = campaignId
-            data.campaign = campaign
-            const res: Quiz = await QuizPost(data)
+            q.campaign = campaign
+            const res: Quiz = await QuizPost(q, locations)
             const returnURL: string = `/quizs/${res.id}`
             navigate(returnURL);
         } catch (err) {
@@ -73,12 +76,26 @@ export default function QuizNew() {
             setCanEdit(true)
         }
     }
+
+    async function addLocation(location: Location) {
+        const _locations = locations
+        location.address = await AddressFromLocation(location)
+        _locations.push(location)
+        console.table(JSON.stringify(location.address))
+        setLocations(_locations)
+    }
+
+    function removeLocation(index: number) {
+        const _locations = locations.filter((val: Location, i: number) => i !== index)
+        setLocations(_locations)
+    }
+
     return (
         <div className="user-new-quiz-container">
-            <BreadcrumComponent items={items} />
-            <h1>Agregar  Encuesta</h1>
+            <BreadcrumComponent items={items}/>
+            <h1>Agregar Encuesta</h1>
             <Grid>
-                <Grid.Col span={{ md: 12, lg: 12, }}>
+                <Grid.Col span={{md: 12, lg: 12,}}>
                     <div className="form-wrapper">
                         <QuizEditForm
                             onSubmit={onSubmit} form={form}
@@ -88,13 +105,19 @@ export default function QuizNew() {
                 </Grid.Col>
             </Grid>
             <Grid>
-                <Grid.Col span={{ md: 12, lg: 12 }}>
+                <Grid.Col span={{md: 12, lg: 12}}>
                     <div className="form-wrapper">
                         <GoogleMaps
                             selectedLocation={selectedLocation}
                             setSelectedLocation={setSelectedLocation}
+                            onClick={addLocation}
                         />
                     </div>
+                </Grid.Col>
+                <Grid.Col>
+                    <LocationsTable
+                        locations={locations}
+                        onDelete={removeLocation}/>
                 </Grid.Col>
             </Grid>
         </div>

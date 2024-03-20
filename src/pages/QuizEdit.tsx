@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 // Mantine :
@@ -11,6 +11,7 @@ import {
     QuestionList,
     QuizDelete,
     QuizLoad,
+    QuizLocations,
     QuizPublish,
     QuizPut,
     UserQuizShareLink,
@@ -31,6 +32,9 @@ import {Question} from "../models/question";
 import {Campaign} from "../models/campaign";
 import {BreadcrumbItem} from "../models/breadcrumbItem";
 import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
+import {Location} from "../models/location";
+import {LocationsTable} from "../components/LocationsTable";
+import {Address} from "../models/address";
 
 
 export default function Edit() {
@@ -47,6 +51,7 @@ export default function Edit() {
     const [items, setItems] = useState<BreadcrumbItem[]>([])
     const [sharedUrl, setSharedUrl] = useState("")
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [locations, setLocations] = useState<Location[]>([])
 
     useEffect(() => {
         async function loadData(id: string) {
@@ -65,6 +70,8 @@ export default function Edit() {
                         to: `/campaigns/${resCampaign.id}`
                     }
                 ])
+                const locs = await QuizLocations(id)
+                setLocations(locs)
             } catch (err) {
                 await notifyErrResponse(err)
             } finally {
@@ -127,6 +134,7 @@ export default function Edit() {
         }
     }
 
+
     return isLoading ? <PreLoader/> : (
         <>
             <BreadcrumComponent items={items}/>
@@ -159,6 +167,12 @@ export default function Edit() {
                         rows={questions}
                         canEdit={quiz.status === QuizStatus[QuizStatus.draft]}
                     />
+                </Grid.Col>
+            </Grid>
+            <Grid>
+                <Grid.Col>
+                    <LocationsTable
+                        locations={locations}/>
                 </Grid.Col>
             </Grid>
         </>

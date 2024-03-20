@@ -11,6 +11,8 @@ import {Role} from "../models/role";
 import {FileItem, toFileItem} from "../models/file_item";
 import {toUserReward} from "../models/user_reward";
 import {toUserQuizShare} from "../models/user_quiz_share";
+import {Location, toLocation} from "../models/location"
+import {toAddress} from "../models/address";
 
 /////////////////////////////////////////////////////////////
 // Answer
@@ -98,6 +100,15 @@ async function FileTypes() {
     return (res.data || [])
 }
 
+/////////////////////////////////////////////////////////////
+// Location
+/////////////////////////////////////////////////////////////
+
+async function AddressFromLocation(l: Location) {
+    const res = await instance.post(`/v1/locations/address`, l)
+    return toAddress(res.data)
+}
+
 
 /////////////////////////////////////////////////////////////
 // Question
@@ -132,13 +143,21 @@ async function QuestionDelete(id: string) {
 // Quiz
 /////////////////////////////////////////////////////////////
 
+async function QuizLocations(quizId: string) {
+    const res = await instance.get(`/v1/quizs/${quizId}/locations`)
+    return (res.data || []).map((x: any) => toLocation(x))
+}
+
 async function QuizList(campaignId: string) {
     const res = await instance.get(`/v1/quizs?campaign_id=${campaignId}`)
     return (res.data || []).map((x: any) => toQuiz(x))
 }
 
-async function QuizPost(quiz: Quiz) {
-    const res = await instance.post(`v1/quizs`, quiz)
+async function QuizPost(quiz: Quiz, locations: Location[]) {
+    const res = await instance.post(`v1/quizs`, {
+        quiz,
+        locations,
+    })
     return toQuiz(res.data)
 }
 
@@ -345,6 +364,8 @@ export {
     FileItemUpload,
     FileTypes,
 
+    AddressFromLocation,
+
     QuestionLoad,
     QuestionPut,
     QuestionDelete,
@@ -359,6 +380,7 @@ export {
     QuizPublish,
     QuizLoadByToken,
     QuizRegisterInvitation,
+    QuizLocations,
 
     RoleList,
     RolePut,
