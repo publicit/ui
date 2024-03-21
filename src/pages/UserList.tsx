@@ -20,9 +20,9 @@ import { PostUserList, UserListParams } from "../helpers/api";
 import { User } from "../models/user";
 
 export function UsersList() {
-    const [rows, setRows] = useState<User[]>([]);
-    const [offset, setOffset] = useState(0);
     const [email, setEmail] = useState("");
+    const [offset, setOffset] = useState(0);
+    const [rows, setRows] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isTableLoading, setIsTableLoading] = useState<boolean>(false)
     const limit = 10;
@@ -56,9 +56,10 @@ export function UsersList() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        // setOffset(0);
         await loadData();
     }
+
+    const shouldBackButtonDisabled = offset <= 0 && email.length === 0;
     if (!isLoggedIn()) return null;
 
     return isLoading ? <PreLoader /> : (
@@ -88,22 +89,24 @@ export function UsersList() {
                 </div> */}
             </form>
             <UserTable rows={rows}
-                loadData={loadData}
                 isTableLoading={isTableLoading}
             />
             <div className="action-buttons">
                 <Button className="back-button" size="md"
                     type="button" variant="outline"
-                    disabled={offset <= 0}
-                    onClick={() => setOffset(offset - 1)}
-                >
-                    <IconArrowNarrowLeft className='icon' /> Anterior
+                    disabled={shouldBackButtonDisabled}
+                    onClick={() => {
+                        setOffset(offset - limit)
+                        setEmail('')
+                    }}>
+                    <IconArrowNarrowLeft className='icon' />
+                    Anterior
                 </Button>
                 <Button className="next-button" size="md"
                     type="button" variant="outline"
                     disabled={rows.length < limit}
                     onClick={async () => {
-                        setOffset(offset + 1);
+                        setOffset(offset + limit);
                     }}
                 >
                     Siguiente <IconArrowNarrowRight className='icon' />

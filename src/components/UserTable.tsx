@@ -10,16 +10,12 @@ import { User } from "../models/user";
 type Params = {
     isTableLoading?: boolean
     onDelete?: any
-    loadData?: () => void;
     rows: User[]
 }
 
 type RowParams = {
     onDelete: any
     user: User
-}
-type EmptyParams = {
-    loadData: any
 }
 
 function Row({ user, onDelete }: RowParams) {
@@ -49,7 +45,7 @@ function Row({ user, onDelete }: RowParams) {
         </Table.Tr>
     )
 }
-function EmptyRow({ loadData }: EmptyParams) {
+function EmptyRow() {
     return (
         <Table.Tr className="table-row-container">
             <Table.Td></Table.Td>
@@ -57,9 +53,7 @@ function EmptyRow({ loadData }: EmptyParams) {
             <Table.Td className="content-center">
                 No se encontró ninguna cuenta
             </Table.Td>
-            <Table.Td>
-                <Button onClick={loadData()}>Regresa</Button>
-            </Table.Td>
+            <Table.Td></Table.Td>
         </Table.Tr>
     )
 }
@@ -73,7 +67,11 @@ function RowLoader() {
         </Table.Tr>
     )
 }
-export function UserTable({ rows, onDelete = null, isTableLoading, loadData }: Params) {
+export function UserTable({
+    rows,
+    onDelete = null,
+    isTableLoading,
+}: Params) {
     return (
         <Table highlightOnHover withTableBorder className="table-container">
             <Table.Thead className="table-head-container">
@@ -95,7 +93,7 @@ export function UserTable({ rows, onDelete = null, isTableLoading, loadData }: P
                         {rows.length > 0 ? (
                             rows.map((user: User) => <Row key={user.id} user={user} onDelete={onDelete} />)
                         ) : (
-                            <EmptyRow loadData={loadData} />
+                            <EmptyRow />
                         )}
                     </>
                 )}
