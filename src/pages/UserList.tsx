@@ -80,13 +80,6 @@ export function UsersList() {
                     description="Si hay coincidencias exactas, se mostrara el usuario que coincida con este email"
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                {/* <div className="search-button">
-                    <Button
-                        type="submit" variant="outline"
-                        disabled={!email}>
-                        Buscar
-                    </Button>
-                </div> */}
             </form>
             <UserTable rows={rows}
                 isTableLoading={isTableLoading}
