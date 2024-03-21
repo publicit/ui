@@ -1,0 +1,43 @@
+.user-list-container {
+    .table-search {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: end;
+        margin-bottom: 1rem;
+
+        .search-input {
+            width: 480px;
+        }
+
+        .search-button {
+            margin-top: 42px;
+        }
+    }
+
+    .action-buttons {
+        margin-top: 1rem;
+        display: flex;
+        gap: 15px;
+        justify-content: end;
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+
+            .icon {
+                margin: 3px 5px 0 0;
+            }
+        }
+
+        .next-button {
+            display: flex;
+            align-items: center;
+
+            .icon {
+                margin: 5px 0 0 5px;
+            }
+        }
+    }
+}

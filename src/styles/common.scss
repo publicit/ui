@@ -20,6 +20,16 @@
         .content-center {
             text-align: center;
         }
+
+    }
+
+    .table-loader {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem;
     }
 
     .table-row-container {
