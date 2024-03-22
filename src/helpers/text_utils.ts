@@ -11,11 +11,20 @@ export function trimAll(s: any): any {
     }
 }
 
+export function EndTime(utcDate: Date): Date {
+    utcDate.setHours(23, 59, 59, 999)
+    return new Date(
+        utcDate.getTime(),
+    )
+}
 export function truncateTime(utcDate: Date): Date {
     return new Date(
-        utcDate.getUTCFullYear(),
-        utcDate.getUTCMonth(),
-        utcDate.getUTCDate(),
+        // utcDate.getUTCFullYear(),
+        // utcDate.getUTCMonth(),
+        // utcDate.getUTCDate(),
+        utcDate.getFullYear(),
+        utcDate.getMonth(),
+        utcDate.getDate(),
     )
 }
 

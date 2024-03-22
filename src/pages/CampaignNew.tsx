@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Mantine :
@@ -38,14 +38,14 @@ export default function CampaignNew() {
     }
 
     return (
-        <>
+        <React.Fragment>
             <h1>Nueva Campaña</h1>
             <div className="form-wrapper">
-                <CampaignEditForm form={form}
+                <CampaignEditForm
+                    form={form} campaign={campaign}
                     onSubmit={onSubmit} canEdit={canEdit}
-                    legend="Nueva Campaña" campaign={campaign}
                 />
             </div>
-        </>
+        </React.Fragment>
     )
 }

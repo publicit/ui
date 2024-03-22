@@ -5,7 +5,7 @@ import { Col, Row } from "antd";
 
 // Mantine :
 import { DatePickerInput } from "@mantine/dates";
-import { Button, Grid, Group, Text, Textarea, TextInput, Title } from "@mantine/core";
+import { Button, Group, Text, Textarea, TextInput } from "@mantine/core";
 
 // Models :
 import { Campaign } from "../models/campaign";
@@ -14,7 +14,6 @@ import { Campaign } from "../models/campaign";
 type params = {
     onSubmit: any
     form: any
-    legend: string
     campaign: Campaign
     onDelete?: any
     showDelete?: boolean
@@ -24,7 +23,6 @@ type params = {
 export default function CampaignEditForm({
     onSubmit,
     form,
-    legend,
     campaign,
     onDelete,
     showDelete = false,
@@ -40,7 +38,6 @@ export default function CampaignEditForm({
                         className="form-image"
                     />
                 }
-                {/* <legend className="legend-tag">{legend}</legend> */}
             </div>
             <Row gutter={[10, 10]}>
                 <Col span={24}>

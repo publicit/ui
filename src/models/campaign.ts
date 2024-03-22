@@ -1,5 +1,5 @@
-import {User} from "./user";
-import {trimAll, truncateTime} from "../helpers/text_utils";
+import { User } from "./user";
+import { EndTime, trimAll, truncateTime } from "../helpers/text_utils";
 
 export class Campaign {
     id: string
@@ -44,6 +44,6 @@ export function campaignValidation() {
 
 export function cleanCampaign(c: Campaign): Campaign {
     c.start_date = truncateTime(c.start_date)
-    c.end_date = truncateTime(c.end_date)
+    c.end_date = EndTime(c.end_date)
     return c
 }
