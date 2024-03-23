@@ -1,18 +1,20 @@
 import instance from "./axios"
-import {Campaign, toCampaign} from "../models/campaign";
-import {Quiz, toQuiz} from "../models/quiz";
-import {Question, toQuestion} from "../models/question";
-import {Answer, toAnswer} from "../models/answer";
-import {toUserProfile, toUserProfileFile, UserProfile, UserProfileFile} from "../models/user_profile";
-import {toUser} from "../models/user";
-import {toUserQuiz, UserQuiz, UserQuizSummary} from "../models/user_quiz";
-import {UserNextQuestion} from "../models/user_question";
-import {Role} from "../models/role";
-import {FileItem, toFileItem} from "../models/file_item";
-import {toUserReward} from "../models/user_reward";
-import {toUserQuizShare} from "../models/user_quiz_share";
-import {Location, toLocation} from "../models/location"
-import {toAddress} from "../models/address";
+
+// Models :
+import { Role } from "../models/role";
+import { toUser } from "../models/user";
+import { Quiz, toQuiz } from "../models/quiz";
+import { toAddress } from "../models/address";
+import { Answer, toAnswer } from "../models/answer";
+import { toUserReward } from "../models/user_reward";
+import { Question, toQuestion } from "../models/question";
+import { Location, toLocation } from "../models/location";
+import { UserNextQuestion } from "../models/user_question";
+import { FileItem, toFileItem } from "../models/file_item";
+import { toUserQuizShare } from "../models/user_quiz_share";
+import { Campaign, notTrunCampaign, toCampaign } from "../models/campaign";
+import { toUserQuiz, UserQuiz, UserQuizSummary } from "../models/user_quiz";
+import { toUserProfile, toUserProfileFile, UserProfile, UserProfileFile } from "../models/user_profile";
 
 /////////////////////////////////////////////////////////////
 // Answer
@@ -49,27 +51,27 @@ async function AnswerDelete(id: string) {
 
 async function CampaignList() {
     const res = await instance.get(`/v1/campaigns`)
-    return (res.data || []).map((x: any) => toCampaign(x))
+    return (res.data || []).map((x: any) => notTrunCampaign(x))
 }
 
 async function CampaignLoad(id: string) {
     const res = await instance.get(`/v1/campaigns/${id}`)
-    return toCampaign(res.data)
+    return notTrunCampaign(res.data)
 }
 
 async function CampaignPost(campaign: Campaign) {
     const res = await instance.post(`/v1/campaigns`, campaign)
-    return toCampaign(res.data)
+    return notTrunCampaign(res.data)
 }
 
 async function CampaignPut(campaign: Campaign) {
     const res = await instance.put(`/v1/campaigns/${campaign.id}`, campaign)
-    return toCampaign(res.data)
+    return notTrunCampaign(res.data)
 }
 
 async function CampaignDelete(id: string) {
     const res = await instance.delete(`/v1/campaigns/${id}`)
-    return toCampaign(res.data)
+    return notTrunCampaign(res.data)
 }
 
 /////////////////////////////////////////////////////////////
@@ -284,7 +286,7 @@ type UserQuestionSendAnswersParams = {
     answers: string[]
 }
 
-async function UserQuestionSendAnswers({questionId, quizId, answers}: UserQuestionSendAnswersParams) {
+async function UserQuestionSendAnswers({ questionId, quizId, answers }: UserQuestionSendAnswersParams) {
     const res = await instance.put(`/v1/users/quizs/${quizId}/questions/${questionId}/answers`, answers)
     return res.data as UserNextQuestion
 }

@@ -1,5 +1,5 @@
-import {User} from "./user";
-import {trimAll, truncateTime} from "../helpers/text_utils";
+import { User } from "./user";
+import { trimAll, truncateTime } from "../helpers/text_utils";
 
 export class Campaign {
     id: string
@@ -20,6 +20,16 @@ export class Campaign {
         this.end_date = new Date()
         this.status = ""
         this.image_url = ""
+    }
+}
+
+export function notTrunCampaign(v: any): Campaign {
+    if (!v) return new Campaign()
+    return {
+        ...v,
+        start_date: new Date(v["start_date"]),
+        end_date: new Date(v["end_date"]),
+        image: v["image_url"],
     }
 }
 

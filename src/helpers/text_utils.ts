@@ -13,9 +13,9 @@ export function trimAll(s: any): any {
 
 export function truncateTime(utcDate: Date): Date {
     return new Date(
-        utcDate.getUTCFullYear(),
-        utcDate.getUTCMonth(),
-        utcDate.getUTCDate(),
+        utcDate.getFullYear(),
+        utcDate.getMonth(),
+        utcDate.getDate(),
     )
 }
 
