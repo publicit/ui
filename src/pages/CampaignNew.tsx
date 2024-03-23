@@ -9,7 +9,7 @@ import { notifyErrResponse } from "../components/Errors";
 import CampaignEditForm from "../components/CampaignEditForm";
 
 // Models :
-import { Campaign, campaignValidation, cleanCampaign } from "../models/campaign";
+import { Campaign, campaignValidation } from "../models/campaign";
 
 // Helper :
 import { CampaignPost } from "../helpers/api"
@@ -27,7 +27,7 @@ export default function CampaignNew() {
     async function onSubmit(data: Campaign) {
         try {
             setCanEdit(false)
-            const res = await CampaignPost(cleanCampaign(data))
+            const res = await CampaignPost(data)
             const returnURL = `/campaigns/${res.id}`
             navigate(returnURL);
         } catch (err) {

@@ -13,7 +13,7 @@ import CampaignEditForm from "../components/CampaignEditForm";
 
 // Models :
 import { Quiz } from "../models/quiz";
-import { Campaign, campaignValidation, cleanCampaign } from "../models/campaign";
+import { Campaign, campaignValidation } from "../models/campaign";
 
 // Helpers :
 import { CampaignDelete, CampaignLoad, CampaignPut, QuizList } from "../helpers/api"
@@ -53,7 +53,7 @@ export default function Edit() {
     async function onSubmit(data: Campaign) {
         try {
             setCanEdit(false)
-            await CampaignPut(cleanCampaign(data))
+            await CampaignPut(data)
             navigate(returnURL);
         } catch (err) {
             await notifyErrResponse(err)
