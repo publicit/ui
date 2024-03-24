@@ -33,6 +33,7 @@
     }
 
     .table-row-container {
+        min-height: 200px !important;
         border-radius: 8px;
 
         .content-center {
@@ -59,6 +60,16 @@
             justify-content: center;
         }
 
+        .flex-column {
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+    }
+
+    .table-row-container {
+        height: 50px !important;
     }
 }
 

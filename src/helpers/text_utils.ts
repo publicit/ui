@@ -57,3 +57,12 @@ export function trimAndCapitalize(d: string, maxLength: number = 50): string {
     const trimmedText = d.length >= maxLength ? `${d.substring(0, maxLength - 1)}...` : d;
     return trimmedText.replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
 }
+
+export function formatCurrency(number: number, currency = 'USD') {
+    const formatter = new Intl.NumberFormat(navigator.language, {
+        style: 'currency',
+        currency: currency
+    });
+
+    return formatter.format(number);
+}
