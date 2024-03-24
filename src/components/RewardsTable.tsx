@@ -6,6 +6,9 @@ import { Table } from "@mantine/core";
 // Models :
 import { UserReward } from "../models/user_reward";
 
+// Helpers :
+import { formatCurrency } from "../helpers/text_utils";
+
 
 type Params = {
     rows: UserReward[]
@@ -17,17 +20,19 @@ type RowParams = {
 }
 
 function Row({ index, row }: RowParams) {
+    const formattedAmount = formatCurrency(row.amount);
+    const formattedBalance = formatCurrency(row.balance);
+
     return (
         <Table.Tr key={row.id} className="table-row-container">
             <Table.Td>{index + 1}</Table.Td>
             <Table.Td className="row-title">{row.op}</Table.Td>
             <Table.Td>{row.created_at.toLocaleDateString()}</Table.Td>
-            <Table.Td className="content-center">{row.amount}</Table.Td>
-            <Table.Td className="content-center">{row.balance}</Table.Td>
+            <Table.Td className="content-center">{formattedAmount}</Table.Td>
+            <Table.Td className="content-center">{formattedBalance}</Table.Td>
         </Table.Tr>
     )
 }
-
 function EmptyTable() {
     return (
         <Table.Tr>
