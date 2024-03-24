@@ -1,13 +1,21 @@
-import {useEffect, useState} from "react";
-import {userRewardsList} from "../helpers/api";
-import {Title} from "@mantine/core";
-import {UserReward} from "../models/user_reward";
-import {UserRewardsTable} from "../components/RewardsTable";
-import {computeUserRewardBalance} from "../helpers/user_reward";
+import React, { useEffect, useState } from "react";
+
+// Components :
+import PreLoader from "../components/PreLoader";
+import { UserRewardsTable } from "../components/RewardsTable";
+
+// Models :
+import { UserReward } from "../models/user_reward";
+
+// Helpers :
+import { userRewardsList } from "../helpers/api";
+import { computeUserRewardBalance } from "../helpers/user_reward";
 
 
 export function UserRewards() {
     const [rows, setRows] = useState<UserReward[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
     useEffect(() => {
         async function loadData() {
             try {
@@ -16,18 +24,18 @@ export function UserRewards() {
                 setRows(computed)
             } catch (e) {
                 console.error(e)
+            } finally {
+                setIsLoading(false)
             }
         }
 
         loadData();
     }, []);
 
-
-    return (
-        <div>
-            <Title>Tus Recompensas</Title>
-
-            <UserRewardsTable rows={rows}/>
-        </div>
+    return isLoading ? <PreLoader /> : (
+        <React.Fragment>
+            <h1>Tus Recompensas</h1>
+            <UserRewardsTable rows={rows} />
+        </React.Fragment>
     )
 }

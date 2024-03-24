@@ -1,23 +1,50 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useForm} from "@mantine/form";
-import {RoleAddUser, RoleList, RoleRemoveUser, RolesInUser, UserLoad} from "../helpers/api"
-import {notifyErrResponse} from "../components/Errors";
-import {Role} from "../models/role";
-import {User} from "../models/user";
-import {UserEditForm} from "../components/UserEditForm";
-import {RolesSimpleTable} from "../components/RolesSimpleTable";
-import {Grid} from "@mantine/core";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import {
+    IconCornerDownLeft,
+    IconCornerDownRight
+} from "@tabler/icons-react";
+
+// Mantine :
+import { Grid } from "@mantine/core";
+import { useForm } from "@mantine/form";
+
+// Components :
+import PreLoader from "../components/PreLoader";
+import { notifyErrResponse } from "../components/Errors";
+import { UserEditForm } from "../components/UserEditForm";
+import { RolesSimpleTable } from "../components/RolesSimpleTable";
+
+// Models : 
+import { Role } from "../models/role";
+import { User } from "../models/user";
+
+// Helpers :
+import {
+    UserLoad,
+    RoleList,
+    RolesInUser,
+    RoleAddUser,
+    RoleRemoveUser,
+} from "../helpers/api"
+
 
 export function UserEdit() {
-    const id = useParams().id || ""
-    const navigate = useNavigate();
+    const id = useParams().id || "";
     const [user, setUser] = useState<User>(new User())
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [selectedRoles, setSelectedRoles] = useState<Role[]>([])
     const [unselectedRoles, setUnselectedRoles] = useState<Role[]>([])
+    const [addRoleLoading, setAddRoleLoading] = useState<boolean>(false)
+    const [removeRoleLoading, setRemoveRoleLoading] = useState<boolean>(false)
     const form = useForm<User>({
         initialValues: user,
     })
+
+    useEffect(() => {
+        loadUser(id);
+        loadRoles()
+    }, []);
 
     async function loadRoles() {
         try {
@@ -28,6 +55,8 @@ export function UserEdit() {
             setUnselectedRoles(unselected)
         } catch (err) {
             await notifyErrResponse(err)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -38,52 +67,74 @@ export function UserEdit() {
             form.setValues(data)
         } catch (e) {
             console.error(e)
+        } finally {
+            setIsLoading(false)
         }
     }
 
-    useEffect(() => {
-        loadUser(id);
-        loadRoles()
-    }, []);
-
     async function addRole(r: Role) {
         try {
-            await RoleAddUser(r.id,user.id)
+            setAddRoleLoading(true)
+            await RoleAddUser(r.id, user.id)
             await loadRoles()
-        }catch (e){
+            setAddRoleLoading(false)
+        } catch (e) {
             notifyErrResponse(e)
+            setAddRoleLoading(false)
         }
     }
 
     async function removeRole(r: Role) {
         try {
-            await RoleRemoveUser(r.id,user.id)
+            setRemoveRoleLoading(true)
+            await RoleRemoveUser(r.id, user.id)
             await loadRoles()
-        }catch (e){
+            setRemoveRoleLoading(false)
+        } catch (e) {
             notifyErrResponse(e)
+            setRemoveRoleLoading(false)
         }
     }
 
-
-    return (
-        <>
-            <UserEditForm form={form} user={user}/>
-            <br/>
-            <hr/>
-            <Grid>
+    return isLoading ? <PreLoader /> : (
+        <React.Fragment>
+            <h1>{user.name}</h1>
+            <UserEditForm form={form} user={user} />
+            <h1>Permisos de rol</h1>
+            <Grid className="form-wrapper roles-table">
                 <Grid.Col span={6}>
-                    <>
+                    <React.Fragment>
                         <h4>Roles Disponibles</h4>
-                        <RolesSimpleTable rows={unselectedRoles} onClick={addRole}/>
-                    </>
+                        <RolesSimpleTable
+                            icon={
+                                <IconCornerDownRight
+                                    cursor="pointer"
+                                    color="var(--success-color)"
+                                />
+                            }
+                            loading={addRoleLoading}
+                            rows={unselectedRoles}
+                            onClick={addRole}
+                        />
+                    </React.Fragment>
                 </Grid.Col>
                 <Grid.Col span={6}>
-                    <>
+                    <React.Fragment>
                         <h4>Roles Asignados</h4>
-                        <RolesSimpleTable rows={selectedRoles} onClick={removeRole}/>
-                    </>
+                        <RolesSimpleTable
+                            icon={
+                                <IconCornerDownLeft
+                                    cursor="pointer"
+                                    color="var(--danger-color)"
+                                />
+                            }
+                            loading={removeRoleLoading}
+                            rows={selectedRoles}
+                            onClick={removeRole}
+                        />
+                    </React.Fragment>
                 </Grid.Col>
             </Grid>
-        </>
+        </React.Fragment>
     )
 }

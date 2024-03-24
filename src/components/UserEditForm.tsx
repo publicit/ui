@@ -1,6 +1,11 @@
-import {Text, TextInput, Title} from "@mantine/core";
-import {User} from "../models/user";
-import {DatePickerInput} from "@mantine/dates";
+import React from "react";
+
+// Mantine :
+import { Grid, Text, TextInput } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
+
+// Models :
+import { User } from "../models/user";
 
 type params = {
     form: any
@@ -9,31 +14,39 @@ type params = {
 }
 
 export function UserEditForm({
-                                 user,
-                                 form,
-                             }: params) {
+    user,
+    form,
+}: params) {
     return (
-        <>
-            <form onSubmit={form.onSubmit((data: any) => {
-                console.log(JSON.stringify(data))
-            })}>
-                <Title>{user.name}</Title>
-                <br/>
-                <TextInput label="Nombre"
-                           placeholder="Nombre"
-                           disabled={true}
-                           {...form.getInputProps("name")}/>
-                <br/>
-                <TextInput label="Email"
-                           placeholder="Email"
-                           disabled={true}
-                           {...form.getInputProps("email")}/>
-                <br/>
-                <Text>Ultimo inicio de sesion</Text>
-                <DatePickerInput
-                    disabled={true}
-                    {...form.getInputProps(`last_login`)} />
+        <React.Fragment>
+            <form className="form-wrapper">
+                <img
+                    src={user.image}
+                    alt="thumbnail"
+                    className="form-image"
+                />
+                <Grid>
+                    <Grid.Col span={12}>
+                        <TextInput label="Nombre" size="md" mt="sm"
+                            placeholder="Nombre" disabled={true}
+                            {...form.getInputProps("name")}
+                        />
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                        <TextInput label="Email" size="md"
+                            placeholder="Email" disabled={true}
+                            {...form.getInputProps("email")}
+                        />
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                        <Text>Ultimo inicio de sesion</Text>
+                        <DatePickerInput size="md"
+                            disabled={true}
+                            {...form.getInputProps(`last_login`)}
+                        />
+                    </Grid.Col>
+                </Grid>
             </form>
-        </>
+        </React.Fragment>
     )
 }

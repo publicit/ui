@@ -59,6 +59,12 @@
             justify-content: center;
         }
 
+        .flex-column {
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
     }
 }
 
