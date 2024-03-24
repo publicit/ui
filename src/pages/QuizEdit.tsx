@@ -1,57 +1,57 @@
-import React, {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Mantine :
-import {Grid} from "@mantine/core";
-import {useForm} from "@mantine/form";
+import { Grid } from "@mantine/core";
+import { useForm } from "@mantine/form";
 
 // Helpers :
 import {
+    QuizPut,
+    QuizLoad,
+    QuizDelete,
+    QuizPublish,
     CampaignLoad,
     QuestionList,
-    QuizDelete,
-    QuizLoad,
     QuizLocations,
-    QuizPublish,
-    QuizPut,
     UserQuizShareLink,
 } from "../helpers/api";
-import {quizTokenShareUrl} from "../helpers/user_quiz_utils";
+import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
 
 // Components :
 import PreLoader from "../components/PreLoader";
 import QuestionTable from "../components/QuestionTable";
-import {notifyErrResponse} from "../components/Errors";
-import {QuizEditForm} from "../components/QuizEditForm";
-import {ShareDialogBody} from "../components/ShareDialog";
-import {ShowDialog} from "../components/UserQuizShareDialog";
-import {BreadcrumComponent} from "../components/BreadcrumComponent";
+import { notifyErrResponse } from "../components/Errors";
+import { QuizEditForm } from "../components/QuizEditForm";
+import { ShareDialogBody } from "../components/ShareDialog";
+import { ShowDialog } from "../components/UserQuizShareDialog";
+import { BreadcrumComponent } from "../components/BreadcrumComponent";
 
 // Models :
-import {Question} from "../models/question";
-import {Campaign} from "../models/campaign";
-import {BreadcrumbItem} from "../models/breadcrumbItem";
-import {Quiz, QuizStatus, quizValidation} from "../models/quiz";
-import {Location} from "../models/location";
-import {LocationsTable} from "../components/LocationsTable";
-import {Address} from "../models/address";
+import { Question } from "../models/question";
+import { Campaign } from "../models/campaign";
+import { Location } from "../models/location";
+import { BreadcrumbItem } from "../models/breadcrumbItem";
+import { LocationsTable } from "../components/LocationsTable";
+import { Quiz, QuizStatus, quizValidation } from "../models/quiz";
 
 
 export default function Edit() {
     const id = useParams().id || ""
     const navigate = useNavigate();
+
+    const [sharedUrl, setSharedUrl] = useState("")
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
-    const [questions, setQuestions] = useState<Question[]>([])
-    const [campaign, setCampaign] = useState<Campaign>(new Campaign())
     const [canEdit, setCanEdit] = useState<boolean>(false)
+    const [items, setItems] = useState<BreadcrumbItem[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [questions, setQuestions] = useState<Question[]>([])
+    const [locations, setLocations] = useState<Location[]>([])
+    const [campaign, setCampaign] = useState<Campaign>(new Campaign())
     const form = useForm<Quiz>({
         initialValues: quiz,
         validate: quizValidation(),
     })
-    const [items, setItems] = useState<BreadcrumbItem[]>([])
-    const [sharedUrl, setSharedUrl] = useState("")
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [locations, setLocations] = useState<Location[]>([])
 
     useEffect(() => {
         async function loadData(id: string) {
@@ -134,13 +134,11 @@ export default function Edit() {
         }
     }
 
-
-    return isLoading ? <PreLoader/> : (
-        <>
-            <BreadcrumComponent items={items}/>
-
+    return isLoading ? <PreLoader /> : (
+        <React.Fragment>
+            <BreadcrumComponent items={items} />
             <Grid gutter={15}>
-                <Grid.Col span={{md: 12, lg: 12}}>
+                <Grid.Col span={12}>
                     <h1>Configuracion de Encuesta</h1>
                     <div className="form-wrapper">
                         <QuizEditForm
@@ -161,7 +159,7 @@ export default function Edit() {
                 </Grid.Col>
             </Grid>
             <Grid>
-                <Grid.Col span={{md: 12, lg: 12}}>
+                <Grid.Col span={12}>
                     <h1>Preguntas</h1>
                     <QuestionTable
                         rows={questions}
@@ -172,10 +170,10 @@ export default function Edit() {
             <Grid>
                 <Grid.Col>
                     <LocationsTable
-                        locations={locations}/>
+                        locations={locations} />
                 </Grid.Col>
             </Grid>
-        </>
+        </React.Fragment>
     )
 
 }
