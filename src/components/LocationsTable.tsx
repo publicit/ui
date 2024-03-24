@@ -1,7 +1,10 @@
-import {Location} from "../models/location";
-import {Button} from "@mantine/core";
 import React from "react";
-import {Address} from "../models/address";
+
+// Mantine :
+import { Button } from "@mantine/core";
+
+// Models :
+import { Location } from "../models/location";
 
 
 type Params = {
@@ -9,10 +12,9 @@ type Params = {
     locations: Location[]
 }
 
-
-export function LocationsTable({locations, onDelete}: Params) {
+export function LocationsTable({ locations, onDelete }: Params) {
     return (
-        <>
+        <React.Fragment>
             <h2>Puntos Seleccionados</h2>
             <ul className='locations-list'>
                 {locations.map((location, index) => (
@@ -37,6 +39,6 @@ export function LocationsTable({locations, onDelete}: Params) {
                     </li>
                 ))}
             </ul>
-        </>
+        </React.Fragment>
     )
 }

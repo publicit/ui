@@ -1,35 +1,43 @@
-import React, {useEffect, useState} from 'react'
-import {GoogleMap, GoogleMapProps, Marker, MarkerProps, useLoadScript,} from "@react-google-maps/api";
-import {Location} from "../models/location";
-import {uuidV4} from "../helpers/uuid";
+import React, { useEffect, useState } from 'react';
+
+// Helpers :
+import { uuidV4 } from "../helpers/uuid";
+
+// Models :
+import { Location } from "../models/location";
+
+import {
+    Marker,
+    GoogleMap,
+    useLoadScript,
+    GoogleMapProps,
+} from "@react-google-maps/api";
 
 type params = {
-    selectedLocation: MarkerProps['position'][]
-    setSelectedLocation: React.Dispatch<React.SetStateAction<MarkerProps['position'][]>>
+    locations: Location[]
     onClick: (coordinate: Location) => {}
 }
-export const GoogleMaps = ({selectedLocation, setSelectedLocation, onClick}: params) => {
+export const GoogleMaps = ({ locations, onClick }: params) => {
     const [currentLocation, setCurrentLocation] = useState<{ lat: number, lng: number } | null>(null);
 
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
-                const {latitude, longitude} = position.coords;
-                setCurrentLocation({lat: latitude, lng: longitude});
+                const { latitude, longitude } = position.coords;
+                setCurrentLocation({ lat: latitude, lng: longitude });
             });
         } else {
             console.error("Geolocation is not supported by this browser");
         }
     }, []);
 
-    const {isLoaded} = useLoadScript({
+    const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     })
 
     const handleMapClick: GoogleMapProps['onClick'] = (evnet) => {
         const lat = evnet.latLng.lat();
         const lng = evnet.latLng.lng();
-        setSelectedLocation([...selectedLocation, {lat, lng}]);
         const c = new Location()
         c.lat = lat
         c.lng = lng
@@ -47,8 +55,9 @@ export const GoogleMaps = ({selectedLocation, setSelectedLocation, onClick}: par
             </div>
         );
     }
+
     return (
-        <>
+        <React.Fragment>
             {currentLocation ?
                 <>
                     <GoogleMap
@@ -57,7 +66,7 @@ export const GoogleMaps = ({selectedLocation, setSelectedLocation, onClick}: par
                         onClick={handleMapClick}
                         mapContainerClassName="map-container"
                     >
-                        {selectedLocation.map((el, index) => (
+                        {locations.map((el) => (
                             <Marker
                                 key={uuidV4()}
                                 position={el}
@@ -67,7 +76,7 @@ export const GoogleMaps = ({selectedLocation, setSelectedLocation, onClick}: par
                     </GoogleMap>
                 </> :
                 <div className='map-container location-off-message'>Por favor activa tu ubicación</div>}
-        </>
+        </React.Fragment>
     )
 }
 
