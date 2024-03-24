@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { MarkerProps } from "@react-google-maps/api";
 import { useNavigate, useParams } from "react-router-dom";
 
 //  Mantine :
@@ -7,20 +6,20 @@ import { Grid } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 // Helpers :
-import { AddressFromLocation, CampaignLoad, QuizPost } from "../helpers/api"
+import { AddressFromLocation, CampaignLoad, QuizPost } from "../helpers/api";
 
 // Components :
-import { QuizEditForm } from "../components/QuizEditForm";
 import { notifyErrResponse } from "../components/Errors";
+import { QuizEditForm } from "../components/QuizEditForm";
 import { BreadcrumComponent } from "../components/BreadcrumComponent";
 
 // Models :
 import { Campaign } from "../models/campaign";
-import { BreadcrumbItem } from "../models/breadcrumbItem";
-import { Quiz, QuizStatus, quizValidation } from "../models/quiz";
-import { GoogleMaps } from "../components/GoogleMaps";
 import { Location } from "../models/location";
+import { GoogleMaps } from "../components/GoogleMaps";
+import { BreadcrumbItem } from "../models/breadcrumbItem";
 import { LocationsTable } from "../components/LocationsTable";
+import { Quiz, QuizStatus, quizValidation } from "../models/quiz";
 
 
 export default function QuizNew() {
@@ -31,7 +30,6 @@ export default function QuizNew() {
     const [canEdit, setCanEdit] = useState<boolean>(true)
     const [items, setItems] = useState<BreadcrumbItem[]>([])
     const [locations, setLocations] = useState<Location[]>([])
-    const [selectedLocation, setSelectedLocation] = useState<MarkerProps['position'][]>([]);
 
     const form = useForm<Quiz>({
         initialValues: quiz,
@@ -76,10 +74,9 @@ export default function QuizNew() {
     }
 
     async function addLocation(location: Location) {
-        const _locations = locations
+        const _locations = [...locations]
         location.address = await AddressFromLocation(location)
         _locations.push(location)
-        console.table(JSON.stringify(location.address))
         setLocations(_locations)
     }
 
@@ -93,7 +90,7 @@ export default function QuizNew() {
             <BreadcrumComponent items={items} />
             <h1>Agregar Encuesta</h1>
             <Grid>
-                <Grid.Col span={{ md: 12, lg: 12, }}>
+                <Grid.Col span={12}>
                     <div className="form-wrapper">
                         <QuizEditForm
                             onSubmit={onSubmit} form={form}
@@ -101,16 +98,15 @@ export default function QuizNew() {
                         />
                     </div>
                 </Grid.Col>
-                <Grid.Col span={{ md: 12, lg: 12 }}>
+                <Grid.Col span={12}>
                     <div className="form-wrapper">
                         <GoogleMaps
-                            selectedLocation={selectedLocation}
-                            setSelectedLocation={setSelectedLocation}
+                            locations={locations}
                             onClick={addLocation}
                         />
                     </div>
                 </Grid.Col>
-                <Grid.Col>
+                <Grid.Col span={12}>
                     <LocationsTable
                         locations={locations}
                         onDelete={removeLocation} />
