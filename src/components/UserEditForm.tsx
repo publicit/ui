@@ -2,7 +2,7 @@ import React from "react";
 
 // Mantine :
 import { Grid, Text, TextInput } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
+import { DatePickerInput, DateTimePicker } from "@mantine/dates";
 
 // Models :
 import { User } from "../models/user";
@@ -40,8 +40,9 @@ export function UserEditForm({
                     </Grid.Col>
                     <Grid.Col span={6}>
                         <Text>Ultimo inicio de sesion</Text>
-                        <DatePickerInput size="md"
+                        <DateTimePicker size="md"
                             disabled={true}
+                            valueFormat="MMM DD, YYYY hh:mm A"
                             {...form.getInputProps(`last_login`)}
                         />
                     </Grid.Col>
