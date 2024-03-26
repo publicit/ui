@@ -161,9 +161,9 @@ export default function RouteSwitcher({ profile }: params) {
                 <Route key={route.route.props.path.toString()} {...route.route.props} />
             ))}
 
-            <Route path="/errors/unauthenticaed" element={<Error401 />} />
+            <Route path="/errors/unauthenticated" element={<Error401 />} />
             <Route path="/errors/unauthorized" element={<Error403 />} />
-            <Route path="*" element={<Error404 />} />
+            <Route path="/*" element={<Error404 />} />
         </Routes>
     )
 }

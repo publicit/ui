@@ -1,12 +1,12 @@
 import axios from "axios";
-import {isLoggedIn, loadUserProfile} from "./sso_service"
+import { useNavigate } from "react-router-dom";
+import { isLoggedIn, loadUserProfile } from "./sso_service"
 
 const baseURL = process.env.REACT_APP_BASE_API_URL;
 
 const instance = axios.create({
     baseURL,
 });
-
 
 instance.interceptors.request.use((config) => {
     if (isLoggedIn()) {
@@ -20,13 +20,14 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
-    const status = error?.response?.status
+    const status = error?.response?.status;
+    const navigate = useNavigate();
     switch (status) {
         case 401:
-            window.location.href = "/errors/unauthenticaed"
+            navigate('/errors/unauthenticated')
             break;
         case 403:
-            window.location.href = "/errors/unauthorized"
+            navigate('/errors/unauthorized')
             break;
         default:
             if (status >= 400) {
