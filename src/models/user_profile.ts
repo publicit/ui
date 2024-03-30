@@ -76,11 +76,7 @@ export function fromUserProfile(u: UserProfile): UserProfile {
 
 export function userProfileValidation() {
     return {
-        first_name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
-        last_name: (value: string) => trimAll(value).length === 0 ? "Apellidos es mandatorio" : null,
         phone_number: (value: string) => trimAll(value).length === 0 ? "Telefono es mandatorio" : null,
-        gender: (value: string) => trimAll(value).length === 0 ? "Genero es mandatorio" : null,
-        dob: (value: Date) => !value ? "Fecha de nacimiento es mandatorio" : null,
     }
 }
 

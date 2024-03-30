@@ -109,12 +109,12 @@ export default function UserQuizFillForm() {
         <div className="user-quiz-fill-form-container">
             <h1 className="quiz-name">{userQuiz.quiz.name}</h1>
             <Stepper active={active} mt="lg">
-                <Stepper.Step label="First step" description="Ve el video completo antes de responder la encuesta">
+                <Stepper.Step label="Ver Video" description="Ve el video completo antes de responder la encuesta">
                 </Stepper.Step>
-                <Stepper.Step label="Second step" description="Responde la siguientes preguntas">
+                <Stepper.Step label="Responder" description="Responde encuesta">
                     <VideoPlayer userQuiz={userQuiz} nextStep={nextStep} />
                 </Stepper.Step>
-                <Stepper.Step label="Final step" description="Completado">
+                <Stepper.Step label="Fin" description="Completado">
                     <UserQuizForm
                         userAnswers={userAnswers} prevStep={prevStep}
                         userQuiz={userQuiz} userQuestion={userQuestion}
