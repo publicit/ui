@@ -1,15 +1,31 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {isLoggedIn} from "../helpers/sso_service";
-import {QuizRegisterForm, QuizUnregisteredForm} from "../components/UserQuizRegisterForm";
-import {useEffect, useState} from "react";
-import {QuizLoadByToken, UserQuizRegister, UserProfileLoad, UserWhoAmi} from "../helpers/api";
-import {Quiz} from "../models/quiz";
-import {popupWarning} from "../components/Notifier";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+// Components :
+import {
+    QuizRegisterForm,
+    QuizUnregisteredForm
+} from "../components/UserQuizRegisterForm";
+import PreLoader from "../components/PreLoader";
+import { popupWarning } from "../components/Notifier";
+
+// Helpers :
+import {
+    QuizLoadByToken,
+    UserQuizRegister,
+    UserProfileLoad,
+} from "../helpers/api";
+import { isLoggedIn } from "../helpers/sso_service";
+
+// Models :
+import { Quiz } from "../models/quiz";
 
 export default function ShareStart() {
     const navigate = useNavigate()
     const token = useParams().token || ""
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
+    const [isLoading, isIsLoading] = useState<boolean>(true)
+
     useEffect(() => {
         async function loadData() {
             try {
@@ -26,7 +42,7 @@ export default function ShareStart() {
                     navigate(`/user/quizs`)
                 } catch (err: any) {
                     const status = err.response?.status
-                    switch (status){
+                    switch (status) {
                         case 409:
                             // TODO: fix the double registration thing, code is reaching here two times
                             // intercepting the 409 status from the backend to avoid ugly workflow
@@ -42,20 +58,21 @@ export default function ShareStart() {
                 }
             } catch (err) {
                 // first time will always fail
+            } finally {
+                isIsLoading(false)
             }
         }
 
         loadData()
     }, [])
 
-
-    return (
-        <>
+    return isLoading ? <PreLoader /> : (
+        <React.Fragment>
             {isLoggedIn() ?
-                <QuizRegisterForm token={token}/>
+                <QuizRegisterForm token={token} />
                 :
-                <QuizUnregisteredForm token={token}/>
+                <QuizUnregisteredForm token={token} />
             }
-        </>
+        </React.Fragment>
     )
 }

@@ -47,14 +47,14 @@ type RouteRole = {
 // checks if the provided rule has role access defined in the provided profile
 function routeHasAccess(route: RouteRole, profile: UserProfileResponse | undefined): boolean {
     // no role declared in the route, means anyone can access it
-    if (route.roles.length === 0) return true
+    if (route.roles?.length === 0) return true
 
     // profile may come undefined
     if (!profile) return false
 
     // loop over role accesses
     for (let i = 0; i < route.roles.length; i++) {
-        for (let j = 0; j < profile.roles.length; j++) {
+        for (let j = 0; j < profile.roles?.length; j++) {
             const role: string = profile.roles[j]
             const roleName: RoleNames = roleNameToEnum(role)
             if (route.roles[i] === roleName) {
@@ -161,9 +161,9 @@ export default function RouteSwitcher({ profile }: params) {
                 <Route key={route.route.props.path.toString()} {...route.route.props} />
             ))}
 
-            <Route path="/errors/unauthenticaed" element={<Error401 />} />
+            <Route path="/errors/unauthenticated" element={<Error401 />} />
             <Route path="/errors/unauthorized" element={<Error403 />} />
-            <Route path="*" element={<Error404 />} />
+            <Route path="/*" element={<Error404 />} />
         </Routes>
     )
 }

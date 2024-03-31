@@ -1,5 +1,5 @@
-import {trimAll, truncateTime} from "../helpers/text_utils";
-import {FileItem} from "./file_item";
+import { FileItem } from "./file_item";
+import { trimAll } from "../helpers/text_utils";
 
 export enum UserGender {
     Hombre,
@@ -52,7 +52,7 @@ export function toUserProfile(v: any): UserProfile {
     }
     return {
         ...v,
-        dob: truncateTime(new Date(v["dob"])),
+        dob: new Date(v["dob"]),
         gender: gender,
     }
 }

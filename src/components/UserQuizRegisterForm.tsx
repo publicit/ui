@@ -1,32 +1,45 @@
-import {Button} from "@mantine/core";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+
+// Mantine :
+import { Button } from "@mantine/core";
+
 
 type params = {
     token: string
 }
 
-
-export function QuizRegisterForm({token}: params) {
+export function QuizRegisterForm({ token }: params) {
+    const { href } = window.location;
     return (
-        <>
-            <p>Antes de responder la encuesta, es necesario que te registres.</p>
-            <p>Haz click en CONTINUAR para acceder a tu registro. Te tomara 5 minutos el proceso.</p>
-            <Button variant="outline" fullWidth mt="md" radius="md"
-                    component={Link} to={`/user/profile?token=${token}`}
-            >
-                Iniciar Registro
-            </Button>
-        </>
+        <div className="quiz-unregister-form">
+            <div className="form-description">
+                <h1 className="heading">Antes de responder la encuesta, es necesario que te registres!</h1>
+                <div>Haz click en CONTINUAR para acceder a tu registro. Te tomara 5 minutos el proceso.</div>
+                <div>
+                </div>
+                <Button
+                    variant="outline"
+                    component={Link} to={`/user/profile?token=${token}&url=${href}`}
+                >
+                    Iniciar Registro
+                </Button>
+            </div>
+        </div>
     )
 }
 
-
-export function QuizUnregisteredForm({token}: params) {
+export function QuizUnregisteredForm({ token }: params) {
     return (
-        <div>
-            <p>Gracias por aplicar para resolver una encuesta.</p>
-            <p>Es necesario que inicies sesion y te registres para continuar.</p>
-            <p>Haz click en el boton INICIAR SESION.</p>
+        <div className="quiz-unregister-form">
+            <div className="form-description">
+                <h1 className="heading">
+                    Bienvenida a publux!
+                </h1>
+                <div className="description">
+                    <div className="thanks-message">¡Gracias por solicitar completar una encuesta!</div>
+                    <div>¡Ya casi estás ahí. Haga clic en el botón de abajo para finalizar INICIAR SESIÓN</div>
+                </div>
+            </div>
         </div>
     )
 }

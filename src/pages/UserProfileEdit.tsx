@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Check } from "tabler-icons-react";
 import { useNavigate } from "react-router-dom";
 
 // Mantine :
@@ -21,6 +22,7 @@ import {
     UserProfileFilesLoad,
     QuizRegisterInvitation,
 } from "../helpers/api"
+import { checkFileSize } from "../helpers/file_size";
 
 // Models :
 import {
@@ -32,8 +34,6 @@ import {
 } from "../models/user_profile";
 import { User } from "../models/user";
 import { FileItem, FileType } from "../models/file_item"
-import { Check } from "tabler-icons-react";
-import {checkFileSize} from "../helpers/file_size";
 
 
 export default function Edit() {
@@ -49,6 +49,10 @@ export default function Edit() {
     const [files, setFiles] = useState<UserProfileFile[]>([])
     const [fileTypes, setFileTypes] = useState<FileType[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    useEffect(() => {
+        loadData()
+    }, [])
 
     async function loadFiles() {
         const filesData = await UserProfileFilesLoad()
@@ -82,10 +86,6 @@ export default function Edit() {
             setIsLoading(false)
         }
     }
-
-    useEffect(() => {
-        loadData()
-    }, [])
 
     function enableControls(p: UserProfile) {
         setSaveEnabled(!p.is_completed)
@@ -133,22 +133,18 @@ export default function Edit() {
     }
 
     return isLoading ? <PreLoader /> : (
-
-        <>
+        <React.Fragment>
             <h1>
                 {`${userProfile.first_name} ${userProfile.last_name}`}
                 {userProfile.is_completed &&
                     <Check size={32} color="green" />
                 }
             </h1>
-            <ProfileForm onSubmit={onSubmit} form={form} email={user.email}
-                // legend=
-                isCompleted={userProfile.is_completed}
-                onFileSelected={onFileSelected}
-                saveEnabled={saveEnabled}
-                fileTypes={fileTypes}
-                files={files}
+            <ProfileForm
+                form={form} onSubmit={onSubmit} email={user.email}
+                isCompleted={userProfile.is_completed} saveEnabled={saveEnabled}
+                onFileSelected={onFileSelected} files={files} fileTypes={fileTypes}
             />
-        </>
+        </React.Fragment>
     )
 }
