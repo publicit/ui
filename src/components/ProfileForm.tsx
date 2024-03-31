@@ -51,21 +51,21 @@ export default function ProfileForm({
                 <Grid.Col span={6}>
                     <TextInput label="Nombre(s)" size="md"
                         placeholder="Nombre(s)"
-                        disabled
+                        disabled={true}
                         {...form.getInputProps("first_name")}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <TextInput label="Apellidos" size="md"
                         placeholder="Apellidos"
-                        disabled
+                        disabled={true}
                         {...form.getInputProps("last_name")}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <TextInput label="Email" size="md"
                         value={email}
-                        disabled
+                        disabled={true}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
@@ -79,7 +79,7 @@ export default function ProfileForm({
                     <Text>Fecha de Nacimiento</Text>
                     <DateTimePicker size="md"
                         valueFormat="MMM DD, YYYY"
-                        disabled
+                        disabled={true}
                         {...form.getInputProps(`dob`)}
                     />
                 </Grid.Col>
@@ -89,7 +89,7 @@ export default function ProfileForm({
                         data={userGender}
                         comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 } }}
                         {...form.getInputProps("gender")}
-                        disabled
+                        disabled={true}
                     />
                 </Grid.Col>
                 <Grid.Col span={12}>
