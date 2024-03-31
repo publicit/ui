@@ -1,17 +1,17 @@
-import { useLocation } from "react-router-dom";
-import { IconUpload } from "@tabler/icons-react";
+import {useLocation} from "react-router-dom";
+import {IconUpload} from "@tabler/icons-react";
 
 // Mantine :
-import { DateTimePicker } from "@mantine/dates";
-import { UseFormReturnType } from "@mantine/form";
-import { Button, FileInput, Grid, Select, Text, TextInput } from "@mantine/core";
+import {DateTimePicker} from "@mantine/dates";
+import {UseFormReturnType} from "@mantine/form";
+import {Button, FileInput, Grid, Select, Text, TextInput} from "@mantine/core";
 
 // Models :
-import { FileType } from "../models/file_item";
-import { UserGender, UserProfile, UserProfileFile } from "../models/user_profile";
+import {FileType} from "../models/file_item";
+import {UserGender, UserProfile, UserProfileFile} from "../models/user_profile";
 
 // Helpers :
-import { capitalizeAllWords } from "../helpers/text_utils";
+import {capitalizeAllWords} from "../helpers/text_utils";
 
 
 type params = {
@@ -32,66 +32,66 @@ const userGender: string[] = [
 ]
 
 export default function ProfileForm({
-    form,
-    email,
-    files,
-    onSubmit,
-    fileTypes,
-    isCompleted,
-    saveEnabled,
-    onFileSelected,
-}: params) {
+                                        form,
+                                        email,
+                                        files,
+                                        onSubmit,
+                                        fileTypes,
+                                        isCompleted,
+                                        saveEnabled,
+                                        onFileSelected,
+                                    }: params) {
     const location = useLocation();
-    const { search } = location;
+    const {search} = location;
     return (
         <form className="form-wrapper"
-            onSubmit={form.onSubmit(async (data: any) => {
-                await onSubmit(data)
-            })}>
+              onSubmit={form.onSubmit(async (data: any) => {
+                  await onSubmit(data)
+              })}>
 
             <Grid gutter={10}>
                 <Grid.Col span={6}>
                     <TextInput label="Nombre(s)" size="md"
-                        placeholder="Nombre(s)"
-                        disabled={isCompleted}
-                        {...form.getInputProps("first_name")}
+                               placeholder="Nombre(s)"
+                               disabled={true}
+                               {...form.getInputProps("first_name")}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <TextInput label="Apellidos" size="md"
-                        placeholder="Apellidos"
-                        disabled={isCompleted}
-                        {...form.getInputProps("last_name")}
+                               placeholder="Apellidos"
+                               disabled={true}
+                               {...form.getInputProps("last_name")}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <TextInput label="Email" size="md"
-                        value={email}
-                        disabled
+                               value={email}
+                               disabled={true}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <TextInput label="Telefono" size="md"
-                        placeholder="Telefono"
-                        disabled={isCompleted}
-                        {...form.getInputProps("phone_number")}
+                               placeholder="Telefono"
+                               disabled={isCompleted}
+                               {...form.getInputProps("phone_number")}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <Text>Fecha de Nacimiento</Text>
                     <DateTimePicker size="md"
-                        valueFormat="MMM DD, YYYY"
-                        disabled={isCompleted}
-                        {...form.getInputProps(`dob`)}
+                                    valueFormat="MMM DD, YYYY"
+                                    disabled={true}
+                                    {...form.getInputProps(`dob`)}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <Select
                         label="Genero" size="md"
                         data={userGender}
-                        comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 } }}
+                        comboboxProps={{transitionProps: {transition: 'pop', duration: 200}}}
                         {...form.getInputProps("gender")}
-                        disabled={isCompleted}
+                        disabled={true}
                     />
                 </Grid.Col>
                 <Grid.Col span={search ? 6 : 12}>
@@ -103,14 +103,14 @@ export default function ProfileForm({
                         return (
                             <div key={file.id}>
                                 <FileInput size="md"
-                                    accept="image/*"
-                                    multiple={false}
-                                    clearable={true}
-                                    disabled={!!file.is_valid || isCompleted}
-                                    leftSection={<IconUpload />}
-                                    placeholder={file.file?.name}
-                                    label={capitalizeAllWords(fileType.description)}
-                                    onChange={file => onFileSelected(file, fileType.name)}
+                                           accept="image/*"
+                                           multiple={false}
+                                           clearable={true}
+                                           disabled={!!file.is_valid || isCompleted}
+                                           leftSection={<IconUpload/>}
+                                           placeholder={file.file?.name}
+                                           label={capitalizeAllWords(fileType.description)}
+                                           onChange={file => onFileSelected(file, fileType.name)}
                                 />
                             </div>
                         )
@@ -119,8 +119,8 @@ export default function ProfileForm({
                 <Grid.Col span={6}>
                     {search &&
                         <TextInput label="TBD" size="md"
-                            defaultValue="hello world"
-                            disabled={isCompleted}
+                                   defaultValue="hello world"
+                                   disabled={isCompleted}
                         />
                     }
                 </Grid.Col>
