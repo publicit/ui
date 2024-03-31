@@ -1,7 +1,9 @@
-import {MenuItem} from "../models/menuItem";
-import {UserProfileResponse} from "../models/user";
-import {roleNameToEnum} from "./roles";
-import {MenuGroup} from "../models/menuGroup";
+import { roleNameToEnum } from "./roles";
+
+// Models :
+import { MenuItem } from "../models/menuItem";
+import { UserProfileResponse } from "../models/user";
+import { MenuGroup } from "../models/menuGroup";
 
 // returns true if any of the profile roles is allowed in the MenuItem
 export function menuItemHasRoleMembership(item: MenuItem, profile: UserProfileResponse | undefined): boolean {
@@ -10,8 +12,8 @@ export function menuItemHasRoleMembership(item: MenuItem, profile: UserProfileRe
     // no profile email, cannot have any role membership
     if (!profile || !profile?.email) return false
     // compute the role membership on each item, first match returns true
-    for (let i = 0; i < item.roles.length; i++) {
-        for (let j = 0; j < profile?.roles.length; j++) {
+    for (let i = 0; i < item.roles?.length; i++) {
+        for (let j = 0; j < profile?.roles?.length; j++) {
             const role = roleNameToEnum(profile?.roles[j])
             if (role === item.roles[i]) {
                 return true

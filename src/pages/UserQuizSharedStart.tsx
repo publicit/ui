@@ -58,7 +58,6 @@ export default function ShareStart() {
                 }
             } catch (err) {
                 // first time will always fail
-                console.log("---------------", err)
             } finally {
                 isIsLoading(false)
             }
