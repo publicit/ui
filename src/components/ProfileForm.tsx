@@ -41,8 +41,6 @@ export default function ProfileForm({
     saveEnabled,
     onFileSelected,
 }: params) {
-    const location = useLocation();
-    const { search } = location;
     return (
         <form className="form-wrapper"
             onSubmit={form.onSubmit(async (data: any) => {
@@ -53,14 +51,14 @@ export default function ProfileForm({
                 <Grid.Col span={6}>
                     <TextInput label="Nombre(s)" size="md"
                         placeholder="Nombre(s)"
-                        disabled={isCompleted}
+                        disabled
                         {...form.getInputProps("first_name")}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <TextInput label="Apellidos" size="md"
                         placeholder="Apellidos"
-                        disabled={isCompleted}
+                        disabled
                         {...form.getInputProps("last_name")}
                     />
                 </Grid.Col>
@@ -81,7 +79,7 @@ export default function ProfileForm({
                     <Text>Fecha de Nacimiento</Text>
                     <DateTimePicker size="md"
                         valueFormat="MMM DD, YYYY"
-                        disabled={isCompleted}
+                        disabled
                         {...form.getInputProps(`dob`)}
                     />
                 </Grid.Col>
@@ -91,10 +89,10 @@ export default function ProfileForm({
                         data={userGender}
                         comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 } }}
                         {...form.getInputProps("gender")}
-                        disabled={isCompleted}
+                        disabled
                     />
                 </Grid.Col>
-                <Grid.Col span={search ? 6 : 12}>
+                <Grid.Col span={12}>
                     {fileTypes.map(fileType => {
                         const file = files.find(f => f.type === fileType.name)
                         if (!file) {
@@ -115,14 +113,6 @@ export default function ProfileForm({
                             </div>
                         )
                     })}
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    {search &&
-                        <TextInput label="TBD" size="md"
-                            defaultValue="hello world"
-                            disabled={isCompleted}
-                        />
-                    }
                 </Grid.Col>
                 {saveEnabled &&
                     <Grid.Col span={12} mt="sm">
