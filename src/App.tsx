@@ -1,26 +1,26 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 
 // Mantine :
 import { useDisclosure } from "@mantine/hooks";
-import { AppShell, Burger, Group } from "@mantine/core";
+import { AppShell, Burger, Drawer, Group, } from "@mantine/core";
 
 // Components :
 import Logo from "./components/Logo";
 import Navbar from "./components/Navbar";
-import RouteSwitcher from "./RouteSwitcher"
+import RouteSwitcher from "./RouteSwitcher";
 
 // Helpers :
-import { parseToken, saveUserProfile } from "./helpers/sso_service"
+import { parseToken, saveUserProfile } from "./helpers/sso_service";
 
 // Models :
 import { User, UserProfileResponse } from "./models/user";
 
 // CSS :
-import '@mantine/core/styles/global.css';
-import "@mantine/core/styles.css"
+import "@mantine/core/styles.css";
 import '@mantine/dates/styles.css';
+import '@mantine/core/styles/global.css';
 
 
 function App() {
@@ -52,9 +52,10 @@ function App() {
     };
 
     function CollapseDesktop() {
+        const [opened] = useDisclosure()
         const [mobileOpened] = useDisclosure();
         const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
-        const [opened] = useDisclosure()
+        const [Mobileopened, { open, close }] = useDisclosure(false);
         const user = new User()
         user.email = profile?.email
         user.name = profile?.name
@@ -62,34 +63,59 @@ function App() {
         const version = process.env.REACT_APP_TAG_NAME || ""
 
         return (
-            <AppShell
-                padding="md"
-                header={{ height: 60 }}
-                navbar={{
-                    width: 250,
-                    breakpoint: 'sm',
-                    collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
-                }}>
-                <AppShell.Header className='flex-verticle-center'>
-                    <Group pl="sm">
-                        <Burger opened={opened} onClick={toggleDesktop} aria-label="Toggle navigation" />
-                        <Logo />
-                    </Group>
-                </AppShell.Header>
-                <AppShell.Navbar>
-                    <Navbar profile={profile} version={version} login={login} logout={logOut} />
-                </AppShell.Navbar>
-                <AppShell.Main>
-                    <RouteSwitcher profile={profile} />
-                </AppShell.Main>
-            </AppShell>
+            <React.Fragment>
+                <AppShell
+                    padding="md"
+                    header={{ height: 60 }}
+                    navbar={{
+                        width: 250,
+                        breakpoint: 'sm',
+                        collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+                    }}>
+                    <AppShell.Header className='flex-verticle-center'>
+                        <Group pl="sm">
+                            <Burger className='web-menu'
+                                opened={opened}
+                                onClick={toggleDesktop}
+                                aria-label="Toggle navigation"
+                            />
+                            <Burger className='mobile-menu'
+                                onClick={open}
+                                aria-label="Toggle navigation"
+                            />
+                            <Drawer size="300px"
+                                title={<Logo />}
+                                onClose={close}
+                                opened={Mobileopened}
+                                className='mobile-drawer'
+                                overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
+                            >
+                                <Navbar
+                                    login={login} logout={logOut}
+                                    profile={profile} version={version}
+                                />
+                            </Drawer>
+                            <Logo />
+                        </Group>
+                    </AppShell.Header>
+                    <AppShell.Navbar>
+                        <Navbar
+                            login={login} logout={logOut}
+                            profile={profile} version={version}
+                        />
+                    </AppShell.Navbar>
+                    <AppShell.Main>
+                        <RouteSwitcher profile={profile} />
+                    </AppShell.Main>
+                </AppShell>
+            </React.Fragment>
         );
     }
 
     return (
-        <>
+        <React.Fragment>
             <CollapseDesktop />
-        </>
+        </React.Fragment>
     );
 }
 
