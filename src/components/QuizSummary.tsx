@@ -84,7 +84,7 @@ export function QuizSummary({
                     }
                 </Flex>
                 {userQuiz.status === UserQuizStatus[UserQuizStatus.success] &&
-                    <>
+                    <React.Fragment>
                         <Text color="green" mt="md">
                             Felicidades, has respondido correctamente todas las preguntas!
                         </Text>
@@ -97,15 +97,14 @@ export function QuizSummary({
                                 })}
                                 onClose={() => setSharedUrl("")} onOpen={shareQuiz}
                             />
-                            <ShowGenericDialog
-                                buttonTitle="Compartir encuesta por email" userQuiz={userQuiz}
+                            <ShowGenericDialog userQuiz={userQuiz}
                                 children={emailShareDialog} onClose={() => loadData()}
                             />
                         </Group>
-                    </>
+                    </React.Fragment>
                 }
                 {userQuiz.status === UserQuizStatus[UserQuizStatus.failed] &&
-                    <>
+                    <React.Fragment>
                         <Text mt="md">
                             No has respondido correctamente todas las preguntas. Haz click en INTENTAR DE NUEVO para otra oportunidad.
                         </Text>
@@ -116,7 +115,7 @@ export function QuizSummary({
                             Intentar de Nuevo
                             <IconRefresh className="icon" />
                         </Button>
-                    </>
+                    </React.Fragment>
                 }
             </div>
         </React.Fragment>
