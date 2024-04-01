@@ -10,10 +10,9 @@ type params = {
     children: any
     onClose: any
     userQuiz: any
-    buttonTitle: string
 }
 
-export function ShowGenericDialog({ buttonTitle, children, onClose, userQuiz }: params) {
+export function ShowGenericDialog({ children, onClose, userQuiz }: params) {
     const [opened, { open, close }] = useDisclosure(false);
     function ModalHeader() {
         return (
@@ -43,7 +42,8 @@ export function ShowGenericDialog({ buttonTitle, children, onClose, userQuiz }: 
                 className="share-survey-button"
                 onClick={() => { open() }}
             >
-                {buttonTitle} <IconShare className="icon" />
+                Compartir encuesta por email
+                <IconShare className="icon" />
             </Button>
         </React.Fragment>
     )
