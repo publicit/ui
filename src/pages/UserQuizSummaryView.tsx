@@ -112,18 +112,20 @@ export default function UserQuizSummaryView() {
     function EmailShareForm(uq: UserQuiz, email: string) {
         return (
             <React.Fragment>
-                <form className="email-dialog-box">
+                <form className="email-dialog-box"
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        shareQuizUsingEmail(uq, email).then(() => console.log(`TODO: close dialog`))
+                    }}
+                >
                     <div className="flex-email-field">
                         <TextInput label="Email" type="email"
                             placeholder="someone@example.com" value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        <Button variant="outline" type="button"
+                        <Button variant="outline" type="submit"
                             loading={isShareLoading} className="submit-button"
-                            onClick={(e) => {
-                                e.preventDefault()
-                                shareQuizUsingEmail(uq, email).then(() => console.log(`TODO: close dialog`))
-                            }}>
+                        >
                             Enviar
                         </Button>
                     </div>
