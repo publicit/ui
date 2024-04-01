@@ -1,4 +1,7 @@
+import React from 'react';
 import { IconLogout } from '@tabler/icons-react';
+
+// Mantine :
 import { Box, Code, Group, rem, ScrollArea, ThemeIcon } from '@mantine/core';
 
 // Components :
@@ -28,7 +31,7 @@ type NavbarParams = {
 export default function NavbarMain({ profile, version, login, logout }: NavbarParams) {
     const menuGroups = glueMenus(MenuGroups(), profile)
     return (
-        <>
+        <React.Fragment>
             <nav className={classes.navbar}>
                 <div className={classes.header}>
                     <Group justify="space-between">
@@ -43,7 +46,7 @@ export default function NavbarMain({ profile, version, login, logout }: NavbarPa
                 </ScrollArea>
             </nav>
             {profile?.email ?
-                <>
+                <React.Fragment>
                     <div onClick={logout} className={classes.logout}>
                         <ThemeIcon variant="light" size={30}>
                             <IconLogout style={{ width: rem(18), height: rem(18), }} />
@@ -53,12 +56,12 @@ export default function NavbarMain({ profile, version, login, logout }: NavbarPa
                     <div className={classes.footer}>
                         <UserButton user={profile} />
                     </div>
-                </>
+                </React.Fragment>
                 :
                 <div className={classes.footer} onClick={login}>
                     <Box fw={500}>Iniciar Sesion</Box>
                 </div>
             }
-        </>
+        </React.Fragment>
     );
 }
