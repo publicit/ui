@@ -1,18 +1,17 @@
-import React from "react";
 
 export function HomeSection() {
     return (
-        <>
-            <div>
+        <div className="publux-container">
+            <div className="publux-heading">
                 <h1>¡Gana dinero con Publux!</h1>
+                <div className="description">
+                    ¿Te gustaría ganar dinero extra en tu tiempo libre? Con Publux puedes hacerlo fácilmente viendo anuncios
+                    y completando cuestionarios.
+                </div>
             </div>
-            <div>
-                ¿Te gustaría ganar dinero extra en tu tiempo libre? Con Publux puedes hacerlo fácilmente viendo anuncios
-                y completando cuestionarios.
-            </div>
-            <div>
-                <h2>¿Cómo funciona?</h2>
-                <div>
+            <div className="flex-lists">
+                <div className="form-wrapper">
+                    <h2>¿Cómo funciona?</h2>
                     <ol>
                         <li>Regístrate en nuestro sitio web de forma gratuita.</li>
                         <li>Completa tu perfil para que podamos mostrarte anuncios relevantes.</li>
@@ -21,10 +20,8 @@ export function HomeSection() {
                         <li>Canjea tus puntos por cupones para amazon o mercado libre.</li>
                     </ol>
                 </div>
-            </div>
-            <div>
-                <h2>¿Por qué elegir Publux?</h2>
-                <div>
+                <div className="form-wrapper">
+                    <h2>¿Por qué elegir Publux?</h2>
                     <ul>
                         <li>Es gratis y fácil de usar.</li>
                         <li>Puedes ganar dinero desde cualquier lugar.</li>
@@ -33,14 +30,16 @@ export function HomeSection() {
                         <li>Pagamos a tiempo y sin problemas.</li>
                     </ul>
                 </div>
+                <div className="form-wrapper">
+                    <h2>¿Estás listo para comenzar a ganar dinero?</h2>
+                    <div className="ready-for-register">
+                        <p>¡Únete a PublictUX hoy mismo!</p>
+                        <p>¿Qué estás esperando?</p>
+                        <p>Regístrate hoy mismo en https:// app.publicitux.com y comienza a ganar dinero en tu tiempo libre.</p>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h2>¿Estás listo para comenzar a ganar dinero?</h2>
-                <p>Regístrate hoy mismo en https:// app.publicitux.com y comienza a ganar dinero en tu tiempo libre.</p>
-                <p>¿Qué estás esperando?</p>
-                <p>¡Únete a PublictUX hoy mismo!</p>
-            </div>
-        </>
+        </div>
     )
 }
 
