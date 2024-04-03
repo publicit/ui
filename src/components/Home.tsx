@@ -3,10 +3,10 @@ export function HomeSection() {
     return (
         <div className="publux-container">
             <div className="publux-heading">
-                <h1>¡Gana dinero con Publux!</h1>
+                <h1>¡Gana dinero con PublicitUX!</h1>
                 <div className="description">
-                    ¿Te gustaría ganar dinero extra en tu tiempo libre? Con Publux puedes hacerlo fácilmente viendo anuncios
-                    y completando cuestionarios.
+                    ¿Te gustaría ganar dinero extra en tu tiempo libre? Con PublicitUX puedes hacerlo
+                    fácilmente viendo anuncios y completando cuestionarios
                 </div>
             </div>
             <div className="flex-lists">
@@ -21,7 +21,7 @@ export function HomeSection() {
                     </ol>
                 </div>
                 <div className="form-wrapper">
-                    <h2>¿Por qué elegir Publux?</h2>
+                    <h2>¿Por qué elegir PublicitUX?</h2>
                     <ul>
                         <li>Es gratis y fácil de usar.</li>
                         <li>Puedes ganar dinero desde cualquier lugar.</li>
@@ -33,9 +33,9 @@ export function HomeSection() {
                 <div className="form-wrapper">
                     <h2>¿Estás listo para comenzar a ganar dinero?</h2>
                     <div className="ready-for-register">
-                        <p>¡Únete a PublictUX hoy mismo!</p>
+                        <p>Comienza a ganar dinero en tu tiempo libre.</p>
                         <p>¿Qué estás esperando?</p>
-                        <p>Regístrate hoy mismo en https:// app.publicitux.com y comienza a ganar dinero en tu tiempo libre.</p>
+                        <p>¡Únete a PublictUX hoy mismo!</p>
                     </div>
                 </div>
             </div>
