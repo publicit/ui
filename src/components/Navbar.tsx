@@ -2,7 +2,7 @@ import React from 'react';
 import { IconLogout } from '@tabler/icons-react';
 
 // Mantine :
-import { Box, Code, Group, rem, ScrollArea, ThemeIcon } from '@mantine/core';
+import { Box, Code, Group, rem, ScrollArea, Skeleton, ThemeIcon } from '@mantine/core';
 
 // Components :
 import Logo from './Logo';
@@ -25,12 +25,28 @@ type NavbarParams = {
     profile: UserProfileResponse | undefined
     login: any
     logout: any
+    isLoading?: boolean
 }
 
 // NavbarMain is the real navbar that appears on the left pane of the app.
-export default function NavbarMain({ profile, version, login, logout }: NavbarParams) {
+export default function NavbarMain({ isLoading, profile, version, login, logout }: NavbarParams) {
     const menuGroups = glueMenus(MenuGroups(), profile)
-    return (
+
+    function Loader() {
+        return (
+            <div style={{ padding: "10px" }}>
+                {
+                    Array(15)
+                        .fill(0)
+                        .map((_, index) => (
+                            <Skeleton key={index} h={28} mt="md" animate={true} />
+                        ))
+                }
+            </div>
+        )
+    }
+
+    return isLoading ? <Loader /> : (
         <React.Fragment>
             <nav className={classes.navbar}>
                 <div className={classes.header}>
