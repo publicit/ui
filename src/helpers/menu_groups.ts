@@ -1,4 +1,4 @@
-import { IconBellQuestion, IconGauge, IconLock, IconNotes, IconUser } from "@tabler/icons-react";
+import { IconBellQuestion, IconHome2, IconLock, IconNotes, IconUser } from "@tabler/icons-react";
 
 // Models :
 import { RoleNames } from "../models/role";
@@ -10,7 +10,7 @@ export function MenuGroups(): MenuGroup[] {
     return [
         {
             label: 'PublicitUX',
-            icon: IconGauge,
+            icon: IconHome2,
             initiallyOpened: false,
             items: [
                 {

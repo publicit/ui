@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { IconChevronRight } from '@tabler/icons-react';
 
@@ -19,17 +19,19 @@ export function LinksGroup({ menuGroup }: LinksGroupProps) {
     const navigate = useNavigate();
     const hasLinks = true; // TODO: figure this out
     const [opened, setOpened] = useState(menuGroup.initiallyOpened || false);
+
     const items = menuGroup.items.map((item) => (
         <NavLink
             key={item.link}
             label={item.label}
+            style={{ borderLeft: "1px solid rgb(63 59 59)" }}
             onClick={() => navigate(item.link)}
-            style={{ margin: '5px' }}
         />
-    ));
+    )
+    );
 
     return (
-        <>
+        <React.Fragment>
             <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
                 <Group justify="space-between" gap={0}>
                     <Box style={{ display: 'flex', alignItems: 'center' }}>
@@ -49,7 +51,9 @@ export function LinksGroup({ menuGroup }: LinksGroupProps) {
                     />
                 </Group>
             </UnstyledButton>
-            {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
-        </>
+            {hasLinks &&
+                <Collapse in={opened} className={classes.childern}>{items}</Collapse>
+            }
+        </React.Fragment>
     );
 }

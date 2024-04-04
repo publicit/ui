@@ -29,11 +29,16 @@ function App() {
     const [user, setUser] = useState<TokenResponse>();
     // profile contains the parsed information after we verify the access token with Google endpoint
     const [profile, setProfile] = useState<UserProfileResponse>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => {
             setUser(codeResponse)
             saveUserProfile(codeResponse)
+            setIsLoading(true)
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 2000);
         },
         onError: (error) => console.log('Login Failed:', error)
     });
@@ -99,7 +104,7 @@ function App() {
                         </Group>
                     </AppShell.Header>
                     <AppShell.Navbar>
-                        <Navbar
+                        <Navbar isLoading={isLoading}
                             login={login} logout={logOut}
                             profile={profile} version={version}
                         />
