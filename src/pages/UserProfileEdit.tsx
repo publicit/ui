@@ -38,17 +38,19 @@ import { FileItem, FileType } from "../models/file_item"
 
 export default function Edit() {
     const navigate = useNavigate();
+    const params = new URLSearchParams(window.location.search)
+
     const [user, setUser] = useState<User>(new User())
     const [userProfile, setUserProfile] = useState<UserProfile>(new UserProfile())
-    const form = useForm<UserProfile>({
-        initialValues: userProfile,
-        validate: userProfileValidation(),
-    })
-    const params = new URLSearchParams(window.location.search)
     const [saveEnabled, setSaveEnabled] = useState(true)
     const [files, setFiles] = useState<UserProfileFile[]>([])
     const [fileTypes, setFileTypes] = useState<FileType[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    const form = useForm<UserProfile>({
+        initialValues: userProfile,
+        validate: userProfileValidation(),
+    })
 
     useEffect(() => {
         loadData()
@@ -125,6 +127,7 @@ export default function Edit() {
             await UserProfileFileSave(payload)
             await loadData()
         } catch (err) {
+            console.log("--------------err", err?.response?.data || err)
             await notifyErrResponse(err)
         } finally {
             enableControls(userProfile)

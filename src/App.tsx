@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 
@@ -21,6 +21,7 @@ import { User, UserProfileResponse } from "./models/user";
 import "@mantine/core/styles.css";
 import '@mantine/dates/styles.css';
 import '@mantine/core/styles/global.css';
+import instance from './helpers/axios';
 
 
 function App() {
@@ -30,6 +31,26 @@ function App() {
     // profile contains the parsed information after we verify the access token with Google endpoint
     const [profile, setProfile] = useState<UserProfileResponse>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    useLayoutEffect(() => {
+        instance.interceptors.response.use(function (response) {
+            return response;
+        }, function (error) {
+            const status = error?.response?.status;
+            switch (status) {
+                case 401:
+                    navigate('/errors/unauthenticated')
+                    break;
+                case 403:
+                    navigate('/errors/unauthorized')
+                    break;
+                default:
+                    if (status >= 400) {
+                        return Promise.reject(error);
+                    }
+            }
+        });
+    }, [])
 
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => {
