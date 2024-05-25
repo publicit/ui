@@ -16,7 +16,18 @@ import { Quiz } from "../models/quiz";
 import { Campaign, campaignValidation } from "../models/campaign";
 
 // Helpers :
-import { CampaignDelete, CampaignLoad, CampaignPut, QuizList } from "../helpers/api"
+import {
+    CampaignDelete,
+    CampaignLoad,
+    CampaignPut,
+    FileImportQuiz,
+    FileItemUpload,
+    QuizList,
+    UserProfileFileSave
+} from "../helpers/api"
+import {FileTypeNames} from "../models/user_profile";
+import {checkFileSize} from "../helpers/file_size";
+import {FileItem} from "../models/file_item";
 
 
 export default function Edit() {
@@ -33,20 +44,21 @@ export default function Edit() {
         validate: campaignValidation(),
     })
 
-    useEffect(() => {
-        async function loadData(id: string) {
-            try {
-                const data = await CampaignLoad(id)
-                setCampaign(data)
-                form.setValues(data)
-                const quizData: Quiz[] = await QuizList(id)
-                setQuizs(quizData)
-            } catch (err) {
-                await notifyErrResponse(err)
-            } finally {
-                setIsLoading(false)
-            }
+    async function loadData(id: string) {
+        try {
+            const data = await CampaignLoad(id)
+            setCampaign(data)
+            form.setValues(data)
+            const quizData: Quiz[] = await QuizList(id)
+            setQuizs(quizData)
+        } catch (err) {
+            await notifyErrResponse(err)
+        } finally {
+            setIsLoading(false)
         }
+    }
+
+    useEffect(() => {
         loadData(id)
     }, [])
 
@@ -75,6 +87,21 @@ export default function Edit() {
         }
     }
 
+    async function onFileSelected(file: File) {
+        try {
+            checkFileSize(file)
+            const f = new FileItem()
+            f.content_type = file.type
+            f.reference_id = id
+            await FileImportQuiz(f, file, id)
+        } catch (err) {
+            await notifyErrResponse(err)
+        } finally {
+            await loadData(id)
+        }
+    }
+
+
     return isLoading ? <PreLoader /> : (
         <React.Fragment>
             <Grid gutter={15}>
@@ -85,6 +112,7 @@ export default function Edit() {
                             form={form} onSubmit={onSubmit}
                             canEdit={canEdit} campaign={campaign}
                             onDelete={onDelete} showDelete={quizs.length === 0}
+                            onFileSelected={onFileSelected}
                         />
                     </div>
                 </Grid.Col>
