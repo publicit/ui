@@ -102,6 +102,25 @@ async function FileTypes() {
     return (res.data || [])
 }
 
+async function FileImportQuiz(f:FileItem, file:File, campaignId:string){
+    const formData = new FormData()
+    formData.append("file", file)
+    formData.append("json", JSON.stringify({
+        ...f,
+        type: file?.type,
+    }))
+    const res = await instance({
+        data: formData,
+        method: "post",
+        url: `/v1/imports/campaigns/${campaignId}/quizs`,
+        headers: {
+            'accept': 'application/json',
+            'content-type': 'multipart/form-data',
+        }
+    })
+    return res.data
+}
+
 /////////////////////////////////////////////////////////////
 // Location
 /////////////////////////////////////////////////////////////
@@ -365,6 +384,7 @@ export {
 
     FileItemUpload,
     FileTypes,
+    FileImportQuiz,
 
     AddressFromLocation,
 

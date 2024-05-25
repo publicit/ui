@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 // Mantine :
-import { DateTimePicker } from "@mantine/dates";
-import { Button, Grid, Group, Text, Textarea, TextInput } from "@mantine/core";
+import {DateTimePicker} from "@mantine/dates";
+import {Button, FileInput, Grid, Group, Text, Textarea, TextInput} from "@mantine/core";
 
 // Models :
-import { Campaign } from "../models/campaign";
+import {Campaign} from "../models/campaign";
+import {IconUpload} from "@tabler/icons-react";
 
 
 type params = {
@@ -15,16 +16,18 @@ type params = {
     onDelete?: any
     showDelete?: boolean
     canEdit: boolean
+    onFileSelected: any
 }
 
 export default function CampaignEditForm({
-    onSubmit,
-    form,
-    campaign,
-    onDelete,
-    showDelete = false,
-    canEdit
-}: params) {
+                                             onSubmit,
+                                             form,
+                                             campaign,
+                                             onDelete,
+                                             showDelete = false,
+                                             canEdit,
+                                             onFileSelected,
+                                         }: params) {
 
     return (
         <form onSubmit={form.onSubmit((data: any) => onSubmit(data))}>
@@ -40,17 +43,17 @@ export default function CampaignEditForm({
             <Grid gutter={15}>
                 <Grid.Col span={12}>
                     <TextInput label="Nombre"
-                        size="md"
-                        placeholder="Nombre"
-                        disabled={!canEdit}
-                        {...form.getInputProps("name")} />
+                               size="md"
+                               placeholder="Nombre"
+                               disabled={!canEdit}
+                               {...form.getInputProps("name")} />
                 </Grid.Col>
                 <Grid.Col span={12}>
                     <TextInput label="Imagen"
-                        size="md"
-                        disabled={!canEdit}
-                        placeholder="URL Imagen"
-                        {...form.getInputProps("image_url")} />
+                               size="md"
+                               disabled={!canEdit}
+                               placeholder="URL Imagen"
+                               {...form.getInputProps("image_url")} />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <Text>Fecha de Inicio</Text>
@@ -72,12 +75,12 @@ export default function CampaignEditForm({
                 </Grid.Col>
                 <Grid.Col span={12}>
                     <Textarea label="Descripcion"
-                        size="md"
-                        minRows={2}
-                        maxRows={10}
-                        disabled={!canEdit}
-                        placeholder="Descripcion"
-                        {...form.getInputProps("description")} />
+                              size="md"
+                              minRows={2}
+                              maxRows={10}
+                              disabled={!canEdit}
+                              placeholder="Descripcion"
+                              {...form.getInputProps("description")} />
                 </Grid.Col>
                 <Grid.Col span={12}>
                     <Group mt="md">
@@ -95,11 +98,22 @@ export default function CampaignEditForm({
                                         </Button>
                                     </Link>
                                     {
-                                        showDelete && <Button type="button" size="md" variant="outline" onClick={onDelete}>
+                                        showDelete &&
+                                        <Button type="button" size="md" variant="outline" onClick={onDelete}>
                                             Eliminar Campaña
                                         </Button>
 
                                     }
+                                    {onFileSelected &&
+                                        <FileInput size="md"
+                                                   accept=".yaml"
+                                                   multiple={false}
+                                                   clearable={true}
+                                                   leftSection={<IconUpload/>}
+                                                   placeholder="Importar Encuesta"
+                                                   label="Permite importar una encuesta desde un archivo en formato YAML"
+                                                   onChange={file => onFileSelected(file)}
+                                        />}
                                 </>
                                 }
                             </Group>

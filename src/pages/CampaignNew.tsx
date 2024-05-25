@@ -44,6 +44,7 @@ export default function CampaignNew() {
                 <CampaignEditForm
                     form={form} campaign={campaign}
                     onSubmit={onSubmit} canEdit={canEdit}
+                    onFileSelected={null}
                 />
             </div>
         </React.Fragment>
