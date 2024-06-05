@@ -1,6 +1,5 @@
 import { Campaign, toCampaign } from "./campaign";
 import { trimAll } from "../helpers/text_utils";
-import { isValidURL } from "../helpers/regexValidations";
 
 export enum QuizStatus {
   draft,
@@ -67,16 +66,5 @@ export function quizValidation() {
       value <= 0
         ? "El monto de recompensa para usuarios referenciados, debe ser mayor a cero"
         : null,
-    webhook_urlz: (value: number) =>
-      value <= 0
-        ? "El monto de recompensa para usuarios referenciados, debe ser mayor a cero"
-        : null,
-    webhook_url: (value: string) => {
-      return trimAll(value).length === 0
-        ? "Webhook URL is mandatory"
-        : !isValidURL(value)
-        ? "Invalid Webhook URL"
-        : null;
-    },
   };
 }
