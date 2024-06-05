@@ -111,9 +111,9 @@ export function QuizEditForm({
         </Grid.Col>
         <Grid.Col span={6}>
           <TextInput
-            label="URL de Webhook"
+            label="Webhook URL"
             size="md"
-            placeholder="URL de Webhook"
+            placeholder="Webhook URL"
             {...form.getInputProps("webhook_url")}
           />
         </Grid.Col>

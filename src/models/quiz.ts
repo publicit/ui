@@ -73,9 +73,9 @@ export function quizValidation() {
         : null,
     webhook_url: (value: string) => {
       return trimAll(value).length === 0
-        ? "URL es mandatorio"
+        ? "Webhook URL is mandatory"
         : !isValidURL(value)
-        ? "URL invalida"
+        ? "Invalid Webhook URL"
         : null;
     },
   };
