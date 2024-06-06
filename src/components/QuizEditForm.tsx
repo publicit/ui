@@ -109,6 +109,15 @@ export function QuizEditForm({
             {...form.getInputProps("max_user_count")}
           />
         </Grid.Col>
+        <Grid.Col span={6}>
+          <TextInput
+            label="Webhook URL"
+            size="md"
+            type="text"
+            placeholder="Webhook URL"
+            {...form.getInputProps("webhook_url")}
+          />
+        </Grid.Col>
         <Grid.Col span={12}>
           <Group mt="md">
             {canEdit && (
