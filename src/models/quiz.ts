@@ -66,5 +66,16 @@ export function quizValidation() {
       value <= 0
         ? "El monto de recompensa para usuarios referenciados, debe ser mayor a cero"
         : null,
+    webhook_url: (value: string) => {
+      try {
+        const uri = new URL(value)
+        if (uri.protocol !== "https:") {
+          return "protocol should be https"
+        }
+        return null
+      } catch (e) {
+        return "invalid url"
+      }
+    },
   };
 }

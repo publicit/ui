@@ -113,7 +113,7 @@ export function QuizEditForm({
           <TextInput
             label="Webhook URL"
             size="md"
-            type="url"
+            type="text"
             placeholder="Webhook URL"
             {...form.getInputProps("webhook_url")}
           />
