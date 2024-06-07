@@ -67,6 +67,7 @@ export function quizValidation() {
         ? "El monto de recompensa para usuarios referenciados, debe ser mayor a cero"
         : null,
     webhook_url: (value: string) => {
+      if(!value) return null
       try {
         const uri = new URL(value)
         if (uri.protocol !== "https:") {
