@@ -43,7 +43,7 @@ export default function Edit() {
         validate: campaignValidation(),
     })
 
-    async function loadData(id: string) {
+    async function loadData() {
         try {
             const data = await CampaignLoad(id)
             setCampaign(data)
@@ -58,7 +58,7 @@ export default function Edit() {
     }
 
     useEffect(() => {
-        loadData(id)
+        loadData()
     }, [])
 
     async function onSubmit(data: Campaign) {
@@ -97,7 +97,7 @@ export default function Edit() {
         } catch (err) {
             await notifyErrResponse(err)
         } finally {
-            await loadData(id)
+            await loadData()
         }
     }
 

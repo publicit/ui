@@ -90,7 +90,7 @@ export default function UserQuizSummaryView() {
         }
     }
 
-    async function shareQuizUsingEmail(uq: UserQuiz, email: string) {
+    async function shareQuizUsingEmail(uq: UserQuiz) {
         if (!email) return
         try {
             setIsshareLoading(true)
@@ -108,14 +108,14 @@ export default function UserQuizSummaryView() {
         }
     }
 
-    function EmailShareForm(uq: UserQuiz, email: string) {
+    function EmailShareForm(uq: UserQuiz) {
         return (
             <React.Fragment>
                 <form
                     className="email-dialog-box"
                     onSubmit={(e) => {
                         e.preventDefault()
-                        shareQuizUsingEmail(uq, email).then(() =>
+                        shareQuizUsingEmail(uq).then(() =>
                             console.log(`TODO: close dialog`)
                         )
                     }}
@@ -158,7 +158,7 @@ export default function UserQuizSummaryView() {
                         sharedUrl={sharedUrl}
                         setSharedUrl={setSharedUrl}
                         loadData={() => loadShares(userQuiz.quiz.id)}
-                        emailShareDialog={EmailShareForm(userQuiz, email)}
+                        emailShareDialog={EmailShareForm(userQuiz)}
                     />
                 </Grid.Col>
                 <Grid.Col span={{ md: 12, lg: 6 }}>

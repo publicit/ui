@@ -44,7 +44,7 @@ export default function Edit() {
     })
 
     useEffect(() => {
-        async function loadData(id: string) {
+        async function loadData() {
             try {
                 const data = await QuestionLoad(id)
                 setQuestion(data)
@@ -71,7 +71,7 @@ export default function Edit() {
             }
         }
 
-        loadData(id)
+        loadData()
     }, [])
 
     function enableControls(q: Quiz) {

@@ -37,7 +37,7 @@ export default function AnswerEdit() {
     }
 
     useEffect(() => {
-        async function loadData(id: string) {
+        async function loadData() {
             try {
                 const data = await AnswerLoad(id)
                 setAnswer(data)
@@ -65,7 +65,7 @@ export default function AnswerEdit() {
             }
         }
 
-        loadData(id)
+        loadData()
     }, [])
 
     function enableControls(q: Question) {

@@ -35,7 +35,7 @@ export function RoleEdit() {
             await notifyErrResponse(err)
         }
     }
-    async function loadRole(id: string) {
+    async function loadRole() {
         try {
             const data = await RoleGet(id)
             setRole(data)
@@ -45,7 +45,7 @@ export function RoleEdit() {
         }
     }
     useEffect(() => {
-        loadRole(id)
+        loadRole()
         loadUsers()
     }, [])
 

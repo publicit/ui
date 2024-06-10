@@ -26,6 +26,7 @@ type RowParams = {
 function Row({ icon, loading, role, onClick }: RowParams) {
     const [clickedRole, setClickedRole] = useState(null)
 
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     const handleClick = (clickedRole: any) => {
         setClickedRole(clickedRole)
         onClick(clickedRole)

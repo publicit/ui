@@ -55,7 +55,7 @@ export default function Edit() {
     })
 
     useEffect(() => {
-        async function loadData(id: string) {
+        async function loadData() {
             try {
                 const data = await QuizLoad(id)
                 setQuiz(data)
@@ -80,7 +80,7 @@ export default function Edit() {
             }
         }
 
-        loadData(id)
+        loadData()
     }, [])
 
     function enableControls(q: Quiz) {

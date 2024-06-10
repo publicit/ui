@@ -42,11 +42,8 @@
             display: flex;
             gap: 10px;
             align-items: center;
-
         }
-
     }
-
 }
 
 .user-quiz-fill-form-container {
@@ -116,7 +113,7 @@
 
     .try-again-button,
     .share-survey-button {
-        margin-top: .8rem !important;
+        margin-top: 0.8rem !important;
         display: flex;
         align-items: center;
 
@@ -144,7 +141,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
     }
 
     h2 {

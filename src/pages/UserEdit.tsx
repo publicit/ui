@@ -38,7 +38,7 @@ export function UserEdit() {
     })
 
     useEffect(() => {
-        loadUser(id)
+        loadUser()
         loadRoles()
     }, [])
 
@@ -58,7 +58,7 @@ export function UserEdit() {
         }
     }
 
-    async function loadUser(id: string) {
+    async function loadUser() {
         try {
             const data = await UserLoad(id)
             setUser(data)

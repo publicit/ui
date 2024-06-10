@@ -57,7 +57,6 @@ export default function UserQuizFillForm() {
 
     async function loadData(id: string) {
         try {
-            const userQuiz = new UserQuiz()
             userQuiz.id = userQuestionId
             const data: UserNextQuestion = await UserQuizNextQuestion(userQuiz)
             setData(data)

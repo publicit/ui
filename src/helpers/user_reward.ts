@@ -1,6 +1,10 @@
 import { UserReward } from '../models/user_reward'
 import dayjs from 'dayjs'
 
+function isBefore(a: Date, b: Date): boolean {
+    return dayjs(a).isBefore(b)
+}
+
 // sorts user rewards and calculates the balance for each row
 export function computeUserRewardBalance(rows: UserReward[]): UserReward[] {
     const result: UserReward[] = rows.sort((a: UserReward, b: UserReward) =>
@@ -12,8 +16,4 @@ export function computeUserRewardBalance(rows: UserReward[]): UserReward[] {
         x.balance = balance
         return x
     })
-}
-
-function isBefore(a: Date, b: Date): boolean {
-    return dayjs(a).isBefore(b)
 }

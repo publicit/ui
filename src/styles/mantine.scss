@@ -20,14 +20,12 @@
         text-decoration: none;
         color: var(--primary-color) !important;
     }
-
 }
 
 .mantine-Breadcrumbs-separator {
     margin-right: 15px !important;
     margin-left: 15px !important;
 }
-
 
 .mantine-UnstyledButton-root {
     margin: 0 !important;
@@ -37,6 +35,10 @@
     }
 }
 
-.mantine-focus-auto .m-f0824112 .mantine-NavLink-root .m-87cf2631 .mantine-UnstyledButton-root {
+.mantine-focus-auto
+    .m-f0824112
+    .mantine-NavLink-root
+    .m-87cf2631
+    .mantine-UnstyledButton-root {
     margin: 0 !important;
 }
