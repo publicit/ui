@@ -88,7 +88,6 @@ function App() {
         // user.image = profile?.picture
         const version = process.env.REACT_APP_TAG_NAME || ''
 
-        const a = 10
         return (
             <React.Fragment>
                 <AppShell

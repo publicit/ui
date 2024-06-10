@@ -37,6 +37,10 @@ This command not only analyzes your code for errors and style issues using ESLin
 
 This command runs a code formatter ( Prettier) on your project to ensure that your code is consistently styled. A code formatter automatically adjusts your code to follow a consistent style, making it easier to read and maintain.
 
+## Prettier - Documentation
+
+Prettier is an opinionated code formatter that enforces a consistent style by parsing your code and re-printing it with its own rules. It supports various languages, including JavaScript and JSX, making it ideal for React.js projects.
+
 ## Husky - Documentation
 
 Husky basically a git hook which is linked with eslint and prettier.
