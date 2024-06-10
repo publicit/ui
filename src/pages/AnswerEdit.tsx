@@ -36,6 +36,8 @@ export default function AnswerEdit() {
         return `/questions/${question.id}`
     }
 
+    let a = 10
+
     useEffect(() => {
         async function loadData() {
             try {
