@@ -25,3 +25,6 @@ jobs:
       - name: Linter
         run: |
           npm run lint
+      - name: Prettier
+        run: |
+          npm run format:check || echo "disabled until we fix all the files in another branch"
