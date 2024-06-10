@@ -16,9 +16,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-
-      - name: test
+      - name: Install deps
         run: |
           npm ci
-          npm run lint
+      - name: Run build
+        run: |
           npm run build
