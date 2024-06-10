@@ -1,5 +1,5 @@
-import { User } from "./user";
-import { trimAll, truncateTime } from "../helpers/text_utils";
+import { User } from './user'
+import { trimAll, truncateTime } from '../helpers/text_utils'
 
 export class Campaign {
     id: string
@@ -12,14 +12,14 @@ export class Campaign {
     status: string
 
     constructor() {
-        this.id = ""
-        this.name = ""
-        this.description = ""
+        this.id = ''
+        this.name = ''
+        this.description = ''
         this.user = new User()
         this.start_date = new Date()
         this.end_date = new Date()
-        this.status = ""
-        this.image_url = ""
+        this.status = ''
+        this.image_url = ''
     }
 }
 
@@ -27,9 +27,9 @@ export function notTrunCampaign(v: any): Campaign {
     if (!v) return new Campaign()
     return {
         ...v,
-        start_date: new Date(v["start_date"]),
-        end_date: new Date(v["end_date"]),
-        image: v["image_url"],
+        start_date: new Date(v['start_date']),
+        end_date: new Date(v['end_date']),
+        image: v['image_url'],
     }
 }
 
@@ -37,18 +37,21 @@ export function toCampaign(v: any): Campaign {
     if (!v) return new Campaign()
     return {
         ...v,
-        start_date: truncateTime(new Date(v["start_date"])),
-        end_date: truncateTime(new Date(v["end_date"])),
-        image: v["image_url"],
+        start_date: truncateTime(new Date(v['start_date'])),
+        end_date: truncateTime(new Date(v['end_date'])),
+        image: v['image_url'],
     }
 }
 
 export function campaignValidation() {
     return {
-        name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
-        start_date: (value: Date) => !value ? "Fecha de inicio es mandatorio" : null,
-        end_date: (value: Date) => !value ? "Fecha de termino es mandatorio" : null,
-        image_url: (value: string) => !value ? "Imagen es mandatorio" : null,
+        name: (value: string) =>
+            trimAll(value).length === 0 ? 'Nombre es mandatorio' : null,
+        start_date: (value: Date) =>
+            !value ? 'Fecha de inicio es mandatorio' : null,
+        end_date: (value: Date) =>
+            !value ? 'Fecha de termino es mandatorio' : null,
+        image_url: (value: string) => (!value ? 'Imagen es mandatorio' : null),
     }
 }
 

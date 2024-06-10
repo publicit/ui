@@ -1,43 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 
 // Helpers :
-import { uuidV4 } from "../helpers/uuid";
+import { uuidV4 } from '../helpers/uuid'
 
 // Models :
-import { Location } from "../models/location";
+import { Location } from '../models/location'
 
 import {
     Marker,
     GoogleMap,
     useLoadScript,
     GoogleMapProps,
-} from "@react-google-maps/api";
+} from '@react-google-maps/api'
 
 type params = {
     locations: Location[]
-    onClick: (coordinate: Location) => {}
+    onClick: (coordinate: Location) => void
 }
 export const GoogleMaps = ({ locations, onClick }: params) => {
-    const [currentLocation, setCurrentLocation] = useState<{ lat: number, lng: number } | null>(null);
+    const [currentLocation, setCurrentLocation] = useState<{
+        lat: number
+        lng: number
+    } | null>(null)
 
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
-                const { latitude, longitude } = position.coords;
-                setCurrentLocation({ lat: latitude, lng: longitude });
-            });
+                const { latitude, longitude } = position.coords
+                setCurrentLocation({ lat: latitude, lng: longitude })
+            })
         } else {
-            console.error("Geolocation is not supported by this browser");
+            console.error('Geolocation is not supported by this browser')
         }
-    }, []);
+    }, [])
 
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     })
 
     const handleMapClick: GoogleMapProps['onClick'] = (evnet) => {
-        const lat = evnet.latLng.lat();
-        const lng = evnet.latLng.lng();
+        const lat = evnet.latLng.lat()
+        const lng = evnet.latLng.lng()
         const c = new Location()
         c.lat = lat
         c.lng = lng
@@ -49,16 +52,12 @@ export const GoogleMaps = ({ locations, onClick }: params) => {
     }
 
     if (!isLoaded) {
-        return (
-            <div>
-                Loading
-            </div>
-        );
+        return <div>Loading</div>
     }
 
     return (
         <React.Fragment>
-            {currentLocation ?
+            {currentLocation ? (
                 <>
                     <GoogleMap
                         zoom={17}
@@ -70,13 +69,21 @@ export const GoogleMaps = ({ locations, onClick }: params) => {
                             <Marker
                                 key={uuidV4()}
                                 position={el}
-                                onClick={() => handleMarkerClick(el.lat as number, el.lng as number)}
+                                onClick={() =>
+                                    handleMarkerClick(
+                                        el.lat as number,
+                                        el.lng as number
+                                    )
+                                }
                             />
                         ))}
                     </GoogleMap>
-                </> :
-                <div className='map-container location-off-message'>Por favor activa tu ubicación</div>}
+                </>
+            ) : (
+                <div className="map-container location-off-message">
+                    Por favor activa tu ubicación
+                </div>
+            )}
         </React.Fragment>
     )
 }
-

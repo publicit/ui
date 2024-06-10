@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import {
-    IconCornerDownLeft,
-    IconCornerDownRight
-} from "@tabler/icons-react";
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { IconCornerDownLeft, IconCornerDownRight } from '@tabler/icons-react'
 
 // Mantine :
-import { Grid } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Grid } from '@mantine/core'
+import { useForm } from '@mantine/form'
 
 // Components :
-import PreLoader from "../components/PreLoader";
-import { notifyErrResponse } from "../components/Errors";
-import { UserEditForm } from "../components/UserEditForm";
-import { RolesSimpleTable } from "../components/RolesSimpleTable";
+import PreLoader from '../components/PreLoader'
+import { notifyErrResponse } from '../components/Errors'
+import { UserEditForm } from '../components/UserEditForm'
+import { RolesSimpleTable } from '../components/RolesSimpleTable'
 
-// Models : 
-import { Role } from "../models/role";
-import { User } from "../models/user";
+// Models :
+import { Role } from '../models/role'
+import { User } from '../models/user'
 
 // Helpers :
 import {
@@ -26,11 +23,10 @@ import {
     RolesInUser,
     RoleAddUser,
     RoleRemoveUser,
-} from "../helpers/api"
-
+} from '../helpers/api'
 
 export function UserEdit() {
-    const id = useParams().id || "";
+    const id = useParams().id || ''
     const [user, setUser] = useState<User>(new User())
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [selectedRoles, setSelectedRoles] = useState<Role[]>([])
@@ -42,15 +38,17 @@ export function UserEdit() {
     })
 
     useEffect(() => {
-        loadUser(id);
+        loadUser(id)
         loadRoles()
-    }, []);
+    }, [])
 
     async function loadRoles() {
         try {
             const selected = await RolesInUser(id)
             const allRoles = await RoleList()
-            const unselected = allRoles.filter((x: Role) => !selected.find((r: Role) => r.id === x.id))
+            const unselected = allRoles.filter(
+                (x: Role) => !selected.find((r: Role) => r.id === x.id)
+            )
             setSelectedRoles(selected)
             setUnselectedRoles(unselected)
         } catch (err) {
@@ -96,7 +94,9 @@ export function UserEdit() {
         }
     }
 
-    return isLoading ? <PreLoader /> : (
+    return isLoading ? (
+        <PreLoader />
+    ) : (
         <React.Fragment>
             <h1>{user.name}</h1>
             <UserEditForm form={form} user={user} />

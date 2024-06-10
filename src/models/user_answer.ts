@@ -1,6 +1,6 @@
-import {Question} from "./question";
-import {UserQuiz} from "./user_quiz";
-import {Answer} from "./answer";
+import { Question } from './question'
+import { UserQuiz } from './user_quiz'
+import { Answer } from './answer'
 
 export class UserAnswer {
     id: string
@@ -10,7 +10,7 @@ export class UserAnswer {
     answer: Answer
 
     constructor() {
-        this.id = ""
+        this.id = ''
         this.is_completed = false
         this.question = new Question()
         this.user_quiz = new UserQuiz()

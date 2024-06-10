@@ -1,4 +1,4 @@
-import {RoleNames} from "./role";
+import { RoleNames } from './role'
 
 export type MenuItem = {
     label: string

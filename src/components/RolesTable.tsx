@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 
 // Mantine :
-import { Table } from "@mantine/core";
+import { Table } from '@mantine/core'
 
 // Models :
-import { Role } from "../models/role";
+import { Role } from '../models/role'
 
 type Params = {
     rows: Role[]
@@ -42,12 +42,15 @@ export function RolesTable({ rows }: Params) {
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.length > 0 ?
+                {rows.length > 0 ? (
                     <React.Fragment>
-                        {rows.map((role: Role,) => <Row key={role.id} role={role} />)}
+                        {rows.map((role: Role) => (
+                            <Row key={role.id} role={role} />
+                        ))}
                     </React.Fragment>
-                    : <EmptyTable />
-                }
+                ) : (
+                    <EmptyTable />
+                )}
             </Table.Tbody>
         </Table>
     )

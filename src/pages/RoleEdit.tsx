@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // Mantine :
-import { useForm } from "@mantine/form";
+import { useForm } from '@mantine/form'
 
 // Components :
-import { UserTable } from "../components/UserTable";
-import { notifyErrResponse } from "../components/Errors";
-import { RoleEditForm } from "../components/RoleEditForm";
+import { UserTable } from '../components/UserTable'
+import { notifyErrResponse } from '../components/Errors'
+import { RoleEditForm } from '../components/RoleEditForm'
 
 // Helpers :
-import { RoleGet, RolePut, RoleRemoveUser, UsersInRole } from "../helpers/api"
-
+import { RoleGet, RolePut, RoleRemoveUser, UsersInRole } from '../helpers/api'
 
 // Models :
-import { User } from "../models/user";
-import { Role, roleValidation } from "../models/role";
-
+import { User } from '../models/user'
+import { Role, roleValidation } from '../models/role'
 
 export function RoleEdit() {
-    const id = useParams().id || ""
-    const navigate = useNavigate();
+    const id = useParams().id || ''
+    const navigate = useNavigate()
     const [role, setRole] = useState<Role>(new Role())
     const [users, setUsers] = useState<User[]>([])
 
@@ -47,15 +45,15 @@ export function RoleEdit() {
         }
     }
     useEffect(() => {
-        loadRole(id);
+        loadRole(id)
         loadUsers()
-    }, []);
+    }, [])
 
     async function onSubmit(data: Role) {
         try {
             await RolePut(data)
             const returnURL = `/roles`
-            navigate(returnURL);
+            navigate(returnURL)
         } catch (err) {
             await notifyErrResponse(err)
         }
@@ -63,9 +61,14 @@ export function RoleEdit() {
 
     async function onRemove(user: User) {
         try {
-            if (!window.confirm(`Seguro de quitar al usuario ${user.name} del role ${role.name}?`)) return
+            if (
+                !window.confirm(
+                    `Seguro de quitar al usuario ${user.name} del role ${role.name}?`
+                )
+            )
+                return
             await RoleRemoveUser(role.id, user.id)
-            setUsers(users.filter(x => x.id !== user.id))
+            setUsers(users.filter((x) => x.id !== user.id))
         } catch (err) {
             await notifyErrResponse(err)
         }
@@ -73,7 +76,12 @@ export function RoleEdit() {
 
     return (
         <React.Fragment>
-            <RoleEditForm onSubmit={onSubmit} form={form} legend={role.name} role={role} />
+            <RoleEditForm
+                onSubmit={onSubmit}
+                form={form}
+                legend={role.name}
+                role={role}
+            />
             <br />
             <UserTable rows={users} onDelete={onRemove} />
         </React.Fragment>

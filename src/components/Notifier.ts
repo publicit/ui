@@ -1,15 +1,15 @@
-import Swal from "sweetalert2";
-import "@sweetalert2/theme-dark/dark.css"
-import withReactContent from "sweetalert2-react-content";
+import Swal from 'sweetalert2'
+import '@sweetalert2/theme-dark/dark.css'
+import withReactContent from 'sweetalert2-react-content'
 
-const MySwal = withReactContent(Swal);
+const MySwal = withReactContent(Swal)
 
 type Params = {
-    title: string;
-    text: string;
-    confirmButtonText?: boolean;
-    timer?: number;
-};
+    title: string
+    text: string
+    confirmButtonText?: boolean
+    timer?: number
+}
 
 function popupSuccess({
     title,
@@ -20,7 +20,7 @@ function popupSuccess({
     return MySwal.fire({
         title: title,
         text: text,
-        icon: "success",
+        icon: 'success',
         timer: timer,
         showConfirmButton: confirmButtonText,
     })
@@ -34,21 +34,16 @@ function popupWarning({
     return MySwal.fire({
         title: title,
         text: text,
-        icon: "warning",
+        icon: 'warning',
         timer: timer,
         showConfirmButton: confirmButtonText,
     })
 }
-function popupInfo({
-    title,
-    text,
-    confirmButtonText,
-    timer = 1500,
-}: Params) {
+function popupInfo({ title, text, confirmButtonText, timer = 1500 }: Params) {
     return MySwal.fire({
         title: title,
         text: text,
-        icon: "info",
+        icon: 'info',
         timer: timer,
         showConfirmButton: confirmButtonText,
     })
@@ -57,17 +52,10 @@ function popupError({ title, text, confirmButtonText, timer = 1500 }: Params) {
     return MySwal.fire({
         title: title,
         text: text,
-        icon: "error",
+        icon: 'error',
         timer: timer,
         showConfirmButton: confirmButtonText,
-    });
-
+    })
 }
 
-
-export {
-    popupInfo,
-    popupError,
-    popupWarning,
-    popupSuccess,
-};
+export { popupInfo, popupError, popupWarning, popupSuccess }

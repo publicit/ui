@@ -1,26 +1,25 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // Mantine :
-import { useForm } from "@mantine/form";
+import { useForm } from '@mantine/form'
 
 // Components :
-import { notifyErrResponse } from "../components/Errors";
-import AnswerEditForm from "../components/AnswerEditForm";
-import { BreadcrumComponent } from "../components/BreadcrumComponent";
+import { notifyErrResponse } from '../components/Errors'
+import AnswerEditForm from '../components/AnswerEditForm'
+import { BreadcrumComponent } from '../components/BreadcrumComponent'
 
 // Helpers :
-import { AnswerPost, QuestionLoad } from "../helpers/api";
+import { AnswerPost, QuestionLoad } from '../helpers/api'
 
 // Models :
-import { Question } from "../models/question";
-import { BreadcrumbItem } from "../models/breadcrumbItem";
-import { Answer, answerValidation } from "../models/answer";
-
+import { Question } from '../models/question'
+import { BreadcrumbItem } from '../models/breadcrumbItem'
+import { Answer, answerValidation } from '../models/answer'
 
 export default function AnswerNew() {
-    const questionId = useParams().question_id || ""
-    const navigate = useNavigate();
+    const questionId = useParams().question_id || ''
+    const navigate = useNavigate()
     const [answer] = useState<Answer>(new Answer())
     const [canEdit, setCanEdit] = useState<boolean>(true)
     const [items, setItems] = useState<BreadcrumbItem[]>([])
@@ -38,15 +37,15 @@ export default function AnswerNew() {
                 setItems([
                     {
                         text: `${data.quiz.campaign.name}`,
-                        to: `/campaigns/${data.quiz.campaign.id}`
+                        to: `/campaigns/${data.quiz.campaign.id}`,
                     },
                     {
                         text: `${data.quiz.name}`,
-                        to: `/quizs/${data.quiz?.id}`
+                        to: `/quizs/${data.quiz?.id}`,
                     },
                     {
                         text: `${data.body}`,
-                        to: `/questions/${data.id}`
+                        to: `/questions/${data.id}`,
                     },
                 ])
             } catch (err) {
@@ -54,7 +53,7 @@ export default function AnswerNew() {
             }
         }
         loadData(questionId)
-    }, []);
+    }, [])
 
     async function onSubmit(data: Answer) {
         try {
@@ -62,7 +61,7 @@ export default function AnswerNew() {
             data.question = question
             await AnswerPost(data)
             const returnURL = `/questions/${questionId}`
-            navigate(returnURL);
+            navigate(returnURL)
         } catch (err) {
             await notifyErrResponse(err)
         } finally {
@@ -73,9 +72,12 @@ export default function AnswerNew() {
     return (
         <>
             <BreadcrumComponent items={items} />
-            <AnswerEditForm form={form}
-                onSubmit={onSubmit} answer={answer}
-                legend="Nueva Respuesta" canEdit={canEdit}
+            <AnswerEditForm
+                form={form}
+                onSubmit={onSubmit}
+                answer={answer}
+                legend="Nueva Respuesta"
+                canEdit={canEdit}
             />
         </>
     )

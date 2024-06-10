@@ -1,5 +1,5 @@
-import {trimAll} from "../helpers/text_utils";
-import {Question, toQuestion} from "./question";
+import { trimAll } from '../helpers/text_utils'
+import { Question, toQuestion } from './question'
 
 export class Answer {
     id: string
@@ -8,8 +8,8 @@ export class Answer {
     question: Question
 
     constructor() {
-        this.id = ""
-        this.body = ""
+        this.id = ''
+        this.body = ''
         this.is_valid = false
         this.question = new Question()
     }
@@ -23,9 +23,9 @@ export function toAnswer(v: any): Answer {
     }
 }
 
-
 export function answerValidation() {
     return {
-        body: (value: string) => trimAll(value).length === 0 ? "Texto es mandatorio" : null,
+        body: (value: string) =>
+            trimAll(value).length === 0 ? 'Texto es mandatorio' : null,
     }
 }

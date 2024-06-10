@@ -10,15 +10,15 @@ export class Address {
     zipcode: string
 
     constructor() {
-        this.address = ""
-        this.city = ""
-        this.country = ""
-        this.country_short = ""
-        this.full = ""
-        this.state = ""
-        this.street = ""
-        this.street_number = ""
-        this.zipcode = ""
+        this.address = ''
+        this.city = ''
+        this.country = ''
+        this.country_short = ''
+        this.full = ''
+        this.state = ''
+        this.street = ''
+        this.street_number = ''
+        this.zipcode = ''
     }
 }
 
@@ -28,5 +28,3 @@ export function toAddress(v: any): Address {
         ...v,
     }
 }
-
-

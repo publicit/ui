@@ -1,12 +1,15 @@
-import { roleNameToEnum } from "./roles";
+import { roleNameToEnum } from './roles'
 
 // Models :
-import { MenuItem } from "../models/menuItem";
-import { UserProfileResponse } from "../models/user";
-import { MenuGroup } from "../models/menuGroup";
+import { MenuItem } from '../models/menuItem'
+import { UserProfileResponse } from '../models/user'
+import { MenuGroup } from '../models/menuGroup'
 
 // returns true if any of the profile roles is allowed in the MenuItem
-export function menuItemHasRoleMembership(item: MenuItem, profile: UserProfileResponse | undefined): boolean {
+export function menuItemHasRoleMembership(
+    item: MenuItem,
+    profile: UserProfileResponse | undefined
+): boolean {
     // no roles defined, means no authentication
     if (!item.roles || item.roles?.length === 0) return true
     // no profile email, cannot have any role membership
@@ -24,8 +27,13 @@ export function menuItemHasRoleMembership(item: MenuItem, profile: UserProfileRe
 }
 
 // creates a copy of the menu group, but filtering only those which have permissions
-export function filterMenuGroup(group: MenuGroup, profile: UserProfileResponse | undefined): MenuGroup | null {
-    const items = group.items.filter(x => menuItemHasRoleMembership(x, profile))
+export function filterMenuGroup(
+    group: MenuGroup,
+    profile: UserProfileResponse | undefined
+): MenuGroup | null {
+    const items = group.items.filter((x) =>
+        menuItemHasRoleMembership(x, profile)
+    )
     if (items.length === 0) return null
     return {
         icon: group.icon,
@@ -36,12 +44,15 @@ export function filterMenuGroup(group: MenuGroup, profile: UserProfileResponse |
 }
 
 // parses an array of MenuGroup vs the profile
-export function glueMenus(groups: MenuGroup[], profile: UserProfileResponse | undefined): MenuGroup[] {
-    let result: MenuGroup[] = []
-    groups.forEach(group => {
+export function glueMenus(
+    groups: MenuGroup[],
+    profile: UserProfileResponse | undefined
+): MenuGroup[] {
+    const result: MenuGroup[] = []
+    groups.forEach((group) => {
         const filtered = filterMenuGroup(group, profile)
         if (!filtered) return
         result.push(filtered)
     })
-    return result.filter(x => x.items.length > 0)
+    return result.filter((x) => x.items.length > 0)
 }

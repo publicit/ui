@@ -1,25 +1,24 @@
 // Mantine :
-import { Button, Table } from "@mantine/core";
+import { Button, Table } from '@mantine/core'
 
 // Models :
-import { UserQuizShare } from "../models/user_quiz_share";
-import { IconCheck } from "@tabler/icons-react";
-
+import { UserQuizShare } from '../models/user_quiz_share'
+import { IconCheck } from '@tabler/icons-react'
 
 type Params = {
     rows: UserQuizShare[]
-    onDelete: (item: UserQuizShare) => {}
+    onDelete: (item: UserQuizShare) => void
 }
 
 type RowParams = {
     item: UserQuizShare
     index: number
-    onDelete: (item: UserQuizShare) => {}
+    onDelete: (item: UserQuizShare) => void
 }
 
 function Row({ index, item, onDelete }: RowParams) {
-    const isUsed: boolean = JSON.stringify(item.used_at) !== "null"
-    const usedIcon = <IconCheck style={{ color: "green" }} />
+    const isUsed: boolean = JSON.stringify(item.used_at) !== 'null'
+    const usedIcon = <IconCheck style={{ color: 'green' }} />
     return (
         <Table.Tr key={item.id} className="table-row-container">
             <Table.Td>{index + 1}</Table.Td>
@@ -27,16 +26,25 @@ function Row({ index, item, onDelete }: RowParams) {
                 {`${item.created_at.toLocaleDateString()} ${item.created_at.toLocaleTimeString()}`}
             </Table.Td>
             <Table.Td className="row-title">
-                {isUsed && `${item.used_at?.toLocaleDateString()} ${item.used_at?.toLocaleTimeString()}`}
+                {isUsed &&
+                    `${item.used_at?.toLocaleDateString()} ${item.used_at?.toLocaleTimeString()}`}
             </Table.Td>
             <Table.Td className="content-center">
                 {item.user_referred?.name}
             </Table.Td>
-            <Table.Td>{isUsed ? usedIcon :
-                <Button type="button" variant="outline" onClick={() => onDelete(item)}>
-                    {"Eliminar"}
-                </Button>
-            }</Table.Td>
+            <Table.Td>
+                {isUsed ? (
+                    usedIcon
+                ) : (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => onDelete(item)}
+                    >
+                        {'Eliminar'}
+                    </Button>
+                )}
+            </Table.Td>
         </Table.Tr>
     )
 }
@@ -66,14 +74,20 @@ export function UserQuizShareTable({ rows, onDelete }: Params) {
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.length > 0 ?
+                {rows.length > 0 ? (
                     <>
-                        {rows.map((row: UserQuizShare, index: number) => <Row key={row.id} item={row} index={index}
-                            onDelete={onDelete} />)}
+                        {rows.map((row: UserQuizShare, index: number) => (
+                            <Row
+                                key={row.id}
+                                item={row}
+                                index={index}
+                                onDelete={onDelete}
+                            />
+                        ))}
                     </>
-                    :
+                ) : (
                     <EmptyTable />
-                }
+                )}
             </Table.Tbody>
         </Table>
     )

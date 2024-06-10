@@ -1,22 +1,21 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // Mantine :
-import { useForm } from "@mantine/form";
+import { useForm } from '@mantine/form'
 
 // Components :
-import { notifyErrResponse } from "../components/Errors";
-import CampaignEditForm from "../components/CampaignEditForm";
+import { notifyErrResponse } from '../components/Errors'
+import CampaignEditForm from '../components/CampaignEditForm'
 
 // Models :
-import { Campaign, campaignValidation } from "../models/campaign";
+import { Campaign, campaignValidation } from '../models/campaign'
 
 // Helper :
-import { CampaignPost } from "../helpers/api"
-
+import { CampaignPost } from '../helpers/api'
 
 export default function CampaignNew() {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const [campaign] = useState<Campaign>(new Campaign())
     const [canEdit, setCanEdit] = useState<boolean>(true)
     const form = useForm<Campaign>({
@@ -29,7 +28,7 @@ export default function CampaignNew() {
             setCanEdit(false)
             const res = await CampaignPost(data)
             const returnURL = `/campaigns/${res.id}`
-            navigate(returnURL);
+            navigate(returnURL)
         } catch (err) {
             await notifyErrResponse(err)
         } finally {
@@ -42,8 +41,10 @@ export default function CampaignNew() {
             <h1>Nueva Campaña</h1>
             <div className="form-wrapper">
                 <CampaignEditForm
-                    form={form} campaign={campaign}
-                    onSubmit={onSubmit} canEdit={canEdit}
+                    form={form}
+                    campaign={campaign}
+                    onSubmit={onSubmit}
+                    canEdit={canEdit}
                     onFileSelected={null}
                 />
             </div>

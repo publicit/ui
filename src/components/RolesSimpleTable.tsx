@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState } from 'react'
+
 // Mantine :
-import { Loader, Table } from "@mantine/core";
+import { Loader, Table } from '@mantine/core'
 
 // Models :
-import { Role } from "../models/role";
+import { Role } from '../models/role'
 
 // Helpers :
-import { capitalizeAllWords } from "../helpers/text_utils";
+import { capitalizeAllWords } from '../helpers/text_utils'
 
 type Params = {
     rows: Role[]
@@ -23,22 +24,25 @@ type RowParams = {
 }
 
 function Row({ icon, loading, role, onClick }: RowParams) {
-    const [clickedRole, setClickedRole] = useState(null);
+    const [clickedRole, setClickedRole] = useState(null)
 
     const handleClick = (clickedRole: any) => {
-        setClickedRole(clickedRole);
-        onClick(clickedRole);
-    };
+        setClickedRole(clickedRole)
+        onClick(clickedRole)
+    }
 
     return (
         <Table.Tr key={role.id} className="table-row-container">
-            <Table.Td>
-                {capitalizeAllWords(role.name)}
-            </Table.Td>
-            <Table.Td className="content-center" onClick={() => handleClick(role)}>
+            <Table.Td>{capitalizeAllWords(role.name)}</Table.Td>
+            <Table.Td
+                className="content-center"
+                onClick={() => handleClick(role)}
+            >
                 <div className="flex-column">
                     <div>
-                        {loading && role.id === clickedRole?.id && <Loader size="sm" />}
+                        {loading && role.id === clickedRole?.id && (
+                            <Loader size="sm" />
+                        )}
                     </div>
                     {icon}
                 </div>
@@ -46,8 +50,6 @@ function Row({ icon, loading, role, onClick }: RowParams) {
         </Table.Tr>
     )
 }
-
-
 
 export function RolesSimpleTable({ icon, loading, rows, onClick }: Params) {
     return (
@@ -59,13 +61,15 @@ export function RolesSimpleTable({ icon, loading, rows, onClick }: Params) {
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.map((role: Role) =>
+                {rows.map((role: Role) => (
                     <Row
                         loading={loading}
-                        key={role.id} role={role}
-                        onClick={onClick} icon={icon}
+                        key={role.id}
+                        role={role}
+                        onClick={onClick}
+                        icon={icon}
                     />
-                )}
+                ))}
             </Table.Tbody>
         </Table>
     )

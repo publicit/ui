@@ -1,5 +1,5 @@
-import {MenuItem} from "./menuItem";
-import React from "react";
+import { MenuItem } from './menuItem'
+import React from 'react'
 
 export type MenuGroup = {
     label: string

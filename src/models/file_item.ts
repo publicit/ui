@@ -1,5 +1,5 @@
-import {toDate} from "../helpers/text_utils";
-import {FileTypeNames} from "./user_profile";
+import { toDate } from '../helpers/text_utils'
+import { FileTypeNames } from './user_profile'
 
 export class FileItem {
     id: string
@@ -12,14 +12,14 @@ export class FileItem {
     content_type: string
 
     constructor() {
-        this.id = ""
+        this.id = ''
         this.created = new Date()
-        this.reference_id = ""
-        this.key = ""
-        this.name = ""
+        this.reference_id = ''
+        this.key = ''
+        this.name = ''
         this.size = 0
-        this.type = ""
-        this.content_type = ""
+        this.type = ''
+        this.content_type = ''
     }
 }
 
@@ -27,11 +27,11 @@ export function toFileItem(v: any): FileItem {
     if (!v) return new FileItem()
     return {
         ...v,
-        last_login: toDate(new Date(v["created"])),
+        last_login: toDate(new Date(v['created'])),
     }
 }
 
 export type FileType = {
-    description:string
-    name:FileTypeNames
+    description: string
+    name: FileTypeNames
 }

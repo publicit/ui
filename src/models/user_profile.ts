@@ -1,5 +1,5 @@
-import { FileItem } from "./file_item";
-import { trimAll } from "../helpers/text_utils";
+import { FileItem } from './file_item'
+import { trimAll } from '../helpers/text_utils'
 
 export enum UserGender {
     Hombre,
@@ -11,7 +11,7 @@ export enum FileTypeNames {
     UNKNOWN_FILE_TYPE,
     INE_ID_BACK,
     INE_ID_FRONT,
-    CURP_ID
+    CURP_ID,
 }
 
 export class UserProfile {
@@ -25,25 +25,25 @@ export class UserProfile {
     is_completed: boolean
 
     constructor() {
-        this.id = ""
+        this.id = ''
         this.dob = new Date()
-        this.first_name = ""
-        this.last_name = ""
-        this.phone_number = ""
-        this.user_id = ""
-        this.gender = ""
+        this.first_name = ''
+        this.last_name = ''
+        this.phone_number = ''
+        this.user_id = ''
+        this.gender = ''
         this.is_completed = false
     }
 }
 
 export function toUserProfile(v: any): UserProfile {
     if (!v) return new UserProfile()
-    let gender: string = ""
+    let gender = ''
     switch (v.gender) {
-        case "MALE":
+        case 'MALE':
             gender = UserGender[UserGender.Hombre]
             break
-        case "FEMALE":
+        case 'FEMALE':
             gender = UserGender[UserGender.Mujer]
             break
         default:
@@ -52,7 +52,7 @@ export function toUserProfile(v: any): UserProfile {
     }
     return {
         ...v,
-        dob: new Date(v["dob"]),
+        dob: new Date(v['dob']),
         gender: gender,
     }
 }
@@ -61,22 +61,22 @@ export function fromUserProfile(u: UserProfile): UserProfile {
     const clone = JSON.parse(JSON.stringify(u))
     switch (clone.gender) {
         case UserGender[UserGender.Hombre]:
-            clone.gender = "MALE"
+            clone.gender = 'MALE'
             break
         case UserGender[UserGender.Mujer]:
-            clone.gender = "FEMALE"
+            clone.gender = 'FEMALE'
             break
         default:
-            clone.gender = "OTHER"
+            clone.gender = 'OTHER'
             break
     }
     return clone
 }
 
-
 export function userProfileValidation() {
     return {
-        phone_number: (value: string) => trimAll(value).length === 0 ? "Telefono es mandatorio" : null,
+        phone_number: (value: string) =>
+            trimAll(value).length === 0 ? 'Telefono es mandatorio' : null,
     }
 }
 

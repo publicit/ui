@@ -1,4 +1,4 @@
-import { Loader } from "@mantine/core";
+import { Loader } from '@mantine/core'
 
 export default function PreLoader() {
     return (

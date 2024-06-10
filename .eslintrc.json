@@ -1,0 +1,72 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "plugin:prettier/recommended",
+        "plugin:import/recommended"
+    ],
+    "overrides": [],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": ["prettier", "react", "@typescript-eslint", "react-hooks"],
+    "rules": {
+        "import/named": "off",
+        "import/default": "off",
+        "import/namespace": "off",
+        "no-use-before-define": "off",
+        "import/no-unresolved": "off",
+        "react/react-in-jsx-scope": "off",
+        "import/no-named-as-default": "off",
+        "import/no-named-as-default-member": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-shadow": ["warn"],
+        "@typescript-eslint/no-use-before-define": ["warn"],
+        "react/jsx-filename-extension": [
+            "warn",
+            {
+                "extensions": [".tsx"]
+            }
+        ],
+        "import/extensions": "off",
+        "no-shadow": "off",
+        "max-len": [
+            "warn",
+            {
+                "code": 100,
+                "ignoreComments": true,
+                "ignoreUrls": true
+            }
+        ],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "import/prefer-default-export": "off",
+        "react/prop-types": "off",
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            }
+        ]
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
+    }
+}

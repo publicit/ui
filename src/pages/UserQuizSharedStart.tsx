@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // Components :
 import {
     QuizRegisterForm,
-    QuizUnregisteredForm
-} from "../components/UserQuizRegisterForm";
-import PreLoader from "../components/PreLoader";
-import { popupWarning } from "../components/Notifier";
+    QuizUnregisteredForm,
+} from '../components/UserQuizRegisterForm'
+import PreLoader from '../components/PreLoader'
+import { popupWarning } from '../components/Notifier'
 
 // Helpers :
 import {
     QuizLoadByToken,
     UserQuizRegister,
     UserProfileLoad,
-} from "../helpers/api";
-import { isLoggedIn } from "../helpers/sso_service";
+} from '../helpers/api'
+import { isLoggedIn } from '../helpers/sso_service'
 
 // Models :
-import { Quiz } from "../models/quiz";
+import { Quiz } from '../models/quiz'
 
 export default function ShareStart() {
     const navigate = useNavigate()
-    const token = useParams().token || ""
+    const token = useParams().token || ''
     const [quiz, setQuiz] = useState<Quiz>(new Quiz())
     const [isLoading, isIsLoading] = useState<boolean>(true)
 
@@ -50,8 +50,8 @@ export default function ShareStart() {
                             return
                         default:
                             popupWarning({
-                                title: "Error",
-                                text: "No se pudo hacer el registro de la encuesta",
+                                title: 'Error',
+                                text: 'No se pudo hacer el registro de la encuesta',
                             })
                     }
                     navigate(`/user/quizs`)
@@ -66,13 +66,15 @@ export default function ShareStart() {
         loadData()
     }, [])
 
-    return isLoading ? <PreLoader /> : (
+    return isLoading ? (
+        <PreLoader />
+    ) : (
         <React.Fragment>
-            {isLoggedIn() ?
+            {isLoggedIn() ? (
                 <QuizRegisterForm token={token} />
-                :
+            ) : (
                 <QuizUnregisteredForm token={token} />
-            }
+            )}
         </React.Fragment>
     )
 }

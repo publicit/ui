@@ -1,5 +1,4 @@
-export
-type BreadcrumbItem = {
+export type BreadcrumbItem = {
     text: string
     to: string
 }

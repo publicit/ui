@@ -1,28 +1,27 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // Mantine :
-import { useForm } from "@mantine/form";
+import { useForm } from '@mantine/form'
 
 // Components :
-import { notifyErrResponse } from "../components/Errors";
-import AnswerEditForm from "../components/AnswerEditForm";
-import { BreadcrumComponent } from "../components/BreadcrumComponent";
+import { notifyErrResponse } from '../components/Errors'
+import AnswerEditForm from '../components/AnswerEditForm'
+import { BreadcrumComponent } from '../components/BreadcrumComponent'
 
 // Models :
-import { QuizStatus } from "../models/quiz";
-import { Question } from "../models/question";
-import { BreadcrumbItem } from "../models/breadcrumbItem";
-import { Answer, answerValidation } from "../models/answer";
+import { QuizStatus } from '../models/quiz'
+import { Question } from '../models/question'
+import { BreadcrumbItem } from '../models/breadcrumbItem'
+import { Answer, answerValidation } from '../models/answer'
 
 // Helpers :
-import { AnswerDelete, AnswerLoad, AnswerPut } from "../helpers/api"
-import PreLoader from "../components/PreLoader";
-
+import { AnswerDelete, AnswerLoad, AnswerPut } from '../helpers/api'
+import PreLoader from '../components/PreLoader'
 
 export default function AnswerEdit() {
-    const id = useParams().id || ""
-    const navigate = useNavigate();
+    const id = useParams().id || ''
+    const navigate = useNavigate()
     const [answer, setAnswer] = useState<Answer>(new Answer())
     const [question, setQuestion] = useState<Question>(new Question())
     const [items, setItems] = useState<BreadcrumbItem[]>([])
@@ -48,15 +47,15 @@ export default function AnswerEdit() {
                 setItems([
                     {
                         text: `${data.question.quiz.campaign.name}`,
-                        to: `/campaigns/${data.question.quiz.campaign?.id}`
+                        to: `/campaigns/${data.question.quiz.campaign?.id}`,
                     },
                     {
                         text: `${data.question.quiz.name}`,
-                        to: `/quizs/${data.question.quiz.id}`
+                        to: `/quizs/${data.question.quiz.id}`,
                     },
                     {
                         text: `${data.question.body}`,
-                        to: `/questions/${data.question.id}`
+                        to: `/questions/${data.question.id}`,
                     },
                 ])
             } catch (err) {
@@ -67,8 +66,7 @@ export default function AnswerEdit() {
         }
 
         loadData(id)
-
-    }, []);
+    }, [])
 
     function enableControls(q: Question) {
         setCanEdit(q.quiz.status === QuizStatus[QuizStatus.draft])
@@ -78,7 +76,7 @@ export default function AnswerEdit() {
         try {
             data.question = question
             await AnswerPut(data)
-            navigate(returnUrl());
+            navigate(returnUrl())
         } catch (err) {
             await notifyErrResponse(err)
         } finally {
@@ -91,18 +89,24 @@ export default function AnswerEdit() {
             // eslint-disable-next-line no-restricted-globals
             if (!confirm(`Seguro de eliminar la respuesta?`)) return
             await AnswerDelete(answer.id)
-            navigate(returnUrl());
+            navigate(returnUrl())
         } catch (err) {
             await notifyErrResponse(err)
         }
     }
 
-    return isLoading ? <PreLoader /> : (
+    return isLoading ? (
+        <PreLoader />
+    ) : (
         <>
             <BreadcrumComponent items={items} />
-            <AnswerEditForm form={form}
-                onSubmit={onSubmit} answer={answer}
-                legend="Formulario de Respuesta" onDelete={onDelete} canEdit={canEdit}
+            <AnswerEditForm
+                form={form}
+                onSubmit={onSubmit}
+                answer={answer}
+                legend="Formulario de Respuesta"
+                onDelete={onDelete}
+                canEdit={canEdit}
             />
         </>
     )

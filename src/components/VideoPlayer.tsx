@@ -1,9 +1,9 @@
-import ReactPlayer from "react-player";
-import { Button, Group } from "@mantine/core";
-import { IconArrowNarrowRight } from '@tabler/icons-react';
+import ReactPlayer from 'react-player'
+import { Button, Group } from '@mantine/core'
+import { IconArrowNarrowRight } from '@tabler/icons-react'
 
 type Params = {
-    userQuiz: any,
+    userQuiz: any
     nextStep: any
 }
 export default function VideoPlayer({ userQuiz, nextStep }: Params) {

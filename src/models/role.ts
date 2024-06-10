@@ -1,4 +1,4 @@
-import {trimAll} from "../helpers/text_utils";
+import { trimAll } from '../helpers/text_utils'
 
 export enum RoleNames {
     Unknown,
@@ -13,16 +13,15 @@ export class Role {
     description: string
 
     constructor() {
-        this.id = ""
-        this.name = ""
-        this.description = ""
+        this.id = ''
+        this.name = ''
+        this.description = ''
     }
 }
-
 
 export function roleValidation() {
     return {
-        name: (value: string) => trimAll(value).length === 0 ? "Nombre es mandatorio" : null,
+        name: (value: string) =>
+            trimAll(value).length === 0 ? 'Nombre es mandatorio' : null,
     }
 }
-

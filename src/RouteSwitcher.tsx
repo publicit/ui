@@ -1,39 +1,38 @@
-import * as React from "react";
-import { Route, Routes } from "react-router-dom";
+import * as React from 'react'
+import { Route, Routes } from 'react-router-dom'
 
 // Pages :
-import Root from "./pages/Root";
-import QuizNew from "./pages/QuizNew";
-import QuizEdit from "./pages/QuizEdit";
-import Error404 from "./pages/Error404";
-import AnswerNew from "./pages/AnswerNew";
-import AnswerEdit from "./pages/AnswerEdit";
-import { RoleEdit } from "./pages/RoleEdit";
-import { UserEdit } from "./pages/UserEdit";
-import { UsersList } from "./pages/UserList";
-import { RolesList } from "./pages/RolesList";
-import QuestionNew from "./pages/QuestionNew";
-import CampaignNew from "./pages/CampaignNew";
-import UserQuizList from "./pages/UserQuizList";
-import CampaignList from "./pages/CampaignList";
-import CampaignEdit from "./pages/CampaignEdit";
-import QuestionEdit from "./pages/QuestionEdit";
-import ProfileEdit from "./pages/UserProfileEdit"
-import ShareStart from "./pages/UserQuizSharedStart";
-import UserQuizFillForm from "./pages/UserQuizFillForm";
-import UserQuizSummaryView from "./pages/UserQuizSummaryView";
+import Root from './pages/Root'
+import QuizNew from './pages/QuizNew'
+import QuizEdit from './pages/QuizEdit'
+import Error404 from './pages/Error404'
+import AnswerNew from './pages/AnswerNew'
+import AnswerEdit from './pages/AnswerEdit'
+import { RoleEdit } from './pages/RoleEdit'
+import { UserEdit } from './pages/UserEdit'
+import { UsersList } from './pages/UserList'
+import { RolesList } from './pages/RolesList'
+import QuestionNew from './pages/QuestionNew'
+import CampaignNew from './pages/CampaignNew'
+import UserQuizList from './pages/UserQuizList'
+import CampaignList from './pages/CampaignList'
+import CampaignEdit from './pages/CampaignEdit'
+import QuestionEdit from './pages/QuestionEdit'
+import ProfileEdit from './pages/UserProfileEdit'
+import ShareStart from './pages/UserQuizSharedStart'
+import UserQuizFillForm from './pages/UserQuizFillForm'
+import UserQuizSummaryView from './pages/UserQuizSummaryView'
 
-import Error401 from "./pages/Error401";
-import Error403 from "./pages/Error403";
+import Error401 from './pages/Error401'
+import Error403 from './pages/Error403'
 
 // Models :
-import { RoleNames } from "./models/role";
-import { UserProfileResponse } from "./models/user";
+import { RoleNames } from './models/role'
+import { UserProfileResponse } from './models/user'
 
 // Helpers :
-import { roleNameToEnum } from "./helpers/roles";
-import { UserRewards } from "./pages/UserRewardList";
-
+import { roleNameToEnum } from './helpers/roles'
+import { UserRewards } from './pages/UserRewardList'
 
 type params = {
     profile: UserProfileResponse | undefined
@@ -45,7 +44,10 @@ type RouteRole = {
 }
 
 // checks if the provided rule has role access defined in the provided profile
-function routeHasAccess(route: RouteRole, profile: UserProfileResponse | undefined): boolean {
+function routeHasAccess(
+    route: RouteRole,
+    profile: UserProfileResponse | undefined
+): boolean {
     // no role declared in the route, means anyone can access it
     if (route.roles?.length === 0) return true
 
@@ -73,7 +75,12 @@ function routesWithRoles(): RouteRole[] {
             roles: [],
         },
         {
-            route: <Route path="/answers/new/:question_id" element={<AnswerNew />} />,
+            route: (
+                <Route
+                    path="/answers/new/:question_id"
+                    element={<AnswerNew />}
+                />
+            ),
             roles: [RoleNames.CampaignOwners],
         },
         {
@@ -93,7 +100,12 @@ function routesWithRoles(): RouteRole[] {
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/questions/new/:quiz_id" element={<QuestionNew />} />,
+            route: (
+                <Route
+                    path="/questions/new/:quiz_id"
+                    element={<QuestionNew />}
+                />
+            ),
             roles: [RoleNames.CampaignOwners],
         },
         {
@@ -101,7 +113,9 @@ function routesWithRoles(): RouteRole[] {
             roles: [RoleNames.CampaignOwners],
         },
         {
-            route: <Route path="/quizs/new/:campaign_id" element={<QuizNew />} />,
+            route: (
+                <Route path="/quizs/new/:campaign_id" element={<QuizNew />} />
+            ),
             roles: [RoleNames.CampaignOwners],
         },
         {
@@ -110,7 +124,9 @@ function routesWithRoles(): RouteRole[] {
         },
 
         {
-            route: <Route path="/user/quizs/:id" element={<UserQuizFillForm />} />,
+            route: (
+                <Route path="/user/quizs/:id" element={<UserQuizFillForm />} />
+            ),
             roles: [RoleNames.Users],
         },
         {
@@ -118,7 +134,12 @@ function routesWithRoles(): RouteRole[] {
             roles: [RoleNames.Users],
         },
         {
-            route: <Route path="/user/quizs/:user_quiz_id/summary" element={<UserQuizSummaryView />} />,
+            route: (
+                <Route
+                    path="/user/quizs/:user_quiz_id/summary"
+                    element={<UserQuizSummaryView />}
+                />
+            ),
             roles: [RoleNames.Users],
         },
 
@@ -157,9 +178,14 @@ export default function RouteSwitcher({ profile }: params) {
         <Routes>
             <Route path="/" element={<Root />} />
 
-            {routes.filter(route => routeHasAccess(route, profile)).map((route, index) => (
-                <Route key={route.route.props.path.toString()} {...route.route.props} />
-            ))}
+            {routes
+                .filter((route) => routeHasAccess(route, profile))
+                .map((route, index) => (
+                    <Route
+                        key={route.route.props.path.toString()}
+                        {...route.route.props}
+                    />
+                ))}
 
             <Route path="/errors/unauthenticated" element={<Error401 />} />
             <Route path="/errors/unauthorized" element={<Error403 />} />

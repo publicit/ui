@@ -1,5 +1,5 @@
-import {RoleNames} from "../models/role";
-import {roleNameToEnum} from "./roles";
+import { RoleNames } from '../models/role'
+import { roleNameToEnum } from './roles'
 
 type testPayload = {
     name: string
@@ -10,27 +10,27 @@ type testPayload = {
 test('something', () => {
     const cases: testPayload[] = [
         {
-            name: "unknown",
+            name: 'unknown',
             want: RoleNames.Unknown,
-            role: "",
+            role: '',
         },
         {
-            name: "administrators",
+            name: 'administrators',
             want: RoleNames.Administrators,
-            role: "administrators",
+            role: 'administrators',
         },
         {
-            name: "campaign_owners",
+            name: 'campaign_owners',
             want: RoleNames.CampaignOwners,
-            role: "campaign_owners",
+            role: 'campaign_owners',
         },
         {
-            name: "users",
+            name: 'users',
             want: RoleNames.Users,
-            role: "users",
+            role: 'users',
         },
     ]
-    cases.forEach(tc => {
+    cases.forEach((tc) => {
         const got = roleNameToEnum(tc.role)
         expect(got).toEqual(tc.want)
     })

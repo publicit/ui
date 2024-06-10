@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // Mantine :
-import { Grid } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Grid } from '@mantine/core'
+import { useForm } from '@mantine/form'
 
 // Compoenets :
-import QuizTable from "../components/QuizTable";
-import PreLoader from "../components/PreLoader";
-import { notifyErrResponse } from "../components/Errors";
-import CampaignEditForm from "../components/CampaignEditForm";
+import QuizTable from '../components/QuizTable'
+import PreLoader from '../components/PreLoader'
+import { notifyErrResponse } from '../components/Errors'
+import CampaignEditForm from '../components/CampaignEditForm'
 
 // Models :
-import { Quiz } from "../models/quiz";
-import { Campaign, campaignValidation } from "../models/campaign";
+import { Quiz } from '../models/quiz'
+import { Campaign, campaignValidation } from '../models/campaign'
 
 // Helpers :
 import {
@@ -23,17 +23,16 @@ import {
     FileImportQuiz,
     FileItemUpload,
     QuizList,
-    UserProfileFileSave
-} from "../helpers/api"
-import {FileTypeNames} from "../models/user_profile";
-import {checkFileSize} from "../helpers/file_size";
-import {FileItem} from "../models/file_item";
-
+    UserProfileFileSave,
+} from '../helpers/api'
+import { FileTypeNames } from '../models/user_profile'
+import { checkFileSize } from '../helpers/file_size'
+import { FileItem } from '../models/file_item'
 
 export default function Edit() {
-    const id = useParams().id || ""
-    const returnURL = "/campaigns"
-    const navigate = useNavigate();
+    const id = useParams().id || ''
+    const returnURL = '/campaigns'
+    const navigate = useNavigate()
 
     const [quizs, setQuizs] = useState<Quiz[]>([])
     const [canEdit, setCanEdit] = useState<boolean>(true)
@@ -66,7 +65,7 @@ export default function Edit() {
         try {
             setCanEdit(false)
             await CampaignPut(data)
-            navigate(returnURL);
+            navigate(returnURL)
         } catch (err) {
             await notifyErrResponse(err)
             setIsLoading(false)
@@ -79,9 +78,10 @@ export default function Edit() {
     async function onDelete() {
         try {
             // eslint-disable-next-line no-restricted-globals
-            if (!confirm(`Seguro de eliminar la campaña: ${campaign.name}?`)) return
+            if (!confirm(`Seguro de eliminar la campaña: ${campaign.name}?`))
+                return
             await CampaignDelete(id)
-            navigate(returnURL);
+            navigate(returnURL)
         } catch (err) {
             await notifyErrResponse(err)
         }
@@ -101,22 +101,26 @@ export default function Edit() {
         }
     }
 
-
-    return isLoading ? <PreLoader /> : (
+    return isLoading ? (
+        <PreLoader />
+    ) : (
         <React.Fragment>
             <Grid gutter={15}>
-                <Grid.Col span={{ md: 12, lg: 12, }}>
+                <Grid.Col span={{ md: 12, lg: 12 }}>
                     <h1>Formulario de Campaña</h1>
                     <div className="form-wrapper">
                         <CampaignEditForm
-                            form={form} onSubmit={onSubmit}
-                            canEdit={canEdit} campaign={campaign}
-                            onDelete={onDelete} showDelete={quizs.length === 0}
+                            form={form}
+                            onSubmit={onSubmit}
+                            canEdit={canEdit}
+                            campaign={campaign}
+                            onDelete={onDelete}
+                            showDelete={quizs.length === 0}
                             onFileSelected={onFileSelected}
                         />
                     </div>
                 </Grid.Col>
-                <Grid.Col span={{ md: 12, lg: 12, }}>
+                <Grid.Col span={{ md: 12, lg: 12 }}>
                     <h1>Encuestas</h1>
                     <QuizTable rows={quizs} />
                 </Grid.Col>

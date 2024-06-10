@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // Mantine :
-import { Grid, Progress, Button, TextInput } from "@mantine/core";
+import { Grid, Progress, Button, TextInput } from '@mantine/core'
 
 // Components :
-import PreLoader from "../components/PreLoader";
-import { popupSuccess } from "../components/Notifier";
-import { QuizSummary } from "../components/QuizSummary";
-import { notifyErrResponse } from "../components/Errors";
-import { UserQuizShareTable } from "../components/UserQuizShareTable";
+import PreLoader from '../components/PreLoader'
+import { popupSuccess } from '../components/Notifier'
+import { QuizSummary } from '../components/QuizSummary'
+import { notifyErrResponse } from '../components/Errors'
+import { UserQuizShareTable } from '../components/UserQuizShareTable'
 
 // Models :
-import { UserQuiz } from "../models/user_quiz";
-import { UserQuestion } from "../models/user_question";
-import { UserQuizShare } from "../models/user_quiz_share";
+import { UserQuiz } from '../models/user_quiz'
+import { UserQuestion } from '../models/user_question'
+import { UserQuizShare } from '../models/user_quiz_share'
 
 // Helpers :
 import {
@@ -23,16 +23,15 @@ import {
     UserQuizShareList,
     GetUserQuizSummary,
     UserQuizShareDelete,
-} from "../helpers/api";
-import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
-
+} from '../helpers/api'
+import { quizTokenShareUrl } from '../helpers/user_quiz_utils'
 
 export default function UserQuizSummaryView() {
     const navigate = useNavigate()
-    const userQuizId = useParams().user_quiz_id || "";
+    const userQuizId = useParams().user_quiz_id || ''
 
-    const [sharedUrl, setSharedUrl] = useState("")
-    const [email, setEmail] = useState<string>("")
+    const [sharedUrl, setSharedUrl] = useState('')
+    const [email, setEmail] = useState<string>('')
     const [rows, setRows] = useState<UserQuizShare[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isShareLoading, setIsshareLoading] = useState<boolean>(false)
@@ -41,7 +40,7 @@ export default function UserQuizSummaryView() {
 
     useEffect(() => {
         loadData(userQuizId)
-    }, []);
+    }, [])
 
     async function loadData(id: string) {
         try {
@@ -97,7 +96,7 @@ export default function UserQuizSummaryView() {
             setIsshareLoading(true)
             await UserQuizShareLink(uq.quiz.id, email)
             popupSuccess({
-                title: "Éxito",
+                title: 'Éxito',
                 confirmButtonText: true,
                 timer: 3000,
                 text: `Se ha generado una notificación a ${email} y se ha agregado a la encuesta ${uq.quiz.name}`,
@@ -112,19 +111,28 @@ export default function UserQuizSummaryView() {
     function EmailShareForm(uq: UserQuiz, email: string) {
         return (
             <React.Fragment>
-                <form className="email-dialog-box"
+                <form
+                    className="email-dialog-box"
                     onSubmit={(e) => {
                         e.preventDefault()
-                        shareQuizUsingEmail(uq, email).then(() => console.log(`TODO: close dialog`))
+                        shareQuizUsingEmail(uq, email).then(() =>
+                            console.log(`TODO: close dialog`)
+                        )
                     }}
                 >
                     <div className="flex-email-field">
-                        <TextInput label="Email" type="email"
-                            placeholder="someone@example.com" value={email}
+                        <TextInput
+                            label="Email"
+                            type="email"
+                            placeholder="someone@example.com"
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        <Button variant="outline" type="submit"
-                            loading={isShareLoading} className="submit-button"
+                        <Button
+                            variant="outline"
+                            type="submit"
+                            loading={isShareLoading}
+                            className="submit-button"
                         >
                             Enviar
                         </Button>
@@ -134,24 +142,27 @@ export default function UserQuizSummaryView() {
         )
     }
 
-    return isLoading ? <PreLoader /> : (
+    return isLoading ? (
+        <PreLoader />
+    ) : (
         <div className="user-quiz-summary-container">
             <h1 className="quiz-name">{userQuiz.quiz.name}</h1>
             <Progress mt="50px" value={userQuiz.percent_completed * 100} />
             <Grid gutter={15} mt="3rem">
-                <Grid.Col span={{ md: 12, lg: 6, }}>
+                <Grid.Col span={{ md: 12, lg: 6 }}>
                     <QuizSummary
-                        userQuiz={userQuiz} shareQuiz={shareQuiz}
-                        onRetry={retryQuiz} userQuestions={userQuestions}
-                        sharedUrl={sharedUrl} setSharedUrl={setSharedUrl}
+                        userQuiz={userQuiz}
+                        shareQuiz={shareQuiz}
+                        onRetry={retryQuiz}
+                        userQuestions={userQuestions}
+                        sharedUrl={sharedUrl}
+                        setSharedUrl={setSharedUrl}
                         loadData={() => loadShares(userQuiz.quiz.id)}
                         emailShareDialog={EmailShareForm(userQuiz, email)}
                     />
                 </Grid.Col>
-                <Grid.Col span={{ md: 12, lg: 6, }}>
-                    <UserQuizShareTable
-                        rows={rows} onDelete={onDelete}
-                    />
+                <Grid.Col span={{ md: 12, lg: 6 }}>
+                    <UserQuizShareTable rows={rows} onDelete={onDelete} />
                 </Grid.Col>
             </Grid>
         </div>

@@ -1,4 +1,4 @@
-import {RoleNames} from "../models/role";
+import { RoleNames } from '../models/role'
 
 export function roleNameToEnum(role: string): RoleNames {
     switch (role) {

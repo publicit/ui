@@ -1,4 +1,4 @@
-import {toDate} from "../helpers/text_utils";
+import { toDate } from '../helpers/text_utils'
 
 export class User {
     email?: string
@@ -8,10 +8,10 @@ export class User {
     last_login: Date
 
     constructor() {
-        this.email = ""
-        this.image = ""
-        this.name = ""
-        this.id = ""
+        this.email = ''
+        this.image = ''
+        this.name = ''
+        this.id = ''
         this.last_login = new Date()
     }
 }
@@ -20,7 +20,7 @@ export function toUser(v: any): User {
     if (!v) return new User()
     return {
         ...v,
-        last_login: toDate(new Date(v["last_login"])),
+        last_login: toDate(new Date(v['last_login'])),
     }
 }
 

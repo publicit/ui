@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 // Mantine :
-import { Button, Checkbox, Table } from "@mantine/core";
+import { Button, Checkbox, Table } from '@mantine/core'
 
 // Models :
-import { Answer } from "../models/answer";
-
+import { Answer } from '../models/answer'
 
 type Params = {
     rows: Answer[]
@@ -24,15 +23,12 @@ function Row({ index, answer, canEdit }: RowParams) {
             <Table.Td>{index + 1}</Table.Td>
             <Table.Td className="row-title">{answer.body}</Table.Td>
             <Table.Td>
-                <Checkbox checked={answer.is_valid}
-                    onChange={() => { }}
-                    className="row-checkbox"
-                />
+                <Checkbox checked={answer.is_valid} className="row-checkbox" />
             </Table.Td>
             <Table.Td className="content-center">
                 <Link to={`/answers/${answer.id}`}>
                     <Button type="button" variant="outline">
-                        {canEdit ? "Editar" : "Ver"}
+                        {canEdit ? 'Editar' : 'Ver'}
                     </Button>
                 </Link>
             </Table.Td>
@@ -62,13 +58,20 @@ export default function AnswerTable({ rows, canEdit }: Params) {
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.length > 0 ?
+                {rows.length > 0 ? (
                     <>
-                        {rows.map((answer: Answer, index: number) => <Row key={answer.id} answer={answer} canEdit={canEdit} index={index} />)}
+                        {rows.map((answer: Answer, index: number) => (
+                            <Row
+                                key={answer.id}
+                                answer={answer}
+                                canEdit={canEdit}
+                                index={index}
+                            />
+                        ))}
                     </>
-                    :
+                ) : (
                     <EmptyTable />
-                }
+                )}
             </Table.Tbody>
         </Table>
     )

@@ -1,11 +1,10 @@
-import React from "react";
+import React from 'react'
 
 // Mantine :
-import { Button } from "@mantine/core";
+import { Button } from '@mantine/core'
 
 // Models :
-import { Location } from "../models/location";
-
+import { Location } from '../models/location'
 
 type Params = {
     onDelete?: any
@@ -16,7 +15,7 @@ export function LocationsTable({ locations, onDelete }: Params) {
     return (
         <React.Fragment>
             <h2>Puntos Seleccionados</h2>
-            <ul className='locations-list'>
+            <ul className="locations-list">
                 {locations.map((location, index) => (
                     <li key={index}>
                         <a
@@ -28,14 +27,15 @@ export function LocationsTable({ locations, onDelete }: Params) {
                                 ? location.address.full
                                 : location.url()}
                         </a>
-                        {onDelete &&
+                        {onDelete && (
                             <Button
-                                variant='outline' mt="sm"
+                                variant="outline"
+                                mt="sm"
                                 onClick={() => onDelete(index)}
                             >
                                 Eliminar
                             </Button>
-                        }
+                        )}
                     </li>
                 ))}
             </ul>

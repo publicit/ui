@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
 // Components :
-import PreLoader from "../components/PreLoader";
-import { UserRewardsTable } from "../components/RewardsTable";
+import PreLoader from '../components/PreLoader'
+import { UserRewardsTable } from '../components/RewardsTable'
 
 // Models :
-import { UserReward } from "../models/user_reward";
+import { UserReward } from '../models/user_reward'
 
 // Helpers :
-import { userRewardsList } from "../helpers/api";
-import { computeUserRewardBalance } from "../helpers/user_reward";
-
+import { userRewardsList } from '../helpers/api'
+import { computeUserRewardBalance } from '../helpers/user_reward'
 
 export function UserRewards() {
     const [rows, setRows] = useState<UserReward[]>([])
@@ -29,10 +28,12 @@ export function UserRewards() {
             }
         }
 
-        loadData();
-    }, []);
+        loadData()
+    }, [])
 
-    return isLoading ? <PreLoader /> : (
+    return isLoading ? (
+        <PreLoader />
+    ) : (
         <React.Fragment>
             <h1>Tus Recompensas</h1>
             <UserRewardsTable rows={rows} />

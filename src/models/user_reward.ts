@@ -1,4 +1,4 @@
-import {toDate} from "../helpers/text_utils";
+import { toDate } from '../helpers/text_utils'
 
 export class UserReward {
     id: string
@@ -8,10 +8,10 @@ export class UserReward {
     op: string
 
     constructor() {
-        this.id = ""
+        this.id = ''
         this.created_at = new Date()
         this.amount = 0
-        this.op = ""
+        this.op = ''
         this.balance = 0
     }
 }
@@ -20,6 +20,6 @@ export function toUserReward(v: any): UserReward {
     if (!v) return new UserReward()
     return {
         ...v,
-        created_at: toDate(new Date(v["created_at"])),
+        created_at: toDate(new Date(v['created_at'])),
     }
 }

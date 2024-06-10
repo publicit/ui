@@ -1,5 +1,5 @@
-import {trimAll} from "../helpers/text_utils";
-import {Quiz, toQuiz} from "./quiz";
+import { trimAll } from '../helpers/text_utils'
+import { Quiz, toQuiz } from './quiz'
 
 export enum QuestionType {
     single,
@@ -15,8 +15,8 @@ export class Question {
     is_valid: boolean
 
     constructor() {
-        this.id = ""
-        this.body = ""
+        this.id = ''
+        this.body = ''
         this.quiz = new Quiz()
         this.type = QuestionType[QuestionType.single]
         this.allow_any_answer_as_valid = false
@@ -32,10 +32,11 @@ export function toQuestion(v: any): Question {
     }
 }
 
-
 export function questionValidation() {
     return {
-        body: (value: string) => trimAll(value).length === 0 ? "Texto es mandatorio" : null,
-        type: (value: string) => trimAll(value).length === 0 ? "Tipo es mandatorio" : null,
+        body: (value: string) =>
+            trimAll(value).length === 0 ? 'Texto es mandatorio' : null,
+        type: (value: string) =>
+            trimAll(value).length === 0 ? 'Tipo es mandatorio' : null,
     }
 }

@@ -1,14 +1,13 @@
-import React from "react";
+import React from 'react'
 
 // Mantine :
-import { Table } from "@mantine/core";
+import { Table } from '@mantine/core'
 
 // Models :
-import { UserReward } from "../models/user_reward";
+import { UserReward } from '../models/user_reward'
 
 // Helpers :
-import { formatCurrency } from "../helpers/text_utils";
-
+import { formatCurrency } from '../helpers/text_utils'
 
 type Params = {
     rows: UserReward[]
@@ -20,8 +19,8 @@ type RowParams = {
 }
 
 function Row({ index, row }: RowParams) {
-    const formattedAmount = formatCurrency(row.amount);
-    const formattedBalance = formatCurrency(row.balance);
+    const formattedAmount = formatCurrency(row.amount)
+    const formattedBalance = formatCurrency(row.balance)
 
     return (
         <Table.Tr key={row.id} className="table-row-container">
@@ -58,12 +57,15 @@ export function UserRewardsTable({ rows }: Params) {
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.length > 0 ?
+                {rows.length > 0 ? (
                     <React.Fragment>
-                        {rows.map((r, index) => <Row row={r} index={index} key={r.id} />)}
+                        {rows.map((r, index) => (
+                            <Row row={r} index={index} key={r.id} />
+                        ))}
                     </React.Fragment>
-                    : <EmptyTable />
-                }
+                ) : (
+                    <EmptyTable />
+                )}
             </Table.Tbody>
         </Table>
     )

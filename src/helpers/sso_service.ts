@@ -1,6 +1,6 @@
-import axios from "axios";
-import {googleLogout, TokenResponse} from "@react-oauth/google";
-import instance from "./axios"
+import axios from 'axios'
+import { googleLogout, TokenResponse } from '@react-oauth/google'
+import instance from './axios'
 
 // userProfileKey stores the access token and expiration from Google OAuth.
 const userProfileKey = '_profile'
@@ -21,17 +21,19 @@ function clearUserProfile() {
 
 async function parseToken() {
     const localProfile = loadUserProfile()
-    if (!localProfile) throw new Error("no token found")
-    const path = "https://www.googleapis.com/oauth2/v1/userinfo"
-    const res = await axios.get(`${path}?access_token=${localProfile.access_token}`,
+    if (!localProfile) throw new Error('no token found')
+    const path = 'https://www.googleapis.com/oauth2/v1/userinfo'
+    const res = await axios.get(
+        `${path}?access_token=${localProfile.access_token}`,
         {
             headers: {
                 Authorization: `Bearer ${localProfile.access_token}`,
-                Accept: 'application/json'
-            }
-        })
+                Accept: 'application/json',
+            },
+        }
+    )
     // obtain google parsed data
-    const {data} = res
+    const { data } = res
     // register login for this user in the API
     const user = {
         ...data,
@@ -43,7 +45,7 @@ async function parseToken() {
 }
 
 function logout() {
-    googleLogout();
+    googleLogout()
     clearUserProfile()
 }
 

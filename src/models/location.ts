@@ -1,4 +1,4 @@
-import {Address} from "./address";
+import { Address } from './address'
 
 export class Location {
     id: string
@@ -8,7 +8,7 @@ export class Location {
     address: Address
 
     constructor() {
-        this.id = ""
+        this.id = ''
         this.lat = 0
         this.lng = 0
         this.position = 0
@@ -19,7 +19,6 @@ export class Location {
         return `https://maps.google.com/?q=${this.lat},${this.lng}`
     }
 }
-
 
 export function toLocation(v: any): Location {
     const c = new Location()

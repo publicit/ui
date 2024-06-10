@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 // Mantine :
-import { Button, Loader, Table } from "@mantine/core";
+import { Button, Loader, Table } from '@mantine/core'
 
 // Models :
-import { User } from "../models/user";
-
+import { User } from '../models/user'
 
 type Params = {
     isTableLoading?: boolean
@@ -22,26 +21,28 @@ function Row({ user, onDelete }: RowParams) {
     return (
         <Table.Tr key={user.id} className="table-row-container">
             <Table.Td>
-                <Link to={`/users/${user.id}`}>
-                    {user.email}
-                </Link>
+                <Link to={`/users/${user.id}`}>{user.email}</Link>
             </Table.Td>
             <Table.Td>
-                {user.image && <img alt="avatar" src={user.image} width={"10%"} />}
+                {user.image && (
+                    <img alt="avatar" src={user.image} width={'10%'} />
+                )}
             </Table.Td>
-            <Table.Td>
-                {user.name}
-            </Table.Td>
+            <Table.Td>{user.name}</Table.Td>
             <Table.Td>
                 {`${user.last_login?.toLocaleDateString()} ${user.last_login?.toLocaleTimeString()}`}
             </Table.Td>
-            {onDelete &&
+            {onDelete && (
                 <Table.Td className="content-center">
-                    <Button type="button" variant="outline" onClick={() => onDelete(user)}>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => onDelete(user)}
+                    >
                         Quitar
                     </Button>
                 </Table.Td>
-            }
+            )}
         </Table.Tr>
     )
 }
@@ -62,16 +63,14 @@ function RowLoader() {
         <Table.Tr className="table-row-container">
             <Table.Td></Table.Td>
             <Table.Td></Table.Td>
-            <Table.Td><Loader className="table-loader" /></Table.Td>
+            <Table.Td>
+                <Loader className="table-loader" />
+            </Table.Td>
             <Table.Td></Table.Td>
         </Table.Tr>
     )
 }
-export function UserTable({
-    rows,
-    onDelete = null,
-    isTableLoading,
-}: Params) {
+export function UserTable({ rows, onDelete = null, isTableLoading }: Params) {
     return (
         <Table highlightOnHover withTableBorder className="table-container">
             <Table.Thead className="table-head-container">
@@ -80,9 +79,9 @@ export function UserTable({
                     <Table.Th>Avatar</Table.Th>
                     <Table.Th>Nombre</Table.Th>
                     <Table.Th>Ultimo Inicio de Sesion</Table.Th>
-                    {onDelete &&
+                    {onDelete && (
                         <Table.Th className="content-center">Acción</Table.Th>
-                    }
+                    )}
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -91,7 +90,13 @@ export function UserTable({
                 ) : (
                     <>
                         {rows.length > 0 ? (
-                            rows.map((user: User) => <Row key={user.id} user={user} onDelete={onDelete} />)
+                            rows.map((user: User) => (
+                                <Row
+                                    key={user.id}
+                                    user={user}
+                                    onDelete={onDelete}
+                                />
+                            ))
                         ) : (
                             <EmptyRow />
                         )}

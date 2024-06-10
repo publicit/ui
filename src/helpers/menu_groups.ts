@@ -1,8 +1,14 @@
-import { IconBellQuestion, IconHome2, IconLock, IconNotes, IconUser } from "@tabler/icons-react";
+import {
+    IconBellQuestion,
+    IconHome2,
+    IconLock,
+    IconNotes,
+    IconUser,
+} from '@tabler/icons-react'
 
 // Models :
-import { RoleNames } from "../models/role";
-import { MenuGroup } from "../models/menuGroup";
+import { RoleNames } from '../models/role'
+import { MenuGroup } from '../models/menuGroup'
 
 // returns the default menu groups for the whole application
 // these items appear in the sidebar menu
@@ -14,8 +20,8 @@ export function MenuGroups(): MenuGroup[] {
             initiallyOpened: false,
             items: [
                 {
-                    label: "Inicio",
-                    link: "/",
+                    label: 'Inicio',
+                    link: '/',
                 },
             ],
         },
@@ -37,7 +43,7 @@ export function MenuGroups(): MenuGroup[] {
             ],
         },
         {
-            label: "Encuestas",
+            label: 'Encuestas',
             initiallyOpened: true,
             icon: IconBellQuestion,
             items: [

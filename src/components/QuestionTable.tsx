@@ -1,12 +1,11 @@
-import { Link } from "react-router-dom";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { Link } from 'react-router-dom'
+import { IconCheck, IconX } from '@tabler/icons-react'
 
 // Mantine :
-import { Button, Checkbox, Table } from "@mantine/core";
+import { Button, Checkbox, Table } from '@mantine/core'
 
 // Models :
-import { Question } from "../models/question";
-
+import { Question } from '../models/question'
 
 type Params = {
     rows: Question[]
@@ -20,8 +19,11 @@ type RowParams = {
 }
 
 function QuestionRow({ question, index, canEdit }: RowParams) {
-    const iconRight = question.is_valid ? <IconCheck style={{ color: "green" }} /> :
-        <IconX style={{ color: "red" }} />
+    const iconRight = question.is_valid ? (
+        <IconCheck style={{ color: 'green' }} />
+    ) : (
+        <IconX style={{ color: 'red' }} />
+    )
     return (
         <Table.Tr key={question.id} className="table-row-container">
             <Table.Td>{index + 1}</Table.Td>
@@ -30,7 +32,6 @@ function QuestionRow({ question, index, canEdit }: RowParams) {
             <Table.Td>
                 <Checkbox
                     checked={question.allow_any_answer_as_valid}
-                    onChange={() => { }}
                     className="row-checkbox"
                 />
             </Table.Td>
@@ -38,7 +39,7 @@ function QuestionRow({ question, index, canEdit }: RowParams) {
             <Table.Td className="content-center">
                 <Link to={`/questions/${question.id}`}>
                     <Button type="button" variant="outline">
-                        {canEdit ? "Editar" : "Ver"}
+                        {canEdit ? 'Editar' : 'Ver'}
                     </Button>
                 </Link>
             </Table.Td>
@@ -66,20 +67,28 @@ export default function QuestionTable({ rows, canEdit }: Params) {
                     <Table.Th></Table.Th>
                     <Table.Th>Pregunta</Table.Th>
                     <Table.Th className="content-center">Tipo</Table.Th>
-                    <Table.Th className="content-center">Cualquiera es Valida</Table.Th>
+                    <Table.Th className="content-center">
+                        Cualquiera es Valida
+                    </Table.Th>
                     <Table.Th className="content-center">Lista</Table.Th>
                     <Table.Th className="content-center">Acciones</Table.Th>
                 </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-                {rows.length > 0 ?
+                {rows.length > 0 ? (
                     <>
-                        {rows.map((question: Question, index: number) => <QuestionRow key={question.id} question={question}
-                            index={index} canEdit={canEdit} />)}
+                        {rows.map((question: Question, index: number) => (
+                            <QuestionRow
+                                key={question.id}
+                                question={question}
+                                index={index}
+                                canEdit={canEdit}
+                            />
+                        ))}
                     </>
-                    :
+                ) : (
                     <EmptyTable />
-                }
+                )}
             </Table.Tbody>
         </Table>
     )
