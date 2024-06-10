@@ -1,5 +1,4 @@
-export
-type BreadcrumbItem = {
-    text: string
-    to: string
-}
+export type BreadcrumbItem = {
+  text: string;
+  to: string;
+};

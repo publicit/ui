@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 // Mantine :
-import { DateTimePicker } from "@mantine/dates";
+import { DateTimePicker } from '@mantine/dates';
 import {
   Text,
   Grid,
@@ -10,12 +10,12 @@ import {
   Textarea,
   FileInput,
   TextInput,
-} from "@mantine/core";
+} from '@mantine/core';
 
 // Models :
-import { Campaign } from "../models/campaign";
-import { IconUpload } from "@tabler/icons-react";
-import { useRef } from "react";
+import { Campaign } from '../models/campaign';
+import { IconUpload } from '@tabler/icons-react';
+import { useRef } from 'react';
 
 type params = {
   onSubmit: any;
@@ -52,7 +52,7 @@ export default function CampaignEditForm({
             size="md"
             placeholder="Nombre"
             disabled={!canEdit}
-            {...form.getInputProps("name")}
+            {...form.getInputProps('name')}
           />
         </Grid.Col>
         <Grid.Col span={12}>
@@ -61,7 +61,7 @@ export default function CampaignEditForm({
             size="md"
             disabled={!canEdit}
             placeholder="URL Imagen"
-            {...form.getInputProps("image_url")}
+            {...form.getInputProps('image_url')}
           />
         </Grid.Col>
         <Grid.Col span={6}>
@@ -90,7 +90,7 @@ export default function CampaignEditForm({
             maxRows={10}
             disabled={!canEdit}
             placeholder="Descripcion"
-            {...form.getInputProps("description")}
+            {...form.getInputProps('description')}
           />
         </Grid.Col>
         <Grid.Col span={12}>
@@ -135,9 +135,9 @@ export default function CampaignEditForm({
                         leftSection={<IconUpload />}
                         placeholder="Importar Encuesta"
                         className="import-survey-btn"
-                        onChange={(file) => {
+                        onChange={file => {
                           onFileSelected(file);
-                          fileInputRef.current.value = "";
+                          fileInputRef.current.value = '';
                         }}
                       />
                     )}

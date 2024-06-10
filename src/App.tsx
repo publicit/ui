@@ -1,27 +1,27 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 
 // Mantine :
-import { useDisclosure } from "@mantine/hooks";
-import { AppShell, Burger, Drawer, Group } from "@mantine/core";
+import { useDisclosure } from '@mantine/hooks';
+import { AppShell, Burger, Drawer, Group } from '@mantine/core';
 
 // Components :
-import Logo from "./components/Logo";
-import Navbar from "./components/Navbar";
-import RouteSwitcher from "./RouteSwitcher";
+import Logo from './components/Logo';
+import Navbar from './components/Navbar';
+import RouteSwitcher from './RouteSwitcher';
 
 // Helpers :
-import { parseToken, saveUserProfile } from "./helpers/sso_service";
+import { parseToken, saveUserProfile } from './helpers/sso_service';
 
 // Models :
-import { User, UserProfileResponse } from "./models/user";
+import { User, UserProfileResponse } from './models/user';
 
 // CSS :
-import "@mantine/core/styles.css";
-import "@mantine/dates/styles.css";
-import "@mantine/core/styles/global.css";
-import instance from "./helpers/axios";
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+import '@mantine/core/styles/global.css';
+import instance from './helpers/axios';
 
 function App() {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ function App() {
         const status = error?.response?.status;
         switch (status) {
           case 403:
-            navigate("/errors/unauthorized");
+            navigate('/errors/unauthorized');
             break;
           default:
             if (status >= 400) {
@@ -52,7 +52,7 @@ function App() {
   }, []);
 
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {
+    onSuccess: codeResponse => {
       setUser(codeResponse);
       saveUserProfile(codeResponse);
       setIsLoading(true);
@@ -60,19 +60,19 @@ function App() {
         setIsLoading(false);
       }, 2000);
     },
-    onError: (error) => console.log("Login Failed:", error),
+    onError: error => console.log('Login Failed:', error),
   });
 
   useEffect(() => {
     parseToken()
-      .then((p) => setProfile(p))
+      .then(p => setProfile(p))
       .catch(() => {});
   }, [user]);
 
   const logOut = () => {
     setProfile(undefined);
     localStorage.clear();
-    navigate("/");
+    navigate('/');
   };
 
   function CollapseDesktop() {
@@ -84,7 +84,7 @@ function App() {
     user.email = profile?.email;
     user.name = profile?.name;
     user.image = profile?.picture;
-    const version = process.env.REACT_APP_TAG_NAME || "";
+    const version = process.env.REACT_APP_TAG_NAME || '';
 
     return (
       <React.Fragment>
@@ -93,7 +93,7 @@ function App() {
           header={{ height: 60 }}
           navbar={{
             width: 250,
-            breakpoint: "sm",
+            breakpoint: 'sm',
             collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
           }}
         >

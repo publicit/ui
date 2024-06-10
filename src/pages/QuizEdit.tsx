@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { LuDownload } from "react-icons/lu";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { LuDownload } from 'react-icons/lu';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Mantine :
-import { Button, Flex, Grid } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Button, Flex, Grid } from '@mantine/core';
+import { useForm } from '@mantine/form';
 
 // Helpers :
 import {
@@ -17,31 +17,31 @@ import {
   QuizLocations,
   FileExportQuiz,
   UserQuizShareLink,
-} from "../helpers/api";
-import { quizTokenShareUrl } from "../helpers/user_quiz_utils";
+} from '../helpers/api';
+import { quizTokenShareUrl } from '../helpers/user_quiz_utils';
 
 // Components :
-import PreLoader from "../components/PreLoader";
-import QuestionTable from "../components/QuestionTable";
-import { notifyErrResponse } from "../components/Errors";
-import { QuizEditForm } from "../components/QuizEditForm";
-import { ShareDialogBody } from "../components/ShareDialog";
-import { ShowDialog } from "../components/UserQuizShareDialog";
-import { BreadcrumComponent } from "../components/BreadcrumComponent";
+import PreLoader from '../components/PreLoader';
+import QuestionTable from '../components/QuestionTable';
+import { notifyErrResponse } from '../components/Errors';
+import { QuizEditForm } from '../components/QuizEditForm';
+import { ShareDialogBody } from '../components/ShareDialog';
+import { ShowDialog } from '../components/UserQuizShareDialog';
+import { BreadcrumComponent } from '../components/BreadcrumComponent';
 
 // Models :
-import { Question } from "../models/question";
-import { Campaign } from "../models/campaign";
-import { Location } from "../models/location";
-import { BreadcrumbItem } from "../models/breadcrumbItem";
-import { LocationsTable } from "../components/LocationsTable";
-import { Quiz, QuizStatus, quizValidation } from "../models/quiz";
+import { Question } from '../models/question';
+import { Campaign } from '../models/campaign';
+import { Location } from '../models/location';
+import { BreadcrumbItem } from '../models/breadcrumbItem';
+import { LocationsTable } from '../components/LocationsTable';
+import { Quiz, QuizStatus, quizValidation } from '../models/quiz';
 
 export default function Edit() {
-  const id = useParams().id || "";
+  const id = useParams().id || '';
   const navigate = useNavigate();
 
-  const [sharedUrl, setSharedUrl] = useState("");
+  const [sharedUrl, setSharedUrl] = useState('');
   const [quiz, setQuiz] = useState<Quiz>(new Quiz());
   const [canEdit, setCanEdit] = useState<boolean>(false);
   const [items, setItems] = useState<BreadcrumbItem[]>([]);
@@ -134,7 +134,7 @@ export default function Edit() {
     try {
       const res = await UserQuizShareLink(quiz.id);
       const tokenUrl = quizTokenShareUrl(res);
-      console.log("generating a new token:", tokenUrl);
+      console.log('generating a new token:', tokenUrl);
       setSharedUrl(tokenUrl);
     } catch (error) {
       await notifyErrResponse(error);
@@ -146,9 +146,9 @@ export default function Edit() {
       const res = await FileExportQuiz(quiz.id);
 
       // Create a Blob from the YAML string
-      const blob = new Blob([res], { type: "text/yaml" });
+      const blob = new Blob([res], { type: 'text/yaml' });
       // Create a link element
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       // Set the download attribute with a filename
       link.download = `${quiz.name}.yml`;
       link.href = window.URL.createObjectURL(blob);
@@ -181,13 +181,13 @@ export default function Edit() {
               importCampaign={importCampaign}
             />
             {quiz.status === QuizStatus[QuizStatus.published] && (
-              <Flex gap={"1rem"}>
+              <Flex gap={'1rem'}>
                 <ShowDialog
                   children={ShareDialogBody({
                     sharedUrl,
-                    text: "Se ha copiado la direccion de la invitacion",
+                    text: 'Se ha copiado la direccion de la invitacion',
                   })}
-                  onClose={() => setSharedUrl("")}
+                  onClose={() => setSharedUrl('')}
                   onOpen={shareQuiz}
                 />
                 <Button
