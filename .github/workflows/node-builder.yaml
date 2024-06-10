@@ -16,8 +16,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-
-      - name: test
+      - name: Install deps
         run: |
-          npm i
+          npm ci
+      - name: Build
+        run: |
           npm run build
+      - name: Linter
+        run: |
+          npm run lint
+      - name: Prettier
+        run: |
+          npm run format:check || echo "disabled until we fix all the files in another branch"
