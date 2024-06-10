@@ -19,6 +19,9 @@ jobs:
       - name: Install deps
         run: |
           npm ci
-      - name: Run build
+      - name: Build
         run: |
           npm run build
+      - name: Linter
+        run: |
+          npm run lint
