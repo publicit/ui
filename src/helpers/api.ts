@@ -1,25 +1,25 @@
-import instance from "./axios";
+import instance from './axios';
 
 // Models :
-import { Role } from "../models/role";
-import { toUser } from "../models/user";
-import { Quiz, toQuiz } from "../models/quiz";
-import { toAddress } from "../models/address";
-import { Answer, toAnswer } from "../models/answer";
-import { toUserReward } from "../models/user_reward";
-import { Question, toQuestion } from "../models/question";
-import { Location, toLocation } from "../models/location";
-import { UserNextQuestion } from "../models/user_question";
-import { FileItem, toFileItem } from "../models/file_item";
-import { toUserQuizShare } from "../models/user_quiz_share";
-import { Campaign, notTrunCampaign, toCampaign } from "../models/campaign";
-import { toUserQuiz, UserQuiz, UserQuizSummary } from "../models/user_quiz";
+import { Role } from '../models/role';
+import { toUser } from '../models/user';
+import { Quiz, toQuiz } from '../models/quiz';
+import { toAddress } from '../models/address';
+import { Answer, toAnswer } from '../models/answer';
+import { toUserReward } from '../models/user_reward';
+import { Question, toQuestion } from '../models/question';
+import { Location, toLocation } from '../models/location';
+import { UserNextQuestion } from '../models/user_question';
+import { FileItem, toFileItem } from '../models/file_item';
+import { toUserQuizShare } from '../models/user_quiz_share';
+import { Campaign, notTrunCampaign, toCampaign } from '../models/campaign';
+import { toUserQuiz, UserQuiz, UserQuizSummary } from '../models/user_quiz';
 import {
   toUserProfile,
   toUserProfileFile,
   UserProfile,
   UserProfileFile,
-} from "../models/user_profile";
+} from '../models/user_profile';
 
 /////////////////////////////////////////////////////////////
 // Answer
@@ -85,9 +85,9 @@ async function CampaignDelete(id: string) {
 
 async function FileItemUpload(f: FileItem, file: File) {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append('file', file);
   formData.append(
-    "json",
+    'json',
     JSON.stringify({
       ...f,
       type: file?.type,
@@ -95,11 +95,11 @@ async function FileItemUpload(f: FileItem, file: File) {
   );
   const res = await instance({
     data: formData,
-    method: "post",
+    method: 'post',
     url: `/v1/files`,
     headers: {
-      accept: "application/json",
-      "content-type": "multipart/form-data",
+      accept: 'application/json',
+      'content-type': 'multipart/form-data',
     },
   });
   return toFileItem(res.data);
@@ -112,9 +112,9 @@ async function FileTypes() {
 
 async function FileImportQuiz(f: FileItem, file: File, campaignId: string) {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append('file', file);
   formData.append(
-    "json",
+    'json',
     JSON.stringify({
       ...f,
       type: file?.type,
@@ -122,11 +122,11 @@ async function FileImportQuiz(f: FileItem, file: File, campaignId: string) {
   );
   const res = await instance({
     data: formData,
-    method: "post",
+    method: 'post',
     url: `/v1/imports/campaigns/${campaignId}/quizs`,
     headers: {
-      accept: "application/json",
-      "content-type": "multipart/form-data",
+      accept: 'application/json',
+      'content-type': 'multipart/form-data',
     },
   });
   return res.data;

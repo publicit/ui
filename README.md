@@ -30,6 +30,8 @@ And run this command to actually fix the code
 npm run format
 ```
 
+If your code needs formatting, GitHub checks won't pass.
+
 ## Deployment
 
 On each git tag, the project will be built and published to S3 bucket.

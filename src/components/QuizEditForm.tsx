@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 // Mantine :
-import { LuDownload } from "react-icons/lu";
-import { Button, Grid, Group, NumberInput, TextInput } from "@mantine/core";
+import { LuDownload } from 'react-icons/lu';
+import { Button, Grid, Group, NumberInput, TextInput } from '@mantine/core';
 
 // Models :
-import { Quiz } from "../models/quiz";
+import { Quiz } from '../models/quiz';
 
 type params = {
   onSubmit: any;
@@ -49,7 +49,7 @@ export function QuizEditForm({
             label="Nombre"
             size="md"
             placeholder="Nombre"
-            {...form.getInputProps("name")}
+            {...form.getInputProps('name')}
           />
         </Grid.Col>
         <Grid.Col span={6}>
@@ -57,7 +57,7 @@ export function QuizEditForm({
             label="Video URL"
             size="md"
             placeholder="URL Video"
-            {...form.getInputProps("video_url")}
+            {...form.getInputProps('video_url')}
           />
         </Grid.Col>
         <Grid.Col span={6}>
@@ -65,7 +65,7 @@ export function QuizEditForm({
             label="Estatus"
             size="md"
             disabled={true}
-            {...form.getInputProps("status")}
+            {...form.getInputProps('status')}
           />
         </Grid.Col>
         <Grid.Col span={6}>
@@ -73,31 +73,31 @@ export function QuizEditForm({
             label="Numero de Preguntas"
             size="md"
             placeholder="Numero de Preguntas"
-            {...form.getInputProps("number_of_questions")}
+            {...form.getInputProps('number_of_questions')}
           />
         </Grid.Col>
         <Grid.Col span={6}>
           <NumberInput
             label="Recompensa por Encuesta"
             size="md"
-            prefix={"$"}
+            prefix={'$'}
             decimalScale={2}
             allowNegative={false}
             thousandSeparator={true}
-            allowedDecimalSeparators={"."}
-            {...form.getInputProps("reward_amount")}
+            allowedDecimalSeparators={'.'}
+            {...form.getInputProps('reward_amount')}
           />
         </Grid.Col>
         <Grid.Col span={6}>
           <NumberInput
             label="Recompensa por Referido"
             size="md"
-            prefix={"$"}
+            prefix={'$'}
             decimalScale={2}
             allowNegative={false}
             thousandSeparator={true}
-            allowedDecimalSeparators={"."}
-            {...form.getInputProps("referral_amount")}
+            allowedDecimalSeparators={'.'}
+            {...form.getInputProps('referral_amount')}
           />
         </Grid.Col>
         <Grid.Col span={6}>
@@ -106,7 +106,7 @@ export function QuizEditForm({
             size="md"
             allowNegative={false}
             thousandSeparator={true}
-            {...form.getInputProps("max_user_count")}
+            {...form.getInputProps('max_user_count')}
           />
         </Grid.Col>
         <Grid.Col span={6}>
@@ -115,7 +115,7 @@ export function QuizEditForm({
             size="md"
             type="text"
             placeholder="Webhook URL"
-            {...form.getInputProps("webhook_url")}
+            {...form.getInputProps('webhook_url')}
           />
         </Grid.Col>
         <Grid.Col span={12}>

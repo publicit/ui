@@ -2,7 +2,7 @@ name: node-builder
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -27,4 +27,4 @@ jobs:
           npm run lint
       - name: Prettier
         run: |
-          npm run format:check || echo "disabled until we fix all the files in another branch"
+          npm run format:check
