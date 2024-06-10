@@ -36,3 +36,12 @@ This command not only analyzes your code for errors and style issues using ESLin
 `npm run format`
 
 This command runs a code formatter ( Prettier) on your project to ensure that your code is consistently styled. A code formatter automatically adjusts your code to follow a consistent style, making it easier to read and maintain.
+
+## Husky - Documentation
+
+Husky basically a git hook which is linked with eslint and prettier.
+
+`npx husky-init`
+
+Husky basically when we commit the code in our github then if the code are mess-up or not consistent or not same as we define rules in
+prettier and eslint then return error like we not formatted the code then husky automatically return error.
