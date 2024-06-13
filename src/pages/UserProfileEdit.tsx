@@ -114,6 +114,9 @@ export default function Edit() {
 
   async function onFileSelected(file: File, fileType: FileTypeNames) {
     try {
+      // check all required fields have been saved
+      if (!userProfile.phone_number)
+        throw new Error('Falta capturar el telefono');
       checkFileSize(file);
       const f = new FileItem();
       f.type = fileType.toString();
