@@ -16,7 +16,9 @@ async function copyTokenUrlToClipboard(sharedUrl: string) {
   try {
     if (!navigator?.clipboard) return;
     await navigator.clipboard.writeText(sharedUrl);
-  } catch (err) {}
+  } catch (err) {
+    // add comment to avoid Eslint Error
+  }
 }
 
 export function ShareDialogBody({ sharedUrl, onClick, text }: params) {
