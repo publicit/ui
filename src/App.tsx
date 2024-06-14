@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 
 // Mantine :
@@ -10,6 +10,7 @@ import { AppShell, Burger, Drawer, Group } from '@mantine/core';
 import Logo from './components/Logo';
 import Navbar from './components/Navbar';
 import RouteSwitcher from './RouteSwitcher';
+import { popupWarning } from './components/Notifier';
 
 // Helpers :
 import { parseToken, saveUserProfile } from './helpers/sso_service';
@@ -23,13 +24,23 @@ import '@mantine/dates/styles.css';
 import '@mantine/core/styles/global.css';
 import instance from './helpers/axios';
 
+import {
+  QuizLoadByToken,
+  UserProfileLoad,
+  UserQuizRegister,
+} from './helpers/api';
+
 function App() {
+  const location = useLocation();
   const navigate = useNavigate();
   // user contains the access token information, and expiration
   const [user, setUser] = useState<TokenResponse>();
   // profile contains the parsed information after we verify the access token with Google endpoint
   const [profile, setProfile] = useState<UserProfileResponse>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const invitationToken = location.pathname.includes('/invitation/')
+    ? location.pathname.split('/invitation/').pop()
+    : null;
 
   useLayoutEffect(() => {
     instance.interceptors.response.use(
@@ -68,6 +79,45 @@ function App() {
       .then(p => setProfile(p))
       .catch(() => {});
   }, [user]);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        // load the quiz
+        const q = await QuizLoadByToken(invitationToken);
+        // load user data
+        // check user registration is completed
+        const user = await UserProfileLoad();
+        if (!user.is_completed) return;
+        //  register the user to this quiz
+        try {
+          await UserQuizRegister(q, invitationToken);
+          navigate(`/user/quizs`);
+        } catch (err: any) {
+          const status = err.response?.status;
+          switch (status) {
+            case 409:
+              // TODO: fix the double registration thing, code is reaching here two times
+              // intercepting the 409 status from the backend to avoid ugly workflow
+              // in the ui
+              return;
+            default:
+              popupWarning({
+                title: 'Error',
+                text: 'No se pudo hacer el registro de la encuesta',
+              });
+          }
+          navigate(`/user/quizs`);
+        }
+      } catch (err) {
+        // first time will always fail
+      }
+    }
+
+    if (profile?.id && invitationToken) {
+      loadData();
+    }
+  }, [profile, invitationToken]);
 
   const logOut = () => {
     setProfile(undefined);
