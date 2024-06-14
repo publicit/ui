@@ -101,7 +101,6 @@ export default function Edit() {
       });
       setSaveEnabled(false);
       data.user_id = user.id || '';
-      data.is_completed = true;
       const userProfile = fromUserProfile(data);
       await UserProfilePost(userProfile);
       await loadData();
