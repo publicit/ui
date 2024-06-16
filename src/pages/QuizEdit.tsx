@@ -150,7 +150,7 @@ export default function Edit() {
       // Create a link element
       const link = document.createElement('a');
       // Set the download attribute with a filename
-      link.download = `${quiz.name}.yml`;
+      link.download = `${quiz.name}.yaml`;
       link.href = window.URL.createObjectURL(blob);
       document.body.appendChild(link);
       link.click();

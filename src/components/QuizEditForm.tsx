@@ -118,6 +118,24 @@ export function QuizEditForm({
             {...form.getInputProps('webhook_url')}
           />
         </Grid.Col>
+        <Grid.Col span={6}>
+          <TextInput
+            label="Webhook Token"
+            size="md"
+            type="text"
+            placeholder="Cualquier texto que identifique el webhook como autentico"
+            {...form.getInputProps('webhook_token')}
+          />
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <TextInput
+            label="Webhook Token Header Name"
+            size="md"
+            type="text"
+            placeholder="x-webhook-token"
+            {...form.getInputProps('webhook_token_header_name')}
+          />
+        </Grid.Col>
         <Grid.Col span={12}>
           <Group mt="md">
             {canEdit && (

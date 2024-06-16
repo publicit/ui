@@ -21,6 +21,8 @@ export class Quiz {
   max_user_count: number;
   referral_amount: number;
   webhook_url: string;
+  webhook_token: string;
+  webhook_token_header_name: string;
 
   constructor() {
     this.id = '';
@@ -37,6 +39,8 @@ export class Quiz {
     this.max_user_count = 0;
     this.referral_amount = 0;
     this.webhook_url = '';
+    this.webhook_token = '';
+    this.webhook_token_header_name = 'x-webhook-token';
   }
 }
 
@@ -78,5 +82,7 @@ export function quizValidation() {
         return 'invalid url';
       }
     },
+    webhook_token: (value: string) => null,
+    webhook_token_header_name: (value: string) => null,
   };
 }
