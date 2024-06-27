@@ -13,6 +13,8 @@ export class Question {
   quiz: Quiz;
   allow_any_answer_as_valid: boolean;
   is_valid: boolean;
+  sticky_first: boolean;
+  sticky_last: boolean;
 
   constructor() {
     this.id = '';
@@ -21,6 +23,8 @@ export class Question {
     this.type = QuestionType[QuestionType.single];
     this.allow_any_answer_as_valid = false;
     this.is_valid = false;
+    this.sticky_first = false;
+    this.sticky_last = false;
   }
 }
 

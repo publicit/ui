@@ -63,6 +63,22 @@ export default function QuestionEditForm({
           {...form.getInputProps('allow_any_answer_as_valid', {
             type: 'checkbox',
           })}
+        />{' '}
+        <br />
+        <Checkbox
+          label="La pregunta aparecera al principio de la encuesta siempre"
+          disabled={!canEdit}
+          {...form.getInputProps('sticky_first', {
+            type: 'checkbox',
+          })}
+        />
+        <br />
+        <Checkbox
+          label="La pregunta aparecera al final de la encuesta siempre"
+          disabled={!canEdit}
+          {...form.getInputProps('sticky_last', {
+            type: 'checkbox',
+          })}
         />
         <br />
         {canEdit && (
