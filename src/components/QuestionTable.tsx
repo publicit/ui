@@ -6,6 +6,7 @@ import { Button, Checkbox, Table } from '@mantine/core';
 
 // Models :
 import { Question } from '../models/question';
+import { ArrowDownCircle, ArrowUpCircle } from 'tabler-icons-react';
 
 type Params = {
   rows: Question[];
@@ -19,11 +20,16 @@ type RowParams = {
 };
 
 function QuestionRow({ question, index, canEdit }: RowParams) {
-  const iconRight = question.is_valid ? (
+  const iconIsValid = question.is_valid ? (
     <IconCheck style={{ color: 'green' }} />
   ) : (
     <IconX style={{ color: 'red' }} />
   );
+  const iconSticky = question.sticky_first ? (
+    <ArrowUpCircle style={{ color: 'green' }} />
+  ) : question.sticky_last ? (
+    <ArrowDownCircle style={{ color: 'green' }} />
+  ) : null;
   return (
     <Table.Tr key={question.id} className="table-row-container">
       <Table.Td>{index + 1}</Table.Td>
@@ -36,7 +42,8 @@ function QuestionRow({ question, index, canEdit }: RowParams) {
           className="row-checkbox"
         />
       </Table.Td>
-      <Table.Td className="content-center">{iconRight}</Table.Td>
+      <Table.Td className="content-center">{iconSticky}</Table.Td>
+      <Table.Td className="content-center">{iconIsValid}</Table.Td>
       <Table.Td className="content-center">
         <Link to={`/questions/${question.id}`}>
           <Button type="button" variant="outline">
@@ -47,6 +54,7 @@ function QuestionRow({ question, index, canEdit }: RowParams) {
     </Table.Tr>
   );
 }
+
 function EmptyTable() {
   return (
     <Table.Tr className="table-row-container">
@@ -54,6 +62,7 @@ function EmptyTable() {
       <Table.Td className="survey-name"></Table.Td>
       <Table.Td className="content-center"></Table.Td>
       <Table.Td className="content-center">Sin datos</Table.Td>
+      <Table.Td className="content-center"></Table.Td>
       <Table.Td className="content-center"></Table.Td>
       <Table.Td className="content-center"></Table.Td>
     </Table.Tr>
@@ -69,6 +78,7 @@ export default function QuestionTable({ rows, canEdit }: Params) {
           <Table.Th>Pregunta</Table.Th>
           <Table.Th className="content-center">Tipo</Table.Th>
           <Table.Th className="content-center">Cualquiera es Valida</Table.Th>
+          <Table.Th className="content-center">Fija</Table.Th>
           <Table.Th className="content-center">Lista</Table.Th>
           <Table.Th className="content-center">Acciones</Table.Th>
         </Table.Tr>
