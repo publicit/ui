@@ -154,8 +154,15 @@ export default function Edit() {
   }
 
   async function onTestWebhookClick() {
-    const res = await WebhookTest(quiz);
-    console.log(JSON.stringify(res, null, 2));
+    try {
+      const res = await WebhookTest(quiz);
+      if (!res.ok) {
+        throw new Error('response was not successful');
+      }
+      window.alert(JSON.stringify(res));
+    } catch (err) {
+      await notifyErrResponse(err);
+    }
   }
 
   return isLoading ? (
