@@ -1,35 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { LuDownload } from 'react-icons/lu';
-import { useNavigate, useParams } from 'react-router-dom';
-
-// Mantine :
+import { useNavigate, useParams } from 'react-router-dom'; // Mantine :
 import { Button, Flex, Grid } from '@mantine/core';
-import { useForm } from '@mantine/form';
-
-// Helpers :
+import { useForm } from '@mantine/form'; // Helpers :
 import {
-  QuizPut,
-  QuizLoad,
-  QuizDelete,
-  QuizPublish,
   CampaignLoad,
-  QuestionList,
-  QuizLocations,
   FileExportQuiz,
+  QuestionList,
+  QuizDelete,
+  QuizLoad,
+  QuizLocations,
+  QuizPublish,
+  QuizPut,
   UserQuizShareLink,
+  WebhookTest,
 } from '../helpers/api';
-import { quizTokenShareUrl } from '../helpers/user_quiz_utils';
-
-// Components :
+import { quizTokenShareUrl } from '../helpers/user_quiz_utils'; // Components :
 import PreLoader from '../components/PreLoader';
 import QuestionTable from '../components/QuestionTable';
 import { notifyErrResponse } from '../components/Errors';
 import { QuizEditForm } from '../components/QuizEditForm';
 import { ShareDialogBody } from '../components/ShareDialog';
 import { ShowDialog } from '../components/UserQuizShareDialog';
-import { BreadcrumComponent } from '../components/BreadcrumComponent';
-
-// Models :
+import { BreadcrumComponent } from '../components/BreadcrumComponent'; // Models :
 import { Question } from '../models/question';
 import { Campaign } from '../models/campaign';
 import { Location } from '../models/location';
@@ -160,6 +153,11 @@ export default function Edit() {
     }
   }
 
+  async function onTestWebhookClick() {
+    const res = await WebhookTest(quiz);
+    console.log(JSON.stringify(res, null, 2));
+  }
+
   return isLoading ? (
     <PreLoader />
   ) : (
@@ -179,6 +177,7 @@ export default function Edit() {
               onDelete={onDelete}
               onPublish={onPublish}
               importCampaign={importCampaign}
+              onTestWebhookClick={() => onTestWebhookClick()}
             />
             {quiz.status === QuizStatus[QuizStatus.published] && (
               <Flex gap={'1rem'}>

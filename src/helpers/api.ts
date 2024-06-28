@@ -12,7 +12,7 @@ import { Location, toLocation } from '../models/location';
 import { UserNextQuestion } from '../models/user_question';
 import { FileItem, toFileItem } from '../models/file_item';
 import { toUserQuizShare } from '../models/user_quiz_share';
-import { Campaign, notTrunCampaign, toCampaign } from '../models/campaign';
+import { Campaign, notTrunCampaign } from '../models/campaign';
 import { toUserQuiz, UserQuiz, UserQuizSummary } from '../models/user_quiz';
 import {
   toUserProfile,
@@ -136,6 +136,7 @@ async function FileExportQuiz(id: string) {
   const res = await instance.get(`/v1/exports/quizs/${id}`);
   return res.data;
 }
+
 /////////////////////////////////////////////////////////////
 // Location
 /////////////////////////////////////////////////////////////
@@ -389,6 +390,20 @@ async function UserLoad(id: string) {
   return toUser(res.data);
 }
 
+/////////////////////////////////////////////////////////////
+// Webhook
+/////////////////////////////////////////////////////////////
+
+async function WebhookTest(q: Quiz) {
+  const { webhook_url, webhook_token_header_name, webhook_token } = q;
+  const res = await instance.post(`/v1/webhooks/test`, {
+    webhook_url,
+    webhook_token_header_name,
+    webhook_token,
+  });
+  return res.data;
+}
+
 export {
   AnswerLoad,
   AnswerList,
@@ -444,4 +459,5 @@ export {
   UserWhoAmi,
   PostUserList,
   UserLoad,
+  WebhookTest,
 };
