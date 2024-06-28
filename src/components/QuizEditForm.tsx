@@ -1,10 +1,6 @@
-import { Link } from 'react-router-dom';
-
-// Mantine :
-import { LuDownload } from 'react-icons/lu';
-import { Button, Grid, Group, NumberInput, TextInput } from '@mantine/core';
-
-// Models :
+import { Link } from 'react-router-dom'; // Mantine :
+import { LuDownload, LuWrench } from 'react-icons/lu';
+import { Button, Grid, Group, NumberInput, TextInput } from '@mantine/core'; // Models :
 import { Quiz } from '../models/quiz';
 
 type params = {
@@ -17,18 +13,19 @@ type params = {
   onPublish?: any | undefined;
   importCampaign?: any | undefined;
   canEdit: boolean;
+  onTestWebhookClick?: any | undefined;
 };
 
 export function QuizEditForm({
   onSubmit,
   form,
-  legend,
   quiz,
   onDelete,
   showDelete = false,
   onPublish,
   importCampaign,
   canEdit,
+  onTestWebhookClick,
 }: params) {
   return (
     <form onSubmit={form.onSubmit(async (data: any) => onSubmit(data))}>
@@ -171,11 +168,20 @@ export function QuizEditForm({
                 <Button
                   size="md"
                   variant="outline"
-                  className="export-survey-btn"
+                  className="btn-with-icon"
                   onClick={importCampaign}
                 >
                   <LuDownload className="icon" />
                   Exportar Encuesta
+                </Button>
+                <Button
+                  size="md"
+                  variant="outline"
+                  className="btn-with-icon"
+                  onClick={onTestWebhookClick}
+                >
+                  <LuWrench className="icon" />
+                  Probar Webhook
                 </Button>
               </Group>
             )}
