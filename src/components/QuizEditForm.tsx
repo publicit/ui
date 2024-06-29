@@ -178,7 +178,7 @@ export function QuizEditForm({
                   size="md"
                   variant="outline"
                   className="btn-with-icon"
-                  onClick={onTestWebhookClick}
+                  onClick={() => onTestWebhookClick(form.values)}
                 >
                   <LuWrench className="icon" />
                   Probar Webhook
