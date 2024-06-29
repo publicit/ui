@@ -153,9 +153,9 @@ export default function Edit() {
     }
   }
 
-  async function onTestWebhookClick() {
+  async function onTestWebhookClick(q: Quiz) {
     try {
-      const res = await WebhookTest(quiz);
+      const res = await WebhookTest(q);
       if (!res.ok) {
         throw new Error('response was not successful');
       }
@@ -184,7 +184,7 @@ export default function Edit() {
               onDelete={onDelete}
               onPublish={onPublish}
               importCampaign={importCampaign}
-              onTestWebhookClick={() => onTestWebhookClick()}
+              onTestWebhookClick={onTestWebhookClick}
             />
             {quiz.status === QuizStatus[QuizStatus.published] && (
               <Flex gap={'1rem'}>
