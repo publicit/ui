@@ -19,7 +19,7 @@ import {
   toUserProfileFile,
   UserProfile,
   UserProfileFile,
-} from '../models/user_profile';
+} from '../models/user_profile'; /////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////
 // Answer
@@ -396,12 +396,11 @@ async function UserLoad(id: string) {
 
 async function WebhookTest(q: Quiz) {
   const { webhook_url, webhook_token_header_name, webhook_token } = q;
-  const res = await instance.post(`/v1/webhooks/test`, {
+  return await instance.post(`/v1/webhooks/test`, {
     webhook_url,
     webhook_token_header_name,
     webhook_token,
   });
-  return res.data;
 }
 
 export {

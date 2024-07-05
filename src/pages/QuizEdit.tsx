@@ -156,8 +156,9 @@ export default function Edit() {
   async function onTestWebhookClick(q: Quiz) {
     try {
       const res = await WebhookTest(q);
-      if (!res.ok) {
-        throw new Error('response was not successful');
+      if (res.status !== 200) {
+        console.warn(JSON.stringify(res, null, 2));
+        throw new Error(`response was not successful`);
       }
       window.alert(JSON.stringify(res));
     } catch (err) {
