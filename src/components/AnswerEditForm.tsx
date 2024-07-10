@@ -8,6 +8,7 @@ import {
   Group,
   LoadingOverlay,
   Textarea,
+  TextInput,
 } from '@mantine/core';
 
 // Models :
@@ -52,6 +53,14 @@ export default function AnswerEditForm({
             placeholder="Texto de la Respuesta"
             disabled={!canEdit}
             {...form.getInputProps('body')}
+          />
+          <br />
+          <TextInput
+            label="Referencia"
+            size="md"
+            type="text"
+            placeholder="Cualquier texto que sirva como referencia para otros procesos"
+            {...form.getInputProps('reference_id')}
           />
           <br />
           <Checkbox

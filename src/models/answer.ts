@@ -6,12 +6,14 @@ export class Answer {
   body: string;
   is_valid: boolean;
   question: Question;
+  reference_id: string;
 
   constructor() {
     this.id = '';
     this.body = '';
     this.is_valid = false;
     this.question = new Question();
+    this.reference_id = '';
   }
 }
 

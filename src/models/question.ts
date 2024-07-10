@@ -15,6 +15,7 @@ export class Question {
   is_valid: boolean;
   sticky_first: boolean;
   sticky_last: boolean;
+  reference_id: string;
 
   constructor() {
     this.id = '';
@@ -25,6 +26,7 @@ export class Question {
     this.is_valid = false;
     this.sticky_first = false;
     this.sticky_last = false;
+    this.reference_id = '';
   }
 }
 

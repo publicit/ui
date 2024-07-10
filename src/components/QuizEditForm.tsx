@@ -133,6 +133,15 @@ export function QuizEditForm({
             {...form.getInputProps('webhook_token_header_name')}
           />
         </Grid.Col>
+        <Grid.Col span={6}>
+          <TextInput
+            label="Referencia"
+            size="md"
+            type="text"
+            placeholder="Cualquier texto que sirva como referencia para otros procesos"
+            {...form.getInputProps('reference_id')}
+          />
+        </Grid.Col>
         <Grid.Col span={12}>
           <Group mt="md">
             {canEdit && (

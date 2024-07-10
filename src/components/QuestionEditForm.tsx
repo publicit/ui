@@ -2,7 +2,15 @@ import { Link } from 'react-router-dom';
 
 // Mantine :
 import { UseFormReturnType } from '@mantine/form';
-import { Button, Checkbox, Group, Select, Text, Textarea } from '@mantine/core';
+import {
+  Button,
+  Checkbox,
+  Group,
+  Select,
+  Text,
+  Textarea,
+  TextInput,
+} from '@mantine/core';
 
 // Models
 import { Question, QuestionType } from '../models/question';
@@ -40,6 +48,14 @@ export default function QuestionEditForm({
           placeholder="Texto de la Pregunta"
           disabled={!canEdit}
           {...form.getInputProps('body')}
+        />
+        <br />
+        <TextInput
+          label="Referencia"
+          size="md"
+          type="text"
+          placeholder="Cualquier texto que sirva como referencia para otros procesos"
+          {...form.getInputProps('reference_id')}
         />
         <br />
         <Select

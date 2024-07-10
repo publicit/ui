@@ -23,6 +23,7 @@ export class Quiz {
   webhook_url: string;
   webhook_token: string;
   webhook_token_header_name: string;
+  reference_id: string;
 
   constructor() {
     this.id = '';
@@ -41,6 +42,7 @@ export class Quiz {
     this.webhook_url = '';
     this.webhook_token = '';
     this.webhook_token_header_name = 'x-webhook-token';
+    this.reference_id = '';
   }
 }
 
