@@ -93,7 +93,11 @@ export default function Edit() {
   async function onDelete() {
     try {
       // eslint-disable-next-line no-restricted-globals
-      if (!confirm(`Seguro de eliminar la pregunta?`)) return;
+      const msg =
+        answers.length != 0
+          ? `Seguro de eliminar la pregunta?\nLas ${answers.length} respuestas relacionadas tambien se eliminaran.`
+          : `Seguro de eliminar la pregunta?`;
+      if (!confirm(msg)) return;
       await QuestionDelete(id);
       navigate(returnUrl);
     } catch (err) {
@@ -116,7 +120,7 @@ export default function Edit() {
               onSubmit={onSubmit}
               onDelete={onDelete}
               canEdit={canEdit}
-              showDelete={answers.length === 0}
+              showDelete={true}
             />
           </div>
         </Grid.Col>
