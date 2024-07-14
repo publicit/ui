@@ -8,6 +8,7 @@ import {
   FileExportQuiz,
   QuestionList,
   QuizDelete,
+  QuizDeleteAll,
   QuizLoad,
   QuizLocations,
   QuizPublish,
@@ -98,6 +99,23 @@ export default function Edit() {
       // eslint-disable-next-line no-restricted-globals
       if (!confirm(`Seguro de eliminar la encuesta: ${quiz.name}?`)) return;
       await QuizDelete(id);
+      const returnUrl = `/campaigns/${campaign.id}`;
+      navigate(returnUrl);
+    } catch (err) {
+      await notifyErrResponse(err);
+    }
+  }
+
+  async function disableQuiz() {
+    try {
+      // eslint-disable-next-line no-restricted-globals
+      if (
+        !confirm(
+          `Seguro de deshabilitar esta encuesta?\nUna vez deshabilitada, no se podra responder y no sera visible para nadie.`
+        )
+      )
+        return;
+      await QuizDeleteAll(id);
       const returnUrl = `/campaigns/${campaign.id}`;
       navigate(returnUrl);
     } catch (err) {
@@ -206,6 +224,16 @@ export default function Edit() {
                   <LuDownload className="icon" />
                   Exportar Encuesta
                 </Button>
+                {quiz.status === QuizStatus[QuizStatus.published] && (
+                  <Button
+                    size="md"
+                    variant="outline"
+                    className="export-survey-btn"
+                    onClick={disableQuiz}
+                  >
+                    Deshabilitar Encuesta
+                  </Button>
+                )}
               </Flex>
             )}
           </div>
