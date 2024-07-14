@@ -222,6 +222,11 @@ async function QuizDelete(id: string) {
   return toQuiz(res.data);
 }
 
+async function QuizDeleteAll(id: string) {
+  const res = await instance.delete(`/v1/quizs/${id}/all`);
+  return toQuiz(res.data);
+}
+
 async function QuizPublish(id: string) {
   const res = await instance.post(`/v1/quizs/${id}/publish`);
   return toQuiz(res.data);
@@ -429,6 +434,7 @@ export {
   QuizLoad,
   QuizPut,
   QuizDelete,
+  QuizDeleteAll,
   QuizPublish,
   QuizLoadByToken,
   QuizRegisterInvitation,
