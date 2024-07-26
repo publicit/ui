@@ -42,7 +42,7 @@ export function HomeSection() {
           <div className="ready-for-register">
             <p>Comienza a ganar dinero en tu tiempo libre.</p>
             <p>¿Qué estás esperando?</p>
-            <p>¡Únete a PublictUX hoy mismo!</p>
+            <p>¡Únete a PublicitUX hoy mismo!</p>
           </div>
         </div>
       </div>
