@@ -36,14 +36,13 @@ export function QuizUnregisteredForm({ token }: params) {
   return (
     <div className="quiz-unregister-form">
       <div className="form-description">
-        <h1 className="heading">Bienvenida a publux!</h1>
+        <h1 className="heading">Bienvenido a Publicitux!</h1>
         <div className="description">
           <div className="thanks-message">
-            ¡Gracias por solicitar completar una encuesta!
+            Gracias por solicitar completar una encuesta
           </div>
           <div>
-            ¡Ya casi estás ahí. Haga clic en el botón de abajo para finalizar
-            INICIAR SESIÓN
+            Ya casi estás ahí. Haz clic en el botón de abajo para INICIAR SESIÓN
           </div>
         </div>
       </div>
