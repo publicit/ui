@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 // Components :
 import {
-  QuizRegisterForm,
+  QuizNoProfileNeededForm,
   QuizUnregisteredForm,
 } from '../components/UserQuizRegisterForm';
 import { loadUserProfile } from '../helpers/sso_service';
@@ -14,13 +14,13 @@ function ShareStart() {
   const isLoggedIn = !!user;
 
   return (
-    <React.Fragment>
+    <>
       {isLoggedIn ? (
-        <QuizRegisterForm token={token} />
+        <QuizNoProfileNeededForm token={token} />
       ) : (
         <QuizUnregisteredForm token={token} />
       )}
-    </React.Fragment>
+    </>
   );
 }
 
