@@ -90,11 +90,6 @@ export function QuizSummary({
                 onClose={() => setSharedUrl('')}
                 onOpen={shareQuiz}
               />
-              <ShowGenericDialog
-                userQuiz={userQuiz}
-                children={emailShareDialog}
-                onClose={() => loadData()}
-              />
             </Group>
           </React.Fragment>
         )}
