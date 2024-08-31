@@ -57,7 +57,7 @@ function extractCurrentLocation(): string {
   if (!loc) return '';
   const { protocol, hostname, port } = loc;
   const p = port === '' ? '' : `:${port}`;
-  return `${protocol}://${hostname}${p}`;
+  return `${protocol}//${hostname}${p}`;
 }
 
 type quizTokenShareParams = {
